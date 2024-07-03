@@ -117,6 +117,12 @@ void dumpGrid(ref_ptr<Grid3f> grid, std::string filename,
 void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
+/** Load a Grid3f from a plain text file based on the gridproperties stored in the header
+ @param filename	name of the input file
+ @param conversion	multiply every point in a grid by a conversion factor
+*/
+ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double conversion = 1);
+
 /** Load a Grid3f grid from a plain text file.
  @param grid		a vector grid (Grid3f) to which the points will be loaded
  @param filename	name of input file
@@ -124,6 +130,12 @@ void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
  */
 void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
+
+/** Load a Grid1f from a plain text file based on the gridproperties stored in the header
+ @param filename	name of the input file
+ @param conversion	multiply every point in a grid by a conversion factor
+*/
+ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double conversion = 1);
 
 /** Load a Grid1f from a plain text file
  @param grid		a scalar grid (Grid1f) to which the points will be loaded
@@ -137,17 +149,19 @@ void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
  @param grid		a vector grid (Grid3f)
  @param filename	name of output file
  @param conversion	multiply every point in grid by a conversion factor
+ @param storeProperties	if true the grid properties are stored as a comment
  */
 void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
-		double conversion = 1);
+		double conversion = 1, bool storeProperties = false);
 
 /** Dump a Grid1f to a plain text file. 
  @param grid		a scalar grid (Grid1f)
  @param filename	name of output file
  @param conversion	multiply every point in grid by a conversion factor
+ @param storeProperties	if true the grid properties are stored as a comment
  */
 void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
-		double conversion = 1);
+		double conversion = 1, bool storeProperties = false);
 
 #ifdef CRPROPA_HAVE_FFTW3F
 /**

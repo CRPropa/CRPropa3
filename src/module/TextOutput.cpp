@@ -271,7 +271,7 @@ void TextOutput::process(Candidate *c) const {
 
 	std::locale::global(old_locale);
 
-#pragma omp critical
+#pragma omp critical(FileOutput)
 	{
 		if (count == 0)
 			printHeader();

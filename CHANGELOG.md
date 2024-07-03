@@ -1,17 +1,20 @@
 ## CRPropa vNext
 
 ### Bug fixes:
- * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField 
- * Fixed r term in source distribution for SNR and Pulsar 
+ * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField
+ * Fixed r term in source distribution for SNR and Pulsar
+ * Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
 
 ### New features:
+ * Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei
+ * Added the new Galactic magnetic field models from Unger&Farrar arXiv:2311.12120
+ * Added EBL model from Finke et al. 2022
 
 ### Interface changes:
 
 ### Features that are deprecated and will be removed after this release
- * EBL model from Finke et al. 2022
 
-### Removed features 
+### Removed features
 *  AMRMagneticField - underlying library (saga) is no longer supported.
 *  ObserverPoint: Use Observer1D instead.
 
@@ -40,8 +43,8 @@
 * ObserverPoint will be renamed into Observer1D.
 * AMRMagneticField - underlying library (saga) is no longer supported.
 
-### Removed features 
-* External extensions DINT and Eleca, which can be replaced with the 
+### Removed features
+* External extensions DINT and Eleca, which can be replaced with the
   EM*-modules combined with the thinning option for reasonable computation
   times.
 
@@ -50,7 +53,7 @@
 * grplinst
 * monopole
 * ROOTOutputPlugin
-  
+
 
 ## CRPropa 3.2
 
@@ -58,12 +61,12 @@
 * Fix of reflective boundary condition for scalar- and vectorgrids
   that showed asymmetry and discontinuities (See issue [#361]).
 * Fix in EMTripletPairProduction
-* Fix of the data files of the Hackstein EGMF models as well as the 
+* Fix of the data files of the Hackstein EGMF models as well as the
   corresponding example notebook.
 * Fix of axis normalization of getRotated in Vector3.h.
 * Fix of secondary spectra in electromagnetic interactions
   (EM*-modules), issue [#334] and pull request [#15] in crpropa-data.
-* Fix weight inheritance for secondary particles; they are created with 
+* Fix weight inheritance for secondary particles; they are created with
   their parents weights as intial weights now.
 
 ### New features:
@@ -73,15 +76,15 @@
   and vectorgrids.
 * Add the new PolarizedSingleModeMagneticField class for polarized/
   helical single mode magnetic field models.
-* Add a source feature for targeted emission, following the 
+* Add a source feature for targeted emission, following the
   von-Mises-Fisher distribution
-* Updates in SNR and pulsar source distributions 
+* Updates in SNR and pulsar source distributions
 
 ### Interface changes:
-* Plane wave and grid turbulence models use same parameter convention now 
+* Plane wave and grid turbulence models use same parameter convention now
 
 ### Features that are deprecated and will be removed after this release
-* External extensions DINT and Eleca, which can be replaced with the 
+* External extensions DINT and Eleca, which can be replaced with the
   EM*-modules combined with the thinning option for reasonable computation
   times.
 

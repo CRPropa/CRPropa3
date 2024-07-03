@@ -149,6 +149,16 @@ TEST(ParticleID, isNucleus) {
 	EXPECT_FALSE(isNucleus(11));
 }
 
+TEST(ParticleMass, particleMass) {
+	//particleMass(int id) interfaces nuclearMass for nuclei
+	EXPECT_DOUBLE_EQ(nuclearMass(nucleusId(1,1)), particleMass(nucleusId(1,1)));
+	//particleMass(int id) for electron/positron, photon and neutrino
+	EXPECT_DOUBLE_EQ(mass_electron,particleMass(11));
+	EXPECT_DOUBLE_EQ(mass_electron,particleMass(-11));
+	EXPECT_DOUBLE_EQ(0.0,particleMass(22));
+	EXPECT_DOUBLE_EQ(0.0,particleMass(14));
+}
+
 TEST(HepPID, consistencyWithReferenceImplementation) {
 	// Tests the performance improved version against the default one
 	unsigned long testPID = rand() % 1000000000 + 1000000000;
@@ -219,8 +229,14 @@ TEST(Candidate, addSecondary) {
 
 	c.addSecondary(nucleusId(1,1), 200);
 	c.addSecondary(nucleusId(1,1), 200, 5.);
-	Candidate s1 = *c.secondaries[0];
-	Candidate s2 = *c.secondaries[1];
+	c.addSecondary(11, 200);
+	c.addSecondary(14, 200);
+	c.addSecondary(22, 200);
+	Candidate s1 = *c.secondaries[0]; //proton
+	Candidate s2 = *c.secondaries[1]; //proton
+	Candidate s3 = *c.secondaries[2]; //electron
+	Candidate s4 = *c.secondaries[3]; //neutrino
+	Candidate s5 = *c.secondaries[4]; //photon
 
 	EXPECT_EQ(nucleusId(1,1), s1.current.getId());
 	EXPECT_EQ(200, s1.current.getEnergy());
@@ -231,6 +247,9 @@ TEST(Candidate, addSecondary) {
 	EXPECT_TRUE(Vector3d(1,2,3) == s1.created.getPosition());
 	EXPECT_TRUE(Vector3d(0,0,1) == s1.created.getDirection());
 	EXPECT_TRUE(s1.getTagOrigin() == "SEC");
+	EXPECT_EQ(mass_electron,s3.current.getMass());
+	EXPECT_EQ(0.0,s4.current.getMass());
+	EXPECT_EQ(0.0,s5.current.getMass());
 
 	EXPECT_EQ(15., s2.getWeight());
 }
@@ -898,6 +917,117 @@ TEST(Grid3f, DumpLoadTxt) {
 	}
 }
 
+TEST(Grid1f, DumpLoadTxtGridProperties) {
+	// grid to dump 
+	ref_ptr<Grid1f> grid = new Grid1f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
+	grid -> setInterpolationType(TRICUBIC);
+	grid -> setReflective(true);
+	grid -> setClipVolume(true);
+
+	// set some values for the grid 
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				grid -> get(ix, iy, iz) = ix + iy + iz;
+		}
+	}
+
+	// store with properties
+	dumpGridToTxt(grid, "testDump.txt", 1., true); 
+
+	// reload grid 
+	ref_ptr<Grid1f> loadedGrid = loadGrid1fFromTxt("testDump.txt"); 
+
+	// check grid properties 
+	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
+	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
+	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
+
+	Vector3d orig = grid -> getOrigin();
+	Vector3d loadedOrigin = loadedGrid -> getOrigin();
+	EXPECT_EQ(orig.x, loadedOrigin.x);
+	EXPECT_EQ(orig.y, loadedOrigin.y);
+	EXPECT_EQ(orig.z, loadedOrigin.z);
+
+	Vector3d spacing = grid -> getSpacing();
+	Vector3d loadedSpacing = loadedGrid -> getSpacing();
+	EXPECT_EQ(spacing.x, loadedSpacing.x);
+	EXPECT_EQ(spacing.y, loadedSpacing.y);
+	EXPECT_EQ(spacing.z, loadedSpacing.z);
+	
+	EXPECT_EQ(grid -> getInterpolationType(), loadedGrid -> getInterpolationType());
+	
+	EXPECT_EQ(grid -> isReflective(), loadedGrid -> isReflective());
+
+	// compare loaded values
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				EXPECT_EQ(grid -> get(ix, iy, iz), loadedGrid -> get(ix, iy, iz));
+		}
+	}
+}
+
+TEST(Grid3f, DumpLoadTxtGridProperties) {
+	// grid to dump 
+	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
+	grid -> setInterpolationType(NEAREST_NEIGHBOUR);
+	grid -> setReflective(true);
+	grid -> setClipVolume(true);
+
+	// set some values for the grid 
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				grid -> get(ix, iy, iz) = Vector3f(-iy, ix, 2 * iz);
+		}
+	}
+
+	// store with properties
+	dumpGridToTxt(grid, "testDump.txt", 1., true); 
+
+	// reload grid 
+	ref_ptr<Grid3f> loadedGrid = loadGrid3fFromTxt("testDump.txt"); 
+
+	// check grid properties 
+	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
+	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
+	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+	
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
+
+	Vector3d orig = grid -> getOrigin();
+	Vector3d loadedOrigin = loadedGrid -> getOrigin();
+	EXPECT_EQ(orig.x, loadedOrigin.x);
+	EXPECT_EQ(orig.y, loadedOrigin.y);
+	EXPECT_EQ(orig.z, loadedOrigin.z);
+
+	Vector3d spacing = grid -> getSpacing();
+	Vector3d loadedSpacing = loadedGrid -> getSpacing();
+	EXPECT_EQ(spacing.x, loadedSpacing.x);
+	EXPECT_EQ(spacing.y, loadedSpacing.y);
+	EXPECT_EQ(spacing.z, loadedSpacing.z);
+	
+	EXPECT_EQ(grid -> getInterpolationType(), loadedGrid -> getInterpolationType());
+	
+	EXPECT_EQ(grid -> isReflective(), loadedGrid -> isReflective());
+
+	// compare loaded values
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) {
+				Vector3f gridValue = grid -> get(ix, iy, iz);
+				Vector3f loadedValue = loadedGrid -> get(ix, iy, iz);
+				EXPECT_EQ(gridValue.x, loadedValue.x);
+				EXPECT_EQ(gridValue.y, loadedValue.y);
+				EXPECT_EQ(gridValue.z, loadedValue.z);
+			}
+		}
+	}
+}
+
 TEST(Grid3f, Speed) {
 	// Dump and load a field grid
 	Grid3f grid(Vector3d(0.), 3, 3);
@@ -916,8 +1046,6 @@ TEST(CylindricalProjectionMap, functions) {
 	v.setRThetaPhi(1.0, 1.2, 2.4);
 	EXPECT_NEAR(v.getPhi(), 2.4, .00001);
 	EXPECT_NEAR(v.getTheta(), 1.2, .000001);
-
-
 
 	CylindricalProjectionMap cpm(24, 12);
 	size_t bin = 50;
@@ -947,7 +1075,6 @@ TEST(EmissionMap, functions) {
 
 	r = em.drawDirection(2, 50 * EeV, d2);
 	EXPECT_FALSE(r);
-
 }
 
 TEST(EmissionMap, merge) {

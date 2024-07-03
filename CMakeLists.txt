@@ -308,12 +308,12 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2024-03-11")
+set(CRPROPA_DATAFILE_VER "2024-04-30")
 if(DOWNLOAD_DATA)
   message("-- Downloading data files from sciebo ~ 73 MB")
   file(DOWNLOAD
   https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
-    ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM 
+    ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
     USERPWD "3juW9sntQX2IWBS")
   file(STRINGS ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
   file(DOWNLOAD
@@ -401,6 +401,7 @@ add_library(crpropa SHARED
   src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
   src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   src/magneticField/TF17Field.cpp
+  src/magneticField/UF23Field.cpp
   src/magneticField/CMZField.cpp
   src/advectionField/AdvectionField.cpp
   src/massDistribution/ConstantDensity.cpp
@@ -465,7 +466,7 @@ if(ENABLE_PYTHON AND Python_FOUND)
   endif(Python_Development_FOUND)
 
 
-  #  use Python_INSTALL_PACKAGE_DIR if provided; otherwise, install in Python_SITELIB 
+  #  use Python_INSTALL_PACKAGE_DIR if provided; otherwise, install in Python_SITELIB
   set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}" CACHE PATH "folder in which the python package is installed")
   message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
 

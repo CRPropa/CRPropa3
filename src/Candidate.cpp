@@ -20,7 +20,7 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, dou
 #elif defined(__GNUC__)
 		{serialNumber = __sync_add_and_fetch(&nextSerialNumber, 1);}
 #else
-		#pragma omp critical
+		#pragma omp critical(serialNumber)
 		{serialNumber = nextSerialNumber++;}
 #endif
 
@@ -35,7 +35,7 @@ Candidate::Candidate(const ParticleState &state) :
 #elif defined(__GNUC__)
 		{serialNumber = __sync_add_and_fetch(&nextSerialNumber, 1);}
 #else
-		#pragma omp critical
+		#pragma omp critical(serialNumber)
 		{serialNumber = nextSerialNumber++;}
 #endif
 

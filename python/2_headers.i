@@ -331,6 +331,7 @@
 %implicitconv crpropa::ref_ptr<crpropa::CylindricalProjectionMap>;
 %template(CylindricalProjectionMapRefPtr) crpropa::ref_ptr<crpropa::CylindricalProjectionMap>;
 
+%include "crpropa/advectionField/TimeDependentAdvectionFields.h"
 %include "crpropa/magneticField/MagneticFieldGrid.h"
 %include "crpropa/magneticField/GalacticMagneticField.h"
 %feature("notabstract") QuimbyMagneticFieldAdapter;

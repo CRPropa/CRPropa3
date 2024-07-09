@@ -98,10 +98,10 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
                 crp.AdvectionField.__init__(self)
                 self.val = val
                 
-            def getField(self, position):
+            def getField(self, position, time=0.0):
                 return crp.Vector3d(self.val)
 
-            def getDivergence(self, position):
+            def getDivergence(self, position, time=0.0):
                 return 0.0
 
         constMagVec = crp.Vector3d(0*crp.nG,0*crp.nG,1*crp.nG)

@@ -24,8 +24,8 @@ class AdvectionField: public Referenced {
 public:
 	virtual ~AdvectionField() {
 	}
-	virtual Vector3d getField(const Vector3d &position) const = 0;
-	virtual double getDivergence(const Vector3d &position) const = 0;
+	virtual Vector3d getField(const Vector3d &position, const double &time=0) const = 0;
+	virtual double getDivergence(const Vector3d &position, const double &time=0) const = 0;
 };
 
 
@@ -37,8 +37,8 @@ class AdvectionFieldList: public AdvectionField {
 	std::vector<ref_ptr<AdvectionField> > fields;
 public:
 	void addField(ref_ptr<AdvectionField> field);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 };
 
 
@@ -50,8 +50,8 @@ class UniformAdvectionField: public AdvectionField {
 	Vector3d value;
 public:
 	UniformAdvectionField(const Vector3d &value);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	std::string getDescription() const;
 };
@@ -73,8 +73,8 @@ public:
 */
 
 	ConstantSphericalAdvectionField(const Vector3d origin, double vWind);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	void setOrigin(const Vector3d origin);
 	void setVWind(double vMax);
@@ -108,8 +108,8 @@ public:
 	@param alpha	Tuning parameter
 */
 	SphericalAdvectionField(const Vector3d origin, double radius, double vMax, double tau, double alpha);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	double getV(const double &r) const;
 
@@ -144,8 +144,8 @@ public:
 	@param lShock //shock width
 */
 	OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	void setComp(double compressionRatio);
 	void setVup(double vUp);
@@ -178,8 +178,8 @@ public:
 	@param coolUpstream //flag for upstream cooling
 */
 	OneDimensionalSphericalShock(double rShock, double vUp, double compressionRatio, double lShock, bool coolUpstream);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	void setComp(double compressionRatio);
 	void setVup(double vUp);
@@ -217,8 +217,8 @@ public:
 	
 */
 	ObliqueAdvectionShock(double compressionRatio, double vXUp, double vY, double lShock);
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	void setComp(double compressionRatio);
 	void setVup(double vXUp);
@@ -257,8 +257,8 @@ public:
 */
 	SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double lambda);
 
-	Vector3d getField(const Vector3d &position) const;
-	double getDivergence(const Vector3d &position) const;
+	Vector3d getField(const Vector3d &position, const double &time=0) const;
+	double getDivergence(const Vector3d &position, const double &time=0) const;
 
 	double g(double R) const;
 	double g_prime(double R) const;

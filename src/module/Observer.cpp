@@ -246,19 +246,34 @@ std::string ObserverParticleIdVeto::getDescription() const {
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
-	double max = min + numb * dist;
-	bool log = false;
-	addTimeRange(min, max, numb, log);
+	this->max = min + numb * dist;
+	this->min = min;
+	this->numb = numb;
+	this->islog = false;
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
-	addTimeRange(min, max, numb, log);
+	this->min = min;
+	this->max = max;
+	this->numb = numb;
+	this->islog = log;
 }
 
+ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
+	this->detList = detList;
+	this->numb = detList.size();
+	this->min = detList.front();
+	this->max = detList.back();
+}
+
+void ObserverTimeEvolution::setUserDefinedGetTime(double (*userDefinedFunction)(std::size_t index, double min, double max, int numb)){
+	this->customGetTime = userDefinedFunction;
+	this->useCustomGetTime = true;
+}
 
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
-	if (detList.size()) {
+	if (numb) {
 		double length = c->getTrajectoryLength();
 		size_t index;
 		const std::string DI = "DetectionIndex";
@@ -272,13 +287,13 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 			index = 0;
 		}
 
-		// Break if the particle has been detected once for all detList entries.
-		if (index > detList.size()) {
+		// Break if the particle has been detected once for all possible times.
+		if (index > numb) {
 			return NOTHING;
 		}
 
 		// Calculate the distance to next detection
-		double distance = length - detList[index];
+		double distance = length - getTime(index);
 
 		// Limit next step and detect candidate.
 		// Increase the index by one in case of detection
@@ -288,8 +303,8 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 		else {
 
-			if (index < detList.size()-1) {
-				c->limitNextStep(detList[index+1]-length);
+			if (index < numb-1) {
+				c->limitNextStep(getTime(index+1)-length);
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
 
@@ -299,29 +314,34 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
-void ObserverTimeEvolution::addTime(const double& t) {
-	detList.push_back(t);
-}
-
-void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
-	for (size_t i = 0; i < numb; i++) {
-		if (log == true) {
-			addTime(min * pow(max / min, i / (numb - 1.0)));
-		} else {
-			addTime(min + i * (max - min) / numb);
-		}
+double ObserverTimeEvolution::getTime(size_t index) const {
+	if (!detList.empty()) {
+		return detList[index];
+	} else if (useCustomGetTime) {
+		return customGetTime(index, min, max, numb);
+	} else if (log) {
+		return min * pow(max / min, index / (numb - 1.0));
+	} else {
+		return min + index * (max - min) / numb;
 	}
 }
 
-const std::vector<double>& ObserverTimeEvolution::getTimes() const {
+const std::vector<double>& ObserverTimeEvolution::getTimes() {
+	if (detList.empty()) {
+		size_t counter = 0;
+		while (getTime(counter)<=max) {
+			detList.push_back(getTime(counter));
+			counter++;
+		}
+	}
 	return detList;
 }
 
 std::string ObserverTimeEvolution::getDescription() const {
 	std::stringstream s;
 	s << "List of Detection lengths in kpc";
-	for (size_t i = 0; i < detList.size(); i++)
-	  s << "  - " << detList[i] / kpc;
+	for (size_t i = 0; i < numb; i++)
+	  s << "  - " << getTime(i) / kpc;
 	return s.str();
 }
 

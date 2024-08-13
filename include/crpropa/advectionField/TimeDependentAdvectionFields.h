@@ -50,7 +50,7 @@ public:/** Constructor
     double getV1() const;
     double getV0() const;
     double getShockWidth() const;
-    double getShockPosition() const;
+    double getShockPosition(double time) const;
     double getShockTime() const;
 };
 

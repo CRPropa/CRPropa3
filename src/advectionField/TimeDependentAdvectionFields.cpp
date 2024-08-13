@@ -86,8 +86,8 @@ double OneDimensionalTimeDependentShock::getShockWidth() const {
     return l_sh;
 }
 
-double OneDimensionalTimeDependentShock::getShockPosition() const {
-    return x_sh0;
+double OneDimensionalTimeDependentShock::getShockPosition(double time) const {
+    return x_sh0 + v_sh * (time - t_sh0);
 }
 
 double OneDimensionalTimeDependentShock::getShockTime() const {

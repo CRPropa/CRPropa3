@@ -1,4 +1,5 @@
 #include "crpropa/advectionField/AdvectionField.h"
+#include "crpropa/advectionField/TimeDependentAdvectionFields.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
 
@@ -164,6 +165,76 @@ TEST(testSphericalAdvectionShock, SimpleTest) {
 	EXPECT_DOUBLE_EQ(f.z, 0.);	
 
 	
+}
+
+TEST(testOneDimensionalTimeDependentShock, SimpleTest) {
+
+    double V_sh(1);
+    double V_1(3./4.);
+    double V_0(0.);
+    double L_sh(.01);
+    double X_sh0(0);
+    double T_sh0(0);
+
+    OneDimensionalTimeDependentShock A(V_sh, V_1, V_0, L_sh);
+
+    // Check the properties of the advection field
+    EXPECT_DOUBLE_EQ(A.getVshock(), V_sh);
+    EXPECT_DOUBLE_EQ(A.getV1(), V_1);
+    EXPECT_DOUBLE_EQ(A.getV0(), V_0);
+    EXPECT_DOUBLE_EQ(A.getShockWidth(), L_sh);
+    EXPECT_DOUBLE_EQ(A.getShockPosition(0.), X_sh0);
+    EXPECT_DOUBLE_EQ(A.getShockTime(), T_sh0);
+
+    // Field should be zero for t=0
+    EXPECT_DOUBLE_EQ(A.getField(Vector3d(1,0,0)).getR(), 0.);
+    EXPECT_DOUBLE_EQ(A.getDivergence(Vector3d(1,0,0)), 0.);
+
+    // Shock position at t=1
+    double xsh = A.getShockPosition(10.);
+    EXPECT_DOUBLE_EQ(xsh, V_sh * 10.);
+
+    // Preshock and postshock speeds:
+    EXPECT_DOUBLE_EQ(A.getField(Vector3d(xsh+5.,0,0), 10.).getR(), V_0);
+    EXPECT_DOUBLE_EQ(A.getField(Vector3d(xsh-5.,0,0), 10.).getR(), V_1);
+
+}
+
+TEST(testSedovTaylorBlastWave, SimpleTest) {
+
+    double E0(1);
+    double rho0(1);
+    double L_sh(0.01);
+
+    SedovTaylorBlastWave A(E0, rho0, L_sh);
+
+    // Check the properties of the advection field
+    EXPECT_DOUBLE_EQ(A.getEnergy(), E0);
+    EXPECT_DOUBLE_EQ(A.getDensity(), rho0);
+    EXPECT_DOUBLE_EQ(A.getShockWidth(), L_sh);
+
+    // Field should be zero for t=0
+    EXPECT_DOUBLE_EQ(A.getField(Vector3d(1,0,0)).getR(), 0.);
+    EXPECT_DOUBLE_EQ(A.getDivergence(Vector3d(1,0,0)), 0.);
+
+    // Shock position at t=1
+    double R = A.getShockRadius(1.);
+    EXPECT_DOUBLE_EQ(R, pow(E0 / rho0, 1./5.));
+
+    // Shock speed at t=1
+    double V = A.getShockSpeed(1.);
+    EXPECT_DOUBLE_EQ(V, 2. / 5. * pow(E0 / rho0, 1. / 5.));
+
+    // Check field 
+    Vector3d Pos(2, 0, 0);
+    Vector3d a = A.getField(Pos);
+
+    EXPECT_DOUBLE_EQ(a.getR(), 0.5 * 2. * pow(2., 8) * 2. / 5. * pow(E0 / rho0, 1. / 5.) * (1 - tanh( (2 - 1) * pow(E0 / rho0, 1. / 5.) / L_sh) ));
+
+    // Check asymptotic of the Field
+    EXPECT_NEAR(A.getField(Vector3d(11, 0, 0)).getR(), 0, 1e-4);
+    EXPECT_NEAR(A.getDivergence(Vector3d(11, 0, 0)), 0, 1e-4);
+
 }
 
 } //namespace crpropa

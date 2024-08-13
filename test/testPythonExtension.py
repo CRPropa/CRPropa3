@@ -110,7 +110,7 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
         propSDE = crp.DiffusionSDE(magField, advField)
         pos = crp.Vector3d(1, 0, 0)
         advFieldAtPos = advField.getField(pos)
-        self.assertEqual(advFieldAtPos, propSDE.getAdvectionFieldAtPosition(pos))
+        self.assertEqual(advFieldAtPos, propSDE.getAdvectionFieldAtPosition(pos, 0.))
 
     def testCustomMassDensity(self):
         class CustomMassDensity(crp.Density):

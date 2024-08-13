@@ -47,6 +47,12 @@ example notebook.
 .. toctree::
    example_notebooks/acceleration/diffusive_shock_acceleration.ipynb
 
+In the next example time-dependent advection fields are introduced and acceleration
+at a moving shock and stationary shock are compared.
+
+.. toctree::
+    example_notebooks/acceleration/DSA-moving-shock.ipynb
+
 Momentum Diffusion 
 ^^^^^^^^^^^^^^^^^^
 

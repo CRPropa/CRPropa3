@@ -30,7 +30,12 @@ The exact nature of the dependency is subject of ongoing research. Here,
 so far only quasi-linear theory, a simplistic approach to diffusion of charged
 particles in magnetic fields is implemented in the corresponding modifier :cpp:class:`crpropa::QuasiLinearTheory`.
 
+In the diffusive picture, the diffusive picture as an interplay between diffusion, 
+advection and adiabatic cooling. Simple shock configurations are shown in the following 
+example notebook using the DiffusionSDE module:
 
+.. toctree::
+   example_notebooks/acceleration/diffusive_shock_acceleration.ipynb
 
 
 

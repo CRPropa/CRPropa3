@@ -16,10 +16,11 @@ void AdiabaticCooling::process(Candidate *c) const {
 
 	Vector3d pos = c->current.getPosition();
 	double E = c->current.getEnergy(); // Note we use E=p/c (relativistic limit)
+    double time = c->getTime();
 	
 	double Div = 0.;	
 	try {
-		Div +=  advectionField->getDivergence(pos);
+		Div +=  advectionField->getDivergence(pos, time);
 	} 
 	catch (std::exception &e) {
 		KISS_LOG_ERROR 	<< "AdiabaticCooling: Exception in getDivergence.\n" 

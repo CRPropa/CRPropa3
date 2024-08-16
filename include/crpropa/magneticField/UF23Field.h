@@ -16,7 +16,7 @@ namespace crpropa {
  @brief UF23Field Galactic magnetic field model
 
  Implements the eight coherent magnetic field models of UF23
- See: M. Unger and G.R. Farrar, arXiv:2311.12120
+ See: M. Unger and G.R. Farrar, Astrophys.J. 970 (2024) 95, arXiv:2311.12120
 
  Assumes a galactocentric coordinate system with the Galactic center
  at the origin, the x-axis pointing in the opposite direction of the

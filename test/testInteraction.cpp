@@ -1287,6 +1287,32 @@ TEST(SynchrotronRadiation, energyLoss) {
 	EXPECT_NEAR(1 * PeV - c.current.getEnergy(), dE, 0.01 * dE);
 }
 
+TEST(SynchrotronRadiation, PhotonEnergy) {
+	double brms = 1 * muG; 
+	SynchrotronRadiation sync(brms, true);
+	sync.setSecondaryThreshold(0.); // allow all secondaries for testing
+
+	double E = 1 * TeV;
+	Candidate c(11, E);
+	c.setCurrentStep(10 * pc); 
+	c.setNextStep(10 * pc);
+	
+	double lf = c.current.getLorentzFactor();
+	double Rg = E / eplus / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction. 
+	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
+
+	sync.process(&c);
+	EXPECT_TRUE(c.secondaries.size() > 0);	// must have secondaries
+
+	// check avg energy of the secondary photons 
+	double Esec = 0; 
+	for (size_t i = 0; i < c.secondaries.size(); i++) {
+		Esec += c.secondaries[i] -> current.getEnergy();
+	}
+	Esec /= c.secondaries.size();
+
+	EXPECT_NEAR(Esec, Ecrit, Ecrit);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

@@ -16,6 +16,7 @@ SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool ha
 	setLimit(limit);
 	setSecondaryThreshold(1e6 * eV);
 	setMaximumSamples(nSamples);
+	setThinning(thinning);
 }
 
 SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double thinning, int nSamples, double limit) {
@@ -25,6 +26,7 @@ SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double
 	setLimit(limit);
 	setSecondaryThreshold(1e6 * eV);
 	setMaximumSamples(nSamples);
+	setThinning(thinning);
 }
 
 void SynchrotronRadiation::setField(ref_ptr<MagneticField> f) {

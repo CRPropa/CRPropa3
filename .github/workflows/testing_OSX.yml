@@ -11,7 +11,7 @@ jobs:
             os: macos-14 
             cxx: "clang++"
             cc: "clang"
-            fc: "gfortran-11"
+            fc: "gfortran-14"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python3"
     steps:

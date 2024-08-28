@@ -1144,6 +1144,100 @@ TEST(SynchrotronRadiation, interactionTag) {
 	EXPECT_TRUE(s.getInteractionTag() == "myTag");
 }
 
+TEST(SynchrotronRadiation, simpleTestRMS) {
+	// test initialisation with B_rms
+
+	// check default values 
+	SynchrotronRadiation sync;
+
+	EXPECT_EQ(sync.getBrms(), 0);
+	EXPECT_FALSE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), 0);
+	EXPECT_EQ(sync.getLimit(), 0.1);
+	EXPECT_EQ(sync.getMaximumSamples(), 0);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+
+	// init with custom values 
+	double b = 1 * muG; 
+	double thinning = 0.23;
+	int samples = 4; 
+	double limit = 0.123;
+	SynchrotronRadiation sync2(b, true, thinning, samples, limit);
+
+	EXPECT_EQ(sync.getBrms(), b);
+	EXPECT_TRUE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), thinning);
+	EXPECT_EQ(sync.getLimit(), limit);
+	EXPECT_EQ(sync.getMaximumSamples(), samples);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+}
+
+TEST(SynchrotronRadiation, simpleTestField) {
+	// test initialisation with field 
+
+	// check default values 
+	Vector3d b(0, 0, 1 * muG);
+	ref_ptr<MagneticField> field = new UniformMagneticField(b);
+	SynchrotronRadiation sync(field);
+
+	EXPECT_EQ(sync.getBrms(), 0);
+	EXPECT_FALSE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), 0);
+	EXPECT_EQ(sync.getLimit(), 0.1);
+	EXPECT_EQ(sync.getMaximumSamples(), 0);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+	Vector3d fieldAtPosition = sync.getField() -> getField(Vector3d(1, 2 , 3));
+	EXPECT_EQ(fieldAtPosition.getR(), b.getR());
+
+	// init with custom values 
+	double thinning = 0.23;
+	int samples = 4; 
+	double limit = 0.123;
+	SynchrotronRadiation sync2(field, true, thinning, samples, limit);
+
+	EXPECT_EQ(sync.getBrms(), 0);
+	EXPECT_TRUE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), thinning);
+	EXPECT_EQ(sync.getLimit(), limit);
+	EXPECT_EQ(sync.getMaximumSamples(), samples);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+	Vector3d fieldAtPosition = sync.getField() -> getField(Vector3d(1, 2 , 3));
+	EXPECT_EQ(fieldAtPosition.getR(), b.getR());
+}
+
+TEST(SynchrotronRadiation, getSetFunctions) {
+	SynchrotronRadiation sync;
+
+	// have photons
+	sync.setHavePhotons(true);
+	EXPECT_TRUE(sync.getHavePhotons());
+
+	// Brms 
+	sync.setBrms(5 * muG);
+	EXPECT_EQ(sync.getBrms(), 5 * muG);
+
+	// thinning 
+	sync.setThinning(0.345);
+	EXPECT_EQ(sync.getThinning(), 0.345);
+
+	// limit
+	sync.setLimit(0.234);
+	EXPECT_EQ(sync.getLimit(), 0.234);
+
+	// max samples
+	sync.setMaximumSamples(12345);
+	EXPECT_EQ(sync.getMaximumSamples(), 12345);
+
+	// field 
+	Vector3d b(1,2,3);
+	ref_ptr<MagneticField> field = new UniformMagneticField(b);
+	sync.setField(field);
+	EXPECT_TRUE(field == sync.getField()); // same pointer
+
+	// secondary threshold
+	sync.setSecondaryThreshold(1 * eV); 
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * eV);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

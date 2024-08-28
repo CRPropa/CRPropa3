@@ -1144,6 +1144,175 @@ TEST(SynchrotronRadiation, interactionTag) {
 	EXPECT_TRUE(s.getInteractionTag() == "myTag");
 }
 
+TEST(SynchrotronRadiation, simpleTestRMS) {
+	// test initialisation with B_rms
+
+	// check default values 
+	SynchrotronRadiation sync;
+
+	EXPECT_EQ(sync.getBrms(), 0);
+	EXPECT_FALSE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), 0);
+	EXPECT_EQ(sync.getLimit(), 0.1);
+	EXPECT_EQ(sync.getMaximumSamples(), 0);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+
+	// init with custom values 
+	double b = 1 * muG; 
+	double thinning = 0.23;
+	int samples = 4; 
+	double limit = 0.123;
+	SynchrotronRadiation sync2(b, true, thinning, samples, limit);
+
+	EXPECT_EQ(sync2.getBrms(), b);
+	EXPECT_TRUE(sync2.getHavePhotons());
+	EXPECT_EQ(sync2.getThinning(), thinning);
+	EXPECT_EQ(sync2.getLimit(), limit);
+	EXPECT_EQ(sync2.getMaximumSamples(), samples);
+	EXPECT_EQ(sync2.getSecondaryThreshold(), 1 * MeV);
+}
+
+TEST(SynchrotronRadiation, simpleTestField) {
+	// test initialisation with field 
+
+	// check default values 
+	Vector3d b(0, 0, 1 * muG);
+	ref_ptr<MagneticField> field = new UniformMagneticField(b);
+	SynchrotronRadiation sync(field);
+
+	EXPECT_EQ(sync.getBrms(), 0);
+	EXPECT_FALSE(sync.getHavePhotons());
+	EXPECT_EQ(sync.getThinning(), 0);
+	EXPECT_EQ(sync.getLimit(), 0.1);
+	EXPECT_EQ(sync.getMaximumSamples(), 0);
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * MeV);
+	Vector3d fieldAtPosition = sync.getField() -> getField(Vector3d(1, 2 , 3));
+	EXPECT_EQ(fieldAtPosition.getR(), b.getR());
+
+	// init with custom values 
+	double thinning = 0.23;
+	int samples = 4; 
+	double limit = 0.123;
+	SynchrotronRadiation sync2(field, true, thinning, samples, limit);
+
+	EXPECT_EQ(sync2.getBrms(), 0);
+	EXPECT_TRUE(sync2.getHavePhotons());
+	EXPECT_EQ(sync2.getThinning(), thinning);
+	EXPECT_EQ(sync2.getLimit(), limit);
+	EXPECT_EQ(sync2.getMaximumSamples(), samples);
+	EXPECT_EQ(sync2.getSecondaryThreshold(), 1 * MeV);
+	fieldAtPosition = sync2.getField() -> getField(Vector3d(1, 2 , 3));
+	EXPECT_EQ(fieldAtPosition.getR(), b.getR());
+}
+
+TEST(SynchrotronRadiation, getSetFunctions) {
+	SynchrotronRadiation sync;
+
+	// have photons
+	sync.setHavePhotons(true);
+	EXPECT_TRUE(sync.getHavePhotons());
+
+	// Brms 
+	sync.setBrms(5 * muG);
+	EXPECT_EQ(sync.getBrms(), 5 * muG);
+
+	// thinning 
+	sync.setThinning(0.345);
+	EXPECT_EQ(sync.getThinning(), 0.345);
+
+	// limit
+	sync.setLimit(0.234);
+	EXPECT_EQ(sync.getLimit(), 0.234);
+
+	// max samples
+	sync.setMaximumSamples(12345);
+	EXPECT_EQ(sync.getMaximumSamples(), 12345);
+
+	// field 
+	Vector3d b(1,2,3);
+	ref_ptr<MagneticField> field = new UniformMagneticField(b);
+	sync.setField(field);
+	EXPECT_TRUE(field == sync.getField()); // same pointer
+
+	// secondary threshold
+	sync.setSecondaryThreshold(1 * eV); 
+	EXPECT_EQ(sync.getSecondaryThreshold(), 1 * eV);
+}
+
+TEST(SynchrotronRadiation, energyLoss) {
+	double brms = 1 * muG; 
+	double step = 1 * kpc; 
+	SynchrotronRadiation sync(brms, false);
+
+	double dE, lf, Rg, dEdx;
+	Candidate c(11); 
+	c.setCurrentStep(step);
+	c.setNextStep(step);
+	double charge = eplus;
+
+	// 1 GeV 
+	c.current.setEnergy(1 * GeV);
+	lf = c.current.getLorentzFactor();
+	Rg = 1 * GeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
+	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
+	dE = dEdx * step;
+	sync.process(&c);
+	EXPECT_NEAR(1 * GeV - c.current.getEnergy(), dE, 0.01 * dE);
+
+	// 100 GeV
+	c.current.setEnergy(100 * GeV);
+	lf = c.current.getLorentzFactor();
+	Rg = 100 * GeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
+	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
+	dE = dEdx * step;
+	sync.process(&c);
+	EXPECT_NEAR(100 * GeV - c.current.getEnergy(), dE, 0.01 * dE);
+
+	// 10 TeV
+	c.current.setEnergy(10 * TeV);
+	lf = c.current.getLorentzFactor();
+	Rg = 10 * TeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
+	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
+	dE = dEdx * step;
+	sync.process(&c);
+	EXPECT_NEAR(10 * TeV - c.current.getEnergy(), dE, 0.01 * dE);
+
+	// 1 PeV
+	c.current.setEnergy(1 * PeV);
+	lf = c.current.getLorentzFactor();
+	Rg = 1 * PeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
+	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
+	dE = dEdx * step;
+	sync.process(&c);
+	EXPECT_NEAR(1 * PeV - c.current.getEnergy(), dE, 0.01 * dE);
+}
+
+TEST(SynchrotronRadiation, PhotonEnergy) {
+	double brms = 1 * muG; 
+	SynchrotronRadiation sync(brms, true);
+	sync.setSecondaryThreshold(0.); // allow all secondaries for testing
+
+	double E = 1 * TeV;
+	Candidate c(11, E);
+	c.setCurrentStep(10 * pc); 
+	c.setNextStep(10 * pc);
+	
+	double lf = c.current.getLorentzFactor();
+	double Rg = E / eplus / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction. 
+	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
+
+	sync.process(&c);
+	EXPECT_TRUE(c.secondaries.size() > 0);	// must have secondaries
+
+	// check avg energy of the secondary photons 
+	double Esec = 0; 
+	for (size_t i = 0; i < c.secondaries.size(); i++) {
+		Esec += c.secondaries[i] -> current.getEnergy();
+	}
+	Esec /= c.secondaries.size();
+
+	EXPECT_NEAR(Esec, Ecrit, Ecrit);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

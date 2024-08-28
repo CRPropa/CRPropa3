@@ -27,7 +27,7 @@ Variant::Variant(const char* s) {
 }
 
 Variant::~Variant() {
-	clear();
+	clear(type);
 }
 
 const char* Variant::getTypeName() const {

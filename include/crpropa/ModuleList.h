@@ -47,9 +47,15 @@ public:
 	iterator end();
 	const_iterator end() const;
 
+	void setInterruptAction(Module* action);
+	void dumpCandidate(Candidate* cand) const;
+
 private:
 	module_list_t modules;
 	bool showProgress;
+	Module* interruptAction;
+	bool haveInterruptAction = false;
+	std::vector<int> notFinished; // list with not finished numbers of candidates
 };
 
 /**

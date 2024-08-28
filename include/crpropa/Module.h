@@ -59,7 +59,17 @@ public:
 	void setMakeAcceptedInactive(bool makeInactive);
 	void setRejectFlag(std::string key, std::string value);
 	void setAcceptFlag(std::string key, std::string value);
+
+	void printRejectFlag();
+	void printAcceptFlag();
 };
+
+class DeactivateModule: public AbstractCondition {
+	public: 
+		void process(Candidate *cand) const { reject(cand); }
+};
+
+
 } // namespace crpropa
 
 #endif /* CRPROPA_MODULE_H */

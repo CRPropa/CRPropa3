@@ -64,7 +64,11 @@ public:
 	void printAcceptFlag();
 };
 
-class DeactivateModule: public AbstractCondition {
+/**
+ @class Deactivation
+ @brief Direct deactivation of the candidate. Can be used for debuging.
+*/
+class Deactivation: public AbstractCondition {
 	public: 
 		void process(Candidate *cand) const { reject(cand); }
 };

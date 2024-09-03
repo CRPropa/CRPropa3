@@ -76,12 +76,14 @@ void AbstractCondition::setAcceptFlag(std::string key, std::string value) {
 	acceptFlagValue = value;
 }
 
-void AbstractCondition::printRejectFlag() {
-	std::cout << "rejectKey: " << rejectFlagKey << " with flag: " << rejectFlagValue << "\n";
+std::string AbstractCondition::getRejectFlag() {
+	std::string out = rejectFlagKey + "&" + rejectFlagValue; 
+	return out;
 }
 
-void AbstractCondition::printAcceptFlag() {
-	std::cout << "acceptKey: " << acceptFlagKey << " with flag: " << acceptFlagValue << "\n";
+std::string AbstractCondition::getAcceptFlag() {
+	std::string out = acceptFlagKey + "&" + acceptFlagValue;
+	return out;
 }
 
 

@@ -60,8 +60,11 @@ public:
 	void setRejectFlag(std::string key, std::string value);
 	void setAcceptFlag(std::string key, std::string value);
 
-	void printRejectFlag();
-	void printAcceptFlag();
+	// return the reject flag (key & value), delimiter is the "&".
+	std::string getRejectFlag();
+
+	// return the accept flag (key & value), delimiter is the "&"
+	std::string getAcceptFlag();
 };
 
 /**

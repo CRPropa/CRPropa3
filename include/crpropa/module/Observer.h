@@ -282,16 +282,6 @@ public:
 	std::string getDescription() const;
 };
 
-class ObserverTrajectoryLength: public ObserverFeature {
-private: 
-	double maxLength; 
-public: 
-	ObserverTrajectoryLength(double l);
-
-	DetectionState checkDetection(Candidate *candidate) const;
-};
-
-
 /** @} */
 
 }

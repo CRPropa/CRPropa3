@@ -365,17 +365,5 @@ std::string ObserverSurface::getDescription() const {
 	return ss.str();
 }
 
-// ObserverTrajectoryLength ---------------------------------------------------
 
-ObserverTrajectoryLength::ObserverTrajectoryLength(double l) : maxLength(l) { }
-
-DetectionState ObserverTrajectoryLength::checkDetection(Candidate *cand) const {
-	double currentLength = cand -> getTrajectoryLength(); 
-
-	if (currentLength > maxLength) 
-		return DETECTED;
-	
-	cand -> limitNextStep(maxLength - currentLength); 
-	return NOTHING;
-}
 } // namespace crpropa

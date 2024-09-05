@@ -4,6 +4,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Module.h"
 #include "crpropa/Source.h"
+#include "crpropa/module/Output.h"
 
 #include <list>
 #include <sstream>
@@ -47,13 +48,13 @@ public:
 	iterator end();
 	const_iterator end() const;
 
-	void setInterruptAction(Module* action);
+	void setInterruptAction(Output* action);
 	void dumpCandidate(Candidate* cand) const;
 
 private:
 	module_list_t modules;
 	bool showProgress;
-	Module* interruptAction;
+	Output* interruptAction;
 	bool haveInterruptAction = false;
 	std::vector<int> notFinished; // list with not finished numbers of candidates
 };

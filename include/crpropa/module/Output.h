@@ -57,12 +57,18 @@ protected:
 	double lengthScale, timeScale, energyScale;
 	std::bitset<64> fields;
 
+public: 
 	struct Property
 	{
 		std::string name;
 		std::string comment;
 		Variant defaultValue;
 	};
+
+protected:
+	double lengthScale, energyScale;
+	std::bitset<64> fields;
+
 	std::vector<Property> properties;
 
 	bool oneDimensional;
@@ -172,6 +178,18 @@ public:
 	size_t size() const;
 
 	void process(Candidate *) const;
+
+	/**	
+	 * write the indices of not started candidates into the output file. 
+	 * Used for interrupting the simulation
+	 * @param indices list of not started indices
+	 */
+	virtual void dumpIndexList(std::vector<int> indices) {
+		std::cout << "indices:\t"; 
+		for (int i = 0; i < indices.size(); i++) 
+			std::cout << indices[i] << ", ";
+		std::cout << "\n";
+	};
 };
 
 /** @}*/

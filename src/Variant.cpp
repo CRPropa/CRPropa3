@@ -28,6 +28,7 @@ Variant::Variant(const char* s) {
 
 Variant::~Variant() {
 	clear(type);
+	delete data._t_string;
 }
 
 const char* Variant::getTypeName() const {
@@ -676,7 +677,7 @@ Variant Variant::fromString(const std::string& s, Type t) {
 }
 
 void Variant::clear(Type t) {
-	if (t == TYPE_STRING)
+	if (t == TYPE_STRING) 
 		safeDelete(data._t_string);
 	else if (t == TYPE_VECTOR3F)
 		safeDelete(data._t_vector3f);

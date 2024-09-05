@@ -7,6 +7,7 @@
 
 #include "kiss/string.h"
 
+#include <sstream>
 #include <cstdio>
 #include <stdexcept>
 #include <iostream>
@@ -376,6 +377,19 @@ void TextOutput::gzip() {
 #else
 	throw std::runtime_error("CRPropa was built without Zlib compression!");
 #endif
+}
+
+void TextOutput::dumpIndexList(std::vector<int> indices) {
+#pragma omp critical(FileOutput)
+	{
+		std::stringstream ss;
+		ss << "#" << "\t";
+		for (int i = 0; i < indices.size(); i++)
+			ss << indices[i] << "\t";
+
+		const std::string cstr = ss.str();
+		out-> write(cstr.c_str(), cstr.length());
+	}
 }
 
 } // namespace crpropa

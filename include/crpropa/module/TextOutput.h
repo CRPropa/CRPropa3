@@ -71,6 +71,8 @@ public:
 	 */
 	static void load(const std::string &filename, ParticleCollector *collector);
 	std::string getDescription() const;
+
+	void dumpIndexList(std::vector<int> indicies);
 };
 /** @}*/
 

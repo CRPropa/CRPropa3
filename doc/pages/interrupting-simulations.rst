@@ -10,11 +10,13 @@ For a simulation with a source interface, a restart with the missing number of c
 .. toctree:: 
    :caption: Using a candidateVector as source
    :maxdepth: 1
+   
    example_notebooks/interrupting_simulations/interrupt_candidateVector.ipynb
 
 .. toctree:: 
    :caption: Using a source interface
    :maxdepth: 1
+
    example_notebooks/interrupting_simulations/interrupt_source.ipynb
 
 

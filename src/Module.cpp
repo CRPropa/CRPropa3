@@ -19,8 +19,7 @@ void Module::setDescription(const std::string &d) {
 
 AbstractCondition::AbstractCondition() :
 		makeRejectedInactive(true), makeAcceptedInactive(false), rejectFlagKey(
-				"Rejected") {
-
+				"Rejected"), rejectFlagValue( typeid(*this).name() ) {
 }
 
 void AbstractCondition::reject(Candidate *candidate) const {
@@ -76,5 +75,16 @@ void AbstractCondition::setAcceptFlag(std::string key, std::string value) {
 	acceptFlagKey = key;
 	acceptFlagValue = value;
 }
+
+std::string AbstractCondition::getRejectFlag() {
+	std::string out = rejectFlagKey + "&" + rejectFlagValue; 
+	return out;
+}
+
+std::string AbstractCondition::getAcceptFlag() {
+	std::string out = acceptFlagKey + "&" + acceptFlagValue;
+	return out;
+}
+
 
 } // namespace crpropa

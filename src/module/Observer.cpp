@@ -348,4 +348,5 @@ std::string ObserverSurface::getDescription() const {
 	return ss.str();
 }
 
+
 } // namespace crpropa

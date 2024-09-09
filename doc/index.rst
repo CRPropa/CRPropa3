@@ -31,6 +31,7 @@ Contents
    pages/acceleration.rst
    pages/extending_crpropa.rst
    pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
+   pages/interrupting-simulations.rst
    pages/AdditionalResources.rst
 
 

@@ -67,6 +67,8 @@ jobs:
                 [ "$file" = "MHD_modelsipynb.py" ] || 
                 [ "$file" = "density_grid_samplingipynb.py" ] ||
                 [ "$file" = "lensing_crv4ipynb.py" ] ||
+                [ "$file" = "interrupt_candidateVectoripynb.py" ] ||
+                [ "$file" = "interrupt_sourceipynb.py" ] ||
                 [ "$file" = "lensing_mapsv4ipynb.py" ]; then
                 echo "skip file $file"
             else 

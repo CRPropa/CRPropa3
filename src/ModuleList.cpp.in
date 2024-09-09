@@ -144,13 +144,13 @@ void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool 
 		raise(g_cancel_signal_flag);
 		std::cerr << "############################################################################\n";
 		std::cerr << "#	Interrupted CRPropa simulation \n";
-		std::cerr << "# in total " << notFinished.size() << " Candidates have not been started.\n";
+		std::cerr << "# A total of " << notFinished.size() << " candidates have not been started.\n";
 		std::cerr << "# the indicies of the vector haven been written to to output file. \n";
 		std::cerr << "############################################################################\n";
 	
 		// dump list to output file 
 		std::sort(notFinished.begin(), notFinished.end());
-		interruptAction -> dumpIndexList(notFinished);
+		interruptAction->dumpIndexList(notFinished);
 	}
 }
 
@@ -257,14 +257,15 @@ void ModuleList::dumpCandidate(Candidate *cand) const {
 	if (!haveInterruptAction) 
 		return;
 	
-	if (cand -> isActive())
-		interruptAction -> process(cand); 
+	if (cand->isActive())
+		interruptAction->process(cand); 
 	else 
-		KISS_LOG_WARNING << "Try to dump a candidate which is not active anymore! \n";
+		KISS_LOG_WARNING << "ModuleList::dumpCandidate is called with a non active candidate. This should not happen for the interrupt action. Please check candidate with serieal number " 
+		 << cand->getSerialNumber() << std::endl;
 
-	for (int i = 0; i < cand -> secondaries.size(); i++) {
-		if (cand -> secondaries[i])
-			dumpCandidate(cand -> secondaries[i]);
+	for (int i = 0; i < cand->secondaries.size(); i++) {
+		if (cand->secondaries[i])
+			dumpCandidate(cand->secondaries[i]);
 	}
 }
 

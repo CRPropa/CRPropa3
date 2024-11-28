@@ -250,7 +250,7 @@ public:
 	std::vector<double> detList;
 
 	// Pointer to user defined version of getTime (should return time for corresponding index)
-	double (*customGetTime)(std::size_t index, double min, double max, int numb);
+	double (*customGetTime)(int index, double min, double max, int numb);
 
 	/** Default constructor
 	 */
@@ -279,7 +279,7 @@ public:
 	 @param userDefinedFunction	function which will be called instead of getTime, should return time for corresponding index
 	 	min time, max time, and number of times
 	 */
-	void setUserDefinedGetTime(double (*userDefinedFunction)(std::size_t index, double min, double max, int numb));
+	void setUserDefinedGetTime(double (*userDefinedFunction)(int index, double min, double max, int numb));
 	// Get time at specified index, either with log or lin spacing of times
 	// in the range between min and max for obeserving particles.
 	double getTime(std::size_t index) const;

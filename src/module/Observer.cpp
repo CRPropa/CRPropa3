@@ -266,7 +266,7 @@ ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
 	this->max = detList.back();
 }
 
-void ObserverTimeEvolution::setUserDefinedGetTime(double (*userDefinedFunction)(std::size_t index, double min, double max, int numb)){
+void ObserverTimeEvolution::setUserDefinedGetTime(double (*userDefinedFunction)(int index, double min, double max, int numb)){
 	this->customGetTime = userDefinedFunction;
 	this->useCustomGetTime = true;
 }

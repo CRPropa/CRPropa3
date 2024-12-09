@@ -277,7 +277,6 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		double length = c->getTrajectoryLength();
 		size_t index;
 		const std::string DI = "DetectionIndex";
-		std::string value;
 
 		// Load the last detection index
 		if (c->hasProperty(DI)) {

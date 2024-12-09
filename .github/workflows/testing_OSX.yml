@@ -11,7 +11,7 @@ jobs:
             os: macos-14 
             cxx: "clang++"
             cc: "clang"
-            fc: "gfortran-11"
+            fc: "gfortran-14"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python3"
     steps:
@@ -19,7 +19,8 @@ jobs:
        uses: actions/checkout@v4 
      - name: Preinstall 
        run: | 
-         brew install hdf5 fftw cfitsio muparser libomp numpy swig
+         brew install hdf5 fftw cfitsio muparser libomp swig
+         pip install numpy==1.26
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}

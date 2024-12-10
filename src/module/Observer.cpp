@@ -321,7 +321,7 @@ double ObserverTimeEvolution::getTime(size_t index) const {
 	} else if (log) {
 		return min * pow(max / min, index / (numb - 1.0));
 	} else {
-		return min + index * (max - min) / numb;
+		return min + index * (max - min) / (numb - 1.0);
 	}
 }
 

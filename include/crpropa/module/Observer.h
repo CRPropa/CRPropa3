@@ -255,7 +255,7 @@ public:
 	/** Default constructor
 	 */
 	ObserverTimeEvolution();
-	/** Constructor
+	/** Constructor (calculates the maximum from min + dist * numb)
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals

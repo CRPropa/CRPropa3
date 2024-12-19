@@ -236,6 +236,7 @@ TEST(ObserverFeature, TimeEvolution) {
   Observer obs;
   obs.setDeactivateOnDetection(false);
   obs.setFlag("Detected", "Detected");
+  //min = 5, max = min + numb*dist = 5 + 2*5 = 15, detection can happen at [5, 15]
   obs.add(new ObserverTimeEvolution(5, 5, 2));
   Candidate c;
   c.setNextStep(10);
@@ -261,7 +262,7 @@ TEST(ObserverFeature, TimeEvolution) {
 
   // detection two
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(10.05);
+  c.setTrajectoryLength(15.05);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));

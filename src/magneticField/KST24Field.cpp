@@ -3,7 +3,11 @@
 /* 
 The C++ implementation of the GMF model KST24 (A.Korochkin, D.Semikoz, P.Tinyakov 2024)
 The model was presented in arXiv:2407.02148 and published in A&A
-If you use the model, please cite arXiv:2407.02148 
+If you use the model, please cite A&A, 693, A284 (2025)
+
+In KST24 GMF model the position of the Solar System is at {-8.2 kpc, 0, 0}
+The Galactic Center is at {0, 0, 0}
+z-axis points to the North pole
 */
 
 

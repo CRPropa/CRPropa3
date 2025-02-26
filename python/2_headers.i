@@ -279,6 +279,11 @@
 %feature("director") crpropa::AbstractCondition;
 %include "crpropa/Module.h"
 
+%template(OutputRefPtr) crpropa::ref_ptr<Output>;
+%feature("director") crpropa::Output;
+%ignore crpropa::Output::dumpIndexList(std::vector<int>);
+%include "crpropa/module/Output.h"
+
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
 %feature("director") crpropa::MagneticField;
@@ -394,8 +399,6 @@
   }
 }
 
-
-%include "crpropa/module/Output.h"
 %include "crpropa/module/DiffusionSDE.h"
 %include "crpropa/module/TextOutput.h"
 %include "crpropa/module/HDF5Output.h"

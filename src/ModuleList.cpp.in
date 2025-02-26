@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <csignal>
+#include <bits/stdc++.h> 
 #ifndef sighandler_t
 typedef void (*sighandler_t)(int);
 #endif
@@ -87,6 +88,10 @@ void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst
 			run(candidate->secondaries[i], recursive, secondariesFirst);
 		}
 	}
+
+	// dump candidae and secondaries if interrupted.
+	if (candidate->isActive() && (g_cancel_signal_flag != 0)) 
+		dumpCandidate(candidate);
 }
 
 void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
@@ -114,8 +119,11 @@ void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool 
 
 #pragma omp parallel for schedule(OMP_SCHEDULE)
 	for (size_t i = 0; i < count; i++) {
-		if (g_cancel_signal_flag != 0)
+		if (g_cancel_signal_flag != 0) {
+#pragma omp critical(interrupt_write)
+			notFinished.push_back(i);
 			continue;
+		}
 
 		try {
 			run(candidates->operator[](i), recursive);
@@ -132,8 +140,18 @@ void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool 
 	::signal(SIGINT, old_sigint_handler);
 	::signal(SIGTERM, old_sigterm_handler);
 	// Propagate signal to old handler.
-	if (g_cancel_signal_flag > 0)
+	if (g_cancel_signal_flag > 0) {
 		raise(g_cancel_signal_flag);
+		std::cerr << "############################################################################\n";
+		std::cerr << "#	Interrupted CRPropa simulation \n";
+		std::cerr << "# A total of " << notFinished.size() << " candidates have not been started.\n";
+		std::cerr << "# the indices of the vector haven been written to to output file. \n";
+		std::cerr << "############################################################################\n";
+	
+		// dump list to output file 
+		std::sort(notFinished.begin(), notFinished.end());
+		interruptAction->dumpIndexList(notFinished);
+	}
 }
 
 void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool secondariesFirst) {
@@ -156,8 +174,11 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 
 #pragma omp parallel for schedule(OMP_SCHEDULE)
 	for (size_t i = 0; i < count; i++) {
-		if (g_cancel_signal_flag !=0)
+		if (g_cancel_signal_flag !=0) {
+#pragma omp critical(interrupt_write)
+			notFinished.push_back(i);	
 			continue;
+		}
 
 		ref_ptr<Candidate> candidate;
 
@@ -189,8 +210,13 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 	::signal(SIGINT, old_signal_handler);
 	::signal(SIGTERM, old_sigterm_handler);
 	// Propagate signal to old handler.
-	if (g_cancel_signal_flag > 0)
+	if (g_cancel_signal_flag > 0) {
 		raise(g_cancel_signal_flag);
+		std::cerr << "############################################################################\n";
+		std::cerr << "# Interrupted CRPropa simulation \n";
+		std::cerr << "# Number of not started candidates from source: " << notFinished.size() << "\n";
+		std::cerr << "############################################################################\n";
+	}
 }
 
 ModuleList::iterator ModuleList::begin() {
@@ -220,6 +246,27 @@ std::string ModuleList::getDescription() const {
 
 void ModuleList::showModules() const {
 	std::cout << getDescription();
+}
+
+void ModuleList::setInterruptAction(Output* action) {
+	interruptAction = action;
+	haveInterruptAction = true;
+}
+
+void ModuleList::dumpCandidate(Candidate *cand) const {
+	if (!haveInterruptAction) 
+		return;
+	
+	if (cand->isActive())
+		interruptAction->process(cand); 
+	else 
+		KISS_LOG_WARNING << "ModuleList::dumpCandidate is called with a non active candidate. This should not happen for the interrupt action. Please check candidate with serial number " 
+		 << cand->getSerialNumber() << std::endl;
+
+	for (int i = 0; i < cand->secondaries.size(); i++) {
+		if (cand->secondaries[i])
+			dumpCandidate(cand->secondaries[i]);
+	}
 }
 
 ModuleListRunner::ModuleListRunner(ModuleList *mlist) : mlist(mlist) {

@@ -402,6 +402,7 @@ add_library(crpropa SHARED
   src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   src/magneticField/TF17Field.cpp
   src/magneticField/UF23Field.cpp
+  src/magneticField/KST24Field.cpp
   src/magneticField/CMZField.cpp
   src/advectionField/AdvectionField.cpp
   src/massDistribution/ConstantDensity.cpp

@@ -268,6 +268,7 @@ public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
 };
+
 /** @} */
 
 }

@@ -59,7 +59,24 @@ public:
 	void setMakeAcceptedInactive(bool makeInactive);
 	void setRejectFlag(std::string key, std::string value);
 	void setAcceptFlag(std::string key, std::string value);
+
+	// return the reject flag (key & value), delimiter is the "&".
+	std::string getRejectFlag();
+
+	// return the accept flag (key & value), delimiter is the "&"
+	std::string getAcceptFlag();
 };
+
+/**
+ @class Deactivation
+ @brief Direct deactivation of the candidate. Can be used for debuging.
+*/
+class Deactivation: public AbstractCondition {
+	public: 
+		void process(Candidate *cand) const { reject(cand); }
+};
+
+
 } // namespace crpropa
 
 #endif /* CRPROPA_MODULE_H */

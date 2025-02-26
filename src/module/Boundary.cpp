@@ -40,6 +40,54 @@ std::string PeriodicBox::getDescription() const {
 	return s.str();
 }
 
+
+ReflectiveShell::ReflectiveShell(Vector3d cen, double r) :
+		center(cen), radius(r) {
+		}
+
+double ReflectiveShell::distance(const Vector3d &point) const {
+	Vector3d dR = point - center;
+	return dR.getR() - radius;
+}
+
+Vector3d ReflectiveShell::normal(const Vector3d& point) const {
+	Vector3d d = point - center;
+	return d.getUnitVector();
+}
+
+void ReflectiveShell::process(Candidate *c) const {
+	double currentDistance = distance(c->current.getPosition());
+	double previousDistance = distance(c->previous.getPosition());
+	// check if cosmic ray crossed boundary in last step
+	if (currentDistance * previousDistance < 0){
+		// (only valid if step size << radius of sphere)
+		// (so that normal(currentPosition) ~ normal(intersectionPoint))
+		Vector3d surfaceNormal = normal(c->current.getPosition());
+		Vector3d currentDirection = c->current.getDirection();
+		// flip component of velocity normal to surface
+		Vector3d newDirection = currentDirection - 2 * currentDirection.dot(surfaceNormal) * surfaceNormal;
+		c->current.setDirection(newDirection.getUnitVector());
+		// also update position
+		c->current.setPosition(c->current.getPosition() - 2 * currentDistance * surfaceNormal);
+	}
+}
+
+void ReflectiveShell::setCenter(Vector3d cen) {
+	center = cen;
+}
+void ReflectiveShell::setRadius(double r) {
+	radius = r;
+}
+
+std::string ReflectiveShell::getDescription() const {
+	std::stringstream ss;
+	ss << "Reflective sphere: " << std::endl
+			<< "   Center: " << center << std::endl
+			<< "   Radius: " << radius << std::endl;
+	return ss.str();
+};
+
+
 ReflectiveBox::ReflectiveBox() :
 		origin(Vector3d(0, 0, 0)), size(Vector3d(0, 0, 0)) {
 }

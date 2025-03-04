@@ -305,15 +305,21 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
+void ObserverTimeEvolution::clear(){
+	doDetListConstruction = false;
+	detList.clear();
+	numb = 0;
+}
+
 void ObserverTimeEvolution::constructDetListIfEmpty(){
-	if (detList.empty()) {
+	if (detList.empty() && doDetListConstruction) {
 		std::vector<double> detListTemp;
 		size_t counter = 0;
 		while (getTime(counter)<=max) {
 			detListTemp.push_back(getTime(counter));
 			counter++;
 		}
-		detList = detListTemp;
+		detList.assign(detListTemp.begin(), detListTemp.end());
 	}
 }
 
@@ -321,12 +327,15 @@ void ObserverTimeEvolution::addTime(const double &time){
 	constructDetListIfEmpty();
 	detList.push_back(time);
 	numb += 1;  // increase number of entries by one
-	max = time;  // sets the max to the newly added time
 }
 
 void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
 	for (size_t i = 0; i < numb; i++) {
 		if (log) {
+			if ( min == 0 ){
+				std::cout << "min can not be 0 if log=true" << std::endl;
+				throw new std::invalid_argument("min can not be 0 if log=true");
+			}
 			addTime(min * pow(max / min, i / (numb - 1.0)));
 		} else {
 			addTime(min + i * (max - min) / (numb - 1.0));
@@ -334,21 +343,24 @@ void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bo
 	}
 	// allready corrected by addTime, just here to be safe
 	this->numb = detList.size();
-	this->min = detList.front();
-	this->max = detList.back();
 }
 
 void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
-	this->detList = detList;
+	this->detList.assign(detList.begin(), detList.end());
 	this->numb = detList.size();
 	this->min = detList.front();
 	this->max = detList.back();
+	this->doDetListConstruction = false;
 }
 
 double ObserverTimeEvolution::getTime(size_t index) const {
 	if (!detList.empty()) {
 		return detList.at(index);
 	} else if (islog) {
+		if ( min == 0 ){
+			std::cout << "min can not be 0 if islog=true" << std::endl;
+			throw new std::invalid_argument("min can not be 0 if islog=true");
+		}
 		return min * pow(max / min, index / (numb - 1.0));
 	} else {
 		return min + index * (max - min) / (numb - 1.0);

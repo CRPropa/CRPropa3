@@ -246,7 +246,7 @@ std::string ObserverParticleIdVeto::getDescription() const {
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
-	this->max = min + numb * dist;
+	this->max = min + (numb - 1) * dist;
 	this->min = min;
 	this->numb = numb;
 	this->islog = false;
@@ -260,15 +260,7 @@ ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
-	this->detList = detList;
-	this->numb = detList.size();
-	this->min = detList.front();
-	this->max = detList.back();
-}
-
-void ObserverTimeEvolution::setUserDefinedGetTime(double (*userDefinedFunction)(int index, double min, double max, int numb)){
-	this->customGetTime = userDefinedFunction;
-	this->useCustomGetTime = true;
+	setTimes(detList);
 }
 
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
@@ -287,7 +279,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 
 		// Break if the particle has been detected once for all possible times.
-		if (index > numb) {
+		if (index >= numb) {
 			return NOTHING;
 		}
 
@@ -302,7 +294,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 		else {
 
-			if (index < numb-1) {
+			if (index < numb-2) {
 				c->limitNextStep(getTime(index+1)-length);
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
@@ -313,27 +305,62 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
+void ObserverTimeEvolution::constructDetListIfEmpty(){
+	if (detList.empty()) {
+		std::vector<double> detListTemp;
+		size_t counter = 0;
+		while (getTime(counter)<=max) {
+			detListTemp.push_back(getTime(counter));
+			counter++;
+		}
+		detList = detListTemp;
+	}
+}
+
+void ObserverTimeEvolution::addTime(const double &time){
+	constructDetListIfEmpty();
+	detList.push_back(time);
+	numb += 1;  // increase number of entries by one
+	max = time;  // sets the max to the newly added time
+}
+
+void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
+	for (size_t i = 0; i < numb; i++) {
+		if (log) {
+			addTime(min * pow(max / min, i / (numb - 1.0)));
+		} else {
+			addTime(min + i * (max - min) / (numb - 1.0));
+		}
+	}
+	// allready corrected by addTime, just here to be safe
+	this->numb = detList.size();
+	this->min = detList.front();
+	this->max = detList.back();
+}
+
+void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
+	this->detList = detList;
+	this->numb = detList.size();
+	this->min = detList.front();
+	this->max = detList.back();
+}
+
 double ObserverTimeEvolution::getTime(size_t index) const {
 	if (!detList.empty()) {
-		return detList[index];
-	} else if (useCustomGetTime) {
-		return customGetTime(index, min, max, numb);
-	} else if (log) {
+		return detList.at(index);
+	} else if (islog) {
 		return min * pow(max / min, index / (numb - 1.0));
 	} else {
 		return min + index * (max - min) / (numb - 1.0);
 	}
 }
 
-const std::vector<double>& ObserverTimeEvolution::getTimes() {
-	if (detList.empty()) {
-		size_t counter = 0;
-		while (getTime(counter)<=max) {
-			detList.push_back(getTime(counter));
-			counter++;
-		}
+const std::vector<double>& ObserverTimeEvolution::getTimes() const {
+	tempDetList.clear();
+	for (size_t i = 0; i < numb; i++){
+		tempDetList.push_back(getTime(i));
 	}
-	return detList;
+	return tempDetList;
 }
 
 std::string ObserverTimeEvolution::getDescription() const {

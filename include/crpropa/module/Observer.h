@@ -242,7 +242,7 @@ public:
 class ObserverTimeEvolution: public ObserverFeature {
 protected:
 	int numb;
-	bool islog = false;
+	bool islog = false, doDetListConstruction = true;
 	double min, max;
 	/** Vector containing all used times. 
 	 It is only constructed by the user manually.
@@ -304,6 +304,16 @@ public:
 	 This function is called in Observer.process with the simulated Candidate.
 	 */
 	DetectionState checkDetection(Candidate *candidate) const;
+	/** Function
+	 @param enableConstruction	if true, constructs detList from range of min, max, numb
+	 when calling addTime
+	 Clears the content of detList
+	 */
+	void clear();
+	/** Function
+	 Checks if detList is empty
+	 */
+	bool empty(){return detList.empty();}
 
 	// setter functions:
 	/** Function

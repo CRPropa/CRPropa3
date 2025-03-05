@@ -12,6 +12,7 @@
 * Added EBL model from Finke et al. 2022
 * Added overridable getTime function to ObserverTimeEvolution which is called instead of detList. 
   Old functionalities are preserved by adding old functions and setter/getter functions.
+ * Added ReflectiveShell boundary condition
 
 ### Interface changes:
 

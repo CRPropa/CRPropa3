@@ -60,11 +60,15 @@ void ReflectiveShell::process(Candidate *c) const {
 	double previousDistance = distance(c->previous.getPosition());
 	// check if cosmic ray crossed boundary in last step
 	if (currentDistance * previousDistance < 0){
-		// (only valid if step size << radius of sphere)
-		// (so that normal(currentPosition) ~ normal(intersectionPoint))
-		Vector3d surfaceNormal = normal(c->current.getPosition());
 		Vector3d currentDirection = c->current.getDirection();
+		Vector3d previousPosition = c->previous.getPosition();
+		// get point where trajectory intersects the shell boundary
+		double p_half = previousPosition.dot(currentDirection) / currentDirection.getR2();
+		double q = (previousPosition.getR2() - radius*radius) / currentDirection.getR2();
+		double k1 = - p_half + sqrt(p_half*p_half - q);
+		Vector3d intersectPoint = previousPosition + k1 * currentDirection;
 		// flip component of velocity normal to surface
+		Vector3d surfaceNormal = normal(intersectPoint);
 		Vector3d newDirection = currentDirection - 2 * currentDirection.dot(surfaceNormal) * surfaceNormal;
 		c->current.setDirection(newDirection.getUnitVector());
 		// also update position

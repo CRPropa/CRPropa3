@@ -38,6 +38,32 @@ public:
 };
 
 /**
+ @class ReflectiveShell
+ @brief Shell with reflective boundary
+
+ If a particle crosses the boundary it is reflected back inside or outside (position and velocity) depending where it came from.
+ Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
+ */
+class ReflectiveShell: public Module {
+private:
+	Vector3d center;
+	double radius;
+
+public:
+	/** Constructor
+	 @param cen	vector corresponding to the center of the sphere
+	 @param r	value corresponding to the radius of the shell
+	 */
+	ReflectiveShell(Vector3d cen, double r);
+	double distance(const Vector3d &point) const;
+	Vector3d normal(const Vector3d &point) const;
+	void process(Candidate *candidate) const;
+	void setCenter(Vector3d cen);
+	void setRadius(double r);
+	std::string getDescription() const;
+};
+
+/**
  @class ReflectiveBox
  @brief Rectangular box with reflective boundaries.
 

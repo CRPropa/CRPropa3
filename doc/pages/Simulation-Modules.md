@@ -41,7 +41,7 @@ General interactions/processes
 Conditional modules implement certain conditions for stopping propagation.
 They provide interfaces to act onReject or onAccept of a cosmic ray.
 Boundary modules can be used to limit the simulation volume.
-Periodic- and ReflectiveBox implement boundary conditions for the particles. They are useful for a 3D setup where an initial volume is to be repeated (periodically or reflectively). When using them, a couple of things need to be considered. Observers will shadow the volume behind if they are set to inactivate particles. Also Observers should be placed at a distance to the boundaries that is larger than the maximum step size of the propagator, since step size limitation does not work beyond periodic/reflective boundaries.
+Periodic-/ReflectiveBox and ReflectiveShell implement boundary conditions for the particles. They are useful for a 3D setup where an initial volume is to be repeated (periodically or reflectively). When using them, a couple of things need to be considered. Observers will shadow the volume behind if they are set to inactivate particles. Also Observers should be placed at a distance to the boundaries that is larger than the maximum step size of the propagator, since step size limitation does not work beyond periodic/reflective boundaries.
 
 * **MaximumTrajectoryLength** - Stop after reaching maximum trajectory length
 * **MinimumEnergy** - Stop after reaching a minimum energy
@@ -53,6 +53,7 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 * **CylindricalBoundary** - Cylindric simulation volume
 * **PeriodicBox** - Periodic boundary conditions for the particle: If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
 * **ReflectiveBox** - Reflective boundary conditions for the particle: If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
+* **ReflectiveShell** - Reflective spherical boundary condition for the particle; If a particle crosses the shell during the current step it will be reflected back at the boundary according to the law of reflection. Particles coming from the outside are only reflected if the current step ends inside the shell.
 * **DetectionLength** - Detects the candidate at a given trajectory length.
 
 ### Observers

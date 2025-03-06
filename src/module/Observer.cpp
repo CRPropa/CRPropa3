@@ -308,6 +308,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 void ObserverTimeEvolution::clear(){
 	doDetListConstruction = false;
 	detList.clear();
+	detList.resize(0);
 	numb = 0;
 }
 
@@ -368,9 +369,9 @@ double ObserverTimeEvolution::getTime(size_t index) const {
 }
 
 const std::vector<double>& ObserverTimeEvolution::getTimes() const {
-	tempDetList.clear();
+	tempDetList.resize(numb);
 	for (size_t i = 0; i < numb; i++){
-		tempDetList.push_back(getTime(i));
+		tempDetList[i] = getTime(i);
 	}
 	return tempDetList;
 }

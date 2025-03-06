@@ -336,10 +336,12 @@ TEST(ObserverFeature, TimeEvolutionArray) {
   EXPECT_TRUE(times == obs.getTimes());
 
   // test addTimeRange for logarithmic ranges
-  times = {1, 1000};
+  times.clear();
+	for (int i=0; i<4; i++)
+		times.push_back(pow(1000., i / 3.));
   obs.clear();  // empty detList
   EXPECT_TRUE(obs.empty());
-  obs.addTimeRange(1, 1000, 2, true);
+  obs.addTimeRange(1, 1000, 4, true);
   EXPECT_FALSE(obs.empty());
   // should be equal to above times array, but isnt, even though the values are the same
   EXPECT_TRUE(times == obs.getTimes());

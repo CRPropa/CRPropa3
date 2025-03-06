@@ -258,7 +258,7 @@ TEST(ObserverFeature, TimeEvolution) {
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
-  obs.setDeactivateOnDetection(true);
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
   c.setTrajectoryLength(8);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -277,9 +277,11 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   obs.setFlag("Detected", "Detected");
   // usage of a log scaling for the observer
   bool log = true;
-  obs.add(new ObserverTimeEvolution(5, 10.05, 2, log));
+  obs.add(new ObserverTimeEvolution(10, 1000, 3, log));
   Candidate c;
+  // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
   c.setNextStep(10);
+  // set length before next detection
   c.setTrajectoryLength(3);
 
   // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
@@ -287,27 +289,36 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
 
-  // limit step
-  EXPECT_DOUBLE_EQ(2, c.getNextStep());
+  // limit step (should be 10-3=7)
+  EXPECT_DOUBLE_EQ(7, c.getNextStep());
 
   // detection one
-  c.setCurrentStep(0.1);
-  c.setTrajectoryLength(5);
+  c.setCurrentStep(0.1);  // set small to be barely over first detection length
+  c.setTrajectoryLength(10);  // set to first detection length
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
-  obs.setDeactivateOnDetection(true);
-  c.setTrajectoryLength(8);
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
+  c.setTrajectoryLength(80);  // set to something between 10 and 100 (first and second detection)
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
+  obs.setDeactivateOnDetection(false); // reset to false again for future detection
 
   // detection two
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(10.05);
+  c.setTrajectoryLength(100);
   obs.process(&c);
-  EXPECT_FALSE(c.isActive());
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // detection two
+  obs.setDeactivateOnDetection(true);  // deactivate here since it is the last detection
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(1000.05);
+  obs.process(&c);
+  EXPECT_FALSE(c.isActive());  // not active anymore
   EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
@@ -336,15 +347,14 @@ TEST(ObserverFeature, TimeEvolutionArray) {
   EXPECT_TRUE(times == obs.getTimes());
 
   // test addTimeRange for logarithmic ranges
-  times.clear();
-	for (int i=0; i<4; i++)
-		times.push_back(pow(1000., i / 3.));
+  times = {1, 10, 100, 1000};
   obs.clear();  // empty detList
   EXPECT_TRUE(obs.empty());
   obs.addTimeRange(1, 1000, 4, true);
   EXPECT_FALSE(obs.empty());
   // should be equal to above times array, but isnt, even though the values are the same
-  EXPECT_TRUE(times == obs.getTimes());
+  for (int i=0; i<times.size(); i++)
+    EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
 
   // now check if constructDetListIfEmpty is working properly:
   ObserverTimeEvolution obs2(5, 10, 6, false);

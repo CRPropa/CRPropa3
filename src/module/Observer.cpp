@@ -246,17 +246,17 @@ std::string ObserverParticleIdVeto::getDescription() const {
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
-	this->max = min + (numb - 1) * dist;
-	this->min = min;
-	this->numb = numb;
-	this->islog = false;
+	setMaximum(min + (numb - 1) * dist);
+	setMinimum(min);
+	setNIntervals(numb);
+	setIsLogarithmicScaling(false);
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
-	this->min = min;
-	this->max = max;
-	this->numb = numb;
-	this->islog = log;
+	setMinimum(min);
+	setMaximum(max);
+	setNIntervals(numb);
+	setIsLogarithmicScaling(log);
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
@@ -265,7 +265,7 @@ ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
 
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
-	if (numb) {
+	if (nIntervals) {
 		double length = c->getTrajectoryLength();
 		size_t index;
 		const std::string DI = "DetectionIndex";
@@ -279,7 +279,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 
 		// Break if the particle has been detected once for all possible times.
-		if (index >= numb) {
+		if (index >= nIntervals) {
 			return NOTHING;
 		}
 
@@ -294,7 +294,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 		else {
 
-			if (index < numb-2) {
+			if (index < nIntervals-2) {
 				c->limitNextStep(getTime(index+1)-length);
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
@@ -309,14 +309,14 @@ void ObserverTimeEvolution::clear(){
 	doDetListConstruction = false;
 	detList.clear();
 	detList.resize(0);
-	numb = 0;
+	setNIntervals(0);
 }
 
 void ObserverTimeEvolution::constructDetListIfEmpty(){
 	if (detList.empty() && doDetListConstruction) {
 		std::vector<double> detListTemp;
 		size_t counter = 0;
-		while (getTime(counter)<=max) {
+		while (getTime(counter)<=maximum) {
 			detListTemp.push_back(getTime(counter));
 			counter++;
 		}
@@ -327,15 +327,15 @@ void ObserverTimeEvolution::constructDetListIfEmpty(){
 void ObserverTimeEvolution::addTime(const double &time){
 	constructDetListIfEmpty();
 	detList.push_back(time);
-	numb += 1;  // increase number of entries by one
+	setNIntervals(nIntervals + 1);  // increase number of entries by one
 }
 
 void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
 	for (size_t i = 0; i < numb; i++) {
 		if (log) {
-			if ( min == 0 ){
-				std::cout << "min can not be 0 if log=true" << std::endl;
-				throw new std::invalid_argument("min can not be 0 if log=true");
+			if ( min <= 0 ){
+				std::cout << "min can not be <= 0 if log=true" << std::endl;
+				throw new std::invalid_argument("min can not be <= 0 if log=true");
 			}
 			addTime(min * pow(max / min, i / (numb - 1.0)));
 		} else {
@@ -343,34 +343,38 @@ void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bo
 		}
 	}
 	// allready corrected by addTime, just here to be safe
-	this->numb = detList.size();
+	setNIntervals(detList.size());
 }
 
 void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
 	this->detList.assign(detList.begin(), detList.end());
-	this->numb = detList.size();
-	this->min = detList.front();
-	this->max = detList.back();
-	this->doDetListConstruction = false;
+	setNIntervals(detList.size());
+	setMinimum(detList.front());
+	setMaximum(detList.back());
+	doDetListConstruction = false;
+}
+
+void ObserverTimeEvolution::setMinimum(double min){
+	if ( min <= 0 ){
+		std::cout << "minimum can not be <= 0 if isLogarithmicScaling=true" << std::endl;
+		throw new std::invalid_argument("minimum can not be <= 0 if isLogarithmicScaling=true");
+	}
+	this->minimum = min;
 }
 
 double ObserverTimeEvolution::getTime(size_t index) const {
 	if (!detList.empty()) {
 		return detList.at(index);
-	} else if (islog) {
-		if ( min == 0 ){
-			std::cout << "min can not be 0 if islog=true" << std::endl;
-			throw new std::invalid_argument("min can not be 0 if islog=true");
-		}
-		return min * pow(max / min, index / (numb - 1.0));
+	} else if (isLogarithmicScaling) {
+		return minimum * pow(maximum / minimum, index / (nIntervals - 1.0));
 	} else {
-		return min + index * (max - min) / (numb - 1.0);
+		return minimum + index * (maximum - minimum) / (nIntervals - 1.0);
 	}
 }
 
 const std::vector<double>& ObserverTimeEvolution::getTimes() const {
-	tempDetList.resize(numb);
-	for (size_t i = 0; i < numb; i++){
+	tempDetList.resize(nIntervals);
+	for (size_t i = 0; i < nIntervals; i++){
 		tempDetList[i] = getTime(i);
 	}
 	return tempDetList;
@@ -379,7 +383,7 @@ const std::vector<double>& ObserverTimeEvolution::getTimes() const {
 std::string ObserverTimeEvolution::getDescription() const {
 	std::stringstream s;
 	s << "List of Detection lengths in kpc";
-	for (size_t i = 0; i < numb; i++)
+	for (size_t i = 0; i < nIntervals; i++)
 	  s << "  - " << getTime(i) / kpc;
 	return s.str();
 }

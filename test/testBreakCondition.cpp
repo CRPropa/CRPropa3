@@ -236,11 +236,13 @@ TEST(ObserverFeature, TimeEvolution) {
   Observer obs;
   obs.setDeactivateOnDetection(false);
   obs.setFlag("Detected", "Detected");
+  //min = 5, max = min + (numb-1)*dist = 5 + 1*5 = 10, detection can happen at [5, 10]
   obs.add(new ObserverTimeEvolution(5, 5, 2));
   Candidate c;
   c.setNextStep(10);
   c.setTrajectoryLength(3);
   
+  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -255,15 +257,17 @@ TEST(ObserverFeature, TimeEvolution) {
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
-  // delete property
-  c.removeProperty("Detected");
-  EXPECT_FALSE(c.hasProperty("Detected"));
+  // no detection expected
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
+  c.setTrajectoryLength(8);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
 
   // detection two
   c.setCurrentStep(0.1);
   c.setTrajectoryLength(10.05);
   obs.process(&c);
-  EXPECT_TRUE(c.isActive());
+  EXPECT_FALSE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
@@ -273,35 +277,99 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   obs.setFlag("Detected", "Detected");
   // usage of a log scaling for the observer
   bool log = true;
-  obs.add(new ObserverTimeEvolution(5, 5, 2, log));
+  obs.add(new ObserverTimeEvolution(10, 1000, 3, log));
   Candidate c;
+  // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
   c.setNextStep(10);
+  // set length before next detection
   c.setTrajectoryLength(3);
-  
+
+  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
 
-  // limit step
-  EXPECT_DOUBLE_EQ(2, c.getNextStep());
-  
+  // limit step (should be 10-3=7)
+  EXPECT_DOUBLE_EQ(7, c.getNextStep());
+
   // detection one
-  c.setCurrentStep(0.1);
-  c.setTrajectoryLength(5);
+  c.setCurrentStep(0.1);  // set small to be barely over first detection length
+  c.setTrajectoryLength(10);  // set to first detection length
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
-  // delete property
-  c.removeProperty("Detected");
-  EXPECT_FALSE(c.hasProperty("Detected"));
+  // no detection expected
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
+  c.setTrajectoryLength(80);  // set to something between 10 and 100 (first and second detection)
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  obs.setDeactivateOnDetection(false); // reset to false again for future detection
 
   // detection two
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(10.05);
+  c.setTrajectoryLength(100);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // detection two
+  obs.setDeactivateOnDetection(true);  // deactivate here since it is the last detection
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(1000.05);
+  obs.process(&c);
+  EXPECT_FALSE(c.isActive());  // not active anymore
+  EXPECT_TRUE(c.hasProperty("Detected"));
+}
+
+TEST(ObserverFeature, TimeEvolutionArray) {
+  // here it should be tested if the observer can be constructed with an array
+  std::vector<double> times = {1, 2, 3}; 
+  ObserverTimeEvolution obs(times);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());  // element wise comparison
+
+  times.push_back(4);
+  obs.addTime(4);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());
+
+  // test clear:
+  obs.clear();
+  EXPECT_TRUE(obs.empty());
+
+  // test addTimeRange for linear ranges
+  times = {5, 6, 7, 8, 9, 10};
+  obs.clear();  // empty detList
+  EXPECT_TRUE(obs.empty());
+  obs.addTimeRange(5, 10, 6, false);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());
+
+  // test addTimeRange for logarithmic ranges
+  times = {1, 10, 100, 1000};
+  obs.clear();  // empty detList
+  EXPECT_TRUE(obs.empty());
+  obs.addTimeRange(1, 1000, 4, true);
+  EXPECT_FALSE(obs.empty());
+  // should be equal to above times array, but isnt, even though the values are the same
+  for (int i=0; i<times.size(); i++)
+    EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
+
+  // now check if constructDetListIfEmpty is working properly:
+  ObserverTimeEvolution obs2(5, 10, 6, false);
+  times = {5, 6, 7, 8, 9, 10};
+  
+  // check if no array is created while calling getTimes
+  EXPECT_TRUE(obs2.empty());
+  EXPECT_TRUE(times == obs2.getTimes());
+  EXPECT_TRUE(obs2.empty());
+
+  // check if array is created when calling addTime without array
+  times.push_back(11);
+  obs2.addTime(11);
+  EXPECT_FALSE(obs2.empty());
+  EXPECT_TRUE(times == obs2.getTimes());
 }
 
 //** ========================= Boundaries =================================== */

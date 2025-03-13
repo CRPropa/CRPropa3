@@ -41,8 +41,8 @@ std::string PeriodicBox::getDescription() const {
 }
 
 
-ReflectiveShell::ReflectiveShell(Vector3d cen, double r) :
-		center(cen), radius(r) {
+ReflectiveShell::ReflectiveShell(Vector3d center, double r) :
+		center(center), radius(r) {
 		}
 
 double ReflectiveShell::distance(const Vector3d &point) const {
@@ -64,31 +64,30 @@ void ReflectiveShell::process(Candidate *c) const {
 		Vector3d previousPosition = c->previous.getPosition();
 		// get point where trajectory intersects the shell boundary
 		double p_half = previousPosition.dot(currentDirection) / currentDirection.getR2();
-		double q = (previousPosition.getR2() - radius*radius) / currentDirection.getR2();
-		double k1 = - p_half + sqrt(p_half*p_half - q);
+		double q = (previousPosition.getR2() - radius * radius) / currentDirection.getR2();
+		double k1 = - p_half + sqrt(p_half * p_half - q);
 		Vector3d intersectPoint = previousPosition + k1 * currentDirection;
 		// flip component of velocity normal to surface
 		Vector3d surfaceNormal = normal(intersectPoint);
 		Vector3d newDirection = currentDirection - 2 * currentDirection.dot(surfaceNormal) * surfaceNormal;
 		c->current.setDirection(newDirection.getUnitVector());
 		// also update position
-		c->current.setPosition(c->current.getPosition() - 2 * currentDistance * surfaceNormal);
+		c->current.setPosition(intersectPoint + newDirection * (c->getCurrentStep() - (k1 * currentDirection).getR()) / newDirection.getR());
 	}
 }
 
-void ReflectiveShell::setCenter(Vector3d cen) {
-	center = cen;
+void ReflectiveShell::setCenter(Vector3d c) {
+	center = c;
 }
 void ReflectiveShell::setRadius(double r) {
 	radius = r;
 }
 
 std::string ReflectiveShell::getDescription() const {
-	std::stringstream ss;
-	ss << "Reflective sphere: " << std::endl
-			<< "   Center: " << center << std::endl
-			<< "   Radius: " << radius << std::endl;
-	return ss.str();
+	std::stringstream s;
+	s << "Reflective sphere: center: " << center / Mpc << " Mpc, ";
+	s << "radius: " << radius / Mpc << " Mpc";
+	return s.str();
 };
 
 

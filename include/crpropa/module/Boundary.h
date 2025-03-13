@@ -51,14 +51,14 @@ private:
 
 public:
 	/** Constructor
-	 @param cen	vector corresponding to the center of the sphere
-	 @param r	value corresponding to the radius of the shell
+	 @param center	vector corresponding to the center of the sphere
+	 @param r		value corresponding to the radius of the shell
 	 */
-	ReflectiveShell(Vector3d cen, double r);
+	ReflectiveShell(Vector3d center, double r);
 	double distance(const Vector3d &point) const;
 	Vector3d normal(const Vector3d &point) const;
 	void process(Candidate *candidate) const;
-	void setCenter(Vector3d cen);
+	void setCenter(Vector3d center);
 	void setRadius(double r);
 	std::string getDescription() const;
 };

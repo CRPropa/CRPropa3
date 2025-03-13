@@ -423,19 +423,22 @@ TEST(ReflectiveShell, inside) {
 	c.setCurrentStep(20);
 	c.previous.setPosition(Vector3d(80, 20, 30));
 	c.previous.setDirection(Vector3d(10, -1, -1));
-	c.current.setPosition(Vector3d(99.803, 18.0197, 28.0197
-));
+	// un-reflected new position (outside shell) after full step
+	Vector3d currentPosition = c.previous.getPosition() + c.previous.getDirection() * c.getCurrentStep() / c.previous.getDirection().getR();
+	c.current.setPosition(currentPosition);
 	c.current.setDirection(Vector3d(10, -1, -1));
-
+	// process reflection
 	shell.process(&c);
 
-	EXPECT_NEAR(89.9965, c.current.getPosition().x, 1e-4);
-	EXPECT_NEAR(16.0793, c.current.getPosition().y, 1e-4);
-	EXPECT_NEAR(25.0361, c.current.getPosition().z, 1e-4);
+	// expected position & direction after reflection
+	// calculated by hand with the same algorithm as implemented in Boundary.cpp
+	EXPECT_NEAR(90.06356247, c.current.getPosition().x, 1e-7);
+	EXPECT_NEAR(16.09256317, c.current.getPosition().y, 1e-7);
+	EXPECT_NEAR(25.05646296, c.current.getPosition().z, 1e-7);
 
-	EXPECT_NEAR(-0.671796, c.current.getDirection().x, 1e-4);
-	EXPECT_NEAR(-0.427865, c.current.getDirection().y, 1e-4);
-	EXPECT_NEAR(-0.604667, c.current.getDirection().z, 1e-4);
+	EXPECT_NEAR(-0.67179589, c.current.getDirection().x, 1e-7);
+	EXPECT_NEAR(-0.42786503, c.current.getDirection().y, 1e-7);
+	EXPECT_NEAR(-0.60466668, c.current.getDirection().z, 1e-7);
 }
 
 TEST(ReflectiveBox, high) {

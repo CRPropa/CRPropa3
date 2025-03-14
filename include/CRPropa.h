@@ -65,6 +65,7 @@
 #include "crpropa/magneticField/QuimbyMagneticField.h"
 #include "crpropa/magneticField/TF17Field.h"
 #include "crpropa/magneticField/UF23Field.h"
+#include "crpropa/magneticField/KST24Field.h"
 #include "crpropa/magneticField/CMZField.h"
 #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"

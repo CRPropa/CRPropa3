@@ -20,7 +20,7 @@ jobs:
      - name: Preinstall 
        run: | 
          brew install hdf5 fftw cfitsio muparser libomp swig
-         pip install numpy==1.26
+         pip install numpy==1.26.4
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}

@@ -19,7 +19,7 @@ jobs:
        uses: actions/checkout@v4 
      - name: Preinstall 
        run: | 
-         brew install hdf5 fftw cfitsio muparser libomp swig
+         brew install hdf5 fftw cfitsio muparser libomp swig python3
          pip install numpy==1.26.4
      - name: Set up the build
        env:

@@ -1,16 +1,12 @@
 #include "crpropa/ModuleList.h"
 #include "crpropa/ProgressBar.h"
 
-#if _OPENMP
-#include <omp.h>
-#define OMP_SCHEDULE @OMP_SCHEDULE@
-#endif
-
-#include <algorithm>
-#include <csignal>
-#include <bits/stdc++.h> 
 #ifndef sighandler_t
 typedef void (*sighandler_t)(int);
+#endif
+#ifdef _OPENMP
+#include <omp.h>
+#define OMP_SCHEDULE @OMP_SCHEDULE@
 #endif
 
 using namespace std;

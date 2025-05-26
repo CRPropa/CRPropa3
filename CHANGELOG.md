@@ -1,15 +1,20 @@
 ## CRPropa vNext
 
 ### Bug fixes:
- * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField
- * Fixed r term in source distribution for SNR and Pulsar
- * Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
+* Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField
+* Fixed r term in source distribution for SNR and Pulsar
+* Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
+* Fixed wrong generation of interval ranges in ObserverTimeEvolution
 
 ### New features:
+
  * Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei
  * Added the new Galactic magnetic field models from Unger&Farrar arXiv:2311.12120
  * Added EBL model from Finke et al. 2022
  * Added ReflectiveShell boundary condition
+ * Added overridable getTime function to ObserverTimeEvolution which is called instead of detList. 
+  Old functionalities are preserved by adding old functions and setter/getter functions.
+
 
 ### Interface changes:
 

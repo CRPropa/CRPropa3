@@ -240,8 +240,24 @@ public:
  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
 class ObserverTimeEvolution: public ObserverFeature {
-private:
+protected:
+	int nIntervals;  // number of time invervals
+	bool isLogarithmicScaling = false;  // enables or disables logarithmic scaling for the intervals
+	bool doDetListConstruction = true;  // enables the construction of detList in the relevant functions (addTime, addTimeRange)
+	double minimum;  // the minimum time
+	double maximum;  // the maximum time
+	/** Vector containing all used times. 
+	 It is only constructed by the user manually.
+	 If it is not empty, the vector will be used instead of the getTime function.
+	 (leave empty if you want to rather use functions)
+	*/
 	std::vector<double> detList;
+	/**
+	 A temporary storage for detList, this enables the return of a List in getTimes
+	 without risking to modify detList
+	 */
+	mutable std::vector<double> tempDetList;
+	
 public:
 	/** Default constructor
 	 */
@@ -250,6 +266,8 @@ public:
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals
+
+	 This constructor calculates the maximum from max = min + (numb - 1) * dist
 	 */
 	ObserverTimeEvolution(double min, double dist, double numb);
 	/** Constructor
@@ -257,15 +275,96 @@ public:
 	 @param max	    maximum time
 	 @param numb	number of time intervals
 	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
+	 
+	 This constructor sets the maximum directly and gets numb automatically.
+	 You need to set the log parameter, since an overload for the first three doubles exist.
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log);
-	// Add a new time step to the detection time list of the observer
-	void addTime(const double &position);
-	// Using log or lin spacing of times in the range between min and
-	// max for observing particles
-	void addTimeRange(double min, double max, double numb, bool log = false);
-	const std::vector<double>& getTimes() const;
+	/** Constructor
+	 @param detList	user defined vector<double> with times to check
+
+	 This constructor uses a predefined vector containing the times that should be observed.
+	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
+	 */
+	ObserverTimeEvolution(const std::vector<double> &detList);
+	/** Destructor
+	 */
+	~ObserverTimeEvolution(){}
+
+	/** Function
+	 Generates the detList if it is empty when for example the 
+	 ObserverTimeEvolution(const std::vector<double> &detList) constructor
+	 was not used.
+	 Use this function to create a detList with can then be modified.
+	 When detList is not empty its entries are used instead of a runtime calculation of the times.	 
+	 */
+	void constructDetListIfEmpty();
+	/** Function
+	 @param candidate	Candidate usally given by a module list
+
+	 Checks whether to make a detection at the current step of candidate or not.
+	 This function is called in Observer.process with the simulated Candidate.
+	 */
 	DetectionState checkDetection(Candidate *candidate) const;
+	/** Function
+	 @param enableConstruction	if true, constructs detList from range of min, max, numb
+	 when calling addTime
+	 Clears the content of detList
+	 */
+	void clear();
+	/** Function
+	 Checks if detList is empty
+	 */
+	bool empty(){return detList.empty();}
+
+	// setter functions:
+	/** Function
+	 @param time	Time that should be appended to detList
+
+	 Makes a push_back on detList with the given time.	 
+	 */
+	void addTime(const double &time);
+	/** Function
+	 @param min		minimum time
+	 @param max	    maximum time
+	 @param numb	number of time intervals
+	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
+
+	 Appends a linear or logarithmic time range to detList via repeatedly calling addTime
+	 */
+	void addTimeRange(double min, double max, double numb, bool log = false);
+	/** Function
+	 @param detList	vector<double> containing times when to observe
+
+	 Sets this->detList to detList, with this it is possible to fully modify detList
+	 */
+	void setTimes(const std::vector<double> &detList);
+	void setMinimum(double min);
+	void setMaximum(double max){this->maximum = max;}
+	void setNIntervals(int numb){this->nIntervals = numb;}
+	void setIsLogarithmicScaling(bool log){this->isLogarithmicScaling = log;}
+
+	// getter functions:
+	/** Function
+	 @param index	index of the required time
+
+	 Replaces the previous preconstructed detList and return the time for a specific index
+	 */
+	virtual double getTime(std::size_t index) const;
+	double getMinimum() const {return minimum;}
+	double getMaximum() const {return maximum;}
+	int getNIntervals() const {return nIntervals;}
+	bool getIsLogarithmicScaling() const {return isLogarithmicScaling;}
+	/** Function 
+	 Returns a vector<double> containing all times between min and max generated by getTime.
+	 This function does not return detList directly, it rather appends a new vector with
+	 getTime numb times.
+	 */
+	const std::vector<double>& getTimes() const;
+	/** Function
+	 Returns a string containing a representation of all times.
+	 This function does not create a detList.
+	 */
 	std::string getDescription() const;
 };
 

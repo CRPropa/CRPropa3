@@ -40,6 +40,57 @@ std::string PeriodicBox::getDescription() const {
 	return s.str();
 }
 
+
+ReflectiveShell::ReflectiveShell(Vector3d center, double r) :
+		center(center), radius(r) {
+		}
+
+double ReflectiveShell::distance(const Vector3d &point) const {
+	Vector3d dR = point - center;
+	return dR.getR() - radius;
+}
+
+Vector3d ReflectiveShell::normal(const Vector3d& point) const {
+	Vector3d d = point - center;
+	return d.getUnitVector();
+}
+
+void ReflectiveShell::process(Candidate *c) const {
+	double currentDistance = distance(c->current.getPosition());
+	double previousDistance = distance(c->previous.getPosition());
+	// check if cosmic ray crossed boundary in last step
+	if (currentDistance * previousDistance < 0){
+		Vector3d currentDirection = c->current.getDirection();
+		Vector3d previousPosition = c->previous.getPosition();
+		// get point where trajectory intersects the shell boundary
+		double p_half = previousPosition.dot(currentDirection) / currentDirection.getR2();
+		double q = (previousPosition.getR2() - radius * radius) / currentDirection.getR2();
+		double k1 = - p_half + sqrt(p_half * p_half - q);
+		Vector3d intersectPoint = previousPosition + k1 * currentDirection;
+		// flip component of velocity normal to surface
+		Vector3d surfaceNormal = normal(intersectPoint);
+		Vector3d newDirection = currentDirection - 2 * currentDirection.dot(surfaceNormal) * surfaceNormal;
+		c->current.setDirection(newDirection.getUnitVector());
+		// also update position
+		c->current.setPosition(intersectPoint + newDirection * (c->getCurrentStep() - (k1 * currentDirection).getR()) / newDirection.getR());
+	}
+}
+
+void ReflectiveShell::setCenter(Vector3d c) {
+	center = c;
+}
+void ReflectiveShell::setRadius(double r) {
+	radius = r;
+}
+
+std::string ReflectiveShell::getDescription() const {
+	std::stringstream s;
+	s << "Reflective sphere: center: " << center / Mpc << " Mpc, ";
+	s << "radius: " << radius / Mpc << " Mpc";
+	return s.str();
+};
+
+
 ReflectiveBox::ReflectiveBox() :
 		origin(Vector3d(0, 0, 0)), size(Vector3d(0, 0, 0)) {
 }

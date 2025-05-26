@@ -7,11 +7,14 @@
 * Fixed wrong generation of interval ranges in ObserverTimeEvolution
 
 ### New features:
-* Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei
-* Added the new Galactic magnetic field models from Unger&Farrar arXiv:2311.12120 and Korochkin et al. arXiv:2407.02148
-* Added EBL model from Finke et al. 2022
-* Added overridable getTime function to ObserverTimeEvolution which is called instead of detList. 
+
+ * Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei
+ * Added the new Galactic magnetic field models from Unger&Farrar arXiv:2311.12120
+ * Added EBL model from Finke et al. 2022
+ * Added ReflectiveShell boundary condition
+ * Added overridable getTime function to ObserverTimeEvolution which is called instead of detList. 
   Old functionalities are preserved by adding old functions and setter/getter functions.
+
 
 ### Interface changes:
 

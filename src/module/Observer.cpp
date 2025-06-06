@@ -246,17 +246,17 @@ std::string ObserverParticleIdVeto::getDescription() const {
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
+	setIsLogarithmicScaling(false);
 	setMaximum(min + (numb - 1) * dist);
 	setMinimum(min);
 	setNIntervals(numb);
-	setIsLogarithmicScaling(false);
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
+	setIsLogarithmicScaling(log);
 	setMinimum(min);
 	setMaximum(max);
 	setNIntervals(numb);
-	setIsLogarithmicScaling(log);
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
@@ -355,7 +355,7 @@ void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
 }
 
 void ObserverTimeEvolution::setMinimum(double min){
-	if ( min <= 0 ){
+	if ( (min <= 0) && isLogarithmicScaling){
 		std::cout << "minimum can not be <= 0 if isLogarithmicScaling=true" << std::endl;
 		throw new std::invalid_argument("minimum can not be <= 0 if isLogarithmicScaling=true");
 	}

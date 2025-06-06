@@ -413,6 +413,34 @@ TEST(PeriodicBox, low) {
 	EXPECT_DOUBLE_EQ(3, c.created.getPosition().z);
 }
 
+TEST(ReflectiveShell, inside) {
+	// Tests if the reflective boundaries place the particle back inside the shell
+	Vector3d center(0, 0, 0);
+	double radius = 100;
+	ReflectiveShell shell(center, radius);
+
+	Candidate c;
+	c.setCurrentStep(20);
+	c.previous.setPosition(Vector3d(80, 20, 30));
+	c.previous.setDirection(Vector3d(10, -1, -1));
+	// un-reflected new position (outside shell) after full step
+	Vector3d currentPosition = c.previous.getPosition() + c.previous.getDirection() * c.getCurrentStep() / c.previous.getDirection().getR();
+	c.current.setPosition(currentPosition);
+	c.current.setDirection(Vector3d(10, -1, -1));
+	// process reflection
+	shell.process(&c);
+
+	// expected position & direction after reflection
+	// calculated by hand with the same algorithm as implemented in Boundary.cpp
+	EXPECT_NEAR(90.06356247, c.current.getPosition().x, 1e-7);
+	EXPECT_NEAR(16.09256317, c.current.getPosition().y, 1e-7);
+	EXPECT_NEAR(25.05646296, c.current.getPosition().z, 1e-7);
+
+	EXPECT_NEAR(-0.67179589, c.current.getDirection().x, 1e-7);
+	EXPECT_NEAR(-0.42786503, c.current.getDirection().y, 1e-7);
+	EXPECT_NEAR(-0.60466668, c.current.getDirection().z, 1e-7);
+}
+
 TEST(ReflectiveBox, high) {
 	// Tests if the reflective boundaries place the particle back inside the box and translate the initial position accordingly.
 	// Also the initial and final directions are to be reflected

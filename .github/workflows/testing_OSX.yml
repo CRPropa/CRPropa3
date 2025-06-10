@@ -31,7 +31,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DPython_NumPy_INCLUDE_DIRS=/Library/Frameworks/Python.framework/Versions/3.13/lib(/python3.13/site-packages/numpy/core/include)
      - name: Build CRPropa
        run: |
          cd build

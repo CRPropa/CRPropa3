@@ -21,6 +21,7 @@ jobs:
        run: | 
          brew install hdf5 fftw cfitsio muparser libomp swig python3
          pip install numpy==1.26.4 cmake
+         pip show numpy # cross-check numpy version
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}
@@ -30,8 +31,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        export PYTHON_DIR=/opt/homebrew/Cellar/python@3.13/3.13.3/Frameworks/Python.frameworks/Versions/3.13
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python3.13 -DPython_EXECUTABLE=$PYTHON_DIR/bin/python3.13 -DPython_LIBRARY=$PYTHON_DIR/lib/libpython3.13.dylib 
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
      - name: Build CRPropa
        run: |
          cd build

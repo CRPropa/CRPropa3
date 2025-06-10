@@ -335,7 +335,7 @@ void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bo
 		if (log) {
 			if ( min <= 0 ){
 				std::cout << "min can not be <= 0 if log=true" << std::endl;
-				throw new std::invalid_argument("min can not be <= 0 if log=true");
+				throw new std::runtime_error("min can not be <= 0 if log=true");
 			}
 			addTime(min * pow(max / min, i / (numb - 1.0)));
 		} else {
@@ -357,7 +357,7 @@ void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
 void ObserverTimeEvolution::setMinimum(double min){
 	if ( (min <= 0) && isLogarithmicScaling){
 		std::cout << "minimum can not be <= 0 if isLogarithmicScaling=true" << std::endl;
-		throw new std::invalid_argument("minimum can not be <= 0 if isLogarithmicScaling=true");
+		throw new std::runtime_error("minimum can not be <= 0 if isLogarithmicScaling=true");
 	}
 	this->minimum = min;
 }

@@ -1,4 +1,4 @@
-name: crpropa-testing_ubuntu20
+name: crpropa-testing_ubuntu24-arm
 on: [push, pull_request]
 
 jobs:
@@ -8,20 +8,21 @@ jobs:
       fail-fast: false
       matrix:
         config:
-         - name: "ubuntu-20"
-           os: ubuntu-20.04
-           cxx: "g++-9"
-           cc: "gcc-9"
-           fc: "gfortran-9"
-           swig_builtin: "Off" #uses swig 4.0.1
-           py: "/usr/bin/python3" #python 3.8
+         - name: "ubuntu-24"
+           os: ubuntu-24.04-arm
+           cxx: "g++-14"
+           cc: "gcc-14"
+           fc: "gfortran-14"
+           swig_builtin: "On" 
+           py: "/usr/bin/python3" 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Preinstall
         run: |
           sudo apt-get update
-          sudo apt-get install libmuparser-dev python3-dev python-dev python3-numpy python-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          sudo apt-get install libmuparser-dev python3-dev python-dev python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          pip install numpy==1.26.4
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}

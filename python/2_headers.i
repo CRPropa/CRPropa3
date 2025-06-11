@@ -96,49 +96,7 @@
   }
 }
 
-%extend crpropa::Vector3 {
-  size_t __len__() {
-    return 3;
-  }
 
-  PyObject* __array__() {
-    npy_intp shape[1];
-    shape[0] = 3;
-    PyObject *ro;
-    if (sizeof($self->data[0]) == NPY_SIZEOF_FLOAT) {
-      ro = PyArray_SimpleNewFromData(1, shape, NPY_FLOAT, $self->data);
-    } else if (sizeof($self->data[0]) == NPY_SIZEOF_DOUBLE) {
-      ro = PyArray_SimpleNewFromData(1, shape, NPY_DOUBLE, $self->data);
-    } else {
-      KISS_LOG_ERROR << "crpropa::Vector3 has fixed size of 3 elements!";
-    }
-
-    return ro;
-  }
-
-  double __getitem__(size_t i) {
-    if(i > 2) {
-        throw RangeError();
-    }
-
-    return $self->data[i];
-  }
-
-  int __setitem__(size_t i, T value) {
-    if(i > 2) {
-      throw RangeError();
-    }
-
-    $self->data[i] = value;
-    return 0;
-  }
-
-  const std::string getDescription() {
-    char buffer[256];
-    sprintf( buffer, "Vector(%.6G, %.6G, %.6G)", $self->x, $self->y, $self->z );
-    return buffer;
-  }
-}
 
 %feature("python:slot", "tp_str", functype="reprfunc") crpropa::Vector3::getDescription();
 %feature("python:slot", "tp_repr", functype="reprfunc") crpropa::Vector3::getDescription();

@@ -6,6 +6,8 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
+#include <Python.h>
+#include <numpy/arrayobject.h>
 
 namespace crpropa {
 
@@ -410,6 +412,53 @@ public:
 		data[2] = f;
 		return *this;
 	}
+
+	// ----------------------------
+	// 	Python numpy interface 
+	// ----------------------------
+
+	PyObject* __array__() {
+		npy_intp dims[1] = {3};
+		PyObject *array;
+		// type handling
+		if (typeid(T) == typeid(double))
+			array = PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void *)data);
+		else if (typeid(T) == typeid(float))
+			array = PyArray_SimpleNewFromData(1, dims, NPY_FLOAT, (void *)data);
+		else {
+			PyErr_SetString(PyExc_TypeError, "Unsupported type for Vector3");
+			return NULL;
+		}
+		return array;
+	}
+
+	size_t __len__() {
+		return 3;
+	}
+
+	double __getitem__(size_t i) {
+		if (i >= 3) {
+			PyErr_SetString(PyExc_IndexError, "Index out of bounds");
+			return 0.0;
+		}
+		return data[i];
+	}
+
+	int __setitem__(size_t i, T value) {
+		if (i >= 3) {
+			PyErr_SetString(PyExc_IndexError, "Index out of bounds");
+			return -1;
+		}
+		data[i] = value;
+		return 0;
+	}
+
+	const std::string getDescription() {
+		char buffer[256];
+		sprintf(buffer, "Vector(%.6G, %.6G, %.6G)", data[0], data[1], data[2]);
+		return buffer;
+	}
+	
 };
 
 #ifndef SWIG
@@ -438,3 +487,5 @@ typedef Vector3<float> Vector3f;
 }  // namespace crpropa
 
 #endif  // CRPROPA_VECTOR3_H
+
+

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <Python.h>
 #include <numpy/arrayobject.h>
+#include <unistd.h>
 
 namespace crpropa {
 
@@ -457,6 +458,56 @@ public:
 		char buffer[256];
 		sprintf(buffer, "Vector(%.6G, %.6G, %.6G)", data[0], data[1], data[2]);
 		return buffer;
+	}
+	
+	// initialize the vector from a numpy array
+	Vector3(PyObject* inputObject) {
+		// check if input is a numpy array
+		if (!PyArray_Check(inputObject)) {
+			throw std::runtime_error("Expected a numpy array as input");
+		}
+
+		// convert to PyArrayObject
+		PyArrayObject *array = (PyArrayObject*)PyArray_FROM_O(inputObject); 
+
+		// chek dimensions
+		if (PyArray_NDIM(array) != 1 || PyArray_DIM(array, 0) != 3) {
+			throw std::runtime_error("Expected a 1D array of length 3");
+		}
+
+		// handle different numpy dtypes
+		if (PyArray_TYPE(array) == NPY_DOUBLE) {
+			// convert pyarray data 
+			double *dataPtr = (double *)PyArray_DATA(array);
+			data[0] = dataPtr[0];
+			data[1] = dataPtr[1];
+			data[2] = dataPtr[2];
+		} else if (PyArray_TYPE(array) == NPY_FLOAT) {
+			// convert pyarray data 
+			float *dataPtr = (float *)PyArray_DATA(array);
+			data[0] = dataPtr[0];
+			data[1] = dataPtr[1];
+			data[2] = dataPtr[2];
+		} else if (PyArray_TYPE(array) == NPY_INT32) {
+			// convert pyarray data 
+			int *dataPtr = (int *)PyArray_DATA(array);
+			std::cout << "Converting numpy array (int) to Vector3(" << dataPtr[0] << ", " << dataPtr[1] << ", " << dataPtr[2] << ")" << std::endl;
+			data[0] = static_cast<T>(dataPtr[0]);
+			data[1] = static_cast<T>(dataPtr[1]);
+			data[2] = static_cast<T>(dataPtr[2]);
+		} else if (PyArray_TYPE(array) == NPY_INT64) {
+			// convert pyarray data 
+			long long *dataPtr = (long long *)PyArray_DATA(array);
+			std::cout << "Converting numpy array (int64) to Vector3(" << dataPtr[0] << ", " << dataPtr[1] << ", " << dataPtr[2] << ")" << std::endl;
+			data[0] = static_cast<T>(dataPtr[0]);
+			data[1] = static_cast<T>(dataPtr[1]);
+			data[2] = static_cast<T>(dataPtr[2]);
+		} else {
+			throw std::runtime_error("Unsupported numpy array dtype");
+		}
+		
+		// free the reference to the numpy array
+		Py_DECREF(array);
 	}
 	
 };

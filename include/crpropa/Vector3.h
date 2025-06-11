@@ -437,23 +437,6 @@ public:
 		return 3;
 	}
 
-	double __getitem__(size_t i) {
-		if (i >= 3) {
-			PyErr_SetString(PyExc_IndexError, "Index out of bounds");
-			return 0.0;
-		}
-		return data[i];
-	}
-
-	int __setitem__(size_t i, T value) {
-		if (i >= 3) {
-			PyErr_SetString(PyExc_IndexError, "Index out of bounds");
-			return -1;
-		}
-		data[i] = value;
-		return 0;
-	}
-
 	const std::string getDescription() {
 		char buffer[256];
 		sprintf(buffer, "Vector(%.6G, %.6G, %.6G)", data[0], data[1], data[2]);
@@ -491,14 +474,12 @@ public:
 		} else if (PyArray_TYPE(array) == NPY_INT32) {
 			// convert pyarray data 
 			int *dataPtr = (int *)PyArray_DATA(array);
-			std::cout << "Converting numpy array (int) to Vector3(" << dataPtr[0] << ", " << dataPtr[1] << ", " << dataPtr[2] << ")" << std::endl;
 			data[0] = static_cast<T>(dataPtr[0]);
 			data[1] = static_cast<T>(dataPtr[1]);
 			data[2] = static_cast<T>(dataPtr[2]);
 		} else if (PyArray_TYPE(array) == NPY_INT64) {
 			// convert pyarray data 
 			long long *dataPtr = (long long *)PyArray_DATA(array);
-			std::cout << "Converting numpy array (int64) to Vector3(" << dataPtr[0] << ", " << dataPtr[1] << ", " << dataPtr[2] << ")" << std::endl;
 			data[0] = static_cast<T>(dataPtr[0]);
 			data[1] = static_cast<T>(dataPtr[1]);
 			data[2] = static_cast<T>(dataPtr[2]);

@@ -96,6 +96,24 @@
   }
 }
 
+%extend crpropa::Vector3 {
+  double __getitem__(size_t i) {
+    if(i > 2) {
+        throw RangeError();
+    }
+
+    return $self->data[i];
+  }
+
+  int __setitem__(size_t i, T value) {
+    if(i > 2) {
+      throw RangeError();
+    }
+
+    $self->data[i] = value;
+    return 0;
+  }
+}
 
 
 %feature("python:slot", "tp_str", functype="reprfunc") crpropa::Vector3::getDescription();

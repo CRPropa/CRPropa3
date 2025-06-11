@@ -1,5 +1,5 @@
 # coding=utf-8
-import sys
+import sys, math
 
 try:
     import unittest
@@ -103,10 +103,10 @@ def Anderson(x):
             x = np.array(x)
             x_tilde = (x-mu)/np.sqrt(2.)/sigma
         try:
-            cdf = [1/2.*(1.+np.math.erf(x)) for x in x_tilde]
+            cdf = [1/2.*(1.+math.erf(x)) for x in x_tilde]
             return np.array(cdf)
         except TypeError:
-            cdf = 1/2.*(1.+np.math.erf(x_tilde))
+            cdf = 1/2.*(1.+math.erf(x_tilde))
             return cdf
 
 

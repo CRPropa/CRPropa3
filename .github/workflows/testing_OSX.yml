@@ -48,7 +48,7 @@ jobs:
           -DOpenMP_CXX_FLAGS="-fopenmp -I${OMP_DIR}/include" \
           -DOpenMP_C_FLAGS="-fopenmp =libomp -I$OMP_DIR/include" \
           -DOpenMP_libomp_LIBRARY=$OMP_DIR/lib/libomp.dylib \
-          -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-L$OMP_DIR/lib -lomp -Wl,-rpath,$OMP_DIR/lib" \
           -DOpenMP_C_LIB_NAMES=libomp \
           -DOpenMP_CXX_LIB_NAMES=libomp \
           -DNO_TCMALLOC=TRUE \

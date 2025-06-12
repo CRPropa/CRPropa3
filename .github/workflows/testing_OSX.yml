@@ -35,8 +35,7 @@ jobs:
         echo "Using LLVM_DIR: $LLVM_DIR"
         export PYTHON_VERSION=3.13
         export LLVM_VERSION=15.0.7
-        export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
-        export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+        export OMP_DIR=$(brew --prefix libomp)
         PYTHON_DIR=/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13
         echo "Using Python_DIR: $PYTHON_DIR"
         cmake .. \
@@ -46,9 +45,9 @@ jobs:
           -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
           -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
           -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
-          -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
-          -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
-          -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib \
+          -DOpenMP_CXX_FLAGS="-fopenmp -I${OMP_DIR}/include" \
+          -DOpenMP_C_FLAGS="-fopenmp =libomp -I$OMP_DIR/include" \
+          -DOpenMP_libomp_LIBRARY=$OMP_DIR/lib/libomp.dylib \
           -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" \
           -DOpenMP_C_LIB_NAMES=libomp \
           -DOpenMP_CXX_LIB_NAMES=libomp \

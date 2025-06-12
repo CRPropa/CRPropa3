@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          python -v testPythonExtensions.py # more detailed information about the test
+          python testPythonExtension.py -v # more detailed information about the test
           make test 
       - name: Archive test results
         if: always()
@@ -86,7 +86,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          python -v testPythonExtensions.py # more detailed information about the test
+          python testPythonExtension.py -v # more detailed information about the test
           make test 
       - name: Archive test results
         if: always()

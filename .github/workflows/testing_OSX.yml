@@ -31,7 +31,8 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DPython_FIND_FRAMEWORK="FIRST"
+        framework_dir=/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DPython_NumPy_INCLUDE_DIR=${framework_dir}/numpy/core/include -DPython_EXECUTABLE=${{ matrix.config.py }} -DPython3_ROOT_DIR=/Library/Frameworks/Python.framework/Versions/3.13
      - name: Build CRPropa
        run: |
          cd build

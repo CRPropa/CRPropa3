@@ -2,19 +2,18 @@ name: crpropa-testing_ubuntu24
 on: [push, pull_request]
 
 jobs:
-  ubuntu24:
-    runs-on: ${{ matrix.config.os }}
+  x64:
+    runs-on: ${{ config.os }}
     strategy:
       fail-fast: false
-      matrix:
-        config:
-         - name: "ubuntu-24"
-           os: [ubuntu-24.04, ubuntu-24.04-arm64]
-           cxx: "g++-14"
-           cc: "gcc-14"
-           fc: "gfortran-14"
-           swig_builtin: "On" 
-           py: "/usr/bin/python3" 
+      config:
+        - name: "ubuntu-24"
+          os: ubuntu-24.04
+          cxx: "g++-14"
+          cc: "gcc-14"
+          fc: "gfortran-14"
+          swig_builtin: "On" 
+          py: "/usr/bin/python3" 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,13 +25,13 @@ jobs:
           pip show numpy
       - name: Set up the build
         env:
-          CXX: ${{ matrix.config.cxx }}
-          CC: ${{ matrix.config.cc }}
-          FC: ${{ matrix.config.fc }}
+          CXX: ${{ config.cxx }}
+          CC: ${{ config.cc }}
+          FC: ${{ config.fc }}
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" 
+          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ config.swig_builtin }} -DSIMD_EXTENSIONS="none" 
       - name: Build CRPropa
         run: |
           cd build
@@ -46,5 +45,50 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: "test-report_${{matrix.config.os}}"
+          name: "test-report_${{config.os}}"
+          path: build/Testing/Temporary/LastTest.log
+  arm:
+    runs-on: ${{ config.os }}
+    strategy:
+      fail-fast: false
+      config:
+        - name: "ubuntu-24"
+          os: ubuntu-24.04-arm
+          cxx: "g++-14"
+          cc: "gcc-14"
+          fc: "gfortran-14"
+          swig_builtin: "On" 
+          py: "/usr/bin/python3" 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Preinstall
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmuparser-dev python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          pip install numpy
+          pip show numpy
+      - name: Set up the build
+        env:
+          CXX: ${{ config.cxx }}
+          CC: ${{ config.cc }}
+          FC: ${{ config.fc }}
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ config.swig_builtin }} -DSIMD_EXTENSIONS="none" 
+      - name: Build CRPropa
+        run: |
+          cd build
+          make
+      - name: Run tests
+        run: |
+          cd build
+          python -v testPythonExtensions.py # more detailed information about the test
+          make test 
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: "test-report_${{config.os}}"
           path: build/Testing/Temporary/LastTest.log

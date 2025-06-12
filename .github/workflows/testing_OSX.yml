@@ -35,6 +35,8 @@ jobs:
         echo "Using LLVM_DIR: $LLVM_DIR"
         export PYTHON_VERSION=3.13
         export LLVM_VERSION=15.0.7
+        export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
+        export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
         PYTHON_DIR=/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13
         echo "Using Python_DIR: $PYTHON_DIR"
         cmake .. \

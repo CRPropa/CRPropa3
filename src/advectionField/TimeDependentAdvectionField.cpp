@@ -1,16 +1,17 @@
 #include "crpropa/advectionField/TimeDependentAdvectionField.h"
+#include "crpropa/Common.h"
 
 
 namespace crpropa {
 
 OneDimensionalTimeDependentShock::OneDimensionalTimeDependentShock(double v_sh, double v1, double v0, double l_sh){
 
-	setVshock(v_sh);
+	setShockSpeed(v_sh);
 	setSpeeds(v1, v0);
 	setShockWidth(l_sh);
 	setShockPosition(0.); 
 	setShockTime(0.); 
-	}
+}
 
 Vector3d OneDimensionalTimeDependentShock::getField(const Vector3d &position, const double &time) const {
 
@@ -24,7 +25,7 @@ Vector3d OneDimensionalTimeDependentShock::getField(const Vector3d &position, co
     v.x = A - B * tanh( (x - xsh) / l_sh );
 
 	return v;
-	}
+}
 
 double OneDimensionalTimeDependentShock::getDivergence(const Vector3d &position, const double &time) const {
 
@@ -43,31 +44,28 @@ double OneDimensionalTimeDependentShock::getDivergence(const Vector3d &position,
     }
 	
 	return dvdx;
-	}
-
-
-void OneDimensionalTimeDependentShock::setVshock(double v) {
-	v_sh = v;
-	return;
 }
+
+
+void OneDimensionalTimeDependentShock::setShockSpeed(double v) {
+	v_sh = v;
+}
+
 void OneDimensionalTimeDependentShock::setSpeeds(double u1, double u0) {
 	v1 = u1;
 	v0 = u0;
-	return;
 }
+
 void OneDimensionalTimeDependentShock::setShockWidth(double w) {
 	l_sh = w;
-	return;
 }
 
 void OneDimensionalTimeDependentShock::setShockPosition(double x) {
 	x_sh0 = x;
-	return;
 }
 
 void OneDimensionalTimeDependentShock::setShockTime(double t) {
 	t_sh0 = t;
-	return;
 }
 
 double OneDimensionalTimeDependentShock::getVshock() const {
@@ -97,15 +95,12 @@ double OneDimensionalTimeDependentShock::getShockTime() const {
 //----------------------------------------------------------------
 
 SedovTaylorBlastWave::SedovTaylorBlastWave(double E0, double rho0, double l_sh){
-
 	setEnergy(E0);
 	setDensity(rho0);
 	setShockWidth(l_sh);
-	
-	}
+}
 
 Vector3d SedovTaylorBlastWave::getField(const Vector3d &position, const double &time) const {
-
 	double r = position.getR();
 	Vector3d e_r = position.getUnitVector();
 
@@ -117,15 +112,13 @@ Vector3d SedovTaylorBlastWave::getField(const Vector3d &position, const double &
     double vs = 2. / 5. * pow(E0 / A, 1. / 5.) * pow(time, -3. / 5.); // shock speed
 
     double xi = r / R; // dimensionless radius
-    double V = 3 * (pow(xi, 8) + 1) / (3 * pow(xi, 8) + 5); 
+    double V = 3 * (pow_integer<8>(xi) + 1) / (3 * pow_integer<8>(xi) + 5); 
     double u = 0.5 * xi * vs * V * ( 1 - tanh( (xi - 1) * R / l_sh) ); 
 
 	return u * e_r;
-
-	}
+}
 
 double SedovTaylorBlastWave::getDivergence(const Vector3d &position, const double &time) const {
-
 	if (time == 0)
 		return 0;
 	double r = position.getR();
@@ -134,31 +127,31 @@ double SedovTaylorBlastWave::getDivergence(const Vector3d &position, const doubl
 	double R = pow(E0 / A, 1./5.) * pow(time, 2. / 5.); 
     double vs = 2. / 5. * pow(E0 / A, 1. / 5.) * pow(time, -3. / 5.); 
 
-	double a = (-3 * pow(r,3) * (1 + pow(r/R, 8)) * 1./pow(cosh((r - R)/l_sh),2)) / (l_sh * (5 + (3 * pow(r,8))/pow(R,8)))
-     + (9 * pow(r,2) * (1 + pow(r/R, 8)) * (1 - tanh((r - R)/l_sh))) / (5 + (3 * pow(r,8))/pow(R,8))
-     - (72 *pow(r,10) * (1 + pow(r/R,8)) * (1 - tanh((r - R)/l_sh)))/(pow(5 + (3 * pow(r,8))/pow(R,8),2) * pow(R,8)) 
-     + (24 * pow(r,10) * (1 - tanh((r - R)/l_sh)))/((5 + (3 * pow(r,8))/pow(R,8)) * pow(R,8));
+	double a = (-3 * pow_integer<3>(r) * (1 + pow_integer<8>(r/R)) * 1./pow_integer<2>(cosh((r - R)/l_sh))) 
+	 / (l_sh * (5 + (3 * pow_integer<8>(r))/pow_integer<8>(R)))
+     + (9 * pow_integer<2>(r) * (1 + pow_integer<8>(r/R)) * (1 - tanh((r - R)/l_sh))) 
+	 / (5 + (3 * pow_integer<8(r))/pow_integer<8>(R))
+     - (72 *pow_integer<10>(r) * (1 + pow_integer<8>(r/R)) * (1 - tanh((r - R)/l_sh)))
+	 / (pow_integer<2>(5 + (3 * pow_integer<8>(r))/pow_integer<8>(R)) * pow_integer<8>(R)) 
+     + (24 * pow_integer<10>(r) * (1 - tanh((r - R)/l_sh))) 
+	 / ((5 + (3 * pow_integer<8>(r)) / pow_integer<8>(R)) * pow(R,8));
 	
-    double dudr = 0.5 * vs * pow(r, -2) * 1./ R * a;
+    double dudr = 0.5 * vs / pow_integer<2>(r) * 1./ R * a;
 
 	return dudr;
-
 }
 
 
 void SedovTaylorBlastWave::setShockWidth(double w) {
 	l_sh = w;
-	return;
 }
 
 void SedovTaylorBlastWave::setDensity(double rho) {
 	rho0 = rho;
-	return;
 }
 
 void SedovTaylorBlastWave::setEnergy(double e) {
 	E0 = e;
-	return;
 }
 
 double SedovTaylorBlastWave::getShockRadius(double time) const{

@@ -1,5 +1,5 @@
 #include "crpropa/advectionField/AdvectionField.h"
-#include "crpropa/advectionField/TimeDependentAdvectionFields.h"
+#include "crpropa/advectionField/TimeDependentAdvectionField.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
 

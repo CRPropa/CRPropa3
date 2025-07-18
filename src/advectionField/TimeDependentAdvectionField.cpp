@@ -130,7 +130,7 @@ double SedovTaylorBlastWave::getDivergence(const Vector3d &position, const doubl
 	double a = (-3 * pow_integer<3>(r) * (1 + pow_integer<8>(r/R)) * 1./pow_integer<2>(cosh((r - R)/l_sh))) 
 	 / (l_sh * (5 + (3 * pow_integer<8>(r))/pow_integer<8>(R)))
      + (9 * pow_integer<2>(r) * (1 + pow_integer<8>(r/R)) * (1 - tanh((r - R)/l_sh))) 
-	 / (5 + (3 * pow_integer<8(r))/pow_integer<8>(R))
+	 / (5 + (3 * pow_integer<8>(r))/pow_integer<8>(R))
      - (72 *pow_integer<10>(r) * (1 + pow_integer<8>(r/R)) * (1 - tanh((r - R)/l_sh)))
 	 / (pow_integer<2>(5 + (3 * pow_integer<8>(r))/pow_integer<8>(R)) * pow_integer<8>(R)) 
      + (24 * pow_integer<10>(r) * (1 - tanh((r - R)/l_sh))) 

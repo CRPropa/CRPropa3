@@ -23,7 +23,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install libmuparser-dev python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
           pip install numpy
-          pip show numpy
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}
@@ -40,8 +39,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          python testPythonExtension.py -v # more detailed information about the test
-          make test 
+          make test
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -86,7 +84,6 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          python testPythonExtension.py -v # more detailed information about the test
           make test 
       - name: Archive test results
         if: always()

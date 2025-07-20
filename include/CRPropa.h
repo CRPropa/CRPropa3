@@ -74,6 +74,7 @@
 #include "crpropa/magneticField/turbulentField/TurbulentField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
+#include "crpropa/advectionField/TimeDependentAdvectionField.h"
 
 #include "crpropa/massDistribution/Density.h"
 #include "crpropa/massDistribution/Nakanishi.h"

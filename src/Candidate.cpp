@@ -7,7 +7,7 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight, std::string tagOrigin) :
-  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin) {
+  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin), time(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -27,7 +27,7 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, dou
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM") {
+		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM"), time(0) {
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -55,6 +55,10 @@ double Candidate::getRedshift() const {
 
 double Candidate::getTrajectoryLength() const {
 	return trajectoryLength;
+}
+
+double Candidate::getVelocity() const {
+	return c_light;
 }
 
 double Candidate::getWeight() const {
@@ -88,6 +92,7 @@ void Candidate::updateWeight(double w) {
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
+	time += lstep / getVelocity();
 }
 
 void Candidate::setNextStep(double step) {
@@ -108,6 +113,14 @@ void Candidate::setTagOrigin (std::string tagOrigin) {
 
 std::string Candidate::getTagOrigin () const {
 	return tagOrigin;
+}
+
+void Candidate::setTime(double t) {
+	time = t;
+}
+
+double Candidate::getTime() const {
+	return time;
 }
 
 const Variant &Candidate::getProperty(const std::string &name) const {
@@ -140,6 +153,7 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setTime(time);
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
 	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
@@ -159,6 +173,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
+	secondary->setTime(time - (current.getPosition() - position).getR() / getVelocity());
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
 	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
@@ -200,6 +215,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	cloned->redshift = redshift;
 	cloned->weight = weight;
 	cloned->trajectoryLength = trajectoryLength;
+	cloned->time = time;
 	cloned->currentStep = currentStep;
 	cloned->nextStep = nextStep;
 	if (recursive) {
@@ -248,6 +264,7 @@ uint64_t Candidate::nextSerialNumber = 0;
 void Candidate::restart() {
 	setActive(true);
 	setTrajectoryLength(0);
+	setTime(0);
 	previous = source;
 	current = source;
 }

@@ -177,8 +177,14 @@ TEST(HepPID, charge) {
 
 TEST(Candidate, currentStep) {
 	Candidate candidate;
+	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 0);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 0);
+
 	candidate.setCurrentStep(1 * Mpc);
+
 	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / c_light);
 }
 
 TEST(Candidate, limitNextStep) {
@@ -221,6 +227,7 @@ TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
+	c.setTime(12);
 	c.setWeight(3.);
 	c.previous.setId(nucleusId(56,26));
 	c.previous.setEnergy(1000);
@@ -242,6 +249,7 @@ TEST(Candidate, addSecondary) {
 	EXPECT_EQ(200, s1.current.getEnergy());
 	EXPECT_EQ(5, s1.getRedshift());
 	EXPECT_EQ(23, s1.getTrajectoryLength());
+	EXPECT_EQ(12, s1.getTime());
 	EXPECT_EQ(1000, s1.created.getEnergy());
 	EXPECT_EQ(3., s1.getWeight());
 	EXPECT_TRUE(Vector3d(1,2,3) == s1.created.getPosition());

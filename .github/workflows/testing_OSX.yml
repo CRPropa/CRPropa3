@@ -33,6 +33,7 @@ jobs:
         cd build
         export LLVM_DIR=$(brew --prefix llvm@15)
         echo "Using LLVM_DIR: $LLVM_DIR"
+        echo "python version: $(python --version) from $(which python)"
         export PYTHON_VERSION=3.13
         export LLVM_VERSION=15.0.7
         export OMP_DIR=$(brew --prefix libomp)

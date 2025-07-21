@@ -1,5 +1,5 @@
 name: crpropa-testing_ubuntu22
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   linux:

@@ -770,6 +770,9 @@ TEST(EMPairProduction, secondaries) {
 			if (c.isActive())
 				continue;
 			
+			// interaction should deactivate the candidate
+			EXPECT_FALSE(c.isActive());
+			
 			// expect 2 secondaries
 			EXPECT_EQ(c.secondaries.size(), 2);
 

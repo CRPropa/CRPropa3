@@ -764,15 +764,12 @@ TEST(EMPairProduction, secondaries) {
 			Candidate c(22, Ep);
 			c.setCurrentStep(1e10 * Mpc);
 
-			m.process(&c);
+			m.performInteraction(&c);
 
 			// pass if no interaction has ocurred (no tabulated rates)
 			if (c.isActive())
 				continue;
-			
-			// interaction should deactivate the candidate
-			EXPECT_FALSE(c.isActive());
-			
+
 			// expect 2 secondaries
 			EXPECT_EQ(c.secondaries.size(), 2);
 

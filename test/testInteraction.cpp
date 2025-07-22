@@ -764,7 +764,7 @@ TEST(EMPairProduction, secondaries) {
 			Candidate c(22, Ep);
 			c.setCurrentStep(1e10 * Mpc);
 
-			m.performInteraction(&c);
+			m.process(&c);
 
 			// pass if no interaction has ocurred (no tabulated rates)
 			if (c.isActive())

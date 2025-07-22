@@ -37,7 +37,7 @@ jobs:
         export PYTHON_VERSION=3.13
         export LLVM_VERSION=15.0.7
         export OMP_VERSION=$(brew list --versions libomp | awk '{print $2}')
-        export OMP_DIR="$(brew --prefix libomp)/$OMP_VERSION"
+        export OMP_DIR=$(brew --prefix libomp)
         export PYTHON_DIR=/Library/Frameworks/Python.framework/Versions/3.13/
         
         # print paths for debugging
@@ -55,10 +55,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
           -DOpenMP_CXX_FLAGS="-fopenmp -I${OMP_DIR}/include" \
           -DOpenMP_C_FLAGS="-fopenmp =libomp -I$OMP_DIR/include" \
-          -DOpenMP_libomp_LIBRARY=$OMP_DIR/lib/libomp.dylib \
-          -DCMAKE_SHARED_LINKER_FLAGS="-L$OMP_DIR/lib -lomp -Wl,-rpath,$OMP_DIR/lib" \
-          -DOpenMP_C_LIB_NAMES=libomp \
-          -DOpenMP_CXX_LIB_NAMES=libomp \
+          -DOpenMP_libomp_LIBRARY=$OMP_DIR/$OMP_VERSION/lib/libomp.dylib \
           -DNO_TCMALLOC=TRUE \
           -DPython_NumPy_INCLUDE_DIR=/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/numpy/core/include
      - name: Build CRPropa

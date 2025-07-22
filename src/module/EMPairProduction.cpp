@@ -1,6 +1,7 @@
 #include "crpropa/module/EMPairProduction.h"
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
+#include "kiss/logger.h"
 
 #include <fstream>
 #include <limits>
@@ -186,8 +187,12 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
-	if (E < tabE.front() or (E > tabE.back()))
+	if (E < tabE.front() or (E > tabE.back())) {		
+		KISS_LOG_WARNING 
+			<< "EMPairProduction: Energy " 
+			<< E / eV << " eV is not in tabulated range";
 		return;
+	}
 
 	// sample the value of s
 	Random &random = Random::instance();
@@ -204,8 +209,12 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double f = Ep / E;
 
 	// for some backgrounds Ee=nan due to precision limitations.
-	if (not std::isfinite(Ee) || not std::isfinite(Ep))
+	if (not std::isfinite(Ee) || not std::isfinite(Ep)) {
+		KISS_LOG_WARNING
+			<< "EMPairProduction: Sampled energies are not finite for primary energy "
+			<< E / eV << " eV and s = " << s / (eV * eV) << " eV^2";
 		return;
+	}
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());

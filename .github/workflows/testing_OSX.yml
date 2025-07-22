@@ -56,6 +56,8 @@ jobs:
           -DOpenMP_CXX_FLAGS="-fopenmp -I${OMP_DIR}/include" \
           -DOpenMP_C_FLAGS="-fopenmp =libomp -I$OMP_DIR/include" \
           -DOpenMP_libomp_LIBRARY=$OMP_DIR/$OMP_VERSION/lib/libomp.dylib \
+          -DOpenMP_C_LIB_NAMES=libomp \
+          -DOpenMP_CXX_LIB_NAMES=libomp \
           -DNO_TCMALLOC=TRUE \
           -DPython_NumPy_INCLUDE_DIR=/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/numpy/core/include
      - name: Build CRPropa

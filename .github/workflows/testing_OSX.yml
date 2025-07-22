@@ -36,7 +36,8 @@ jobs:
         export LLVM_DIR=$(brew --prefix llvm@15)
         export PYTHON_VERSION=3.13
         export LLVM_VERSION=15.0.7
-        export OMP_DIR=$(brew --prefix libomp)
+        export OMP_VERSION=$(brew list --versions libomp | awk '{print $2}')
+        export OMP_DIR="$(brew --prefix libomp)/$OMP_VERSION"
         export PYTHON_DIR=/Library/Frameworks/Python.framework/Versions/3.13/
         
         # print paths for debugging

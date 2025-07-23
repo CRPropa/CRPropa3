@@ -13,14 +13,15 @@ jobs:
             cc: "clang"
             fc: "gfortran-14"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python3"
     steps:
      - name: Checkout repository 
        uses: actions/checkout@v4 
      - name: Preinstall 
        run: | 
-         brew install hdf5 fftw cfitsio muparser libomp swig python3
+         brew reinstall python@3.13 llvm@15
+         brew install hdf5 fftw cfitsio muparser libomp swig 
          pip install numpy==1.26.4 cmake
+         pip show numpy # cross-check numpy version for Python_Numpy_INCLUDE_DIR
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}
@@ -30,7 +31,35 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+      
+        # define paths for LLVM, Python, and OpenMP
+        export LLVM_DIR=$(brew --prefix llvm@15)
+        export PYTHON_VERSION=3.13
+        export LLVM_VERSION=15.0.7
+        export OMP_VERSION=$(brew list --versions libomp | awk '{print $2}')
+        export OMP_DIR=$(brew --prefix libomp)
+        export PYTHON_DIR=/Library/Frameworks/Python.framework/Versions/3.13/
+        
+        # print paths for debugging
+        echo "Using LLVM_DIR: $LLVM_DIR"
+        echo "Using OMP_DIR: $OMP_DIR"
+        echo "python version: $(python --version) from $(which python)"
+        echo "Using Python_DIR: $PYTHON_DIR"
+  
+        cmake .. \
+          -DCMAKE_INSTALL_PREFIX=/Users/runner/work/CRPropa3/CRPropa3/build \
+          -DPython_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
+          -DPython_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
+          -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
+          -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
+          -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
+          -DOpenMP_CXX_FLAGS="-fopenmp -I${OMP_DIR}/include" \
+          -DOpenMP_C_FLAGS="-fopenmp =libomp -I$OMP_DIR/include" \
+          -DOpenMP_libomp_LIBRARY=$OMP_DIR/$OMP_VERSION/lib/libomp.dylib \
+          -DOpenMP_C_LIB_NAMES=libomp.dylib \
+          -DOpenMP_CXX_LIB_NAMES=libomp.dylib \
+          -DNO_TCMALLOC=TRUE \
+          -DPython_NumPy_INCLUDE_DIR=/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/numpy/core/include
      - name: Build CRPropa
        run: |
          cd build

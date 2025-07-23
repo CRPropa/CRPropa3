@@ -6,6 +6,11 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
+#include <Python.h>
+#include <numpy/arrayobject.h>
+#include <unistd.h>
+
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION 
 
 namespace crpropa {
 
@@ -410,6 +415,84 @@ public:
 		data[2] = f;
 		return *this;
 	}
+
+	// ----------------------------
+	// 	Python numpy interface 
+	// ----------------------------
+
+	PyObject* __array__() {
+		npy_intp dims[1] = {3};
+		PyObject *array;
+		// type handling
+		if (typeid(T) == typeid(double))
+			array = PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void *)data);
+		else if (typeid(T) == typeid(float))
+			array = PyArray_SimpleNewFromData(1, dims, NPY_FLOAT, (void *)data);
+		else {
+			PyErr_SetString(PyExc_TypeError, "Unsupported type for Vector3");
+			return NULL;
+		}
+		return array;
+	}
+
+	size_t __len__() {
+		return 3;
+	}
+
+	const std::string getDescription() {
+		char buffer[256];
+		sprintf(buffer, "Vector(%.6G, %.6G, %.6G)", data[0], data[1], data[2]);
+		return buffer;
+	}
+	
+	// initialize the vector from a numpy array
+	Vector3(PyObject* inputObject) {
+		// check if input is a numpy array
+		if (!PyArray_Check(inputObject)) {
+			throw std::runtime_error("Expected a numpy array as input");
+		}
+
+		// convert to PyArrayObject
+		PyArrayObject *array = (PyArrayObject*)PyArray_FROM_O(inputObject); 
+
+		// chek dimensions
+		if (PyArray_NDIM(array) != 1 || PyArray_DIM(array, 0) != 3) {
+			throw std::runtime_error("Expected a 1D array of length 3");
+		}
+
+		// handle different numpy dtypes
+		if (PyArray_TYPE(array) == NPY_DOUBLE) {
+			// convert pyarray data 
+			double *dataPtr = (double *)PyArray_DATA(array);
+			data[0] = dataPtr[0];
+			data[1] = dataPtr[1];
+			data[2] = dataPtr[2];
+		} else if (PyArray_TYPE(array) == NPY_FLOAT) {
+			// convert pyarray data 
+			float *dataPtr = (float *)PyArray_DATA(array);
+			data[0] = dataPtr[0];
+			data[1] = dataPtr[1];
+			data[2] = dataPtr[2];
+		} else if (PyArray_TYPE(array) == NPY_INT32) {
+			// convert pyarray data 
+			int *dataPtr = (int *)PyArray_DATA(array);
+			data[0] = static_cast<T>(dataPtr[0]);
+			data[1] = static_cast<T>(dataPtr[1]);
+			data[2] = static_cast<T>(dataPtr[2]);
+		} else if (PyArray_TYPE(array) == NPY_INT64) {
+			// convert pyarray data 
+			long long *dataPtr = (long long *)PyArray_DATA(array);
+			data[0] = static_cast<T>(dataPtr[0]);
+			data[1] = static_cast<T>(dataPtr[1]);
+			data[2] = static_cast<T>(dataPtr[2]);
+		} else {
+			throw std::runtime_error("Unsupported numpy array dtype");
+		}
+		
+		// free the reference to the numpy array
+		Py_DECREF(array);
+	}
+	
 };
 
 #ifndef SWIG
@@ -438,3 +521,5 @@ typedef Vector3<float> Vector3f;
 }  // namespace crpropa
 
 #endif  // CRPROPA_VECTOR3_H
+
+

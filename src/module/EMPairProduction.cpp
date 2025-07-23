@@ -1,6 +1,7 @@
 #include "crpropa/module/EMPairProduction.h"
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
+#include "kiss/logger.h"
 
 #include <fstream>
 #include <limits>
@@ -186,13 +187,23 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
-	if (E < tabE.front() or (E > tabE.back()))
+	if (E < tabE.front() or (E > tabE.back())) {		
+		KISS_LOG_WARNING 
+			<< "EMPairProduction: Energy " 
+			<< E / eV << " eV is not in tabulated range";
 		return;
+	}
 
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);  // find closest tabulation point
 	size_t j = random.randBin(tabCDF[i]);
+	if (j <= 0) {
+		KISS_LOG_WARNING 
+			<< "EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical."
+			<< " The index j will be set to 1 to avoid division by zero.";
+		j = 1;  // ensure j is at least 1 to avoid division by
+	}
 	double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value
 	double hi = tabs[j];
 	double s = lo + random.rand() * (hi - lo);
@@ -204,8 +215,13 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double f = Ep / E;
 
 	// for some backgrounds Ee=nan due to precision limitations.
-	if (not std::isfinite(Ee) || not std::isfinite(Ep))
+	if (not std::isfinite(Ee) || not std::isfinite(Ep)) {
+		KISS_LOG_WARNING
+			<< "EMPairProduction: Sampled energies are not finite for primary energy "
+			<< E / eV << " eV and s = " << s / (eV * eV) << " eV^2 (maximum tabulated s = "
+			<< tabs.back() / (eV * eV) << " eV^2).";
 		return;
+	}
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());

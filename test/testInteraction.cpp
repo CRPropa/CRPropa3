@@ -769,7 +769,7 @@ TEST(EMPairProduction, secondaries) {
 			// pass if no interaction has ocurred (no tabulated rates)
 			if (c.isActive())
 				continue;
-			
+
 			// expect 2 secondaries
 			EXPECT_EQ(c.secondaries.size(), 2);
 

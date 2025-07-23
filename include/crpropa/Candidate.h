@@ -47,6 +47,7 @@ private:
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 	std::string tagOrigin; /**< Name of interaction/source process which created this candidate*/
+	double time; /**< Time [s] that has passed in the laboratory frame of reference */
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;
@@ -73,6 +74,8 @@ public:
 
 	void setTrajectoryLength(double length);
 	double getTrajectoryLength() const;
+	
+	double getVelocity() const;
 
 	void setRedshift(double z);
 	double getRedshift() const;
@@ -104,6 +107,12 @@ public:
 	 */
 	void setTagOrigin(std::string tagOrigin);
 	std::string getTagOrigin() const;
+
+	/**
+	 Sets the time of the candidate.
+	 */
+	void setTime(double t);
+	double getTime() const;
 
 	/**
 	 Make a bid for the next step size: the lowest wins.

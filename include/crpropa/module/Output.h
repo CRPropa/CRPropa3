@@ -42,6 +42,7 @@ namespace crpropa {
  . z			 RedshiftColumn
  . tag			 CandidateTagColumn
  . weight		 WeightColumn
+ . time    		 TimeColumn
 
  Some output types are pre-defined: 
  . Trajectory1D
@@ -61,7 +62,7 @@ public:
 	};
 
 protected:
-	double lengthScale, energyScale;
+	double lengthScale, timeScale, energyScale;
 	std::bitset<64> fields;
 
 	std::vector<Property> properties;
@@ -90,7 +91,8 @@ public:
 		CreatedDirectionColumn,
 		CandidateTagColumn,
 		SerialNumberColumn,
-		WeightColumn
+		WeightColumn,
+		TimeColumn
 	};
 	enum OutputType {
 		Trajectory1D,
@@ -119,10 +121,17 @@ public:
 	 @param scale	energy scale (scale = 1 corresponds to 1 Joule)
 	 */
 	void setEnergyScale(double scale);
+	double getEnergyScale() const;
 	/** Set length scale.
 	 @param scale	length scale (scale = 1 corresponds to 1 meter)
 	 */
 	void setLengthScale(double scale);
+	double getLengthScale() const;
+	/** Set time scale.
+	 @param scale	time scale (scale = 1 corresponds to 1 second)
+	 */
+	void setTimeScale(double scale);
+	double getTimeScale() const;
 	/** Set type of output.
 	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
 	 */

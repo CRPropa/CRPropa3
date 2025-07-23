@@ -55,6 +55,8 @@ void TextOutput::printHeader() const {
 	*out << "#";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
+	if (fields.test(TimeColumn))
+		*out << "\ttime";
 	if (fields.test(RedshiftColumn))
 		*out << "\tz";
 	if (fields.test(SerialNumberColumn))
@@ -107,6 +109,9 @@ void TextOutput::printHeader() const {
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
+	if (fields.test(TimeColumn))
+		*out << "# time          Time [" << timeScale / Myr
+				<< " Myr]\n";
 	if (fields.test(RedshiftColumn))
 		*out << "# z             Redshift\n";
 	if (fields.test(SerialNumberColumn))
@@ -169,6 +174,9 @@ void TextOutput::process(Candidate *c) const {
 	if (fields.test(TrajectoryLengthColumn))
 		p += std::sprintf(buffer + p, "%8.5E\t",
 				c->getTrajectoryLength() / lengthScale);
+	if (fields.test(TimeColumn))
+		p += std::sprintf(buffer + p, "%8.5E\t",
+				c->getTime() / timeScale);
 
 	if (fields.test(RedshiftColumn))
 		p += std::sprintf(buffer + p, "%1.5E\t", c->getRedshift());
@@ -288,8 +296,10 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 	std::istream *in;
 	std::ifstream infile(filename.c_str());
 	
-	double lengthScale = Mpc; // default Mpc
-	double energyScale = EeV; // default EeV
+	Output output;
+	double lengthScale = output.getLengthScale();
+	double timeScale = output.getTimeScale();
+	double energyScale = output.getEnergyScale();
 
 	if (!infile.good())
 		throw std::runtime_error("crpropa::TextOutput: could not open file " + filename);
@@ -312,7 +322,9 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		double val_d; int val_i;
 		double x, y, z;
 		stream >> val_d;
-		c->setTrajectoryLength(val_d*lengthScale); // D
+		c->setTrajectoryLength(val_d * lengthScale); // D
+		stream >> val_d;
+		c->setTime(val_d * timeScale); // time
 		stream >> val_d;
 		c->setRedshift(val_d); // z
 		stream >> val_i;
@@ -320,29 +332,29 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		stream >> val_i;
 		c->current.setId(val_i); // ID
 		stream >> val_d;
-		c->current.setEnergy(val_d*energyScale); // E
+		c->current.setEnergy(val_d * energyScale); // E
 		stream >> x >> y >> z;
-		c->current.setPosition(Vector3d(x, y, z)*lengthScale); // X, Y, Z
+		c->current.setPosition(Vector3d(x, y, z) * lengthScale); // X, Y, Z
 		stream >> x >> y >> z;
-		c->current.setDirection(Vector3d(x, y, z)*lengthScale); // Px, Py, Pz
+		c->current.setDirection(Vector3d(x, y, z) * lengthScale); // Px, Py, Pz
 		stream >> val_i; // SN0 (TODO: Reconstruct the parent-child relationship)
 		stream >> val_i;
 		c->source.setId(val_i); // ID0
 		stream >> val_d;
-		c->source.setEnergy(val_d*energyScale);	// E0
+		c->source.setEnergy(val_d * energyScale); // E0
 		stream >> x >> y >> z;
-		c->source.setPosition(Vector3d(x, y, z)*lengthScale); // X0, Y0, Z0
+		c->source.setPosition(Vector3d(x, y, z) * lengthScale); // X0, Y0, Z0
 		stream >> x >> y >> z;
-		c->source.setDirection(Vector3d(x, y, z)*lengthScale); // P0x, P0y, P0z
+		c->source.setDirection(Vector3d(x, y, z) * lengthScale); // P0x, P0y, P0z
 		stream >> val_i; // SN1
 		stream >> val_i;
 		c->created.setId(val_i); // ID1
 		stream >> val_d;
-		c->created.setEnergy(val_d*energyScale); // E1
+		c->created.setEnergy(val_d * energyScale); // E1
 		stream >> x >> y >> z;
-		c->created.setPosition(Vector3d(x, y, z)*lengthScale); // X1, Y1, Z1
+		c->created.setPosition(Vector3d(x, y, z) * lengthScale); // X1, Y1, Z1
 		stream >> x >> y >> z;
-		c->created.setDirection(Vector3d(x, y, z)*lengthScale); // P1x, P1y, P1z
+		c->created.setDirection(Vector3d(x, y, z) * lengthScale); // P1x, P1y, P1z
 		stream >> val_d;
 		c->setWeight(val_d); // W
 

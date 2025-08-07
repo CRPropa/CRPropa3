@@ -66,7 +66,7 @@ public:
 	void process(crpropa::Candidate *candidate) const;
 
 	void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
-	void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
+	void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h, double t) const;
 	void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
 
 	void setMinimumStep(double minStep);
@@ -96,7 +96,7 @@ public:
 	/** get advection field vector at current candidate position
 	 @param pos   current position of the candidate
 	 @return	  magnetic field vector at the position pos */
-	Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
+	Vector3d getAdvectionFieldAtPosition(Vector3d pos, double t) const;
 
 };
 /** @}*/

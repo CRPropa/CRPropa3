@@ -7,7 +7,7 @@
 #  STACKTRACE_LIBRARIES, where to find the stacktrace library.
 #  PROFILER_LIBRARIES, where to find the profiler library.
 
-FIND_PATH(GOOGLE_PERFTOOLS_INCLUDE_DIR google/heap-profiler.h)
+FIND_PATH(GOOGLE_PERFTOOLS_INCLUDE_DIR NAMES google/heap-profiler.h gperftools/heap-profiler.h)
 
 SET(TCMALLOC_NAMES ${TCMALLOC_NAMES} tcmalloc)
 FIND_LIBRARY(TCMALLOC_LIBRARY  NAMES ${TCMALLOC_NAMES})

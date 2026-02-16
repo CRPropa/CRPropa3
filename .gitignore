@@ -26,3 +26,4 @@ cmake/CMakeFiles/
 *.dat
 *.ipynb_checkpoints
 *.idea
+*.vscode

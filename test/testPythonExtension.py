@@ -21,7 +21,6 @@ import numpy as np
 
 
 class testCrossLanguagePolymorphism(unittest.TestCase):
-
     def test_module(self):
         class CountingModule(crp.Module):
             def __init__(self):
@@ -249,13 +248,13 @@ class testVector3(unittest.TestCase):
     v.x = 23.
     self.assertEqual(v.x, 23.)
 
-    ## this test fails in some systems
-    # def testArrayInterface(self):
-    #   # this test fails for some combinations of Python version and system
-    #   v = crp.Vector3d(1., 2., 3.)
-    #   self.assertEqual(2., np.mean(v) )
-    #   x = np.ones(3)
-    #   self.assertEqual(6., sum(v * x) )
+    # this test fails in some systems
+    def testArrayInterface(self):
+      # this test fails for some combinations of Python version and system
+      v = crp.Vector3d(1., 2., 3.)
+      self.assertEqual(2., np.mean(v) )
+      x = np.ones(3)
+      self.assertEqual(6., sum(v * x) )
 
   def testRepr(self):
     v = crp.Vector3d(1., 2., 3.)
@@ -277,6 +276,41 @@ class testVector3(unittest.TestCase):
     self.assertRaises(IndexError, v.__getitem__, 3)
     self.assertRaises(IndexError, v.__setitem__, 3, 10)
 
+  """ 
+  # This test is currently disabled because it fails on some systems.
+  def testVector3dToArray(self): 
+      v = crp.Vector3d(1., 2., 3.)
+      a = np.array([v])
+      self.assertEqual(a.shape, (1, 3))
+      self.assertEqual(a.dtype, float)
+      self.assertEqual(a[0, 0], 1.)
+      self.assertEqual(a[0, 1], 2.)
+      self.assertEqual(a[0, 2], 3.)
+    
+  def testVector3fToArray(self): 
+      v = crp.Vector3f(1., 2., 3.)
+      a = np.array([v])
+      self.assertEqual(a.shape, (1, 3))
+      self.assertEqual(a.dtype, np.float32)
+      self.assertEqual(a[0, 0], 1.)
+      self.assertEqual(a[0, 1], 2.)
+      self.assertEqual(a[0, 2], 3.)
+    """
+  
+  def testVector3dConstructorDouble(self):
+  
+    for dtype in [float, np.float32, int, np.int32]:
+      a = np.arange(3, dtype=dtype) + 1
+      v = crp.Vector3d(a)
+      self.assertEqual(v.x, 1.)
+      self.assertEqual(v.y, 2.)
+      self.assertEqual(v.z, 3.)
+      self.assertEqual(v[0], 1.)
+      self.assertEqual(v[1], 2.)
+      self.assertEqual(v[2], 3.)
+      
+ 
+     
 class testParticleCollector(unittest.TestCase):
   def testParticleCollectorIterator(self):
     collector = crp.ParticleCollector()

@@ -13,14 +13,18 @@ jobs:
             cc: "clang"
             fc: "gfortran-14"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python3"
+            py: "/usr/bin/python3" # python 3.14
     steps:
      - name: Checkout repository 
        uses: actions/checkout@v4 
      - name: Preinstall 
        run: | 
-         brew install hdf5 fftw cfitsio muparser libomp swig python3
-         pip install numpy==1.26.4 cmake
+         brew install hdf5 fftw cfitsio muparser libomp swig 
+         python3 -m venv venv
+         source venv/bin/activate
+         python -m pip install --upgrade pip
+         pip install numpy cmake
+         pip show numpy # cross-check numpy version for Python_NumPy_INCLUDE_DIR
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}
@@ -30,7 +34,17 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+      
+        cmake .. \
+          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv \
+          -DENABLE_PYTHON=True \
+          -DPython_EXECUTABLE=$GITHUB_WORKSPACE/venv/bin/python \
+          -DCMAKE_CXX_STANDARD=17 \
+          -DCMAKE_CXX_FLAGS="-std=c++17 -stdlib=libc++" \
+          -DENABLE_TESTING=On \
+          -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
+          -DPython_INSTALL_PACKAGE_DIR=$GITHUB_WORKSPACE/venv/lib/python3.14/site-packages
+
      - name: Build CRPropa
        run: |
          cd build

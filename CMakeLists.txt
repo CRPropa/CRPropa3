@@ -157,7 +157,7 @@ list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND CRPROPA_EXTRA_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/libs/sophia)
 
 # Galactic magnetic lenses
-option(ENABLE_GALACTICMAGNETICLENS "Galactic Magnetic Lens" ON)
+option(ENABLE_GALACTICMAGNETICLENS "Galactic Magnetic Lens" OFF)
 option(INSTALL_EIGEN "Install provided EIGEN headers" OFF)
 SET(EIGEN_PATH  "" CACHE STRING "Use EIGEN from this path instead of the version shipped with CRPropa")
 SET(WITH_GALACTIC_LENSES FALSE)
@@ -455,6 +455,8 @@ find_package(Python 3.0 REQUIRED COMPONENTS Interpreter Development NumPy)
 if(ENABLE_PYTHON AND Python_FOUND)
   find_package(SWIG 3.0 REQUIRED)
   include_directories(${Python_INCLUDE_DIRS})
+  add_definitions(-DCRPROPA_HAVE_PYTHON)
+  list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_PYTHON)
 
   # print Python info in detail
   message(STATUS "Python: Found!")
@@ -469,23 +471,29 @@ if(ENABLE_PYTHON AND Python_FOUND)
     message(STATUS "  development libraries: NOT found!")
   endif(Python_Development_FOUND)
 
-
+  
   #  use Python_INSTALL_PACKAGE_DIR if provided; otherwise, install in Python_SITELIB
   set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}" CACHE PATH "folder in which the python package is installed")
   message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
-
-
+  
   # look for NumPy
   if(Python_NumPy_FOUND)
-    set(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
-    list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
-    include_directories(${Python_NumPy_INCLUDE_DIRS})
-    message(STATUS "NumPy: Found!")
-    message(STATUS "  headers: ${Python_NumPy_INCLUDE_DIRS} (version ${Python_NumPy_VERSION})")
+  set(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
+  list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
+  include_directories(${Python_NumPy_INCLUDE_DIRS})
+  message(STATUS "NumPy: Found!")
+  message(STATUS "  headers: ${Python_NumPy_INCLUDE_DIRS} (version ${Python_NumPy_VERSION})")
   elseif(Python_NumPy_FOUND)
-    message(STATUS "NumPy: NOT found!")
-    message(STATUS "  CRPropa might work just fine with Python, but features like Galactic lenses will not be available.")
+  message(STATUS "NumPy: NOT found!")
+  message(STATUS "  CRPropa might work just fine with Python, but features like Galactic lenses will not be available.")
   endif(Python_NumPy_FOUND)
+  
+  # deactivate lenses if NumPy version is >= 2.0
+  if(Python_NumPy_VERSION VERSION_GREATER_EQUAL 2.0 AND WITH_GALACTIC_LENSES)
+    set(WITH_GALACTIC_LENSES FALSE CACHE BOOL "" FORCE)
+    set(ENABLE_GALACTICMAGNETICLENS OFF CACHE BOOL "" FORCE)
+    message(WARNING "NumPy version >= 2.0 detected, disabling Galactic lenses support")
+  endif()
 
   if(SWIG_VERSION VERSION_GREATER 4.0)
     # Use swig 4 builtin doxygen instead of external program

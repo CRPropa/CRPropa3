@@ -38,12 +38,12 @@ The following packages are provided with the source code and do not need to be i
     mkdir build
     cd build
     cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
-    make
-    make install
+    cmake --build .
+    cmake --install .
     ```
 
-2. A set of unit tests can be run with ```make test```. If the tests are
-   successful continue with ```make install``` to install CRPropa at the
+2. A set of unit tests can be run with ```ctest```. If the tests are
+   successful continue with ```cmake --install .``` to install CRPropa at the
    specified path, or leave it in the build directory.  Make sure the
    environment variables are set accordingly: e.g. for an installation under
    $HOME/.local and using Python 3 set
@@ -54,7 +54,7 @@ The following packages are provided with the source code and do not need to be i
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
 
-However, we highly recommend to use a virtualenv setup to install CRPropa!
+However, we highly recommend to use a virtualenv or conda setup to install CRPropa!
 
 
 ### Installation in python virtualenv
@@ -117,11 +117,11 @@ worthwhile effort afterwards.
     mkdir build
     cd build
     CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
-    make
-    make install
+    cmake --build .
+    cmake --install .
     ```
 
-5. A set of unit tests can be run with ```make test```. 
+5. A set of unit tests can be run with ```ctest```. 
 
 6. (optional) Check the installation.
     ```python
@@ -135,6 +135,13 @@ worthwhile effort afterwards.
 
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
+### Installation in conda environment
+
+On high performance cluster most modules that CRPropa requires are usally not provided by default.
+A popular way to install programs locally that require certain preinstalled libraries with specific
+versions (this then can lead to conflicts between programs) is to use conda environments.
+A detailed installation guide for conda can be found on their [website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+After installing conda and creating a new environment with `conda create {ENVNAME}` and activating it with `conda activate {ENVNAME}`, CRPropa can then simply be installed with `conda install crpropa::crpropa -c conda-forge` or `conda install crpropa::crpropa==master -c conda-forge` if you want the newest development version.
 
 ### CMake flags
 When using cmake, the following options can be set by adding flags to the cmake command, e.g.

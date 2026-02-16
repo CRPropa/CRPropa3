@@ -5,6 +5,7 @@
 * Fixed r term in source distribution for SNR and Pulsar
 * Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
 * Fixed wrong generation of interval ranges in ObserverTimeEvolution
+* Improved CMakeLists.txt to better work as submodule on other cpp based projects
 
 ### New features:
 

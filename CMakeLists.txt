@@ -3,7 +3,16 @@ cmake_minimum_required(VERSION 3.14)
 project(CRPropa Fortran C CXX)
 set(CRPROPA_RELEASE_VERSION 3.2.1+)  # Update for new release
 
-set(CMAKE_CXX_STANDARD 11)
+# Detect platform and set C++ standard
+if(APPLE)
+    message(STATUS "Building on macOS, using C++11")
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+else()
+    message(STATUS "Building on Linux/Ubuntu, using C++17")
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set(CRPROPA_EXTRA_SOURCES)
@@ -56,7 +65,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-
 
 # ----------------------------------------------------------------------------
 # Version info from Git
@@ -145,6 +153,9 @@ endif(ENABLE_COVERAGE)
 add_subdirectory(libs/kiss)
 list(APPEND CRPROPA_EXTRA_LIBRARIES kiss)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/kiss/include)
+
+# nanoflann (provided)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/nanoflann/include)
 
 # HepID (provided)
 add_subdirectory(libs/HepPID)
@@ -335,7 +346,7 @@ CRPropa should compile, but will likely not work properly! Please install data f
 endif()
 
 # ----------------------------------------------------------------------------
-# Library and Binary
+# Library and Binary 
 # ----------------------------------------------------------------------------
 file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h)
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
@@ -355,6 +366,7 @@ add_library(crpropa SHARED
   src/ParticleMass.cpp
   src/ParticleState.cpp
   src/PhotonBackground.cpp
+  src/InteractionRates.cpp
   src/ProgressBar.cpp
   src/Random.cpp
   src/Source.cpp
@@ -441,7 +453,10 @@ else()
   MESSAGE(STATUS "Build of documentation disabeled. Enable with BUILD_DOC=On")
 endif(BUILD_DOC)
 
-
+# Only add stdc++fs for older GCC (needed for Ubuntu 20)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10)
+    target_link_libraries(crpropa stdc++fs)
+endif()
 
 # ----------------------------------------------------------------------------
 # Python
@@ -545,7 +560,6 @@ if(ENABLE_PYTHON AND Python_FOUND)
   install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
 
 endif(ENABLE_PYTHON AND Python_FOUND)
-
 
 # ----------------------------------------------------------------------------
 # Install

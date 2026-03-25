@@ -32,6 +32,7 @@ public:
 	 @param point	vector corresponding to the point to which compute the normal vector
 	 */
 	virtual Vector3d normal(const Vector3d& point) const = 0;
+	virtual bool isInside(const Vector3d& point) const = 0;
 	virtual std::string getDescription() const {return "Surface without description.";};
 };
 
@@ -48,6 +49,7 @@ public:
 	Plane(const Vector3d& x0, const Vector3d& n);
 	virtual double distance(const Vector3d &x) const;
 	virtual Vector3d normal(const Vector3d& point) const;
+	virtual bool isInside(const Vector3d& point) const;
 	virtual std::string getDescription() const;
 };
 
@@ -64,6 +66,7 @@ public:
 	Sphere(const Vector3d& center, double radius);
 	virtual double distance(const Vector3d &point) const;
 	virtual Vector3d normal(const Vector3d& point) const;
+	virtual bool isInside(const Vector3d& point) const;
 	virtual std::string getDescription() const;
 };
 
@@ -79,6 +82,7 @@ public:
 	ParaxialBox(const Vector3d& corner, const Vector3d& size);
 	virtual double distance(const Vector3d &point) const;
 	virtual Vector3d normal(const Vector3d& point) const;
+	virtual bool isInside(const Vector3d& point) const;
 	virtual std::string getDescription() const;
 };
 

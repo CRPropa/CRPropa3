@@ -68,7 +68,7 @@ std::string getInstallPrefix()
 {
   std::string _path = "";
   #ifdef CRPROPA_INSTALL_PREFIX
-    _path += CRPROPA_INSTALL_PREFIX;
+	_path += CRPROPA_INSTALL_PREFIX;
   #endif
   return _path;
 };
@@ -138,6 +138,12 @@ size_t closestIndex(double x, const std::vector<double> &X) {
 		return i0;
 	else
 		return i1;
+}
+
+std::string splitFilename(const std::string str) {
+	std::size_t found = str.find_last_of("/\\");
+	std::string s = str.substr(found + 1);
+	return s;
 }
 
 } // namespace crpropa

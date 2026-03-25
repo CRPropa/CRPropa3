@@ -33,7 +33,13 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+          cmake .. -DENABLE_PYTHON=True \
+            -DENABLE_TESTING=On \
+            -DPython_EXECUTABLE=${{ matrix.config.py }} \
+            -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
+            -DSIMD_EXTENSIONS=native \
+            -DCMAKE_CXX_STANDARD=17 \
+            -DCMAKE_CXX_FLAGS="-std=c++17 -Wall -Wextra  -I${{ github.workspace }}/libs/nanoflann/include"
       - name: Build CRPropa
         run: |
           cd build
@@ -41,7 +47,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          make test
+          make test ARGS="--output-on-failure"
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v4

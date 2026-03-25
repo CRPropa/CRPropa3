@@ -3,27 +3,58 @@
 #include "crpropa/Random.h"
 #include "crpropa/Common.h"
 
+#include "crpropa/InteractionRates.h"
+
 #include <fstream>
+#include <locale>
+#include <iomanip>  // Required for std::fixed and std::setprecision
 #include <limits>
 #include <stdexcept>
+#include <filesystem>
+#include <string>
+#include <sstream>
+#include <unordered_map>
+#include <vector>
+
+#if defined(__APPLE__) && defined(_LIBCPP_VERSION)
+	namespace fs = std::__fs::filesystem;
+#else
+	namespace fs = std::filesystem;
+#endif
 
 namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMInverseComptonScattering::EMInverseComptonScattering(ref_ptr<PhotonField> photonField, bool havePhotons, double thinning, double limit) {
+EMInverseComptonScattering::EMInverseComptonScattering(ref_ptr<PhotonField> photonField, bool havePhotons, double thinning, double limit, ref_ptr<Surface> surface) {
+
+	setSurface(surface);
 	setPhotonField(photonField);
 	setHavePhotons(havePhotons);
 	setLimit(limit);
 	setThinning(thinning);
+	
 }
 
 void EMInverseComptonScattering::setPhotonField(ref_ptr<PhotonField> photonField) {
+	
 	this->photonField = photonField;
 	std::string fname = photonField->getFieldName();
 	setDescription("EMInverseComptonScattering: " + fname);
-	initRate(getDataPath("EMInverseComptonScattering/rate_" + fname + ".txt"));
-	initCumulativeRate(getDataPath("EMInverseComptonScattering/cdf_" + fname + ".txt"));
+	
+	if (!this->photonField->hasPositionDependence()) {
+		this->interactionRates = new InteractionRatesHomogeneous(
+			getDataPath("EMInverseComptonScattering/rate_" + fname + ".txt"),
+			getDataPath("EMInverseComptonScattering/cdf_" + fname + ".txt")
+		);
+
+	} else {
+		this->interactionRates = new InteractionRatesPositionDependent(
+			getDataPath("EMInverseComptonScattering/" + fname + "/Rate/"),
+			getDataPath("EMInverseComptonScattering/" + fname + "/CumulativeRate/"),
+			this->surface
+		);
+	}
 }
 
 void EMInverseComptonScattering::setHavePhotons(bool havePhotons) {
@@ -38,67 +69,28 @@ void EMInverseComptonScattering::setThinning(double thinning) {
 	this->thinning = thinning;
 }
 
-void EMInverseComptonScattering::initRate(std::string filename) {
-	std::ifstream infile(filename.c_str());
-
-	if (!infile.good())
-		throw std::runtime_error("EMInverseComptonScattering: could not open file " + filename);
-
-	// clear previously loaded tables
-	tabEnergy.clear();
-	tabRate.clear();
-
-	while (infile.good()) {
-		if (infile.peek() != '#') {
-			double a, b;
-			infile >> a >> b;
-			if (infile) {
-				tabEnergy.push_back(pow(10, a) * eV);
-				tabRate.push_back(b / Mpc);
-			}
-		}
-		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
-	}
-	infile.close();
+void EMInverseComptonScattering::setSurface(ref_ptr<Surface> surface) {
+		this->surface = surface;
 }
 
-void EMInverseComptonScattering::initCumulativeRate(std::string filename) {
-	std::ifstream infile(filename.c_str());
+ref_ptr<Surface> EMInverseComptonScattering::getSurface() const {
+		return this->surface;
+}
 
-	if (!infile.good())
-		throw std::runtime_error("EMInverseComptonScattering: could not open file " + filename);
+void EMInverseComptonScattering::setInteractionRates(ref_ptr<InteractionRates> intRates) {
+	this->interactionRates = intRates;
+}
 
-	// clear previously loaded tables
-	tabE.clear();
-	tabs.clear();
-	tabCDF.clear();
-	
-	// skip header
-	while (infile.peek() == '#')
-		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+ref_ptr<InteractionRates> EMInverseComptonScattering::getInteractionRates() const {
+	return this->interactionRates;
+}
 
-	// read s values in first line
-	double a;
-	infile >> a; // skip first value
-	while (infile.good() and (infile.peek() != '\n')) {
-		infile >> a;
-		tabs.push_back(pow(10, a) * eV * eV);
-	}
+void EMInverseComptonScattering::initRate(std::string path) {
+	this->interactionRates->initRate(path);
+}
 
-	// read all following lines: E, cdf values
-	while (infile.good()) {
-		infile >> a;
-		if (!infile)
-			break;  // end of file
-		tabE.push_back(pow(10, a) * eV);
-		std::vector<double> cdf;
-		for (int i = 0; i < tabs.size(); i++) {
-			infile >> a;
-			cdf.push_back(a / Mpc);
-		}
-		tabCDF.push_back(cdf);
-	}
-	infile.close();
+void EMInverseComptonScattering::initCumulativeRate(std::string path) {
+	this->interactionRates->initCumulativeRate(path);
 }
 
 // Class to calculate the energy distribution of the ICS photon and to sample from it
@@ -170,37 +162,47 @@ class ICSSecondariesEnergyDistribution {
 };
 
 void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {
+
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy() * (1 + z);
-
+	
+	Vector3d position = candidate->current.getPosition();
+	
+	std::vector<double> tabE;
+	std::vector<double> tabs;
+	std::vector<std::vector<double>> tabCDF;
+	
+	this->interactionRates->loadPerformInteractionTabs(position, tabE, tabs, tabCDF);
+	
 	if (E < tabE.front() or E > tabE.back())
 		return;
-
+	
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);
 	size_t j = random.randBin(tabCDF[i]);
 	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
 	double s = s_kin + mec2 * mec2;
-
+	
 	// sample electron energy after scattering
 	static ICSSecondariesEnergyDistribution distribution;
 	double Enew = distribution.sample(E, s);
-
+	
 	// add up-scattered photon
+	double Esecondary = E - Enew;
+	double f = Enew / E;
 	if (havePhotons) {
-		double Esecondary = E - Enew;
-		double f = Enew / E;
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = 1. / pow(1 - f, thinning);
 			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 			candidate->addSecondary(22, Esecondary / (1 + z), pos, w, interactionTag);
 		}
 	}
-
+	
 	// update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent
 	candidate->current.setEnergy(Enew / (1 + z));
+	
 }
 
 void EMInverseComptonScattering::process(Candidate *candidate) const {
@@ -208,34 +210,37 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 	int id = candidate->current.getId();
 	if (abs(id) != 11)
 		return;
-
+	
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy() * (1 + z);
-
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
-		return;
-
+	Vector3d position = candidate->current.getPosition();
+	
 	// interaction rate
-	double rate = interpolate(E, tabEnergy, tabRate);
+	double rate = this->interactionRates->getProcessRate(E, position);
+	
+	if (rate < 0)
+		return;
+	
 	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
-
+	
 	// run this loop at least once to limit the step size
 	double step = candidate->getCurrentStep();
 	Random &random = Random::instance();
 	do {
 		double randDistance = -log(random.rand()) / rate;
-
+		
 		// check for interaction; if it doesn't ocurr, limit next step
 		if (step < randDistance) {
 			candidate->limitNextStep(limit / rate);
 			return;
 		}
 		performInteraction(candidate);
-
+		
 		// repeat with remaining step
 		step -= randDistance;
 	} while (step > 0);
+	
 }
 
 void EMInverseComptonScattering::setInteractionTag(std::string tag) {

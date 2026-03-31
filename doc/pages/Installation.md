@@ -135,13 +135,6 @@ worthwhile effort afterwards.
 
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
-### Installation in conda environment
-
-On high performance cluster most modules that CRPropa requires are usally not provided by default.
-A popular way to install programs locally that require certain preinstalled libraries with specific
-versions (this then can lead to conflicts between programs) is to use conda environments.
-A detailed installation guide for conda can be found on their [website](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
-After installing conda and creating a new environment with `conda create {ENVNAME}` and activating it with `conda activate {ENVNAME}`, CRPropa can then simply be installed with `conda install crpropa::crpropa -c conda-forge` or `conda install crpropa::crpropa==master -c conda-forge` if you want the newest development version.
 
 ### CMake flags
 When using cmake, the following options can be set by adding flags to the cmake command, e.g.

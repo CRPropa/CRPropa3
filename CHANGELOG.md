@@ -5,6 +5,12 @@
 * Fixed r term in source distribution for SNR and Pulsar
 * Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
 * Fixed wrong generation of interval ranges in ObserverTimeEvolution
+* Fixed several compile warnings, e.g., in sophia_interface.f
+* Fixed broken doxygen commands
+* Fixed Bphi component for r<=r1 in CMZField
+* Fixed several issues in Variant and Random
+* Fixed setExtends in PeriodicMagneticField
+* Fixed constantScaleBendover which was not initialized 
 
 ### New features:
 
@@ -17,6 +23,7 @@
 
 
 ### Interface changes:
+* The next CRPropa relase will likely require support for the CXX 23 standard
 
 ### Features that are deprecated and will be removed after this release
 

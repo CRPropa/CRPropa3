@@ -1,9 +1,9 @@
 #ifndef CRPROPA_JF12FIELD_H
 #define CRPROPA_JF12FIELD_H
 
-#include <crpropa/magneticField/MagneticField.h>
-#include <crpropa/Grid.h>
-#include <kiss/logger.h>
+#include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Grid.h"
+#include "kiss/logger.h"
 
 namespace crpropa {
 /**

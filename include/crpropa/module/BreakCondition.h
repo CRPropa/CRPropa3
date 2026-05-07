@@ -1,7 +1,7 @@
 #ifndef CRPROPA_BREAKCONDITION_H
 #define CRPROPA_BREAKCONDITION_H
 
-#include <crpropa/Module.h>
+#include "crpropa/Module.h"
 
 namespace crpropa {
 /**

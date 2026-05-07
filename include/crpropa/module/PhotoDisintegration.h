@@ -1,8 +1,8 @@
 #ifndef CRPROPA_PHOTODISINTEGRATION_H
 #define CRPROPA_PHOTODISINTEGRATION_H
 
-#include <crpropa/Module.h>
-#include <crpropa/PhotonBackground.h>
+#include "crpropa/Module.h"
+#include "crpropa/PhotonBackground.h"
 
 #include <vector>
 #include <map>

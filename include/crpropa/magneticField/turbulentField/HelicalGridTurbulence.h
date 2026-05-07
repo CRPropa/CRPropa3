@@ -3,11 +3,11 @@
 
 #ifdef CRPROPA_HAVE_FFTW3F
 
-#include <crpropa/Grid.h>
-#include <crpropa/magneticField/turbulentField/SimpleGridTurbulence.h>
+#include "crpropa/Grid.h"
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 
-#include <kiss/logger.h>
-#include <kiss/string.h>
+#include "kiss/logger.h"
+#include "kiss/string.h"
 
 namespace crpropa {
 /**

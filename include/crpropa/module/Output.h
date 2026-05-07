@@ -1,8 +1,8 @@
 #ifndef CRPROPA_OUTPUT_H
 #define CRPROPA_OUTPUT_H
 
-#include <crpropa/Module.h>
-#include <crpropa/Variant.h>
+#include "crpropa/Module.h"
+#include "crpropa/Variant.h"
 
 #include <bitset>
 #include <vector>

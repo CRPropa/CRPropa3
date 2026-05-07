@@ -1,11 +1,11 @@
 #ifndef CRPROPA_ACCELERATION
 #define CRPROPA_ACCELERATION
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Geometry.h>
-#include <crpropa/Module.h>
-#include <crpropa/Units.h>
-#include <crpropa/Vector3.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Geometry.h"
+#include "crpropa/Module.h"
+#include "crpropa/Units.h"
+#include "crpropa/Vector3.h"
 
 #include <string>
 

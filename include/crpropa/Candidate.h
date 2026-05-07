@@ -1,9 +1,9 @@
 #ifndef CRPROPA_CANDIDATE_H
 #define CRPROPA_CANDIDATE_H
 
-#include <crpropa/ParticleState.h>
-#include <crpropa/Referenced.h>
-#include <crpropa/Variant.h>
+#include "crpropa/ParticleState.h"
+#include "crpropa/Referenced.h"
+#include "crpropa/Variant.h"
 
 #include <unordered_map>
 #include <vector>

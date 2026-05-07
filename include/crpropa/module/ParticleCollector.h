@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 
-#include <crpropa/Module.h>
-#include <crpropa/ModuleList.h>
+#include "crpropa/Module.h"
+#include "crpropa/ModuleList.h"
 
 namespace crpropa {
 /**

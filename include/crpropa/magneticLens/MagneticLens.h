@@ -23,11 +23,11 @@
 #ifndef MAGNETICLENS_HH
 #define MAGNETICLENS_HH
 
-#include <crpropa/magneticLens/ModelMatrix.h>
-#include <crpropa/magneticLens/Pixelization.h>
-#include <crpropa/Units.h>
-#include <crpropa/Vector3.h>
-#include <crpropa/Referenced.h>
+#include "crpropa/magneticLens/ModelMatrix.h"
+#include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/Units.h"
+#include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
 
 #include <vector>
 #include <string>

@@ -24,8 +24,8 @@
 #ifndef PIXELIZATION_HH
 #define PIXELIZATION_HH
 
-#include <crpropa/Referenced.h>
-#include <healpix_base/healpix_base.h>
+#include "crpropa/Referenced.h"
+#include "healpix_base/healpix_base.h"
 #include <cmath>
 #include <stdint.h>
 

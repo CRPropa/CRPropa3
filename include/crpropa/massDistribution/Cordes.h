@@ -1,7 +1,7 @@
 #ifndef CRPROPA_CORDES_H
 #define CRPROPA_CORDES_H
 
-#include <crpropa/massDistribution/Density.h>
+#include "crpropa/massDistribution/Density.h"
 
 #include <cmath>
 #include <string>

@@ -1,8 +1,8 @@
 #ifndef CRPROPA_OUTPUTSHELL_H
 #define CRPROPA_OUTPUTSHELL_H
 
-#include <crpropa/Module.h>
-#include <crpropa/Variant.h>
+#include "crpropa/Module.h"
+#include "crpropa/Variant.h"
 
 #include <unordered_map>
 

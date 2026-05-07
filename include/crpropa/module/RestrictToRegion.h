@@ -1,10 +1,10 @@
 #ifndef CRPROPA_RESTRICTTOREGION_H
 #define CRPROPA_RESTRICTTOREGION_H
 
-#include <crpropa/Referenced.h>
-#include <crpropa/Candidate.h>
-#include <crpropa/Module.h>
-#include <crpropa/Geometry.h>
+#include "crpropa/Referenced.h"
+#include "crpropa/Candidate.h"
+#include "crpropa/Module.h"
+#include "crpropa/Geometry.h"
 
 namespace crpropa {
 /**

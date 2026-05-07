@@ -1,8 +1,8 @@
 #ifndef CRPROPA_TEXTOUTPUT_H
 #define CRPROPA_TEXTOUTPUT_H
 
-#include <crpropa/module/Output.h>
-#include <crpropa/module/ParticleCollector.h>
+#include "crpropa/module/Output.h"
+#include "crpropa/module/ParticleCollector.h"
 
 #include <fstream>
 

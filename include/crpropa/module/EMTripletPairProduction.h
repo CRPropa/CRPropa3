@@ -4,8 +4,8 @@
 #include <fstream>
 #include <cmath>
 
-#include <crpropa/Module.h>
-#include <crpropa/PhotonBackground.h>
+#include "crpropa/Module.h"
+#include "crpropa/PhotonBackground.h"
 
 namespace crpropa {
 /**

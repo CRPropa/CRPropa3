@@ -1,8 +1,8 @@
 #ifndef CRPROPA_MAGNETICFIELDGRID_H
 #define CRPROPA_MAGNETICFIELDGRID_H
 
-#include <crpropa/magneticField/MagneticField.h>
-#include <crpropa/Grid.h>
+#include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Grid.h"
 
 namespace crpropa {
 /**

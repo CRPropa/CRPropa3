@@ -1,7 +1,7 @@
 #ifndef CRPROPA_GALACTICMAGNETICFIELD_H
 #define CRPROPA_GALACTICMAGNETICFIELD_H
 
-#include <crpropa/magneticField/MagneticField.h>
+#include "crpropa/magneticField/MagneticField.h"
 #include <cmath>
 
 namespace crpropa {

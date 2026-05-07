@@ -1,8 +1,8 @@
 #ifndef CRPROPA_ELASTICSCATTERING_H
 #define CRPROPA_ELASTICSCATTERING_H
 
-#include <crpropa/Module.h>
-#include <crpropa/PhotonBackground.h>
+#include "crpropa/Module.h"
+#include "crpropa/PhotonBackground.h"
 
 #include <vector>
 

@@ -9,10 +9,10 @@
 #include <sstream>
 #include <list>
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Module.h>
-#include <crpropa/Source.h>
-#include <crpropa/module/Output.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Module.h"
+#include "crpropa/Source.h"
+#include "crpropa/module/Output.h"
 
 
 namespace crpropa {

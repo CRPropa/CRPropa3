@@ -1,10 +1,10 @@
 #ifndef CRPROPA_SOURCE_H
 #define CRPROPA_SOURCE_H
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Grid.h>
-#include <crpropa/EmissionMap.h>
-#include <crpropa/massDistribution/Density.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Grid.h"
+#include "crpropa/EmissionMap.h"
+#include "crpropa/massDistribution/Density.h"
 
 
 #include <vector>

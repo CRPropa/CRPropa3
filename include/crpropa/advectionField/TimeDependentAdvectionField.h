@@ -1,7 +1,7 @@
 #ifndef CRPROPA_TIMEDEPENDENTADVECTIONFIELD_H
 #define CRPROPA_TIMEDEPENDENTADVECTIONFIELD_H
 
-#include <crpropa/advectionField/AdvectionField.h>
+#include "crpropa/advectionField/AdvectionField.h"
 
 #include <string>
 #include <iostream>
@@ -9,9 +9,9 @@
 #include <cstdlib>
 #include <sstream>
 
-#include <crpropa/Vector3.h>
-#include <crpropa/Referenced.h>
-#include <crpropa/Units.h>
+#include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 

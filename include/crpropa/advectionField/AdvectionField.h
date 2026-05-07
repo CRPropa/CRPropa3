@@ -8,9 +8,9 @@
 #include <cstdlib>
 #include <sstream>
 
-#include <crpropa/Vector3.h>
-#include <crpropa/Referenced.h>
-#include <crpropa/Units.h>
+#include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 

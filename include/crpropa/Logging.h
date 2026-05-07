@@ -1,9 +1,9 @@
 #ifndef CRPROPA_LOGGING_H
 #define CRPROPA_LOGGING_H
 
-#include <crpropa/Version.h>
+#include "crpropa/Version.h"
 
-#include <kiss/logger.h>
+#include "kiss/logger.h"
 
 #include <fstream>
 

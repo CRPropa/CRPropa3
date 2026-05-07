@@ -1,10 +1,10 @@
 #ifndef CRPROPA_CMZFIELD_H
 #define CRPROPA_CMZFIELD_H
 
-#include <crpropa/magneticField/MagneticField.h>
-#include <crpropa/Grid.h>
-#include <kiss/logger.h>
-#include <crpropa/Common.h>
+#include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Grid.h"
+#include "kiss/logger.h"
+#include "crpropa/Common.h"
 
 namespace crpropa {
 

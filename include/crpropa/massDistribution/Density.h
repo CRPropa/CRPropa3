@@ -1,9 +1,9 @@
 #ifndef CRPROPA_DENSITY_H
 #define CRPROPA_DENSITY_H
 
-#include <crpropa/Units.h>
-#include <crpropa/Vector3.h>
-#include <crpropa/Referenced.h>
+#include "crpropa/Units.h"
+#include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
 
 namespace crpropa {
 

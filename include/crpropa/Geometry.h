@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Vector3.h>
-#include <crpropa/Referenced.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
 
 namespace crpropa {
 /**

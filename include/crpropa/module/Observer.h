@@ -6,11 +6,11 @@
 #include <string>
 #include <vector>
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Module.h>
-#include <crpropa/Referenced.h>
-#include <crpropa/Vector3.h>
-#include <crpropa/Geometry.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Module.h"
+#include "crpropa/Referenced.h"
+#include "crpropa/Vector3.h"
+#include "crpropa/Geometry.h"
 
 namespace crpropa {
 

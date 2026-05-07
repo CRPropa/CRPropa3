@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <typeinfo>
 
-#include <crpropa/Vector3.h>
+#include "crpropa/Vector3.h"
 
 
 

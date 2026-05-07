@@ -1,7 +1,7 @@
 #ifndef CRPROPA_PSHIRKOVFIELD_H
 #define CRPROPA_PSHIRKOVFIELD_H
 
-#include <crpropa/magneticField/MagneticField.h>
+#include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {
 /**

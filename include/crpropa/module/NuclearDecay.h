@@ -1,7 +1,7 @@
 #ifndef CRPROPA_NUCLEARDECAY_H
 #define CRPROPA_NUCLEARDECAY_H
 
-#include <crpropa/Module.h>
+#include "crpropa/Module.h"
 
 #include <vector>
 

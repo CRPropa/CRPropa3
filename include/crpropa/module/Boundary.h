@@ -1,7 +1,7 @@
 #ifndef CRPROPA_BOUNDARY_H
 #define CRPROPA_BOUNDARY_H
 
-#include <crpropa/Module.h>
+#include "crpropa/Module.h"
 
 namespace crpropa {
 /**

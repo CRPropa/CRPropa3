@@ -1,7 +1,7 @@
 #ifndef CRPROPA_REDSHIFT_H
 #define CRPROPA_REDSHIFT_H
 
-#include <crpropa/Module.h>
+#include "crpropa/Module.h"
 
 namespace crpropa {
 /**

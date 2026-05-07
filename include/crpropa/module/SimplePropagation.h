@@ -1,8 +1,8 @@
 #ifndef SIMPLEPROPAGATION_H
 #define SIMPLEPROPAGATION_H
 
-#include <crpropa/Module.h>
-#include <crpropa/Units.h>
+#include "crpropa/Module.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 /**

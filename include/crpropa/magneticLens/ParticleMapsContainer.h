@@ -3,10 +3,9 @@
 
 #include <map>
 #include <vector>
-#include <crpropa/magneticLens/Pixelization.h>
-#include <crpropa/magneticLens/MagneticLens.h>
-
-#include <crpropa/Vector3.h>
+#include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/magneticLens/MagneticLens.h"
+#include "crpropa/Vector3.h"
 
 namespace crpropa {
 /**

@@ -2,7 +2,7 @@
 #define _UF23Field_h_
 
 #include <vector>
-#include <crpropa/magneticField/MagneticField.h>
+#include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {
 /**

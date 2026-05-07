@@ -1,7 +1,7 @@
 #ifndef CRPROPA_PARTICLE_STATE_H
 #define CRPROPA_PARTICLE_STATE_H
 
-#include <crpropa/Vector3.h>
+#include "crpropa/Vector3.h"
 
 namespace crpropa {
 /**

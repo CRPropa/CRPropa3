@@ -1,7 +1,7 @@
 #ifndef CRPROPA_PHOTON_OUTPUT_H
 #define CRPROPA_PHOTON_OUTPUT_H
 
-#include <crpropa/Module.h>
+#include "crpropa/Module.h"
 
 #include <fstream>
 

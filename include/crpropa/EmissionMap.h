@@ -1,8 +1,8 @@
 #ifndef CRPROPA_EMISSION_MAP_H
 #define CRPROPA_EMISSION_MAP_H
 
-#include <crpropa/Referenced.h>
-#include <crpropa/Candidate.h>
+#include "crpropa/Referenced.h"
+#include "crpropa/Candidate.h"
 
 namespace crpropa {
 

@@ -58,18 +58,6 @@ std::string getDataPath(std::string filename) {
 		}
 	}
 
-#ifdef CRPROPA_BINARY_DIR
-	{
-		std::string _path = CRPROPA_BINARY_DIR "/data";
-		if (is_directory(_path)) {
-			dataPath = _path;
-			KISS_LOG_INFO
-			<< "getDataPath: use binary path, " << dataPath << std::endl;
-			return concat_path(dataPath, filename);
-		}
-	}
-#endif
-
 	dataPath = "data";
 	KISS_LOG_INFO << "getDataPath: use default, " << dataPath << std::endl;
 	return removeNullCharacter(concat_path(dataPath, filename));

@@ -26,10 +26,6 @@ public:
 	 @param density density to add
 	*/
 	void addDensity(ref_ptr<Density> density);
-	/** Add new density to list.
-	 @param density density to add
-	*/
-	void addDensity(Density *density);
 
 	/** Get density at a given position.
 	 @param position position in Galactic coordinates with Earth at (-8.5 kpc, 0, 0)

@@ -6,10 +6,6 @@ void DensityList::addDensity(ref_ptr<Density> dens) {
 	DensityList.push_back(dens);
 }
 
-void DensityList::addDensity(Density *dens) {
-	DensityList.push_back(dens);
-}
-
 double DensityList::getDensity(const Vector3d &position) const {
 	double n = 0.;
 	for (int i = 0; i < DensityList.size(); i++)

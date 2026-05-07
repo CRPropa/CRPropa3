@@ -5,8 +5,8 @@
 /// plugins to CRPropa on our webpage and are happy to add a link to your
 /// project, just send us: (name of the plugin, short description, url)
 
-#include "crpropa/Module.h"
-#include "crpropa/Source.h"
+#include <crpropa/Module.h>
+#include <crpropa/Source.h>
 
 
 /// A custom C++ module

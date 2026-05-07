@@ -6,7 +6,7 @@
 #include "crpropa/Referenced.h"
 
 #ifdef CRPROPA_HAVE_MUPARSER
-#include <muParser.h>
+#include "muParser.h"
 #endif
 
 namespace crpropa {

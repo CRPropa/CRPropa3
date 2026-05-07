@@ -4,7 +4,7 @@
 #include "crpropa/Module.h"
 #include "crpropa/Units.h"
 #include "crpropa/magneticField/MagneticField.h"
-#include <kiss/logger.h>
+#include "kiss/logger.h"
 
 namespace crpropa {
 /**

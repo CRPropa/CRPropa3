@@ -13,7 +13,7 @@ jobs:
            cxx: "g++-11"
            cc: "gcc-11"
            fc: "gfortran-11"
-           swig_builtin: "On" #uses swig 4.0.2
+           swig_builtin: "ON" #uses swig 4.0.2
            py: "/usr/bin/python3" #python 3.10
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+          cmake .. -DENABLE_PYTHON=ON -DENABLE_TESTING=ON -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
       - name: Build CRPropa
         run: |
           cd build
@@ -48,4 +48,3 @@ jobs:
         with:
           name: "test-report_${{matrix.config.name}}"
           path: build/Testing/Temporary/LastTest.log
-  

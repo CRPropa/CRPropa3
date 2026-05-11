@@ -315,7 +315,7 @@ ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double c) {
 				gp.setInterpolationType(TRILINEAR);
 
 			// create new grid
-			ref_ptr<Grid3f> grid = std::shared_ptr<Grid3f>(new Grid3f(gp));
+			ref_ptr<Grid3f> grid(new Grid3f(gp));
 			fin.close();
 
 			// load data for grid
@@ -409,7 +409,7 @@ ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double c) {
 				gp.setInterpolationType(TRILINEAR);
 
 			// create new grid
-			ref_ptr<Grid1f> grid = std::shared_ptr<Grid1f>(new Grid1f(gp));
+			ref_ptr<Grid1f> grid(new Grid1f(gp));
 			fin.close();
 
 			// load data for grid

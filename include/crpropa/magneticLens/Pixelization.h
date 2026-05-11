@@ -62,14 +62,14 @@ class Pixelization
 public:
 	Pixelization()
 	{
-		_healpix = std::shared_ptr<healpix::T_Healpix_Base<int>>(new healpix::T_Healpix_Base<int>(6, healpix::RING));
+		_healpix = new healpix::T_Healpix_Base<int>(6, healpix::RING);
 	}
 
 	/// Constructor creating Pixelization with healpix order 6 (about
 	/// 50000 pixels)
 	Pixelization(uint8_t order)
 	{
-		_healpix = std::shared_ptr<healpix::T_Healpix_Base<int>>(new healpix::T_Healpix_Base<int>(order, healpix::RING));
+		_healpix = new healpix::T_Healpix_Base<int>(order, healpix::RING);
 	}
 
 	/// Returns the number of the pixel which includes the direction (phi,theta)

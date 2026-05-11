@@ -177,7 +177,7 @@ public:
 	MagneticLens(uint8_t healpixorder) :
 			_pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN)
 	{
-		_pixelization = std::shared_ptr<Pixelation>(new Pixelization(healpixorder));
+		_pixelization = new Pixelization(healpixorder);
 	}
 
 	/// Construct lens and load lens from file

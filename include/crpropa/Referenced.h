@@ -90,7 +90,7 @@ class ref_ptr {
 
 	bool valid() const {
 		if (_raw_ptr) return true;
-		return _shared_ptr != NULL;
+		return !(_shared_ptr==NULL);
 	}
 
 	void release() {

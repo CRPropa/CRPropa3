@@ -1307,10 +1307,13 @@ TEST(SynchrotronRadiation, PhotonEnergy) {
 
 	// check avg energy of the secondary photons 
 	double Esec = 0; 
+	double weightSum = 0;
 	for (size_t i = 0; i < c.secondaries.size(); i++) {
-		Esec += c.secondaries[i] -> current.getEnergy();
+		double weight = c.secondaries[i]->getWeight();
+		Esec += c.secondaries[i] -> current.getEnergy()*weight;
+		weightSum += weight;
 	}
-	Esec /= c.secondaries.size();
+	Esec /= weightSum;
 
 	EXPECT_NEAR(Esec, Ecrit, Ecrit);
 }

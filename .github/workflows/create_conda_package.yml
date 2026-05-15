@@ -34,7 +34,7 @@ jobs:
           conda init &> /dev/null
           cd conda-bld
           conda config --set anaconda_upload yes 
-          conda build -m conda_build_config.yaml -c conda-forge . \
+          conda build -m conda_build_config.yaml -c conda-forge . -k \
             --user $accountName \
             --token $token \
             | tee build.log
@@ -81,7 +81,7 @@ jobs:
           conda init &> /dev/null
           cd conda-bld
           conda config --set anaconda_upload yes 
-          conda build -m conda_build_config.yaml -c conda-forge . \
+          conda build -m conda_build_config.yaml -c conda-forge . -k \
             --user $accountName \
             --token $token \
             | tee build.log

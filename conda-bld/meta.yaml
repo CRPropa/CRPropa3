@@ -1,0 +1,49 @@
+package:
+  name: crpropa
+  version: {{ GIT_DESCRIBE_TAG }}
+
+source:
+  git_url: https://github.com/CRPropa/CRPropa3.git
+  folder: crpropa
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
+    - git
+    - cmake
+    - ninja
+    - swig
+  
+  host:
+    # host only requirements
+    - zlib
+    - gperftools
+    - pybind11-stubgen
+    # crpropa requirements
+    - fftw
+    - hdf5
+    - muparser
+    - eigen
+    # python requirements
+    - python
+    - numpy >=1.26,<3
+
+  run:
+    # crpropa requirements
+    - fftw
+    - hdf5
+    - muparser
+    - eigen
+    # cmake required for tests
+    - cmake
+    # python requirements
+    - python
+    - numpy >=1.26,<3
+
+test:
+  imports:
+    - crpropa
+  commands:
+    - testCRPropa

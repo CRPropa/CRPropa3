@@ -28,6 +28,7 @@ jobs:
           token: ${{ secrets.ANACONDA_TOKEN }}
           FAST_WAVES: "ON"
           SIMD_EXTENSIONS: "avx+fma"
+          GITHUB_REF_NAME: "master"
         run: |
           set -ex
           conda init &> /dev/null
@@ -73,6 +74,7 @@ jobs:
           token: ${{ secrets.ANACONDA_TOKEN }}
           FAST_WAVES: "OFF"
           SIMD_EXTENSIONS: "none"
+          GITHUB_REF_NAME: "master"
         run: |
           source ~/miniconda3/bin/activate
           set -ex

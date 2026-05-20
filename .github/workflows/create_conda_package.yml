@@ -28,12 +28,12 @@ jobs:
           token: ${{ secrets.ANACONDA_TOKEN }}
           FAST_WAVES: "ON"
           SIMD_EXTENSIONS: "avx+fma"
-          GITHUB_REF_NAME: "master"
         run: |
           set -ex
           conda init &> /dev/null
           cd conda-bld
           conda config --set anaconda_upload yes 
+          export CRPROPA_VERSION=${GITHUB_REF_NAME,,}
           conda build -m conda_build_config.yaml -c conda-forge . -k \
             --user $accountName \
             --token $token \
@@ -74,13 +74,13 @@ jobs:
           token: ${{ secrets.ANACONDA_TOKEN }}
           FAST_WAVES: "OFF"
           SIMD_EXTENSIONS: "none"
-          GITHUB_REF_NAME: "master"
         run: |
           source ~/miniconda3/bin/activate
           set -ex
           conda init &> /dev/null
           cd conda-bld
-          conda config --set anaconda_upload yes 
+          conda config --set anaconda_upload yes
+          export CRPROPA_VERSION=${GITHUB_REF_NAME,,}
           conda build -m conda_build_config.yaml -c conda-forge . -k \
             --user $accountName \
             --token $token \

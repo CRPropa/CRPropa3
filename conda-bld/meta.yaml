@@ -1,6 +1,6 @@
 package:
   name: crpropa
-  version: {{ environ.get('GITHUB_REF_NAME') }}
+  version: {{ environ.get('CRPROPA_VERSION', 'master') }}
 
 source:
   git_url: ../

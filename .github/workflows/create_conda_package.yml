@@ -15,7 +15,7 @@ on:
 
 jobs:
   x64:
-    if: github.repository=='JanNiklasB/CRPropa3'
+    if: github.repository=='CRPropa/CRPropa3'
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -53,7 +53,7 @@ jobs:
           path: conda-bld/build.log
 
   arm:
-    if: github.repository=='JanNiklasB/CRPropa3'
+    if: github.repository=='CRPropa/CRPropa3'
     runs-on: ubuntu-22.04-arm
     strategy:
       fail-fast: false

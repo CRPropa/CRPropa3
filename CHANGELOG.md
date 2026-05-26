@@ -11,6 +11,7 @@
 * Fixed several issues in Variant and Random
 * Fixed setExtends in PeriodicMagneticField
 * Fixed constantScaleBendover which was not initialized 
+* Fixed issue when including CRPropa as a subproject by making all paths realtive to the current source and binary directory
 
 ### New features:
 
@@ -20,6 +21,8 @@
  * Added ReflectiveShell boundary condition
  * Added overridable getTime function to ObserverTimeEvolution which is called instead of detList. 
   Old functionalities are preserved by adding old functions and setter/getter functions.
+ * Added advanced cmake variable `CRPROPA_EXTRA_INCLUDES` that can be used to also get the normally
+   hidden include folders
 
 
 ### Interface changes:

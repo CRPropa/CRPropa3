@@ -39,7 +39,7 @@ void ProgressBar::setPosition(unsigned long position) {
 	int percentage = int(100 * (position / float(_steps)));
 	time_t currentTime = time(NULL);
 	if (position < _steps) {
-		if (arrow.size() <= (_maxbarLength) * (position) / (_steps))
+		while (arrow.size() <= _maxbarLength * percentage / 100)
 			arrow.insert(0, "=");
 		float tElapsed = currentTime - _startTime;
 		float tToGo = (_steps - position) * tElapsed / position;

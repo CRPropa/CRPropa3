@@ -250,7 +250,7 @@ void HDF5Output::close() {
 	}
 }
 
-void HDF5Output::process(Candidate* candidate) const {
+void HDF5Output::process(ref_ptr<Candidate> candidate) const {
 	#pragma omp critical(HDFOutput)
 	{
 	if (file == -1)

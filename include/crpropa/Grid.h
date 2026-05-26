@@ -72,7 +72,7 @@ inline double round(double r) {
  @class GridProperties
  @brief Combines parameters that uniquely define Grid class
  */
-class GridProperties: public Referenced {
+class GridProperties {
 public:
 	size_t Nx, Ny, Nz; 	// Number of grid points
 	Vector3d origin;  	// Position of the lower left front corner of the volume
@@ -156,7 +156,7 @@ public:
  The grid sample positions are at 1/2 * size/N, 3/2 * size/N ... (2N-1)/2 * size/N.
  */
 template<typename T>
-class Grid: public Referenced {
+class Grid {
 	std::vector<T> grid;
 	size_t Nx, Ny, Nz; /**< Number of grid points */
 	Vector3d origin; /**< Origin of the volume that is represented by the grid. */

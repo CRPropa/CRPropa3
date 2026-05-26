@@ -6,7 +6,7 @@
 
 namespace crpropa {
 
-void Redshift::process(Candidate *c) const {
+void Redshift::process(ref_ptr<Candidate> c) const {
 	double z = c->getRedshift();
 
 	// check if z = 0
@@ -34,7 +34,7 @@ std::string Redshift::getDescription() const {
 	return s.str();
 }
 
-void FutureRedshift::process(Candidate *c) const {
+void FutureRedshift::process(ref_ptr<Candidate> c) const {
 	double z = c->getRedshift();
 
 	// check if z = -1

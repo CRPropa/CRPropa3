@@ -145,7 +145,7 @@ void PhotoDisintegration::initPhotonEmission(std::string filename) {
 	infile.close();
 }
 
-void PhotoDisintegration::process(Candidate *candidate) const {
+void PhotoDisintegration::process(ref_ptr<Candidate> candidate) const {
 	// execute the loop at least once for limiting the next step
 	double step = candidate->getCurrentStep();
 	do {
@@ -199,7 +199,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 	} while (step > 0);
 }
 
-void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) const {
+void PhotoDisintegration::performInteraction(ref_ptr<Candidate> candidate, int channel) const {
 	KISS_LOG_DEBUG << "Photodisintegration::performInteraction. Channel " <<  channel << " on candidate " << candidate->getDescription(); 
 	// parse disintegration channel
 	int nNeutron = digit(channel, 100000);

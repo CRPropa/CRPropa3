@@ -91,7 +91,7 @@ void JF12FieldSolenoidal::deactivateOuterTransition() {
 }
 
 void JF12FieldSolenoidal::setUseStriatedField(bool use) {
-	if ((use) and (striatedGrid)) {
+	if ((use) and (striatedGrid.valid())) {
 		KISS_LOG_WARNING << "JF12FieldSolenoidal: No striated field set: ignored.";
 		return;
 	}
@@ -99,7 +99,7 @@ void JF12FieldSolenoidal::setUseStriatedField(bool use) {
 }
 
 void JF12FieldSolenoidal::setUseTurbulentField(bool use) {
-	if ((use) and (turbulentGrid)) {
+	if ((use) and (turbulentGrid.valid())) {
 		KISS_LOG_WARNING << "JF12FieldSolenoidal: No turbulent field set: ignored.";
 		return;
 	}

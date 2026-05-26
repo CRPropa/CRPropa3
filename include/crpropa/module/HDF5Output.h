@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <ctime>
 
-#include <H5Ipublic.h>
+#include "H5Ipublic.h"
 
 namespace crpropa {
 
@@ -116,7 +116,7 @@ public:
 	HDF5Output(const std::string &filename, OutputType outputtype);
 	~HDF5Output();
 
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	herr_t insertStringAttribute(const std::string &key, const std::string &value);
 	herr_t insertDoubleAttribute(const std::string &key, const double &value);
 	std::string getDescription() const;

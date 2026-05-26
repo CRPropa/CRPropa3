@@ -65,9 +65,9 @@ public:
 	 * @param maxStep	   maxStep/c_light is the maximum integration time step. 
 	 */
     PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
-			double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+		double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
 
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 
 	// derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
 	// du/dt = q*c^2/E * (u x B)
@@ -76,6 +76,9 @@ public:
 	void tryStep(const Y &y, Y &out, Y &error, double t,
 			ParticleState &p, double z) const;
 
+	/** Set a specific magnetic field
+	 * @param field	 specific magnetic field 
+	 */
 	void setField(ref_ptr<MagneticField> field);
 	void setTolerance(double tolerance);
 	void setMinimumStep(double minStep);

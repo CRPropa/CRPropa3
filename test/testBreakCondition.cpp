@@ -18,11 +18,11 @@ TEST(MinimumEnergy, test) {
 	Candidate c;
 
 	c.current.setEnergy(5.1);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.current.setEnergy(4.9);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -32,15 +32,15 @@ TEST(MinimumChargeNumber, test) {
 	Candidate c;
 
 	c.current.setId(nucleusId(56, 26));
-	minChargeNumber.process(&c);
+	minChargeNumber.process(c);
 	EXPECT_TRUE(c.isActive());
 	
 	c.current.setId(-nucleusId(56, 26));
-	minChargeNumber.process(&c);
+	minChargeNumber.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.current.setId(nucleusId(4, 2));
-	minChargeNumber.process(&c);
+	minChargeNumber.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 	
@@ -48,7 +48,7 @@ TEST(MinimumChargeNumber, test) {
 	c.removeProperty("Rejected");
 
 	c.current.setId(-nucleusId(4, 2));
-	minChargeNumber.process(&c);
+	minChargeNumber.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -63,12 +63,12 @@ TEST(MinimumEnergyPerParticleId, test) {
 
 	c.current.setEnergy(20);
 	c.current.setId(22);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.current.setEnergy(5);
 	c.current.setId(22);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 
@@ -77,7 +77,7 @@ TEST(MinimumEnergyPerParticleId, test) {
 
 	c.current.setEnergy(10);
 	c.current.setId(11);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 
@@ -86,12 +86,12 @@ TEST(MinimumEnergyPerParticleId, test) {
 
 	c.current.setEnergy(5);
 	c.current.setId(12);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_TRUE(c.isActive());	
 
 	c.current.setEnergy(0.1);
 	c.current.setId(12);
-	minEnergy.process(&c);
+	minEnergy.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -101,11 +101,11 @@ TEST(MaximumTrajectoryLength, test) {
 	Candidate c;
 
 	c.setTrajectoryLength(9.9);
-	maxLength.process(&c);
+	maxLength.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.setTrajectoryLength(10.1);
-	maxLength.process(&c);
+	maxLength.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -117,11 +117,11 @@ TEST(MaximumTrajectoryLength, observer) {
 	c.current.setPosition(Vector3d(5, 0, 0));
 
 	c.setTrajectoryLength(5);
-	maxLength.process(&c);
+	maxLength.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.setTrajectoryLength(8);
-	maxLength.process(&c);
+	maxLength.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 
@@ -130,30 +130,30 @@ TEST(MinimumRedshift, test) {
 	Candidate c;
 
 	c.setRedshift(0.1);
-	minZ.process(&c);
+	minZ.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	c.setRedshift(0);
-	minZ.process(&c);
+	minZ.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(DetectionLength, test) {
-        DetectionLength detL(10);
+		DetectionLength detL(10);
 	detL.setMakeRejectedInactive(false);
-        Candidate c;
-        c.current.setPosition(Vector3d(5,0,0));
+		Candidate c;
+		c.current.setPosition(Vector3d(5,0,0));
 
-        c.setTrajectoryLength(2);
-        detL.process(&c);
-        EXPECT_TRUE(c.isActive());
+		c.setTrajectoryLength(2);
+		detL.process(c);
+		EXPECT_TRUE(c.isActive());
 	
-        c.setCurrentStep(10);
+		c.setCurrentStep(10);
 	c.setTrajectoryLength(12);
-        detL.process(&c);
-        EXPECT_TRUE(c.isActive());
-        EXPECT_TRUE(c.hasProperty("Rejected"));
+		detL.process(c);
+		EXPECT_TRUE(c.isActive());
+		EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 //** ============================= Observers ================================ */
@@ -167,7 +167,7 @@ TEST(ObserverFeature, SmallSphere) {
 	// no detection: particle was inside already
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(0.95, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
@@ -176,7 +176,7 @@ TEST(ObserverFeature, SmallSphere) {
 	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(1.1, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 
@@ -190,7 +190,7 @@ TEST(ObserverFeature, LargeSphere) {
 	// no detection: particle was outside already
 	c.current.setPosition(Vector3d(11, 0, 0));
 	c.previous.setPosition(Vector3d(10.5, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
@@ -199,7 +199,7 @@ TEST(ObserverFeature, LargeSphere) {
 	// detection: particle just left
 	c.current.setPosition(Vector3d(11, 0, 0));
 	c.previous.setPosition(Vector3d(9.5, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 
@@ -211,7 +211,7 @@ TEST(ObserverFeature, Point) {
 
 	// no detection, limit step
 	c.current.setPosition(Vector3d(5, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
@@ -219,7 +219,7 @@ TEST(ObserverFeature, Point) {
 
 	// detection
 	c.current.setPosition(Vector3d(0, 0, 0));
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 
@@ -228,7 +228,7 @@ TEST(ObserverFeature, DetectAll) {
 	Observer obs;
 	obs.add(new ObserverDetectAll());
 	Candidate c;
-	obs.process(&c);
+	obs.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 
@@ -244,7 +244,7 @@ TEST(ObserverFeature, TimeEvolution) {
   
   // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
 
   // limit step
@@ -253,20 +253,20 @@ TEST(ObserverFeature, TimeEvolution) {
   // detection one
   c.setCurrentStep(0.1);
   c.setTrajectoryLength(5);
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
   obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
   c.setTrajectoryLength(8);
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
 
   // detection two
   c.setCurrentStep(0.1);
   c.setTrajectoryLength(10.05);
-  obs.process(&c);
+  obs.process(c);
   EXPECT_FALSE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 }
@@ -286,7 +286,7 @@ TEST(ObserverFeature, TimeEvolutionLog) {
 
   // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
 
   // limit step (should be 10-3=7)
@@ -295,21 +295,21 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   // detection one
   c.setCurrentStep(0.1);  // set small to be barely over first detection length
   c.setTrajectoryLength(10);  // set to first detection length
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
   obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
   c.setTrajectoryLength(80);  // set to something between 10 and 100 (first and second detection)
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
   obs.setDeactivateOnDetection(false); // reset to false again for future detection
 
   // detection two
   c.setCurrentStep(0.1);
   c.setTrajectoryLength(100);
-  obs.process(&c);
+  obs.process(c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
@@ -317,7 +317,7 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   obs.setDeactivateOnDetection(true);  // deactivate here since it is the last detection
   c.setCurrentStep(0.1);
   c.setTrajectoryLength(1000.05);
-  obs.process(&c);
+  obs.process(c);
   EXPECT_FALSE(c.isActive());  // not active anymore
   EXPECT_TRUE(c.hasProperty("Detected"));
 }
@@ -354,7 +354,7 @@ TEST(ObserverFeature, TimeEvolutionArray) {
   EXPECT_FALSE(obs.empty());
   // should be equal to above times array, but isnt, even though the values are the same
   for (int i=0; i<times.size(); i++)
-    EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
+	EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
 
   // now check if constructDetListIfEmpty is working properly:
   ObserverTimeEvolution obs2(5, 10, 6, false);
@@ -383,7 +383,7 @@ TEST(PeriodicBox, high) {
 	c.current.setPosition(Vector3d(4.5, 4.3, 4.4));
 	c.created.setPosition(Vector3d(3, 3, 3));
 
-	box.process(&c);
+	box.process(c);
 
 	EXPECT_DOUBLE_EQ(2.5, c.current.getPosition().x);
 	EXPECT_DOUBLE_EQ(1, c.created.getPosition().x);
@@ -403,7 +403,7 @@ TEST(PeriodicBox, low) {
 	c.current.setPosition(Vector3d(-2.5, -0.3, -0.4));
 	c.created.setPosition(Vector3d(1, 1, 1));
 
-	box.process(&c);
+	box.process(c);
 
 	EXPECT_DOUBLE_EQ(1.5, c.current.getPosition().x);
 	EXPECT_DOUBLE_EQ(5, c.created.getPosition().x);
@@ -428,7 +428,7 @@ TEST(ReflectiveShell, inside) {
 	c.current.setPosition(currentPosition);
 	c.current.setDirection(Vector3d(10, -1, -1));
 	// process reflection
-	shell.process(&c);
+	shell.process(c);
 
 	// expected position & direction after reflection
 	// calculated by hand with the same algorithm as implemented in Boundary.cpp
@@ -458,7 +458,7 @@ TEST(ReflectiveBox, high) {
 	c.current.setPosition(Vector3d(15, 15, 30.5));
 	c.current.setDirection(Vector3d(0, 0.6, 0.8));
 
-	box.process(&c);
+	box.process(c);
 
 	EXPECT_DOUBLE_EQ(16, c.source.getPosition().x);
 	EXPECT_DOUBLE_EQ(17, c.source.getPosition().y);
@@ -493,7 +493,7 @@ TEST(CubicBoundary, inside) {
 	CubicBoundary cube(Vector3d(0, 0, 0), 10);
 	Candidate c;
 	c.current.setPosition(Vector3d(9, 5, 5));
-	cube.process(&c);
+	cube.process(c);
 	EXPECT_TRUE(c.isActive());
 }
 
@@ -501,7 +501,7 @@ TEST(CubicBoundary, outside) {
 	CubicBoundary cube(Vector3d(0, 0, 0), 10);
 	Candidate c;
 	c.current.setPosition(Vector3d(10.1, 5, 5));
-	cube.process(&c);
+	cube.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -513,7 +513,7 @@ TEST(CubicBoundary, limitStepLower) {
 	Candidate c;
 	c.current.setPosition(Vector3d(15, 15, 10.5));
 	c.setNextStep(100);
-	cube.process(&c);
+	cube.process(c);
 	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
 }
 
@@ -524,7 +524,7 @@ TEST(CubicBoundary, limitStepUpper) {
 	Candidate c;
 	c.current.setPosition(Vector3d(-5, -5, -0.5));
 	c.setNextStep(100);
-	cube.process(&c);
+	cube.process(c);
 	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
 }
 
@@ -532,7 +532,7 @@ TEST(SphericalBoundary, inside) {
 	SphericalBoundary sphere(Vector3d(0, 0, 0), 10);
 	Candidate c;
 	c.current.setPosition(Vector3d(9, 0, 0));
-	sphere.process(&c);
+	sphere.process(c);
 	EXPECT_TRUE(c.isActive());
 	EXPECT_FALSE(c.hasProperty("Rejected"));
 }
@@ -542,7 +542,7 @@ TEST(SphericalBoundary, outside) {
 	sphere.setRejectFlag("I passed the galactic border", "Nothing happened");
 	Candidate c;
 	c.current.setPosition(Vector3d(0, -10.1, 0));
-	sphere.process(&c);
+	sphere.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("I passed the galactic border"));
 }
@@ -554,7 +554,7 @@ TEST(SphericalBoundary, limitStep) {
 	Candidate c;
 	c.setNextStep(100);
 	c.current.setPosition(Vector3d(0, 0, 9.5));
-	sphere.process(&c);
+	sphere.process(c);
 	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
 }
 
@@ -562,7 +562,7 @@ TEST(EllipsoidalBoundary, inside) {
 	EllipsoidalBoundary ellipsoid(Vector3d(-5, 0, 0), Vector3d(5, 0, 0), 15);
 	Candidate c;
 	c.current.setPosition(Vector3d(3, 2, 0));
-	ellipsoid.process(&c);
+	ellipsoid.process(c);
 	EXPECT_TRUE(c.isActive());
 	EXPECT_FALSE(c.hasProperty("Rejected"));
 }
@@ -571,7 +571,7 @@ TEST(EllipsoidalBoundary, outside) {
 	EllipsoidalBoundary ellipsoid(Vector3d(-5, 0, 0), Vector3d(5, 0, 0), 15);
 	Candidate c;
 	c.current.setPosition(Vector3d(0, 25, 0));
-	ellipsoid.process(&c);
+	ellipsoid.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
@@ -583,36 +583,36 @@ TEST(EllipsoidalBoundary, limitStep) {
 	Candidate c;
 	c.setNextStep(2);
 	c.current.setPosition(Vector3d(7, 0, 0));
-	ellipsoid.process(&c);
+	ellipsoid.process(c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
 }
 
 TEST(CylindricalBoundary, inside) {
-        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+		CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
 	Candidate c;
 	c.current.setPosition(Vector3d(6, -3, 0.5));
-	cylinder.process(&c);
+	cylinder.process(c);
 	EXPECT_TRUE(c.isActive());
 	EXPECT_FALSE(c.hasProperty("Rejected"));
 }
 
 TEST(CylindricalBoundary, outside) {
-        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+		CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
 	Candidate c;
 	c.current.setPosition(Vector3d(6, -3, 1.5));
-	cylinder.process(&c);
+	cylinder.process(c);
 	EXPECT_FALSE(c.isActive());
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(CylindricalBoundary, limitStep) {
-        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+		CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
 	cylinder.setLimitStep(true);
 	cylinder.setMargin(0.5);
 	Candidate c;
 	c.setNextStep(2);
 	c.current.setPosition(Vector3d(7, 0, 0));
-	cylinder.process(&c);
+	cylinder.process(c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
 }
 
@@ -625,10 +625,10 @@ TEST(RestrictToRegion, RestrictToRegion) {
 	Candidate c;
 	c.previous.setPosition(Vector3d(13,0,0));
 	c.current.setPosition(Vector3d(12,0,0));
-	R.process(&c);
+	R.process(c);
 	EXPECT_TRUE(c.isActive());
 	c.current.setPosition(Vector3d(9,0,0));
-	R.process(&c);
+	R.process(c);
 	EXPECT_FALSE(c.isActive());
 }
 

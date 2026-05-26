@@ -20,8 +20,9 @@ namespace crpropa {
 
  Defines a surface. Can be queried if the candidate has crossed the surface in the last step.
  */
-class Surface : public Referenced {
+class Surface  {
 public:
+	virtual ~Surface() = default;
 	/** Returns the distance of a point to the surface. Negative on the one side,
  	 positive on the other. For closed surfaces it is negative on the inside.
 	 @param point	vector corresponding to the point to which compute the distance

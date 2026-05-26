@@ -15,12 +15,12 @@
 namespace crpropa {
 
 // Source ---------------------------------------------------------------------
-void Source::add(SourceFeature* property) {
+void Source::add(ref_ptr<SourceFeature> property) {
 	features.push_back(property);
 }
 
 ref_ptr<Candidate> Source::getCandidate() const {
-	ref_ptr<Candidate> candidate = new Candidate();
+	ref_ptr<Candidate> candidate(new Candidate());
 	for (int i = 0; i < features.size(); i++)
 		(*features[i]).prepareCandidate(*candidate);
 	return candidate;
@@ -35,7 +35,7 @@ std::string Source::getDescription() const {
 }
 
 // SourceList------------------------------------------------------------------
-void SourceList::add(Source* source, double weight) {
+void SourceList::add(ref_ptr<Source> source, double weight) {
 	sources.push_back(source);
 	if (cdf.size() > 0)
 		weight += cdf.back();
@@ -821,12 +821,12 @@ void SourceDirection::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceEmissionMap::SourceEmissionMap(EmissionMap *emissionMap) : emissionMap(emissionMap) {
+SourceEmissionMap::SourceEmissionMap(ref_ptr<EmissionMap> emissionMap) : emissionMap(emissionMap) {
 	setDescription();
 }
 
 void SourceEmissionMap::prepareCandidate(Candidate &candidate) const {
-	if (emissionMap) {
+	if (emissionMap.valid()) {
 		bool accept = emissionMap->checkDirection(candidate.source);
 		candidate.setActive(accept);
 	}
@@ -836,7 +836,7 @@ void SourceEmissionMap::setDescription() {
 	description = "SourceEmissionMap: accept only directions from emission map\n";
 }
 
-void SourceEmissionMap::setEmissionMap(EmissionMap *emissionMap) {
+void SourceEmissionMap::setEmissionMap(ref_ptr<EmissionMap> emissionMap) {
 	this->emissionMap = emissionMap;
 }
 

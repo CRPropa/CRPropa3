@@ -59,7 +59,7 @@ void EMDoublePairProduction::initRate(std::string filename) {
 }
 
 
-void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
+void EMDoublePairProduction::performInteraction(ref_ptr<Candidate> candidate) const {
 	// the photon is lost after the interaction
 	candidate->setActive(false);
 
@@ -88,7 +88,7 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 		}
 }
 
-void EMDoublePairProduction::process(Candidate *candidate) const {
+void EMDoublePairProduction::process(ref_ptr<Candidate> candidate) const {
 	// check if photon
 	if (candidate->current.getId() != 22)
 		return;

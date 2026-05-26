@@ -15,7 +15,7 @@ class Candidate;
  @class Module
  @brief Abstract base class for modules
  */
-class Module: public Referenced {
+class Module {
 	std::string description;
 public:
 	Module();
@@ -23,10 +23,7 @@ public:
 	}
 	virtual std::string getDescription() const;
 	void setDescription(const std::string &description);
-	virtual void process(Candidate *candidate) const = 0;
-	inline void process(ref_ptr<Candidate> candidate) const {
-		process(candidate.get());
-	}
+	virtual void process(ref_ptr<Candidate> candidate) const = 0;
 };
 
 
@@ -41,20 +38,13 @@ protected:
 	std::string rejectFlagKey, rejectFlagValue;
 	std::string acceptFlagKey, acceptFlagValue;
 
-	void reject(Candidate *candidate) const;
-	inline void reject(ref_ptr<Candidate> candidate) const {
-		reject(candidate.get());
-	}
-
-	void accept(Candidate *candidate) const;
-	inline void accept(ref_ptr<Candidate> candidate) const {
-		accept(candidate.get());
-	}
+	void reject(ref_ptr<Candidate> candidate) const;
+	void accept(ref_ptr<Candidate> candidate) const;
 
 public:
 	AbstractCondition();
-	void onReject(Module *rejectAction);
-	void onAccept(Module *acceptAction);
+	void onReject(ref_ptr<Module> rejectAction);
+	void onAccept(ref_ptr<Module> acceptAction);
 	void setMakeRejectedInactive(bool makeInactive);
 	void setMakeAcceptedInactive(bool makeInactive);
 	void setRejectFlag(std::string key, std::string value);
@@ -73,7 +63,7 @@ public:
 */
 class Deactivation: public AbstractCondition {
 	public: 
-		void process(Candidate *cand) const { reject(cand); }
+		void process(ref_ptr<Candidate> cand) const { reject(cand); }
 };
 
 

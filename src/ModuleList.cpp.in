@@ -30,7 +30,7 @@ void ModuleList::setShowProgress(bool show) {
 	showProgress = show;
 }
 
-void ModuleList::add(Module *module) {
+void ModuleList::add(ref_ptr<Module> module) {
 	modules.push_back(module);
 }
 
@@ -51,17 +51,13 @@ ref_ptr<Module> ModuleList::operator[](const std::size_t i) {
 }
 
 
-void ModuleList::process(Candidate* candidate) const {
+void ModuleList::process(ref_ptr<Candidate> candidate) const {
 	module_list_t::const_iterator m;
 	for (m = modules.begin(); m != modules.end(); m++)
 		(*m)->process(candidate);
 }
 
-void ModuleList::process(ref_ptr<Candidate> candidate) const {
-	process((Candidate*) candidate);
-}
-
-void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst) {
+void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
 	// propagate primary candidate until finished
 	while (candidate->isActive() && (g_cancel_signal_flag == 0)) {
 		process(candidate);
@@ -90,11 +86,7 @@ void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst
 		dumpCandidate(candidate);
 }
 
-void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
-	run((Candidate*) candidate, recursive, secondariesFirst);
-}
-
-void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool secondariesFirst) {
+void ModuleList::run(ref_ptr<candidate_vector_t> candidates, bool recursive, bool secondariesFirst) {
 	size_t count = candidates->size();
 
 #if _OPENMP
@@ -150,7 +142,7 @@ void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool 
 	}
 }
 
-void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool secondariesFirst) {
+void ModuleList::run(ref_ptr<SourceInterface> source, size_t count, bool recursive, bool secondariesFirst) {
 
 #if _OPENMP
 	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
@@ -244,12 +236,12 @@ void ModuleList::showModules() const {
 	std::cout << getDescription();
 }
 
-void ModuleList::setInterruptAction(Output* action) {
+void ModuleList::setInterruptAction(ref_ptr<Output> action) {
 	interruptAction = action;
 	haveInterruptAction = true;
 }
 
-void ModuleList::dumpCandidate(Candidate *cand) const {
+void ModuleList::dumpCandidate(ref_ptr<Candidate> cand) const {
 	if (!haveInterruptAction) 
 		return;
 	
@@ -260,15 +252,15 @@ void ModuleList::dumpCandidate(Candidate *cand) const {
 		 << cand->getSerialNumber() << std::endl;
 
 	for (int i = 0; i < cand->secondaries.size(); i++) {
-		if (cand->secondaries[i])
+		if (cand->secondaries[i].valid())
 			dumpCandidate(cand->secondaries[i]);
 	}
 }
 
-ModuleListRunner::ModuleListRunner(ModuleList *mlist) : mlist(mlist) {
+ModuleListRunner::ModuleListRunner(ref_ptr<ModuleList> mlist) : mlist(mlist) {
 }
 
-void ModuleListRunner::process(Candidate *candidate) const {
+void ModuleListRunner::process(ref_ptr<Candidate> candidate) const {
 	if (mlist.valid())
 		mlist->run(candidate);
 }

@@ -20,7 +20,7 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 	container.reserve(nBuffer);
 }
 
-void ParticleCollector::process(Candidate *c) const {
+void ParticleCollector::process(ref_ptr<Candidate> c) const {
 #pragma omp critical(ModifyContainer)
         {
 		if(clone)
@@ -30,27 +30,23 @@ void ParticleCollector::process(Candidate *c) const {
         }
 }
 
-void ParticleCollector::process(ref_ptr<Candidate> c) const {
-	ParticleCollector::process((Candidate*) c);
-}
-
-void ParticleCollector::reprocess(Module *action) const {
+void ParticleCollector::reprocess(ref_ptr<Module> action) const {
 	for (ParticleCollector::iterator itr = container.begin(); itr != container.end(); ++itr){
 		if (clone)
-			action->process((*(itr->get())).clone(false));
+			action->process((*(itr))->clone(false));
 		else
-        	        action->process(itr->get());
+			action->process(*itr);
 	}
 }
 
 void ParticleCollector::dump(const std::string &filename) const {
-	TextOutput output(filename.c_str(), Output::Everything);
-	reprocess(&output);
+	TextOutput output(filename, Output::Everything);
+	reprocess(output);
 	output.close();
 }
 
 void ParticleCollector::load(const std::string &filename){
-	TextOutput::load(filename.c_str(), this);
+	TextOutput::load(filename, *this);
 }
 
 ParticleCollector::~ParticleCollector() {
@@ -101,18 +97,14 @@ ParticleCollector::const_iterator ParticleCollector::end() const {
 	return container.end();
 }
 
-void ParticleCollector::getTrajectory(ModuleList* mlist, std::size_t i, Module *output) const {
+void ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<Module> output) const {
 	ref_ptr<Candidate> c_tmp = container[i]->clone();
-
+	
 	c_tmp->restart();
-
+	
 	mlist->add(output);
 	mlist->run(c_tmp);
 	mlist->remove(mlist->size()-1);
-}
-
-void ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<Module> output) const {
-	ParticleCollector::getTrajectory((ModuleList*) mlist, i, (Module*) output);
 }
 
 } // namespace crpropa

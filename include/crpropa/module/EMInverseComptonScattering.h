@@ -75,8 +75,8 @@ public:
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);
 
-	void process(Candidate *candidate) const;
-	void performInteraction(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
+	void performInteraction(ref_ptr<Candidate> candidate) const;
 };
 /** @}*/
 

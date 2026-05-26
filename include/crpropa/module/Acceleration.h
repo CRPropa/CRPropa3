@@ -1,11 +1,11 @@
 #ifndef CRPROPA_ACCELERATION
 #define CRPROPA_ACCELERATION
 
-#include <crpropa/Candidate.h>
-#include <crpropa/Geometry.h>
-#include <crpropa/Module.h>
-#include <crpropa/Units.h>
-#include <crpropa/Vector3.h>
+#include "crpropa/Candidate.h"
+#include "crpropa/Geometry.h"
+#include "crpropa/Module.h"
+#include "crpropa/Units.h"
+#include "crpropa/Vector3.h"
 
 #include <string>
 
@@ -16,15 +16,16 @@ namespace crpropa {
 
 /// @class StepLengthModifier
 /// @brief Modifies the steplength of an acceleration module.
-class StepLengthModifier : public Referenced {
+class StepLengthModifier  {
   public:
+	virtual ~StepLengthModifier() = default;
 	/// Returns an update of the steplength
 	/// @param steplength 	Modifies step length, e.g., based on scattering 
 	///						model.	
 	/// @param candidate 	Additional candidate properties are usually 
 	///						included in the calculation of the updated
 	///						step length.
-	virtual double modify(double steplength, Candidate *candidate) = 0;
+	virtual double modify(double steplength, ref_ptr<Candidate> candidate) = 0;
 };
 
 
@@ -42,18 +43,18 @@ class AbstractAccelerationModule : public Module {
 	/// The parent's constructor need to be called on initialization!
 	AbstractAccelerationModule(double _stepLength = 1. * parsec);
 	// add a step length modifier to the model
-	void add(StepLengthModifier *modifier);
+	void add(ref_ptr<StepLengthModifier> modifier);
 	// update the candidate
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 
 	/// Returns the velocity vector of the scatter centers in the rest frame of
 	/// the candidate. Needs to be implemented in inheriting classes.
-	virtual Vector3d scatterCenterVelocity(Candidate *candidate) const = 0;
+	virtual Vector3d scatterCenterVelocity(ref_ptr<Candidate> candidate) const = 0;
 
 	/// Scatter the candidate with a center with given scatter center
 	/// velocity into a random direction. Assumes that the
 	/// candidate is ultra-relativistic (m = 0).
-	void scatter(Candidate *candidate,
+	void scatter(ref_ptr<Candidate> candidate,
 	             const Vector3d &scatter_center_velocity) const;
 };
 
@@ -72,11 +73,10 @@ class SecondOrderFermi : public AbstractAccelerationModule {
 	@param stepLength				average mean free path
 	@param sizeOfPitchangleTable	number of precalculated pitch angles
 	*/
-	SecondOrderFermi(double scatterVelocity = .1 * crpropa::c_light,
-	                 double stepLength = 1. * crpropa::parsec,
+	SecondOrderFermi(double scatterVelocity = .1 * c_light,
+	                 double stepLength = 1. * parsec,
 	                 unsigned int sizeOfPitchangleTable = 10000);
-	virtual crpropa::Vector3d
-	scatterCenterVelocity(crpropa::Candidate *candidate) const;
+	virtual Vector3d scatterCenterVelocity(ref_ptr<Candidate> candidate) const;
 };
 
 
@@ -88,17 +88,16 @@ class SecondOrderFermi : public AbstractAccelerationModule {
 ///    the shock acceleration in CRPropa leading to this module.
 class DirectedFlowScattering : public AbstractAccelerationModule {
   private:
-	crpropa::Vector3d __scatterVelocity;
+	Vector3d __scatterVelocity;
 
   public:
   /** Constructor
    * @param scatterCenterVelocity	velocity of scattering centers
    * @param stepLength				average mean free path
   */
-	DirectedFlowScattering(crpropa::Vector3d scatterCenterVelocity,
+	DirectedFlowScattering(Vector3d scatterCenterVelocity,
 	                       double stepLength = 1. * parsec);
-	virtual crpropa::Vector3d
-	scatterCenterVelocity(crpropa::Candidate *candidate) const;
+	virtual Vector3d scatterCenterVelocity(ref_ptr<Candidate> candidate) const;
 };
 
 
@@ -115,7 +114,7 @@ class DirectedFlowOfScatterCenters : public StepLengthModifier {
    * @param scatterCenterVelocity	velocity of scattering centers
   */
 	DirectedFlowOfScatterCenters(const Vector3d &scatterCenterVelocity);
-	double modify(double steplength, Candidate *candidate);
+	double modify(double steplength, ref_ptr<Candidate> candidate);
 };
 
 
@@ -154,7 +153,7 @@ class QuasiLinearTheory : public StepLengthModifier {
 	QuasiLinearTheory(double referenecEnergy = 1. * EeV,
 	                  double turbulenceIndex = 5. / 3,
 	                  double minimumRigidity = 0);
-	double modify(double steplength, Candidate *candidate);
+	double modify(double steplength, ref_ptr<Candidate> candidate);
 };
 
 
@@ -185,12 +184,12 @@ class ParticleSplitting : public Module {
 	                            property used for counting. Useful if
 	                            multiple splitting modules are present.
 	*/
-	ParticleSplitting(Surface *surface, int crossingThreshold = 50,
+	ParticleSplitting(ref_ptr<Surface> surface, int crossingThreshold = 50,
 	                  int numberSplits = 5, double minWeight = 0.01,
 	                  std::string counterid = "ParticleSplittingCounter");
 
 	// update the candidate
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 

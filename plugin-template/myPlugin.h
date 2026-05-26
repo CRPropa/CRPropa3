@@ -15,7 +15,7 @@ class MyModule : public crpropa::Module
 public:
 	/// The parent's constructor need to be called on initialization!
 	MyModule();
-	void process(crpropa::Candidate *candidate) const;
+	void process(crpropa::ref_ptr<crpropa::Candidate> candidate) const;
 };
 
 

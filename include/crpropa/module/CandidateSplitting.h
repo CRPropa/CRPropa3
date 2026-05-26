@@ -51,7 +51,7 @@ public:
 	 */
 	CandidateSplitting(double spectralIndex, double Emin, int nBins);
 
-	void process(Candidate *c) const;
+	void process(ref_ptr<Candidate> c) const;
 
 	void setEnergyBins(double Emin, double Emax, double nBins, bool log);
 

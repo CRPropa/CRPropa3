@@ -79,7 +79,7 @@ void ElasticScattering::initCDF(std::string filename) {
 	infile.close();
 }
 
-void ElasticScattering::process(Candidate *candidate) const {
+void ElasticScattering::process(ref_ptr<Candidate> candidate) const {
 	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 

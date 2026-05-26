@@ -24,7 +24,7 @@ private:
 
 public:
 	SimplePropagation(double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);
 	double getMinimumStep() const;

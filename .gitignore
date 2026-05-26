@@ -12,6 +12,7 @@ install/
 lib/
 share/
 doc/api/
+.vscode/
 
 !final_doc/ # needed for deployment of the documentation
 

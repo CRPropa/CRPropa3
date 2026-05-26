@@ -68,7 +68,7 @@ void NuclearDecay::setLimit(double l) {
 	limit = l;
 }
 
-void NuclearDecay::process(Candidate *candidate) const {
+void NuclearDecay::process(ref_ptr<Candidate> candidate) const {
 	// the loop should be processed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
@@ -118,7 +118,7 @@ void NuclearDecay::process(Candidate *candidate) const {
 	} while (step > 0);
 }
 
-void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
+void NuclearDecay::performInteraction(ref_ptr<Candidate> candidate, int channel) const {
 	// interpret decay channel
 	int nBetaMinus = digit(channel, 10000);
 	int nBetaPlus = digit(channel, 1000);
@@ -141,7 +141,7 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 		nucleonEmission(candidate, 1, 0);
 }
 
-void NuclearDecay::gammaEmission(Candidate *candidate, int channel) const {
+void NuclearDecay::gammaEmission(ref_ptr<Candidate> candidate, int channel) const {
 	int id = candidate->current.getId();
 	int Z = chargeNumber(id);
 	int N = massNumber(id) - Z;
@@ -175,7 +175,7 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel) const {
 	}
 }
 
-void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
+void NuclearDecay::betaDecay(ref_ptr<Candidate> candidate, bool isBetaPlus) const {
 	double gamma = candidate->current.getLorentzFactor();
 	int id = candidate->current.getId();
 	int A = massNumber(id);
@@ -252,7 +252,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 		candidate->addSecondary(neutrinoId, Enu, pos, 1., interactionTag);
 }
 
-void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
+void NuclearDecay::nucleonEmission(ref_ptr<Candidate> candidate, int dA, int dZ) const {
 	Random &random = Random::instance();
 	int id = candidate->current.getId();
 	int A = massNumber(id);

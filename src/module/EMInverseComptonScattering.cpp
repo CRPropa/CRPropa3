@@ -169,7 +169,7 @@ class ICSSecondariesEnergyDistribution {
 		}
 };
 
-void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {
+void EMInverseComptonScattering::performInteraction(ref_ptr<Candidate> candidate) const {
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy() * (1 + z);
@@ -203,7 +203,7 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	candidate->current.setEnergy(Enew / (1 + z));
 }
 
-void EMInverseComptonScattering::process(Candidate *candidate) const {
+void EMInverseComptonScattering::process(ref_ptr<Candidate> candidate) const {
 	// check if electron / positron
 	int id = candidate->current.getId();
 	if (abs(id) != 11)

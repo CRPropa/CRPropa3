@@ -27,7 +27,7 @@ CandidateSplitting::CandidateSplitting(double spectralIndex, double Emin, int nB
 	setMinimalWeight(1. / pow(2, nBins));
 }
 
-void CandidateSplitting::process(Candidate *c) const {
+void CandidateSplitting::process(ref_ptr<Candidate> c) const {
 	double currE = c->current.getEnergy(); 
 	double prevE = c->previous.getEnergy();
 
@@ -57,7 +57,7 @@ void CandidateSplitting::process(Candidate *c) const {
 				for (int i = 1; i < nSplit; i++) {
 				
 					ref_ptr<Candidate> new_candidate = c->clone(false);
-					new_candidate->parent = c;
+					new_candidate->parent = c.get();
 					new_candidate->previous.setEnergy(currE); // so that new candidate is not split again in next step!
 					c->addSecondary(new_candidate);
 				}

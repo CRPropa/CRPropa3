@@ -1,8 +1,8 @@
 #ifndef CRPROPA_EMISSION_MAP_H
 #define CRPROPA_EMISSION_MAP_H
 
-#include "Referenced.h"
-#include "Candidate.h"
+#include "crpropa/Referenced.h"
+#include "crpropa/Candidate.h"
 
 namespace crpropa {
 
@@ -10,7 +10,7 @@ namespace crpropa {
  @class CylindricalProjectionMap
  @brief 2D histogram of spherical coordinates in equal-area projection
  */
-class CylindricalProjectionMap : public Referenced {
+class CylindricalProjectionMap  {
 private:
 	size_t nPhi, nTheta;
 	double sPhi, sTheta;
@@ -62,7 +62,7 @@ public:
 
  Use SourceEmissionMap to suppress directions at the source. Use EmissionMapFiller to create EmissionMap from Observer.
  */
-class EmissionMap : public Referenced {
+class EmissionMap  {
 public:
 	typedef std::pair<int, size_t> key_t;
 	typedef std::map<key_t, ref_ptr<CylindricalProjectionMap> > map_t;
@@ -120,8 +120,8 @@ public:
 	void load(const std::string &filename);
 
 	/** Merge other maps, add pdfs */
-	void merge(const EmissionMap *other);
-
+	void merge(ref_ptr<const EmissionMap> other);
+	
 	/** Merge maps from file */
 	void merge(const std::string &filename);
 

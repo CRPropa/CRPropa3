@@ -44,7 +44,7 @@ PhotonOutput1D::PhotonOutput1D(const std::string &filename) : outfile(
 	*out << "#\n";
 }
 
-void PhotonOutput1D::process(Candidate *candidate) const {
+void PhotonOutput1D::process(ref_ptr<Candidate> candidate) const {
 	int pid = candidate->current.getId();
 	if ((pid != 22) and (abs(pid) != 11))
 		return;

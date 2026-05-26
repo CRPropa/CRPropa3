@@ -151,7 +151,7 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 	return 0.85 * X;
 }
 
-void PhotoPionProduction::process(Candidate *candidate) const {
+void PhotoPionProduction::process(ref_ptr<Candidate> candidate) const {
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
 	// the loop is processed at least once for limiting the next step
@@ -203,7 +203,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 	} while (step > 0);
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton) const {
+void PhotoPionProduction::performInteraction(ref_ptr<Candidate> candidate, bool onProton) const {
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);

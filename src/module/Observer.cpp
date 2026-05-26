@@ -15,16 +15,16 @@ Observer::Observer() :
 		makeInactive(true), clone(false) {
 }
 
-void Observer::add(ObserverFeature *feature) {
+void Observer::add(ref_ptr<ObserverFeature> feature) {
 	features.push_back(feature);
 }
 
-void Observer::onDetection(Module *action, bool clone_) {
+void Observer::onDetection(ref_ptr<Module> action, bool clone_) {
 	detectionAction = action;
 	clone = clone_;
 }
 
-void Observer::process(Candidate *candidate) const {
+void Observer::process(ref_ptr<Candidate> candidate) const {
 	// loop over all features and have them check the particle
 	DetectionState state = NOTHING;
 	for (int i = 0; i < features.size(); i++) {
@@ -78,11 +78,11 @@ void Observer::setDeactivateOnDetection(bool deactivate) {
 }
 
 // ObserverFeature ------------------------------------------------------------
-DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
+DetectionState ObserverFeature::checkDetection(ref_ptr<Candidate> candidate) const {
 	return NOTHING;
 }
 
-void ObserverFeature::onDetection(Candidate *candidate) const {
+void ObserverFeature::onDetection(ref_ptr<Candidate> candidate) const {
 }
 
 std::string ObserverFeature::getDescription() const {
@@ -90,7 +90,7 @@ std::string ObserverFeature::getDescription() const {
 }
 
 // ObserverDetectAll ----------------------------------------------------------
-DetectionState ObserverDetectAll::checkDetection(Candidate *candidate) const {
+DetectionState ObserverDetectAll::checkDetection(ref_ptr<Candidate> candidate) const {
 	return DETECTED;
 }
 
@@ -106,7 +106,7 @@ ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSi
 	}
 }
 
-DetectionState ObserverTracking::checkDetection(Candidate *candidate) const {
+DetectionState ObserverTracking::checkDetection(ref_ptr<Candidate> candidate) const {
 	// current distance to observer sphere center
 	double d = (candidate->current.getPosition() - center).getR();
 
@@ -134,7 +134,7 @@ std::string ObserverTracking::getDescription() const {
 }
 
 // Observer1D --------------------------------------------------------------
-DetectionState Observer1D::checkDetection(Candidate *candidate) const {
+DetectionState Observer1D::checkDetection(ref_ptr<Candidate> candidate) const {
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
 		// Limits the next step size to prevent candidates from overshooting in case of non-detection
@@ -154,8 +154,7 @@ ObserverRedshiftWindow::ObserverRedshiftWindow(double zmin, double zmax) :
 		zmin(zmin), zmax(zmax) {
 }
 
-DetectionState ObserverRedshiftWindow::checkDetection(
-		Candidate *candidate) const {
+DetectionState ObserverRedshiftWindow::checkDetection(ref_ptr<Candidate> candidate) const {
 	double z = candidate->getRedshift();
 	if (z > zmax)
 		return VETO;
@@ -171,7 +170,7 @@ std::string ObserverRedshiftWindow::getDescription() const {
 }
 
 // ObserverInactiveVeto -------------------------------------------------------
-DetectionState ObserverInactiveVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverInactiveVeto::checkDetection(ref_ptr<Candidate> c) const {
 	if (not(c->isActive()))
 		return VETO;
 	return NOTHING;
@@ -182,7 +181,7 @@ std::string ObserverInactiveVeto::getDescription() const {
 }
 
 // ObserverNucleusVeto --------------------------------------------------------
-DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverNucleusVeto::checkDetection(ref_ptr<Candidate> c) const {
 	if (isNucleus(c->current.getId()))
 		return VETO;
 	return NOTHING;
@@ -193,7 +192,7 @@ std::string ObserverNucleusVeto::getDescription() const {
 }
 
 // ObserverNeutrinoVeto -------------------------------------------------------
-DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverNeutrinoVeto::checkDetection(ref_ptr<Candidate> c) const {
 	int id = abs(c->current.getId());
 	if ((id == 12) or (id == 14) or (id == 16))
 		return VETO;
@@ -205,7 +204,7 @@ std::string ObserverNeutrinoVeto::getDescription() const {
 }
 
 // ObserverPhotonVeto ---------------------------------------------------------
-DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverPhotonVeto::checkDetection(ref_ptr<Candidate> c) const {
 	if (c->current.getId() == 22)
 		return VETO;
 	return NOTHING;
@@ -216,7 +215,7 @@ std::string ObserverPhotonVeto::getDescription() const {
 }
 
 // ObserverElectronVeto ---------------------------------------------------------
-DetectionState ObserverElectronVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverElectronVeto::checkDetection(ref_ptr<Candidate> c) const {
 	if (abs(c->current.getId()) == 11)
 		return VETO;
 	return NOTHING;
@@ -231,7 +230,7 @@ ObserverParticleIdVeto::ObserverParticleIdVeto(int pId) {
 	vetoParticleId = pId;
 }
 
-DetectionState ObserverParticleIdVeto::checkDetection(Candidate *c) const {
+DetectionState ObserverParticleIdVeto::checkDetection(ref_ptr<Candidate> c) const {
 	if (c->current.getId() == vetoParticleId)
 		return VETO;
 	return NOTHING;
@@ -263,7 +262,7 @@ ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
 	setTimes(detList);
 }
 
-DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
+DetectionState ObserverTimeEvolution::checkDetection(ref_ptr<Candidate> c) const {
 
 	if (nIntervals) {
 		double length = c->getTrajectoryLength();
@@ -389,9 +388,9 @@ std::string ObserverTimeEvolution::getDescription() const {
 }
 
 // ObserverSurface--------------------------------------------------------------
-ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
+ObserverSurface::ObserverSurface(ref_ptr<Surface> _surface) : surface(_surface) { }
 
-DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
+DetectionState ObserverSurface::checkDetection(ref_ptr<Candidate> candidate) const
 {
 		double currentDistance = surface->distance(candidate->current.getPosition());
 		double previousDistance = surface->distance(candidate->previous.getPosition());

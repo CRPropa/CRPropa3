@@ -74,7 +74,7 @@ PropagationCK::PropagationCK(ref_ptr<MagneticField> field, double tolerance,
 	bs.assign(cash_karp_bs, cash_karp_bs + 6);
 }
 
-void PropagationCK::process(Candidate *candidate) const {
+void PropagationCK::process(ref_ptr<Candidate> candidate) const {
 	// save the new previous particle state
 	ParticleState &current = candidate->current;
 	candidate->previous = current;

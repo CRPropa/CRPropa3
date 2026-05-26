@@ -12,7 +12,7 @@ AdiabaticCooling::AdiabaticCooling(ref_ptr<AdvectionField> advectionField, doubl
 	setLimit(limit);
 }
 
-void AdiabaticCooling::process(Candidate *c) const {
+void AdiabaticCooling::process(ref_ptr<Candidate> c) const {
 
 	Vector3d pos = c->current.getPosition();
 	double E = c->current.getEnergy(); // Note we use E=p/c (relativistic limit)

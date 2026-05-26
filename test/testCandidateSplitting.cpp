@@ -49,39 +49,39 @@ TEST(testCandidateSplitting, CheckSplits) {
 	double weight = 1.0;
 	double serial = c.getSerialNumber();
 	
-	splitting.process(&c); // no split
+	splitting.process(c); // no split
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial);
 
 	c.current.setEnergy(2); 
-	splitting.process(&c); // 1. split
+	splitting.process(c); // 1. split
 	weight = weight/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 1);
 	c.previous.setEnergy(2);
 
 	c.current.setEnergy(6); 
-	splitting.process(&c); // 2. split
+	splitting.process(c); // 2. split
 	weight = weight/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 2);
 	c.previous.setEnergy(6);
 
 	c.current.setEnergy(0.5); 
-	splitting.process(&c); // no split, cooling
+	splitting.process(c); // no split, cooling
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 2);
 	c.previous.setEnergy(0.5);
 
 	c.current.setEnergy(6); 
-	splitting.process(&c); // 3. & 4. split, crosses two boundaries
+	splitting.process(c); // 3. & 4. split, crosses two boundaries
 	weight = weight/nSplit/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 4);
 	c.previous.setEnergy(6);
 
 	c.current.setEnergy(8); 
-	splitting.process(&c); // no split, minimal weight reached
+	splitting.process(c); // no split, minimal weight reached
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
 	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 4);
 	c.previous.setEnergy(8);

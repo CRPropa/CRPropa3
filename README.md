@@ -4,7 +4,7 @@ CRPropa
 ![stable release](https://img.shields.io/badge/stable\_release-3.2.1-darkblue)
 
 [![Build: ubuntu22](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml)
-[![Build: ubuntu20](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml)
+[![Build: ubuntu24](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml)
 [![Build: macos14](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml)
 [![Examples](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml)
 

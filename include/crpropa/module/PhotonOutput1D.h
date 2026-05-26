@@ -22,7 +22,7 @@ public:
 	PhotonOutput1D(std::ostream &out);
 	PhotonOutput1D(const std::string &filename);
 	~PhotonOutput1D();
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 	void close();
 	void gzip();

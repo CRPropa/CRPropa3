@@ -52,7 +52,7 @@ public:
 	 @param maxStep			maxStep/c_light is the maximum integration time step
 	 @param epsilon			Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
 	 */
-	DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
+	DiffusionSDE(ref_ptr<MagneticField> magneticField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
 	/** Constructor
 	 @param magneticField	the magnetic field to be used 
 	 @param advectionField	object containing advection field
@@ -61,9 +61,9 @@ public:
 	 @param maxStep			maxStep/c_light is the maximum integration time step
 	 @param epsilon			Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
 	 */
-	DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
+	DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<AdvectionField> advectionField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
 
-	void process(crpropa::Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 
 	void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
 	void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h, double t) const;
@@ -75,8 +75,8 @@ public:
 	void setEpsilon(double kappa);
 	void setAlpha(double alpha);
 	void setScale(double Scale);
-	void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
-	void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
+	void setMagneticField(ref_ptr<MagneticField> magneticField);
+	void setAdvectionField(ref_ptr<AdvectionField> advectionField);
 
 	double getMinimumStep() const;
 	double getMaximumStep() const;
@@ -86,7 +86,7 @@ public:
 	double getScale() const;
 	std::string getDescription() const;
   
-  ref_ptr<MagneticField> getMagneticField() const;
+ 	ref_ptr<MagneticField> getMagneticField() const;
 	/** get magnetic field vector at current candidate position
 	 @param pos   current position of the candidate
 	 @param z	 current redshift is needed to calculate the magnetic field

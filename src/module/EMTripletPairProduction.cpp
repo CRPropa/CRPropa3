@@ -101,7 +101,7 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 	infile.close();
 }
 
-void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
+void EMTripletPairProduction::performInteraction(ref_ptr<Candidate> candidate) const {
 	int id = candidate->current.getId();
 	if  (abs(id) != 11)
 		return;
@@ -143,7 +143,7 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	candidate->current.setEnergy((E - 2 * Epp) / (1. + z));
 }
 
-void EMTripletPairProduction::process(Candidate *candidate) const {
+void EMTripletPairProduction::process(ref_ptr<Candidate> candidate) const {
 	// check if electron / positron
 	int id = candidate->current.getId();
 	if (abs(id) != 11)

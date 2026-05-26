@@ -48,7 +48,6 @@ namespace crpropa {
 		setMinimumStep(fixedStep);
 	}
 
-
 	// with adaptive step size
 	PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep) :
 			minStep(0) {
@@ -58,8 +57,7 @@ namespace crpropa {
 		setMinimumStep(minStep);
 	}
 
-
-	void PropagationBP::process(Candidate *candidate) const {
+	void PropagationBP::process(ref_ptr<Candidate> candidate) const {
 		// save the new previous particle state
 		ParticleState &current = candidate->current;
 		candidate->previous = current;

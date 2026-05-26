@@ -173,7 +173,7 @@ class PPSecondariesEnergyDistribution {
 		}
 };
 
-void EMPairProduction::performInteraction(Candidate *candidate) const {
+void EMPairProduction::performInteraction(ref_ptr<Candidate> candidate) const {
 	
 	// photon is lost after interacting
 	candidate->setActive(false);
@@ -236,7 +236,7 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	}
 }
 
-void EMPairProduction::process(Candidate *candidate) const {
+void EMPairProduction::process(ref_ptr<Candidate> candidate) const {
 	// check if photon
 	if (candidate->current.getId() != 22)
 		return;

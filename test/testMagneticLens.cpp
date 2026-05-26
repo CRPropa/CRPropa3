@@ -143,10 +143,10 @@ TEST(ParticleMapsContainer, getRandomParticles)
 
   for(size_t i = 0; i < N; i++)
   {
-    EXPECT_NEAR(log10(energies[i]), 18, 0.002);
-    EXPECT_EQ(particleIds[i], 1000010010);
-    EXPECT_NEAR(lons[i], 0, 2./180*M_PI);
-    EXPECT_NEAR(lats[i], 0, 2./180*M_PI);
+	EXPECT_NEAR(log10(energies[i]), 18, 0.002);
+	EXPECT_EQ(particleIds[i], 1000010010);
+	EXPECT_NEAR(lons[i], 0, 2./180*M_PI);
+	EXPECT_NEAR(lats[i], 0, 2./180*M_PI);
   }
 
 }

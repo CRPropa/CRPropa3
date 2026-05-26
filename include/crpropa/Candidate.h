@@ -3,9 +3,9 @@
 
 #include "crpropa/ParticleState.h"
 #include "crpropa/Referenced.h"
-#include "crpropa/AssocVector.h"
 #include "crpropa/Variant.h"
 
+#include <unordered_map>
 #include <vector>
 #include <map>
 #include <sstream>
@@ -24,7 +24,7 @@ namespace crpropa {
  The Candidate is a passive object, that holds the information about the state
  of the cosmic ray and the simulation itself.
  */
-class Candidate: public Referenced {
+class Candidate {
 public:
 	ParticleState source; /**< Particle state at the source */
 	ParticleState created; /**< Particle state of parent particle at the time of creation */
@@ -33,7 +33,7 @@ public:
 
 	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles from interactions */
 
-	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
+	typedef std::unordered_map<std::string, Variant> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
 	/** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */
@@ -133,8 +133,7 @@ public:
 	 The secondaries Candidate::created and Candidate::current state are set to the _current_ state of its parent, except for the secondaries current energy and particle id.
 	 Trajectory length and redshift are copied from the parent.
 	 */
-	void addSecondary(Candidate *c);
-	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
+	void addSecondary(ref_ptr<Candidate> c);
 	/**
 	 Add a new candidate to the list of secondaries.
 	 @param id			particle ID of the secondary

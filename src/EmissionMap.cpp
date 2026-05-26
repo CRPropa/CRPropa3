@@ -200,7 +200,7 @@ ref_ptr<CylindricalProjectionMap> EmissionMap::getMap(int pid, double energy) {
 	key_t key(pid, binFromEnergy(energy));
 	map_t::iterator i = maps.find(key);
 	if (i == maps.end() || !i->second.valid()) {
-		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi, nTheta);
+		ref_ptr<CylindricalProjectionMap> cpm(new CylindricalProjectionMap(nPhi, nTheta));
 		maps[key] = cpm;
 		return cpm;
 	} else {
@@ -224,7 +224,7 @@ void EmissionMap::save(const std::string &filename) {
 	}
 }
 
-void EmissionMap::merge(const EmissionMap *other) {
+void EmissionMap::merge(ref_ptr<const EmissionMap> other) {
 	if (other == 0)
 		return;
 	map_t::const_iterator i = other->getMaps().begin();
@@ -250,7 +250,7 @@ void EmissionMap::merge(const EmissionMap *other) {
 void EmissionMap::merge(const std::string &filename) {
 	EmissionMap em;
 	em.load(filename);
-	merge(&em);
+	merge(em);
 }
 
 void EmissionMap::load(const std::string &filename) {
@@ -276,7 +276,7 @@ void EmissionMap::load(const std::string &filename) {
 			KISS_LOG_WARNING << "nTheta mismatch: " << nTheta << " " << nTheta_;
 		}
 
-		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi_, nTheta_);
+		ref_ptr<CylindricalProjectionMap> cpm(new CylindricalProjectionMap(nPhi_, nTheta_));
 		std::vector<double> &pdf = cpm->getPdf();
 		for (size_t i = 0; i < pdf.size(); i++)
 			in >> pdf[i];

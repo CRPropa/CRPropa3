@@ -213,14 +213,14 @@ TEST(Candidate, property) {
 }
 
 TEST(Candidate, weight) {
-    Candidate candidate;
-    EXPECT_EQ (1., candidate.getWeight());
-    
-    candidate.setWeight(5.);
-    EXPECT_EQ (5., candidate.getWeight());
-    
-    candidate.updateWeight(3.);
-    EXPECT_EQ (15., candidate.getWeight());
+	Candidate candidate;
+	EXPECT_EQ (1., candidate.getWeight());
+	
+	candidate.setWeight(5.);
+	EXPECT_EQ (5., candidate.getWeight());
+	
+	candidate.updateWeight(3.);
+	EXPECT_EQ (15., candidate.getWeight());
 }
 
 TEST(Candidate, addSecondary) {
@@ -260,6 +260,56 @@ TEST(Candidate, addSecondary) {
 	EXPECT_EQ(0.0,s5.current.getMass());
 
 	EXPECT_EQ(15., s2.getWeight());
+}
+
+TEST(Candidate, clone){
+	Candidate c(
+		nucleusId(1, 1),  // id
+		1*keV,  // energy
+		Vector3d(1, 1, 1),  // position
+		Vector3d(1, 0, 0),  // direction
+		0,  // redshift
+		0.5, // weight
+		"PRIM"  //tagOrigin
+	);
+
+	auto cloned = c.clone(false);
+
+	EXPECT_EQ(cloned->current.getId(), c.current.getId());
+	EXPECT_EQ(cloned->current.getEnergy(), c.current.getEnergy());
+	EXPECT_EQ(cloned->getRedshift(), c.getRedshift());
+	EXPECT_EQ(cloned->created.getEnergy(), c.created.getEnergy());
+	EXPECT_EQ(cloned->getWeight(), c.getWeight());
+	EXPECT_TRUE(cloned->created.getPosition() == c.created.getPosition());
+	EXPECT_TRUE(cloned->created.getDirection() == c.created.getDirection());
+	EXPECT_TRUE(cloned->getTagOrigin() == c.getTagOrigin());
+
+}
+
+TEST(Candidate, cloneRecursive){
+	Candidate c(
+		nucleusId(1, 1),  // id
+		1*keV,  // energy
+		Vector3d(1, 1, 1),  // position
+		Vector3d(1, 0, 0),  // direction
+		0,  // redshift
+		0.5, // weight
+		"PRIM"  //tagOrigin
+	);
+
+	c.addSecondary(nucleusId(1,1), 200, 3.);
+	auto clonedWithSecondary = c.clone(true);
+
+	auto s1 = clonedWithSecondary->secondaries[0]; //proton
+	EXPECT_EQ(nucleusId(1,1), s1->current.getId());
+	EXPECT_EQ(200, s1->current.getEnergy());
+	EXPECT_EQ(0, s1->getRedshift());
+	EXPECT_EQ(200, s1->current.getEnergy());
+	EXPECT_EQ(1*keV, s1->created.getEnergy());
+	EXPECT_EQ(1.5, s1->getWeight());
+	EXPECT_TRUE(Vector3d(1,1,1) == s1->created.getPosition());
+	EXPECT_TRUE(Vector3d(1,0,0) == s1->created.getDirection());
+	EXPECT_TRUE(s1->getTagOrigin() == "PRIM");
 }
 
 TEST(Candidate, candidateTag) {
@@ -1091,7 +1141,7 @@ TEST(EmissionMap, merge) {
 	em2.fillMap(1, 50 * EeV, Vector3d(0.0, 1.0, 0.0));
 	em2.fillMap(2, 50 * EeV, Vector3d(0.0, 1.0, 0.0));
 
-	em1.merge(&em2);
+	em1.merge(em2);
 
 	EXPECT_EQ(em1.getMaps().size(), 2);
 

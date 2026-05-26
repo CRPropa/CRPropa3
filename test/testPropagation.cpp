@@ -24,7 +24,7 @@ TEST(testSimplePropagation, step) {
 	Candidate c(p);
 	c.setNextStep(10);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_EQ(minStep, c.getCurrentStep());
 	EXPECT_EQ(maxStep, c.getNextStep());
@@ -51,7 +51,7 @@ TEST(testPropagationCK, zeroField) {
 	Candidate c(p);
 	c.setNextStep(0);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
@@ -138,7 +138,7 @@ TEST(testPropagationCK, reduceStep) {
 	// large step leads to large errors and thus in combination with the low tolerance to high values of r
 	c.setNextStep(maxStep);
 
-	propa.process(&c);
+	propa.process(c);
 
 	// adaptive algorithm should propagate particle with minimum step size due to the low value for the tolerance
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step because of large r due to small tolerance
@@ -166,7 +166,7 @@ TEST(testPropagationCK, increaseStep) {
 
 	// each step the step size can be increased by a factor of 5.
 	for (int i = 1; i < 6; i++){
-		propa.process(&c);
+		propa.process(c);
 		EXPECT_DOUBLE_EQ(minStep*pow(5, i) / pc, c.getNextStep()/pc);
 	}
 	// after 5 steps the maxStep is reached. The current step is, however, less.
@@ -189,7 +189,7 @@ TEST(testPropagationCK, proton) {
 	Candidate c(p);
 	c.setNextStep(0);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
@@ -212,7 +212,7 @@ TEST(testPropagationCK, gyration) {
 	p.setDirection(Vector3d(1, 1, 1));
 	Candidate c(p);
 	c.setNextStep(0);
-	propa.process(&c);
+	propa.process(c);
 
 	double dirX = c.current.getDirection().x;
 	double dirY = c.current.getDirection().y;
@@ -231,7 +231,7 @@ TEST(testPropagationCK, gyration) {
 
 	// Nine new steps to have finally propagated the particle ten times
 	for (int i = 0; i < 9; i++){
-		propa.process(&c);
+		propa.process(c);
 	}
 
 	dirX = c.current.getDirection().x;
@@ -261,7 +261,7 @@ TEST(testPropagationCK, neutron) {
 	p.setDirection(Vector3d(0, 1, 0));
 	Candidate c(p);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
 	EXPECT_DOUBLE_EQ(42 * Mpc, c.getNextStep());
@@ -285,7 +285,7 @@ TEST(testPropagationBP, zeroField) {
 	Candidate c(p);
 	c.setNextStep(0);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
@@ -378,7 +378,7 @@ TEST(testPropagationBP, reduceStep) {
 	// large step leads to large errors and thus in combination with the low tolerance to high values of r
 	c.setNextStep(maxStep);
 
-	propa.process(&c);
+	propa.process(c);
 
 	// adaptive algorithm should propagate particle with minimum step size due to the low value for the tolerance
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step because of large r due to small tolerance
@@ -406,7 +406,7 @@ TEST(testPropagationBP, increaseStep) {
 
 	// each step the step size can be increased by a factor of 5.
 	for (int i = 1; i < 6; i++){
-		propa.process(&c);
+		propa.process(c);
 		EXPECT_DOUBLE_EQ(minStep*pow(5, i) / pc, c.getNextStep()/pc);
 	}
 	// after 5 steps the maxStep is reached. The current step is, however, less.
@@ -431,7 +431,7 @@ TEST(testPropagationBP, proton) {
 	Candidate c(p);
 	c.setNextStep(0);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(step, c.getCurrentStep());  // perform step
 	EXPECT_DOUBLE_EQ(5 * step, c.getNextStep());  // acceleration by factor 5
@@ -454,7 +454,7 @@ TEST(testPropagationBP, gyration) {
 	p.setDirection(Vector3d(1, 1, 1));
 	Candidate c(p);
 	c.setNextStep(0);
-	propa.process(&c);
+	propa.process(c);
 
 	double dirX = c.current.getDirection().x;
 	double dirY = c.current.getDirection().y;
@@ -469,7 +469,7 @@ TEST(testPropagationBP, gyration) {
 
 	// Nine new steps to have finally propagated the particle ten times
 	for (int i = 0; i < 9; i++){
-		propa.process(&c);
+		propa.process(c);
 	}
 
 	dirX = c.current.getDirection().x;
@@ -498,7 +498,7 @@ TEST(testPropagationBP, fixedStepOptimization) {
 	c1.setNextStep(0);
 	// Nine new steps to have finally propagated the particle ten times
 	for (int i = 0; i < 9; i++){
-		propa1.process(&c1);
+		propa1.process(c1);
 	}
 
 	// particle 2 with different min and max steps. The tolerance is chosen such that particle 2 will be
@@ -514,7 +514,7 @@ TEST(testPropagationBP, fixedStepOptimization) {
 	c1.setNextStep(0);
 	// Nine new steps to have finally propagated the particle ten times
 	for (int i = 0; i < 9; i++){
-		propa2.process(&c2);
+		propa2.process(c2);
 	}
 
 	EXPECT_DOUBLE_EQ(c1.current.getDirection().x, c2.current.getDirection().x);
@@ -539,7 +539,7 @@ TEST(testPropagationBP, neutron) {
 	p.setDirection(Vector3d(0, 1, 0));
 	Candidate c(p);
 
-	propa.process(&c);
+	propa.process(c);
 
 	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
 	EXPECT_DOUBLE_EQ(1 * kpc, c.getNextStep());

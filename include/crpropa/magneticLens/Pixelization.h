@@ -24,6 +24,7 @@
 #ifndef PIXELIZATION_HH
 #define PIXELIZATION_HH
 
+#include "crpropa/Referenced.h"
 #include "healpix_base/healpix_base.h"
 #include <cmath>
 #include <stdint.h>
@@ -69,11 +70,6 @@ public:
 	Pixelization(uint8_t order)
 	{
 		_healpix = new healpix::T_Healpix_Base<int>(order, healpix::RING);
-	}
-
-	~Pixelization()
-	{
-		delete _healpix;
 	}
 
 	/// Returns the number of the pixel which includes the direction (phi,theta)
@@ -131,7 +127,7 @@ public:
 private:
 	void spherCo2Vec(double phi, double theta, healpix::vec3 &V) const;
 	void vec2SphereCo(double &phi , double &theta, const healpix::vec3 &V) const;
-	healpix::T_Healpix_Base<int> *_healpix;
+	ref_ptr<healpix::T_Healpix_Base<int>> _healpix;
 	static healpix::T_Healpix_Base<healpix::int64> _healpix_nest;
 };
 

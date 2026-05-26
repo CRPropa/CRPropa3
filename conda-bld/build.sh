@@ -36,7 +36,11 @@ for file in test*
 do
 	cp $file $PREFIX/share/crpropa/test/
 done
+# copy lib binaries
+cp -r libs/ $PREFIX/share/crpropa/test/
+# copy ctest instructions
 cp CTestTestfile.cmake $PREFIX/share/crpropa/test/
+# generate executable test file
 echo ctest --test-dir $PREFIX/share/crpropa/test/ --output-on-failure > $PREFIX/bin/testCRPropa
 chmod +x $PREFIX/bin/testCRPropa
 

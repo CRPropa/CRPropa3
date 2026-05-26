@@ -3,13 +3,15 @@ on:
   push:
     branches: 
       - master
-      - AnacondaWorkflows
+      - releases/**
     paths:
       - "**.cpp"
       - "**.h"
       - "**.py"
       - "**.i"
       - "**/CMakeLists.txt"
+  release:
+    types: [published]
 
 jobs:
   x64:

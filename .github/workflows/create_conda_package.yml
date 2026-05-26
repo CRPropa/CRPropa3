@@ -1,10 +1,15 @@
 name: create_conda_package
 on:
   push:
-    branches: [master, AnacondaWorkflows]
-  label:
-    types: [created, edited]
-
+    branches: 
+      - master
+      - AnacondaWorkflows
+    paths:
+      - "**.cpp"
+      - "**.h"
+      - "**.py"
+      - "**.i"
+      - "**/CMakeLists.txt"
 
 jobs:
   x64:

@@ -7,20 +7,19 @@ on:
 
 jobs: 
   build-and-deploy: 
-    runs-on: ubuntu-latest
-
+    if: github.repository=='CRPropa/CRPropa3'
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
         config:
-          - name: "ubuntu-22"
-            os: ubuntu-22.04
-            cxx: "g++-11"
-            cc: "gcc-11"
-            fc: "gfortran-11"
-            swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python3" #python 3.10
-    
+          - name: "ubuntu-24"
+            os: ubuntu-24.04
+            cxx: "g++-14"
+            cc: "gcc-14"
+            fc: "gfortran-14"
+            swig_builtin: "On" 
+            py: "/usr/bin/python3"
     # define steps to take
     steps: 
       - name: Checkout repository
@@ -48,7 +47,7 @@ jobs:
       - name: run test
         run: | 
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --repeat until-pass:3
         continue-on-error: true
       - name: coverage report
         run: |

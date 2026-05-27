@@ -1,0 +1,76 @@
+package:
+  name: crpropa
+  version: {{ environ.get('CRPROPA_VERSION', 'master') }}
+
+source:
+  git_url: ../
+  folder: crpropa
+
+build:
+  script_env:
+    - FAST_WAVES
+    - SIMD_EXTENSIONS
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
+    - git
+    - cmake
+    - ninja
+    - swig
+  
+  host:
+    # host only requirements
+    - zlib
+    - gperftools
+    - pybind11-stubgen
+    # crpropa requirements
+    - fftw
+    - hdf5
+    - muparser
+    - eigen
+    # python requirements
+    - python
+    - numpy >=1.26,<3
+
+  run:
+    # crpropa requirements
+    - fftw
+    - hdf5
+    - muparser
+    - eigen
+    # cmake required for tests
+    - cmake
+    # python requirements
+    - python
+    - numpy >=1.26,<3
+
+test:
+  imports:
+    - crpropa
+  commands:
+    - testCRPropa
+
+about:
+  home: https://github.com/CRPropa/CRPropa3
+  license: GPL-3.0 license
+  license_file: ../LICENSE.txt
+  license_family: GPL
+  license_url: https://github.com/CRPropa/CRPropa3/blob/master/LICENSE.txt
+  summary: CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles.
+  description: |
+    CRPropa is a publicly available simulation framework to study the propagation of ultra-high-energy nuclei
+    up to iron on their voyage through an (extra)galactic environment. It takes into account: 
+    pion production, photodisintegration and energy losses by pair production of all relevant 
+    isotopes in the ambient low-energy photon fields as well as nuclear decay. CRPropa can model 
+    the deflection in (inter)galactic magnetic fields, the propagation of secondary electromagnetic 
+    cascades and neutrinos for a multitude of scenarios for different source distributions and magnetic 
+    environments. It enables the user to predict the spectra of UHECR (and of their secondaries), 
+    their composition and arrival direction distribution. Additionally, the low-energy Galactic propagation 
+    can be simulated by solving the transport equation using stochastic differential equations. 
+    CRPropa features a very flexible simulation setup with python steering and shared-memory parallelization.
+  dev_url: https://github.com/CRPropa
+  doc_url: https://crpropa.github.io/CRPropa3/
+  doc_source_url: https://github.com/CRPropa/CRPropa3/blob/master/README.md

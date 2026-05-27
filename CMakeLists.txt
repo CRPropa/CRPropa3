@@ -580,7 +580,9 @@ if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   find_package_handle_standard_args(Sphinx
                                     "Failed to find sphinx-build executable"
                                     SPHINX_EXECUTABLE)
-  set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/doc)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/doc "${CMAKE_CURRENT_BINARY_DIR}/doc-source")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/xml "${CMAKE_CURRENT_BINARY_DIR}/doc-source/xml")
+  set(SPHINX_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/doc-source")
   set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/doc)
   add_custom_target(doc
                     ${SPHINX_EXECUTABLE} -b html

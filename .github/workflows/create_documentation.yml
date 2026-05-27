@@ -22,17 +22,16 @@ jobs:
           sudo apt-get install libmuparser-dev libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov doxygen graphviz
           sudo apt-get install pandoc # do not only use pip to install pandoc, see https://stackoverflow.com/questions/62398231/building-docs-fails-due-to-missing-pandoc
           pip install -r doc/pages/example_notebooks/requirements.txt # load requirements for notebooks
-          pip install sphinx==7.2.6 sphinx_rtd_theme m2r2 nbsphinx lxml_html_clean breathe pandoc exhale # load requirements for documentation
+          pip install ninja sphinx==7.2.6 sphinx_rtd_theme m2r2 nbsphinx lxml_html_clean breathe pandoc exhale # load requirements for documentation
       - name: Set up the build
         run: |
-          set -ex
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native -DPython_INSTALL_PACKAGE_DIR=/home/runner/.local/ -DBUILD_DOC=On -DENABLE_COVERAGE=On
+          cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native -DPython_INSTALL_PACKAGE_DIR=/home/runner/.local/ -DBUILD_DOC=On -DENABLE_COVERAGE=On
       - name: Build CRPropa
         run: |
           cd build
-          make -j
+          cmake --build .
       - name: run test
         run: | 
           cd build
@@ -41,11 +40,12 @@ jobs:
       - name: coverage report
         run: |
           cd build
-          make coverage
+          ninja coverage
       - name: build documentation
         run: |
+          set -ex
           cd build
-          make doc
+          ninja doc
           cp -r coverageReport doc/pages/coverageReport
           tar -zcvf documentation.tar.gz doc  
       - name: archive documentation

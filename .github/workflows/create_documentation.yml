@@ -45,6 +45,8 @@ jobs:
         run: |
           set -ex
           cd build
+          cp -r ../doc doc-source
+          cp -r xml doc-source/
           ninja doc
           cp -r coverageReport doc/pages/coverageReport
           tar -zcvf documentation.tar.gz doc  

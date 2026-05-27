@@ -122,9 +122,9 @@ if(ENABLE_COVERAGE)
       )
       add_custom_target(coverage
         # generate coverage data
-        COMMAND ${LCOV_PATH} --directory ${CMAKE_CURRENT_BINARY_DIR} --capture --output-file ${CMAKE_CURRENT_BINARY_DIR}/coverage.info --ignore-errors negative,inconsistent,unused VERBATIM
+        COMMAND ${LCOV_PATH} --directory ${CMAKE_CURRENT_BINARY_DIR} --capture --output-file ${CMAKE_CURRENT_BINARY_DIR}/coverage.info --ignore-errors "branch,callback,child,corrupt,count,deprecated,empty,excessive,fork,format,gcov,graph,inconsistent,internal,mismatch,missing,negative,package,parent,range,source,unreachable,unsupported,unused,usage,utility,version" VERBATIM
         # clean external libs
-        COMMAND ${LCOV_PATH} --remove ${CMAKE_CURRENT_BINARY_DIR}/coverage.info "/usr/include/*" "/usr/lib/*" "*/libs/gtest/*" "*/libs/eigen3/*" "*/libs/zstream-cpp/*" "*/build/*" -o ${CMAKE_CURRENT_BINARY_DIR}/coverage.info.cleaned --ignore-errors negative,inconsistent,unused VERBATIM
+        COMMAND ${LCOV_PATH} --remove ${CMAKE_CURRENT_BINARY_DIR}/coverage.info "/usr/include/*" "/usr/lib/*" "*/libs/gtest/*" "*/libs/eigen3/*" "*/libs/zstream-cpp/*" "*/build/*" -o ${CMAKE_CURRENT_BINARY_DIR}/coverage.info.cleaned --ignore-errors "branch,callback,child,corrupt,count,deprecated,empty,excessive,fork,format,gcov,graph,inconsistent,internal,mismatch,missing,negative,package,parent,range,source,unreachable,unsupported,unused,usage,utility,version" VERBATIM
         # Generate html output
         COMMAND ${GENHTML_PATH} -o ${CMAKE_CURRENT_BINARY_DIR}/coverageReport ${CMAKE_CURRENT_BINARY_DIR}/coverage.info.cleaned VERBATIM
         COMMAND echo "Generated coverage report in ${CMAKE_CURRENT_BINARY_DIR}/coverageReport/index.html"

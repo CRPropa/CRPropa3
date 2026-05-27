@@ -163,6 +163,7 @@ SET(EIGEN_PATH  "" CACHE STRING "Use EIGEN from this path instead of the version
 SET(WITH_GALACTIC_LENSES FALSE)
 
 if(ENABLE_GALACTICMAGNETICLENS)
+  message(DEPRECATION "Galactic magnetic lens support is deprecated and will be removed in a future release.")
   SET(WITH_GALACTIC_LENSES TRUE)
 
   if(EIGEN_PATH)

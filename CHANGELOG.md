@@ -29,6 +29,7 @@
 * The next CRPropa relase will likely require support for the CXX 23 standard
 
 ### Features that are deprecated and will be removed after this release
+* Galactic Magnetic Lenses
 
 ### Removed features
 *  AMRMagneticField - underlying library (saga) is no longer supported.

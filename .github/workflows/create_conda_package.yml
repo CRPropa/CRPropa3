@@ -12,6 +12,12 @@ on:
       - "**/CMakeLists.txt"
   release:
     types: [published]
+  workflow_dispatch:
+    branches:
+      - master
+      - releases/**
+  
+  
 
 jobs:
   x64:

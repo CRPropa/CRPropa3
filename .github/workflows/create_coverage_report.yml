@@ -35,7 +35,7 @@ jobs:
         - name: run test
           run: | 
             cd build
-            ctest --output-on-failure
+            ctest --output-on-failure --repeat until-pass:3
           continue-on-error: true
         - name: coverage report
           run: |

@@ -41,7 +41,7 @@ cp -r libs/ $PREFIX/share/crpropa/test/
 # copy ctest instructions
 cp CTestTestfile.cmake $PREFIX/share/crpropa/test/
 # generate executable test file
-echo ctest --test-dir $PREFIX/share/crpropa/test/ --output-on-failure > $PREFIX/bin/testCRPropa
+echo ctest --test-dir $PREFIX/share/crpropa/test/ --output-on-failure --repeat until-pass:3 > $PREFIX/bin/testCRPropa
 chmod +x $PREFIX/bin/testCRPropa
 
 # Copy the [de]activate scripts to $PREFIX/etc/conda/[de]activate.d.

@@ -13,17 +13,12 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-    branches:
-      - master
-      - releases/**
   
 
 jobs:
   x64:
     if: github.repository=='CRPropa/CRPropa3'
     runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

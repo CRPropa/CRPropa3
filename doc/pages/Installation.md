@@ -2,7 +2,7 @@
 
 ## Over Conda Package
 
-CRPropa can be installed simply over its [conda package]() on every linux system. For the most recent release simply use:
+CRPropa can be installed simply over its [conda package](https://anaconda.org/channels/crpropa/packages/crpropa/overview) on every linux system. For the most recent release simply use:
 
 ```sh
 conda install crpropa::crpropa
@@ -13,6 +13,8 @@ For the current master you can use:
 ```sh
 conda install crpropa::crpropa==master
 ```
+
+You will find more information on how to install conda on their [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
 ### Testing CRPropa
 

@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1adee1e501be0f6fb74508182ae9546710:
+
+Function crpropa::periodicBoundary
+==================================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::periodicBoundary(int, int)
+   :project: CRPropa3

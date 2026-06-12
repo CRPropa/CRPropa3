@@ -3,7 +3,7 @@
 Typedef crpropa::Vector3d
 =========================
 
-- Defined in :ref:`file_include_crpropa_Vector3.h`
+.. did not find file this was defined in
 
 
 Typedef Documentation

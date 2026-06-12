@@ -39,7 +39,8 @@ Program Listing for File Variant.cpp
    }
    
    Variant::~Variant() {
-           clear();
+           clear(type);
+           delete data._t_string;
    }
    
    const char* Variant::getTypeName() const {
@@ -679,6 +680,7 @@ Program Listing for File Variant.cpp
                            std::string s;
                            v.push_back(s);
                    }
+                   return Variant(v);
            } else {
                    std::string msg; 
                    msg += "fromString not implemented for type ";
@@ -688,7 +690,7 @@ Program Listing for File Variant.cpp
    }
    
    void Variant::clear(Type t) {
-           if (t == TYPE_STRING)
+           if (t == TYPE_STRING) 
                    safeDelete(data._t_string);
            else if (t == TYPE_VECTOR3F)
                    safeDelete(data._t_vector3f);
@@ -1021,7 +1023,7 @@ Program Listing for File Variant.cpp
    
    #define INT_FUNCTION(to_type, fun, to)                                                                                 \
            to Variant::fun() const {                                                                                          \
-                   switch (type) {                                                                                                \
+                   switch (to_type) {                                                                                                \
                            case Variant::TYPE_BOOL:                                                                                   \
                                    return data._t_bool ? 1 : 0;                                                                           \
                                    break;                                                                                                 \

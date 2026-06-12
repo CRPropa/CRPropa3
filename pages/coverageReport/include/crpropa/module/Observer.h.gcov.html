@@ -1,0 +1,451 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - include/crpropa/module/Observer.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">include/crpropa/module</a> - Observer.h<span style="font-size: 80%;"> (source / <a href="Observer.h.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">43.8&nbsp;%</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">7</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #ifndef CRPROPA_OBSERVER_H</span>
+<span id="L2"><span class="lineNum">       2</span>              : #define CRPROPA_OBSERVER_H</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &lt;fstream&gt;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &lt;limits&gt;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &lt;string&gt;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;vector&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &quot;../Candidate.h&quot;</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &quot;../Module.h&quot;</span>
+<span id="L11"><span class="lineNum">      11</span>              : #include &quot;../Referenced.h&quot;</span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &quot;../Vector3.h&quot;</span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &quot;../Geometry.h&quot;</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : namespace crpropa {</span>
+<span id="L16"><span class="lineNum">      16</span>              : </span>
+<span id="L17"><span class="lineNum">      17</span>              : enum DetectionState {</span>
+<span id="L18"><span class="lineNum">      18</span>              :         DETECTED, VETO, NOTHING</span>
+<span id="L19"><span class="lineNum">      19</span>              : };</span>
+<span id="L20"><span class="lineNum">      20</span>              : </span>
+<span id="L21"><span class="lineNum">      21</span>              : /** \addtogroup Observer</span>
+<span id="L22"><span class="lineNum">      22</span>              :  * @{</span>
+<span id="L23"><span class="lineNum">      23</span>              :  */</span>
+<span id="L24"><span class="lineNum">      24</span>              : </span>
+<span id="L25"><span class="lineNum">      25</span>              : </span>
+<span id="L26"><span class="lineNum">      26</span>              : /**</span>
+<span id="L27"><span class="lineNum">      27</span>              :  @class ObserverFeature</span>
+<span id="L28"><span class="lineNum">      28</span>              :  @brief Abstract base class for features of observers</span>
+<span id="L29"><span class="lineNum">      29</span>              :  */</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC tlaBgGNC">           5 : class ObserverFeature: public Referenced {</span></span>
+<span id="L31"><span class="lineNum">      31</span>              : protected:</span>
+<span id="L32"><span class="lineNum">      32</span>              :         std::string description;</span>
+<span id="L33"><span class="lineNum">      33</span>              : public:</span>
+<span id="L34"><span class="lineNum">      34</span>              :         virtual DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L35"><span class="lineNum">      35</span>              :         virtual void onDetection(Candidate *candidate) const;</span>
+<span id="L36"><span class="lineNum">      36</span>              :         virtual std::string getDescription() const;</span>
+<span id="L37"><span class="lineNum">      37</span>              : };</span>
+<span id="L38"><span class="lineNum">      38</span>              : </span>
+<span id="L39"><span class="lineNum">      39</span>              : </span>
+<span id="L40"><span class="lineNum">      40</span>              : /**</span>
+<span id="L41"><span class="lineNum">      41</span>              :  @class Observer</span>
+<span id="L42"><span class="lineNum">      42</span>              :  @brief General particle observer</span>
+<span id="L43"><span class="lineNum">      43</span>              :  */</span>
+<span id="L44"><span class="lineNum">      44</span>              : class Observer: public Module {</span>
+<span id="L45"><span class="lineNum">      45</span>              :         std::string flagKey;</span>
+<span id="L46"><span class="lineNum">      46</span>              :         std::string flagValue;</span>
+<span id="L47"><span class="lineNum">      47</span>              : private:</span>
+<span id="L48"><span class="lineNum">      48</span>              :         std::vector&lt;ref_ptr&lt;ObserverFeature&gt; &gt; features;</span>
+<span id="L49"><span class="lineNum">      49</span>              :         ref_ptr&lt;Module&gt; detectionAction;</span>
+<span id="L50"><span class="lineNum">      50</span>              :         bool clone;</span>
+<span id="L51"><span class="lineNum">      51</span>              :         bool makeInactive;</span>
+<span id="L52"><span class="lineNum">      52</span>              : public:</span>
+<span id="L53"><span class="lineNum">      53</span>              :         /** Default observer constructor</span>
+<span id="L54"><span class="lineNum">      54</span>              :          */</span>
+<span id="L55"><span class="lineNum">      55</span>              :         Observer();</span>
+<span id="L56"><span class="lineNum">      56</span>              :         /** Add a feature to the observer</span>
+<span id="L57"><span class="lineNum">      57</span>              :          @param feature         observer feature to be added to the Observer object</span>
+<span id="L58"><span class="lineNum">      58</span>              :          */</span>
+<span id="L59"><span class="lineNum">      59</span>              :         void add(ObserverFeature *feature);</span>
+<span id="L60"><span class="lineNum">      60</span>              :         /** Perform some specific actions upon detection of candidate</span>
+<span id="L61"><span class="lineNum">      61</span>              :          @param action          module that performs a given action when candidate is detected</span>
+<span id="L62"><span class="lineNum">      62</span>              :          @param clone           if true, clone candidate</span>
+<span id="L63"><span class="lineNum">      63</span>              :          */</span>
+<span id="L64"><span class="lineNum">      64</span>              :         void onDetection(Module *action, bool clone = false);</span>
+<span id="L65"><span class="lineNum">      65</span>              :         void process(Candidate *candidate) const;</span>
+<span id="L66"><span class="lineNum">      66</span>              :         std::string getDescription() const;</span>
+<span id="L67"><span class="lineNum">      67</span>              :         void setFlag(std::string key, std::string value);</span>
+<span id="L68"><span class="lineNum">      68</span>              :         /** Determine whether candidate should be deactivated on detection</span>
+<span id="L69"><span class="lineNum">      69</span>              :          @param deactivate      if true, deactivate detected particles; if false, continue tracking them</span>
+<span id="L70"><span class="lineNum">      70</span>              :          */</span>
+<span id="L71"><span class="lineNum">      71</span>              :         void setDeactivateOnDetection(bool deactivate);</span>
+<span id="L72"><span class="lineNum">      72</span>              : };</span>
+<span id="L73"><span class="lineNum">      73</span>              : </span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span>              : /**</span>
+<span id="L76"><span class="lineNum">      76</span>              :  @class ObserverDetectAll</span>
+<span id="L77"><span class="lineNum">      77</span>              :  @brief Detects all particles</span>
+<span id="L78"><span class="lineNum">      78</span>              :  */</span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">           2 : class ObserverDetectAll: public ObserverFeature {</span></span>
+<span id="L80"><span class="lineNum">      80</span>              : public:</span>
+<span id="L81"><span class="lineNum">      81</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L82"><span class="lineNum">      82</span>              :         std::string getDescription() const;</span>
+<span id="L83"><span class="lineNum">      83</span>              : };</span>
+<span id="L84"><span class="lineNum">      84</span>              : </span>
+<span id="L85"><span class="lineNum">      85</span>              : </span>
+<span id="L86"><span class="lineNum">      86</span>              : /**</span>
+<span id="L87"><span class="lineNum">      87</span>              :  @class ObserverSurface</span>
+<span id="L88"><span class="lineNum">      88</span>              :  @brief Detects particles crossing the boundaries of a defined surface (see, e.g., `Geometry` module)</span>
+<span id="L89"><span class="lineNum">      89</span>              :  */</span>
+<span id="L90"><span class="lineNum">      90</span>              : class ObserverSurface: public ObserverFeature {</span>
+<span id="L91"><span class="lineNum">      91</span>              : private:</span>
+<span id="L92"><span class="lineNum">      92</span>              :         ref_ptr&lt;Surface&gt; surface;</span>
+<span id="L93"><span class="lineNum">      93</span>              : public:</span>
+<span id="L94"><span class="lineNum">      94</span>              :         /** Constructor</span>
+<span id="L95"><span class="lineNum">      95</span>              :          @param surface         object with some specific geometric (see Geometry.h)</span>
+<span id="L96"><span class="lineNum">      96</span>              :         */</span>
+<span id="L97"><span class="lineNum">      97</span>              :         ObserverSurface(Surface* surface);</span>
+<span id="L98"><span class="lineNum">      98</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L99"><span class="lineNum">      99</span>              :         std::string getDescription() const;</span>
+<span id="L100"><span class="lineNum">     100</span>              : };</span>
+<span id="L101"><span class="lineNum">     101</span>              : </span>
+<span id="L102"><span class="lineNum">     102</span>              : </span>
+<span id="L103"><span class="lineNum">     103</span>              : /**</span>
+<span id="L104"><span class="lineNum">     104</span>              :  @class ObserverTracking</span>
+<span id="L105"><span class="lineNum">     105</span>              :  @brief Tracks particles inside a sphere</span>
+<span id="L106"><span class="lineNum">     106</span>              :  */</span>
+<span id="L107"><span class="lineNum">     107</span>              : class ObserverTracking: public ObserverFeature {</span>
+<span id="L108"><span class="lineNum">     108</span>              : private:</span>
+<span id="L109"><span class="lineNum">     109</span>              :         Vector3d center;</span>
+<span id="L110"><span class="lineNum">     110</span>              :         double radius;</span>
+<span id="L111"><span class="lineNum">     111</span>              :     double stepSize;</span>
+<span id="L112"><span class="lineNum">     112</span>              : public:</span>
+<span id="L113"><span class="lineNum">     113</span>              :         /** Constructor</span>
+<span id="L114"><span class="lineNum">     114</span>              :          @param center          vector containing the coordinates of the center of the sphere</span>
+<span id="L115"><span class="lineNum">     115</span>              :          @param radius          radius of the sphere</span>
+<span id="L116"><span class="lineNum">     116</span>              :          @param stepSize        observer will keep track of particles at every step with this size</span>
+<span id="L117"><span class="lineNum">     117</span>              :         */</span>
+<span id="L118"><span class="lineNum">     118</span>              :         ObserverTracking(Vector3d center, double radius, double stepSize = 0);</span>
+<span id="L119"><span class="lineNum">     119</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L120"><span class="lineNum">     120</span>              :         std::string getDescription() const;</span>
+<span id="L121"><span class="lineNum">     121</span>              : };</span>
+<span id="L122"><span class="lineNum">     122</span>              : </span>
+<span id="L123"><span class="lineNum">     123</span>              : </span>
+<span id="L124"><span class="lineNum">     124</span>              : /**</span>
+<span id="L125"><span class="lineNum">     125</span>              :  @class Observer1D</span>
+<span id="L126"><span class="lineNum">     126</span>              :  @brief Detects particles when reaching x = 0</span>
+<span id="L127"><span class="lineNum">     127</span>              : </span>
+<span id="L128"><span class="lineNum">     128</span>              :  This module detects particles when reaching x = 0 and also limits the next step size to prevent candidates from overshooting.</span>
+<span id="L129"><span class="lineNum">     129</span>              :  */</span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">           3 : class Observer1D: public ObserverFeature {</span></span>
+<span id="L131"><span class="lineNum">     131</span>              : public:</span>
+<span id="L132"><span class="lineNum">     132</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L133"><span class="lineNum">     133</span>              :         std::string getDescription() const;</span>
+<span id="L134"><span class="lineNum">     134</span>              : };</span>
+<span id="L135"><span class="lineNum">     135</span>              : </span>
+<span id="L136"><span class="lineNum">     136</span>              : </span>
+<span id="L137"><span class="lineNum">     137</span>              : /**</span>
+<span id="L138"><span class="lineNum">     138</span>              :  @class ObserverRedshiftWindow</span>
+<span id="L139"><span class="lineNum">     139</span>              :  @brief Detects particles in a given redshift window</span>
+<span id="L140"><span class="lineNum">     140</span>              : </span>
+<span id="L141"><span class="lineNum">     141</span>              :  When added to an observer, this feature generalizes it to four dimensions.</span>
+<span id="L142"><span class="lineNum">     142</span>              :  The fourth dimension is the redshift, a proxy for time. This is particularly</span>
+<span id="L143"><span class="lineNum">     143</span>              :  useful in &quot;4D&quot; studies, including either time-dependence (e.g. flaring objects),</span>
+<span id="L144"><span class="lineNum">     144</span>              :  or in 3D studies including cosmological evolution.</span>
+<span id="L145"><span class="lineNum">     145</span>              :  Note that redshifts should be assigned to sources when using this feature.</span>
+<span id="L146"><span class="lineNum">     146</span>              :  This can be done with: SourceRedshift, SourceRedshift1D, SourceUniformRedshift,</span>
+<span id="L147"><span class="lineNum">     147</span>              :  and SourceRedshiftEvolution.</span>
+<span id="L148"><span class="lineNum">     148</span>              :  */</span>
+<span id="L149"><span class="lineNum">     149</span>              : class ObserverRedshiftWindow: public ObserverFeature {</span>
+<span id="L150"><span class="lineNum">     150</span>              : private:</span>
+<span id="L151"><span class="lineNum">     151</span>              :         double zmin, zmax;</span>
+<span id="L152"><span class="lineNum">     152</span>              : public:</span>
+<span id="L153"><span class="lineNum">     153</span>              :         /** Constructor</span>
+<span id="L154"><span class="lineNum">     154</span>              :          @param zmin    lower bound of redshift interval</span>
+<span id="L155"><span class="lineNum">     155</span>              :          @param zmax    upper bound of redshift interval</span>
+<span id="L156"><span class="lineNum">     156</span>              :          */</span>
+<span id="L157"><span class="lineNum">     157</span>              :         ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);</span>
+<span id="L158"><span class="lineNum">     158</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L159"><span class="lineNum">     159</span>              :         std::string getDescription() const;</span>
+<span id="L160"><span class="lineNum">     160</span>              : };</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              : </span>
+<span id="L163"><span class="lineNum">     163</span>              : /**</span>
+<span id="L164"><span class="lineNum">     164</span>              :  @class ObserverInactiveVeto</span>
+<span id="L165"><span class="lineNum">     165</span>              :  @brief Veto for inactive candidates</span>
+<span id="L166"><span class="lineNum">     166</span>              :  */</span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC tlaBgUNC">           0 : class ObserverInactiveVeto: public ObserverFeature {</span></span>
+<span id="L168"><span class="lineNum">     168</span>              : public:</span>
+<span id="L169"><span class="lineNum">     169</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L170"><span class="lineNum">     170</span>              :         std::string getDescription() const;</span>
+<span id="L171"><span class="lineNum">     171</span>              : };</span>
+<span id="L172"><span class="lineNum">     172</span>              : </span>
+<span id="L173"><span class="lineNum">     173</span>              : </span>
+<span id="L174"><span class="lineNum">     174</span>              : /**</span>
+<span id="L175"><span class="lineNum">     175</span>              :  @class ObserverNucleusVeto</span>
+<span id="L176"><span class="lineNum">     176</span>              :  @brief Veto for nuclei (including protons and neutrons)</span>
+<span id="L177"><span class="lineNum">     177</span>              :  */</span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 : class ObserverNucleusVeto: public ObserverFeature {</span></span>
+<span id="L179"><span class="lineNum">     179</span>              : public:</span>
+<span id="L180"><span class="lineNum">     180</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L181"><span class="lineNum">     181</span>              :         std::string getDescription() const;</span>
+<span id="L182"><span class="lineNum">     182</span>              : };</span>
+<span id="L183"><span class="lineNum">     183</span>              : </span>
+<span id="L184"><span class="lineNum">     184</span>              : </span>
+<span id="L185"><span class="lineNum">     185</span>              : /**</span>
+<span id="L186"><span class="lineNum">     186</span>              :  @class ObserverNeutrinoVeto</span>
+<span id="L187"><span class="lineNum">     187</span>              :  @brief Veto for neutrinos</span>
+<span id="L188"><span class="lineNum">     188</span>              :  */</span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaUNC">           0 : class ObserverNeutrinoVeto: public ObserverFeature {</span></span>
+<span id="L190"><span class="lineNum">     190</span>              : public:</span>
+<span id="L191"><span class="lineNum">     191</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L192"><span class="lineNum">     192</span>              :         std::string getDescription() const;</span>
+<span id="L193"><span class="lineNum">     193</span>              : };</span>
+<span id="L194"><span class="lineNum">     194</span>              : </span>
+<span id="L195"><span class="lineNum">     195</span>              : </span>
+<span id="L196"><span class="lineNum">     196</span>              : /**</span>
+<span id="L197"><span class="lineNum">     197</span>              :  @class ObserverPhotonVeto</span>
+<span id="L198"><span class="lineNum">     198</span>              :  @brief Veto for photons</span>
+<span id="L199"><span class="lineNum">     199</span>              :  */</span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaUNC">           0 : class ObserverPhotonVeto: public ObserverFeature {</span></span>
+<span id="L201"><span class="lineNum">     201</span>              : public:</span>
+<span id="L202"><span class="lineNum">     202</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L203"><span class="lineNum">     203</span>              :         std::string getDescription() const;</span>
+<span id="L204"><span class="lineNum">     204</span>              : };</span>
+<span id="L205"><span class="lineNum">     205</span>              : </span>
+<span id="L206"><span class="lineNum">     206</span>              : </span>
+<span id="L207"><span class="lineNum">     207</span>              : /**</span>
+<span id="L208"><span class="lineNum">     208</span>              :  @class ObserverElectronVeto</span>
+<span id="L209"><span class="lineNum">     209</span>              :  @brief Veto for electrons and positrons</span>
+<span id="L210"><span class="lineNum">     210</span>              :  */</span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaUNC">           0 : class ObserverElectronVeto: public ObserverFeature {</span></span>
+<span id="L212"><span class="lineNum">     212</span>              : public:</span>
+<span id="L213"><span class="lineNum">     213</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L214"><span class="lineNum">     214</span>              :         std::string getDescription() const;</span>
+<span id="L215"><span class="lineNum">     215</span>              : };</span>
+<span id="L216"><span class="lineNum">     216</span>              : </span>
+<span id="L217"><span class="lineNum">     217</span>              : </span>
+<span id="L218"><span class="lineNum">     218</span>              : /**</span>
+<span id="L219"><span class="lineNum">     219</span>              :  @class ObserverParticleIdVeto</span>
+<span id="L220"><span class="lineNum">     220</span>              :  @brief Custom veto for user-defined particle types</span>
+<span id="L221"><span class="lineNum">     221</span>              :  Vetoes for more than one type of particle can be added by calling this</span>
+<span id="L222"><span class="lineNum">     222</span>              :  feature multiple times.</span>
+<span id="L223"><span class="lineNum">     223</span>              :  */</span>
+<span id="L224"><span class="lineNum">     224</span>              : class ObserverParticleIdVeto: public ObserverFeature {</span>
+<span id="L225"><span class="lineNum">     225</span>              : private:</span>
+<span id="L226"><span class="lineNum">     226</span>              :         int vetoParticleId;</span>
+<span id="L227"><span class="lineNum">     227</span>              : public:</span>
+<span id="L228"><span class="lineNum">     228</span>              :         /** Constructor</span>
+<span id="L229"><span class="lineNum">     229</span>              :          @param id              id of the particle following the PDG numbering scheme</span>
+<span id="L230"><span class="lineNum">     230</span>              :          */</span>
+<span id="L231"><span class="lineNum">     231</span>              :         ObserverParticleIdVeto(int id);</span>
+<span id="L232"><span class="lineNum">     232</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L233"><span class="lineNum">     233</span>              :         std::string getDescription() const;</span>
+<span id="L234"><span class="lineNum">     234</span>              : };</span>
+<span id="L235"><span class="lineNum">     235</span>              : </span>
+<span id="L236"><span class="lineNum">     236</span>              : </span>
+<span id="L237"><span class="lineNum">     237</span>              : /**</span>
+<span id="L238"><span class="lineNum">     238</span>              :  @class ObserverTimeEvolution</span>
+<span id="L239"><span class="lineNum">     239</span>              :  @brief Observes the time evolution of the candidates (phase-space elements)</span>
+<span id="L240"><span class="lineNum">     240</span>              :  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.</span>
+<span id="L241"><span class="lineNum">     241</span>              :  */</span>
+<span id="L242"><span class="lineNum">     242</span>              : class ObserverTimeEvolution: public ObserverFeature {</span>
+<span id="L243"><span class="lineNum">     243</span>              : protected:</span>
+<span id="L244"><span class="lineNum">     244</span>              :         int nIntervals;  // number of time invervals</span>
+<span id="L245"><span class="lineNum">     245</span>              :         bool isLogarithmicScaling = false;  // enables or disables logarithmic scaling for the intervals</span>
+<span id="L246"><span class="lineNum">     246</span>              :         bool doDetListConstruction = true;  // enables the construction of detList in the relevant functions (addTime, addTimeRange)</span>
+<span id="L247"><span class="lineNum">     247</span>              :         double minimum;  // the minimum time</span>
+<span id="L248"><span class="lineNum">     248</span>              :         double maximum;  // the maximum time</span>
+<span id="L249"><span class="lineNum">     249</span>              :         /** Vector containing all used times. </span>
+<span id="L250"><span class="lineNum">     250</span>              :          It is only constructed by the user manually.</span>
+<span id="L251"><span class="lineNum">     251</span>              :          If it is not empty, the vector will be used instead of the getTime function.</span>
+<span id="L252"><span class="lineNum">     252</span>              :          (leave empty if you want to rather use functions)</span>
+<span id="L253"><span class="lineNum">     253</span>              :         */</span>
+<span id="L254"><span class="lineNum">     254</span>              :         std::vector&lt;double&gt; detList;</span>
+<span id="L255"><span class="lineNum">     255</span>              :         /**</span>
+<span id="L256"><span class="lineNum">     256</span>              :          A temporary storage for detList, this enables the return of a List in getTimes</span>
+<span id="L257"><span class="lineNum">     257</span>              :          without risking to modify detList</span>
+<span id="L258"><span class="lineNum">     258</span>              :          */</span>
+<span id="L259"><span class="lineNum">     259</span>              :         mutable std::vector&lt;double&gt; tempDetList;</span>
+<span id="L260"><span class="lineNum">     260</span>              :         </span>
+<span id="L261"><span class="lineNum">     261</span>              : public:</span>
+<span id="L262"><span class="lineNum">     262</span>              :         /** Default constructor</span>
+<span id="L263"><span class="lineNum">     263</span>              :          */</span>
+<span id="L264"><span class="lineNum">     264</span>              :         ObserverTimeEvolution();</span>
+<span id="L265"><span class="lineNum">     265</span>              :         /** Constructor</span>
+<span id="L266"><span class="lineNum">     266</span>              :          @param min             minimum time</span>
+<span id="L267"><span class="lineNum">     267</span>              :          @param dist    time interval for detection</span>
+<span id="L268"><span class="lineNum">     268</span>              :          @param numb    number of time intervals</span>
+<span id="L269"><span class="lineNum">     269</span>              : </span>
+<span id="L270"><span class="lineNum">     270</span>              :          This constructor calculates the maximum from max = min + (numb - 1) * dist</span>
+<span id="L271"><span class="lineNum">     271</span>              :          */</span>
+<span id="L272"><span class="lineNum">     272</span>              :         ObserverTimeEvolution(double min, double dist, double numb);</span>
+<span id="L273"><span class="lineNum">     273</span>              :         /** Constructor</span>
+<span id="L274"><span class="lineNum">     274</span>              :          @param min             minimum time</span>
+<span id="L275"><span class="lineNum">     275</span>              :          @param max         maximum time</span>
+<span id="L276"><span class="lineNum">     276</span>              :          @param numb    number of time intervals</span>
+<span id="L277"><span class="lineNum">     277</span>              :          @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps</span>
+<span id="L278"><span class="lineNum">     278</span>              :          </span>
+<span id="L279"><span class="lineNum">     279</span>              :          This constructor sets the maximum directly and gets numb automatically.</span>
+<span id="L280"><span class="lineNum">     280</span>              :          You need to set the log parameter, since an overload for the first three doubles exist.</span>
+<span id="L281"><span class="lineNum">     281</span>              :          */</span>
+<span id="L282"><span class="lineNum">     282</span>              :         ObserverTimeEvolution(double min, double max, double numb, bool log);</span>
+<span id="L283"><span class="lineNum">     283</span>              :         /** Constructor</span>
+<span id="L284"><span class="lineNum">     284</span>              :          @param detList user defined vector&lt;double&gt; with times to check</span>
+<span id="L285"><span class="lineNum">     285</span>              : </span>
+<span id="L286"><span class="lineNum">     286</span>              :          This constructor uses a predefined vector containing the times that should be observed.</span>
+<span id="L287"><span class="lineNum">     287</span>              :          The so created detList can then be modified via addTime, addTimeRange and setTimes.</span>
+<span id="L288"><span class="lineNum">     288</span>              :          */</span>
+<span id="L289"><span class="lineNum">     289</span>              :         ObserverTimeEvolution(const std::vector&lt;double&gt; &amp;detList);</span>
+<span id="L290"><span class="lineNum">     290</span>              :         /** Destructor</span>
+<span id="L291"><span class="lineNum">     291</span>              :          */</span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC tlaBgGNC">           6 :         ~ObserverTimeEvolution(){}</span></span>
+<span id="L293"><span class="lineNum">     293</span>              : </span>
+<span id="L294"><span class="lineNum">     294</span>              :         /** Function</span>
+<span id="L295"><span class="lineNum">     295</span>              :          Generates the detList if it is empty when for example the </span>
+<span id="L296"><span class="lineNum">     296</span>              :          ObserverTimeEvolution(const std::vector&lt;double&gt; &amp;detList) constructor</span>
+<span id="L297"><span class="lineNum">     297</span>              :          was not used.</span>
+<span id="L298"><span class="lineNum">     298</span>              :          Use this function to create a detList with can then be modified.</span>
+<span id="L299"><span class="lineNum">     299</span>              :          When detList is not empty its entries are used instead of a runtime calculation of the times.   </span>
+<span id="L300"><span class="lineNum">     300</span>              :          */</span>
+<span id="L301"><span class="lineNum">     301</span>              :         void constructDetListIfEmpty();</span>
+<span id="L302"><span class="lineNum">     302</span>              :         /** Function</span>
+<span id="L303"><span class="lineNum">     303</span>              :          @param candidate       Candidate usally given by a module list</span>
+<span id="L304"><span class="lineNum">     304</span>              : </span>
+<span id="L305"><span class="lineNum">     305</span>              :          Checks whether to make a detection at the current step of candidate or not.</span>
+<span id="L306"><span class="lineNum">     306</span>              :          This function is called in Observer.process with the simulated Candidate.</span>
+<span id="L307"><span class="lineNum">     307</span>              :          */</span>
+<span id="L308"><span class="lineNum">     308</span>              :         DetectionState checkDetection(Candidate *candidate) const;</span>
+<span id="L309"><span class="lineNum">     309</span>              :         /** Function</span>
+<span id="L310"><span class="lineNum">     310</span>              :          @param enableConstruction      if true, constructs detList from range of min, max, numb</span>
+<span id="L311"><span class="lineNum">     311</span>              :          when calling addTime</span>
+<span id="L312"><span class="lineNum">     312</span>              :          Clears the content of detList</span>
+<span id="L313"><span class="lineNum">     313</span>              :          */</span>
+<span id="L314"><span class="lineNum">     314</span>              :         void clear();</span>
+<span id="L315"><span class="lineNum">     315</span>              :         /** Function</span>
+<span id="L316"><span class="lineNum">     316</span>              :          Checks if detList is empty</span>
+<span id="L317"><span class="lineNum">     317</span>              :          */</span>
+<span id="L318"><span class="lineNum">     318</span>              :         bool empty(){return detList.empty();}</span>
+<span id="L319"><span class="lineNum">     319</span>              : </span>
+<span id="L320"><span class="lineNum">     320</span>              :         // setter functions:</span>
+<span id="L321"><span class="lineNum">     321</span>              :         /** Function</span>
+<span id="L322"><span class="lineNum">     322</span>              :          @param time    Time that should be appended to detList</span>
+<span id="L323"><span class="lineNum">     323</span>              : </span>
+<span id="L324"><span class="lineNum">     324</span>              :          Makes a push_back on detList with the given time.       </span>
+<span id="L325"><span class="lineNum">     325</span>              :          */</span>
+<span id="L326"><span class="lineNum">     326</span>              :         void addTime(const double &amp;time);</span>
+<span id="L327"><span class="lineNum">     327</span>              :         /** Function</span>
+<span id="L328"><span class="lineNum">     328</span>              :          @param min             minimum time</span>
+<span id="L329"><span class="lineNum">     329</span>              :          @param max         maximum time</span>
+<span id="L330"><span class="lineNum">     330</span>              :          @param numb    number of time intervals</span>
+<span id="L331"><span class="lineNum">     331</span>              :          @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps</span>
+<span id="L332"><span class="lineNum">     332</span>              : </span>
+<span id="L333"><span class="lineNum">     333</span>              :          Appends a linear or logarithmic time range to detList via repeatedly calling addTime</span>
+<span id="L334"><span class="lineNum">     334</span>              :          */</span>
+<span id="L335"><span class="lineNum">     335</span>              :         void addTimeRange(double min, double max, double numb, bool log = false);</span>
+<span id="L336"><span class="lineNum">     336</span>              :         /** Function</span>
+<span id="L337"><span class="lineNum">     337</span>              :          @param detList vector&lt;double&gt; containing times when to observe</span>
+<span id="L338"><span class="lineNum">     338</span>              : </span>
+<span id="L339"><span class="lineNum">     339</span>              :          Sets this-&gt;detList to detList, with this it is possible to fully modify detList</span>
+<span id="L340"><span class="lineNum">     340</span>              :          */</span>
+<span id="L341"><span class="lineNum">     341</span>              :         void setTimes(const std::vector&lt;double&gt; &amp;detList);</span>
+<span id="L342"><span class="lineNum">     342</span>              :         void setMinimum(double min);</span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">           3 :         void setMaximum(double max){this-&gt;maximum = max;}</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">           6 :         void setNIntervals(int numb){this-&gt;nIntervals = numb;}</span></span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaGNC">           2 :         void setIsLogarithmicScaling(bool log){this-&gt;isLogarithmicScaling = log;}</span></span>
+<span id="L346"><span class="lineNum">     346</span>              : </span>
+<span id="L347"><span class="lineNum">     347</span>              :         // getter functions:</span>
+<span id="L348"><span class="lineNum">     348</span>              :         /** Function</span>
+<span id="L349"><span class="lineNum">     349</span>              :          @param index   index of the required time</span>
+<span id="L350"><span class="lineNum">     350</span>              : </span>
+<span id="L351"><span class="lineNum">     351</span>              :          Replaces the previous preconstructed detList and return the time for a specific index</span>
+<span id="L352"><span class="lineNum">     352</span>              :          */</span>
+<span id="L353"><span class="lineNum">     353</span>              :         virtual double getTime(std::size_t index) const;</span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaUNC tlaBgUNC">           0 :         double getMinimum() const {return minimum;}</span></span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaUNC">           0 :         double getMaximum() const {return maximum;}</span></span>
+<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 :         int getNIntervals() const {return nIntervals;}</span></span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 :         bool getIsLogarithmicScaling() const {return isLogarithmicScaling;}</span></span>
+<span id="L358"><span class="lineNum">     358</span>              :         /** Function </span>
+<span id="L359"><span class="lineNum">     359</span>              :          Returns a vector&lt;double&gt; containing all times between min and max generated by getTime.</span>
+<span id="L360"><span class="lineNum">     360</span>              :          This function does not return detList directly, it rather appends a new vector with</span>
+<span id="L361"><span class="lineNum">     361</span>              :          getTime numb times.</span>
+<span id="L362"><span class="lineNum">     362</span>              :          */</span>
+<span id="L363"><span class="lineNum">     363</span>              :         const std::vector&lt;double&gt;&amp; getTimes() const;</span>
+<span id="L364"><span class="lineNum">     364</span>              :         /** Function</span>
+<span id="L365"><span class="lineNum">     365</span>              :          Returns a string containing a representation of all times.</span>
+<span id="L366"><span class="lineNum">     366</span>              :          This function does not create a detList.</span>
+<span id="L367"><span class="lineNum">     367</span>              :          */</span>
+<span id="L368"><span class="lineNum">     368</span>              :         std::string getDescription() const;</span>
+<span id="L369"><span class="lineNum">     369</span>              : };</span>
+<span id="L370"><span class="lineNum">     370</span>              : </span>
+<span id="L371"><span class="lineNum">     371</span>              : /** @} */</span>
+<span id="L372"><span class="lineNum">     372</span>              : </span>
+<span id="L373"><span class="lineNum">     373</span>              : }</span>
+<span id="L374"><span class="lineNum">     374</span>              : </span>
+<span id="L375"><span class="lineNum">     375</span>              : #endif // CRPROPA_OBSERVER_H</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

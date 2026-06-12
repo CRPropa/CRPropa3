@@ -3,7 +3,7 @@
 Enum TF17HaloModel
 ==================
 
-- Defined in :ref:`file_include_crpropa_magneticField_TF17Field.h`
+.. did not find file this was defined in
 
 
 Enum Documentation

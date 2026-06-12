@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - src/magneticField/JF12Field.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/magneticField</a> - JF12Field.cpp<span style="font-size: 80%;"> (source / <a href="JF12Field.cpp.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">231</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;crpropa/magneticField/JF12Field.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;crpropa/Units.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;crpropa/magneticField/turbulentField/SimpleGridTurbulence.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;crpropa/Random.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              : namespace crpropa {</span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC tlaBgUNC">           0 : JF12Field::JF12Field() {</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :         useRegularField = true;</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :         useStriatedField = false;</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :         useTurbulentField = false;</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :         useDiskField = true;</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :         useToroidalHaloField = true;</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :         useXField = true;</span></span>
+<span id="L15"><span class="lineNum">      15</span>              : </span>
+<span id="L16"><span class="lineNum">      16</span>              :         // spiral arm parameters</span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :         pitch = 11.5 * M_PI / 180;</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :         sinPitch = sin(pitch);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :         cosPitch = cos(pitch);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :         tanPitch = tan(pitch);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :         cotPitch =  1. / tanPitch;</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :         tan90MinusPitch = tan(M_PI / 2 - pitch);</span></span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :         rArms[0] = 5.1 * kpc;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :         rArms[1] = 6.3 * kpc;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :         rArms[2] = 7.1 * kpc;</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         rArms[3] = 8.3 * kpc;</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :         rArms[4] = 9.8 * kpc;</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         rArms[5] = 11.4 * kpc;</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         rArms[6] = 12.7 * kpc;</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         rArms[7] = 15.5 * kpc;</span></span>
+<span id="L32"><span class="lineNum">      32</span>              : </span>
+<span id="L33"><span class="lineNum">      33</span>              :         // regular field parameters</span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         bRing = 0.1 * muG;</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :         hDisk = 0.40 * kpc;</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :         wDisk = 0.27 * kpc;</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :         bDisk[0] = 0.1 * muG;</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :         bDisk[1] = 3.0 * muG;</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :         bDisk[2] = -0.9 * muG;</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :         bDisk[3] = -0.8 * muG;</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :         bDisk[4] = -2.0 * muG;</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :         bDisk[5] = -4.2 * muG;</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :         bDisk[6] = 0.0 * muG;</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :         bDisk[7] = 2.7 * muG;</span></span>
+<span id="L46"><span class="lineNum">      46</span>              : </span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :         bNorth = 1.4 * muG;</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :         bSouth = -1.1 * muG;</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaUNC">           0 :         rNorth = 9.22 * kpc;</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :         rSouth = 17 * kpc;</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :         wHalo = 0.20 * kpc;</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :         z0 = 5.3 * kpc;</span></span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :         bX = 4.6 * muG;</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :         thetaX0 = 49.0 * M_PI / 180;</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :         sinThetaX0 = sin(thetaX0);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaUNC">           0 :         cosThetaX0 = cos(thetaX0);</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :         tanThetaX0 = tan(thetaX0);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :         cotThetaX0 = 1. / tanThetaX0;</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :         rXc = 4.8 * kpc;</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :         rX = 2.9 * kpc;</span></span>
+<span id="L62"><span class="lineNum">      62</span>              : </span>
+<span id="L63"><span class="lineNum">      63</span>              :         // striated field parameter</span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :         sqrtbeta = sqrt(1.36);</span></span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span>              :         // turbulent field parameters</span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :         bDiskTurb[0] = 10.81 * muG;</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :         bDiskTurb[1] = 6.96 * muG;</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaUNC">           0 :         bDiskTurb[2] = 9.59 * muG;</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC">           0 :         bDiskTurb[3] = 6.96 * muG;</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC">           0 :         bDiskTurb[4] = 1.96 * muG;</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :         bDiskTurb[5] = 16.34 * muG;</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :         bDiskTurb[6] = 37.29 * muG;</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaUNC">           0 :         bDiskTurb[7] = 10.35 * muG;</span></span>
+<span id="L75"><span class="lineNum">      75</span>              : </span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :         bDiskTurb5 = 7.63 * muG;</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :         zDiskTurb = 0.61 * kpc;</span></span>
+<span id="L78"><span class="lineNum">      78</span>              : </span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaUNC">           0 :         bHaloTurb = 4.68 * muG;</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaUNC">           0 :         rHaloTurb = 10.97 * kpc;</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaUNC">           0 :         zHaloTurb = 2.84 * kpc;</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC">           0 : void JF12Field::randomStriated(int seed) {</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaUNC">           0 :         useStriatedField = true;</span></span>
+<span id="L86"><span class="lineNum">      86</span>              :         int N = 100;</span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaUNC">           0 :         striatedGrid = new Grid1f(Vector3d(0.), N, 0.1 * kpc);</span></span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :         Random random;</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaUNC">           0 :         if (seed != 0)</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaUNC">           0 :                 random.seed(seed);</span></span>
+<span id="L92"><span class="lineNum">      92</span>              : </span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :         for (int ix = 0; ix &lt; N; ix++)</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :                 for (int iy = 0; iy &lt; N; iy++)</span></span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :                         for (int iz = 0; iz &lt; N; iz++) {</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaUNC">           0 :                                 float &amp;f = striatedGrid-&gt;get(ix, iy, iz);</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :                                 f = round(random.rand()) * 2 - 1;</span></span>
+<span id="L98"><span class="lineNum">      98</span>              :                         }</span>
+<span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L100"><span class="lineNum">     100</span>              : </span>
+<span id="L101"><span class="lineNum">     101</span>              : #ifdef CRPROPA_HAVE_FFTW3F</span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 : void JF12Field::randomTurbulent(int seed) {</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :         useTurbulentField = true;</span></span>
+<span id="L104"><span class="lineNum">     104</span>              :         // turbulent field with Kolmogorov spectrum, B_rms = 1 (will be scaled) and Lc = 60 parsec, and 256 grid points.</span>
+<span id="L105"><span class="lineNum">     105</span>              :         // Note that the inertial range of the turbulence is less than 2 orders of magnitude.</span>
+<span id="L106"><span class="lineNum">     106</span>              :     const double lMin = 8 * parsec;</span>
+<span id="L107"><span class="lineNum">     107</span>              :     const double lMax = 272 * parsec;</span>
+<span id="L108"><span class="lineNum">     108</span>              :     const double Brms = 1;</span>
+<span id="L109"><span class="lineNum">     109</span>              :     const double spacing = 4 * parsec;</span>
+<span id="L110"><span class="lineNum">     110</span>              :     const double grid_n = 256;</span>
+<span id="L111"><span class="lineNum">     111</span>              : </span>
+<span id="L112"><span class="lineNum">     112</span>              :     auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);</span>
+<span id="L113"><span class="lineNum">     113</span>              :     auto gp = GridProperties(Vector3d(0.), grid_n, spacing);</span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :     auto tf = SimpleGridTurbulence(spectrum, gp, seed);</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :     turbulentGrid = tf.getGrid();</span></span>
+<span id="L116"><span class="lineNum">     116</span>              : </span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L118"><span class="lineNum">     118</span>              : #endif</span>
+<span id="L119"><span class="lineNum">     119</span>              : </span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC">           0 : void JF12Field::setStriatedGrid(ref_ptr&lt;Grid1f&gt; grid) {</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :         useStriatedField = true;</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaUNC">           0 :         striatedGrid = grid;</span></span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L124"><span class="lineNum">     124</span>              : </span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 : void JF12Field::setTurbulentGrid(ref_ptr&lt;Grid3f&gt; grid) {</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :         useTurbulentField = true;</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :         turbulentGrid = grid;</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L129"><span class="lineNum">     129</span>              : </span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 : ref_ptr&lt;Grid1f&gt; JF12Field::getStriatedGrid() {</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC">           0 :         return striatedGrid;</span></span>
+<span id="L132"><span class="lineNum">     132</span>              : }</span>
+<span id="L133"><span class="lineNum">     133</span>              : </span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 : ref_ptr&lt;Grid3f&gt; JF12Field::getTurbulentGrid() {</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :         return turbulentGrid;</span></span>
+<span id="L136"><span class="lineNum">     136</span>              : }</span>
+<span id="L137"><span class="lineNum">     137</span>              : </span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 : void JF12Field::setUseRegularField(bool use) {</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :         useRegularField = use;</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L141"><span class="lineNum">     141</span>              : </span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 : void JF12Field::setUseDiskField(bool use) {</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :         useDiskField = use;</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L145"><span class="lineNum">     145</span>              : </span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 : void JF12Field::setUseToroidalHaloField(bool use) {</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :         useToroidalHaloField = use;</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L149"><span class="lineNum">     149</span>              : </span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 : void JF12Field::setUseXField(bool use) {</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :         useXField = use;</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L153"><span class="lineNum">     153</span>              : </span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaUNC">           0 : void JF12Field::setUseStriatedField(bool use) {</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :         if ((use) and !(striatedGrid)) {</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 :                 KISS_LOG_WARNING &lt;&lt; &quot;JF12Field: No striated field set: ignored. Run e.g. randomStriated().&quot;;</span></span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L158"><span class="lineNum">     158</span>              :         }</span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :         useStriatedField = use;</span></span>
+<span id="L160"><span class="lineNum">     160</span>              : }</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 : void JF12Field::setUseTurbulentField(bool use) {</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :         if ((use) and !(turbulentGrid)) {</span></span>
+<span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :                 KISS_LOG_WARNING &lt;&lt; &quot;JF12Field: No turbulent field set: ignored. Run e.g. randomTurbulent().&quot;;</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L166"><span class="lineNum">     166</span>              :         }</span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :         useTurbulentField = use;</span></span>
+<span id="L168"><span class="lineNum">     168</span>              : }</span>
+<span id="L169"><span class="lineNum">     169</span>              : </span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingRegularField() {</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaUNC">           0 :         return useRegularField;</span></span>
+<span id="L172"><span class="lineNum">     172</span>              : }</span>
+<span id="L173"><span class="lineNum">     173</span>              : </span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingDiskField() {</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaUNC">           0 :         return useDiskField;</span></span>
+<span id="L176"><span class="lineNum">     176</span>              : }</span>
+<span id="L177"><span class="lineNum">     177</span>              : </span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingToroidalHaloField() {</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC">           0 :         return useToroidalHaloField;</span></span>
+<span id="L180"><span class="lineNum">     180</span>              : }</span>
+<span id="L181"><span class="lineNum">     181</span>              : </span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingXField() {</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :         return useXField;</span></span>
+<span id="L184"><span class="lineNum">     184</span>              : }</span>
+<span id="L185"><span class="lineNum">     185</span>              : </span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingStriatedField() {</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 :         return useStriatedField;</span></span>
+<span id="L188"><span class="lineNum">     188</span>              : }</span>
+<span id="L189"><span class="lineNum">     189</span>              : </span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaUNC">           0 : bool JF12Field::isUsingTurbulentField() {</span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC">           0 :         return useTurbulentField;</span></span>
+<span id="L192"><span class="lineNum">     192</span>              : }</span>
+<span id="L193"><span class="lineNum">     193</span>              : </span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaUNC">           0 : double JF12Field::logisticFunction(const double&amp; x, const double&amp; x0, const double&amp; w) const {</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaUNC">           0 :         return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));</span></span>
+<span id="L196"><span class="lineNum">     196</span>              : }</span>
+<span id="L197"><span class="lineNum">     197</span>              : </span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getRegularField(const Vector3d&amp; pos) const {</span></span>
+<span id="L199"><span class="lineNum">     199</span>              :         Vector3d b(0.);</span>
+<span id="L200"><span class="lineNum">     200</span>              : </span>
+<span id="L201"><span class="lineNum">     201</span>              :         double d = pos.getR(); // distance to galactic center</span>
+<span id="L202"><span class="lineNum">     202</span>              : </span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaUNC">           0 :         if (d &lt; 20 * kpc) {</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaUNC">           0 :                 double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius</span></span>
+<span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC">           0 :                 double phi = pos.getPhi(); // azimuth</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaUNC">           0 :                 double sinPhi = sin(phi);</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaUNC">           0 :                 double cosPhi = cos(phi);</span></span>
+<span id="L208"><span class="lineNum">     208</span>              : </span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaUNC">           0 :                 b += getDiskField(r, pos.z, phi, sinPhi, cosPhi);</span></span>
+<span id="L210"><span class="lineNum">     210</span> <span class="tlaUNC">           0 :                 b += getToroidalHaloField(r, pos.z, sinPhi, cosPhi);</span></span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaUNC">           0 :                 b += getXField(r, pos.z, sinPhi, cosPhi);</span></span>
+<span id="L212"><span class="lineNum">     212</span>              :         }</span>
+<span id="L213"><span class="lineNum">     213</span>              : </span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaUNC">           0 :         return b;</span></span>
+<span id="L215"><span class="lineNum">     215</span>              : }</span>
+<span id="L216"><span class="lineNum">     216</span>              : </span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getDiskField(const double&amp; r, const double&amp; z, const double&amp; phi, const double&amp; sinPhi, const double&amp; cosPhi) const {</span></span>
+<span id="L218"><span class="lineNum">     218</span>              :         Vector3d b(0.);</span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC">           0 :         if (useDiskField) {</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaUNC">           0 :                 double lfDisk = logisticFunction(z, hDisk, wDisk);</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :                 if (r &gt; 3 * kpc) {</span></span>
+<span id="L222"><span class="lineNum">     222</span>              :                         double bMag;</span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :                         if (r &lt; 5 * kpc) {</span></span>
+<span id="L224"><span class="lineNum">     224</span>              :                                 // molecular ring</span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :                                 bMag = bRing * (5 * kpc / r) * (1 - lfDisk);</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :                                 b.x += -bMag * sinPhi;</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaUNC">           0 :                                 b.y += bMag * cosPhi;</span></span>
+<span id="L228"><span class="lineNum">     228</span>              :                         } else {</span>
+<span id="L229"><span class="lineNum">     229</span>              :                                 // spiral region</span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaUNC">           0 :                                 double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaUNC">           0 :                                 if (r_negx &gt; rArms[7])</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaUNC">           0 :                                         r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 :                                 if (r_negx &gt; rArms[7])</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaUNC">           0 :                                         r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);</span></span>
+<span id="L235"><span class="lineNum">     235</span>              : </span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :                                 for (int i = 7; i &gt;= 0; i--)</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaUNC">           0 :                                         if (r_negx &lt; rArms[i])</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaUNC">           0 :                                                 bMag = bDisk[i];</span></span>
+<span id="L239"><span class="lineNum">     239</span>              : </span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaUNC">           0 :                                 bMag *= (5 * kpc / r) * (1 - lfDisk);</span></span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaUNC">           0 :                                 b.x += bMag * (sinPitch * cosPhi - cosPitch * sinPhi);</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaUNC">           0 :                                 b.y += bMag * (sinPitch * sinPhi + cosPitch * cosPhi);</span></span>
+<span id="L243"><span class="lineNum">     243</span>              :                         }</span>
+<span id="L244"><span class="lineNum">     244</span>              :                 }</span>
+<span id="L245"><span class="lineNum">     245</span>              :         }</span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaUNC">           0 :         return b;</span></span>
+<span id="L247"><span class="lineNum">     247</span>              : }</span>
+<span id="L248"><span class="lineNum">     248</span>              : </span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getToroidalHaloField(const double&amp; r, const double&amp; z, const double&amp; sinPhi, const double&amp; cosPhi) const {</span></span>
+<span id="L250"><span class="lineNum">     250</span>              :         Vector3d b(0.);</span>
+<span id="L251"><span class="lineNum">     251</span>              : </span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaUNC">           0 :         if (useToroidalHaloField &amp;&amp; (r * r + z * z &gt; 1 * kpc * kpc)){</span></span>
+<span id="L253"><span class="lineNum">     253</span>              : </span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaUNC">           0 :                 double lfDisk = logisticFunction(z, hDisk, wDisk);</span></span>
+<span id="L255"><span class="lineNum">     255</span> <span class="tlaUNC">           0 :                 double bMagH = exp(-fabs(z) / z0) * lfDisk;</span></span>
+<span id="L256"><span class="lineNum">     256</span>              : </span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaUNC">           0 :                 if (z &gt;= 0)</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC">           0 :                         bMagH *= bNorth * (1 - logisticFunction(r, rNorth, wHalo));</span></span>
+<span id="L259"><span class="lineNum">     259</span>              :                 else</span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaUNC">           0 :                         bMagH *= bSouth * (1 - logisticFunction(r, rSouth, wHalo));</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaUNC">           0 :                 b.x += -bMagH * sinPhi;</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaUNC">           0 :                 b.y += bMagH * cosPhi;</span></span>
+<span id="L263"><span class="lineNum">     263</span>              :         }</span>
+<span id="L264"><span class="lineNum">     264</span> <span class="tlaUNC">           0 :         return b;</span></span>
+<span id="L265"><span class="lineNum">     265</span>              : }</span>
+<span id="L266"><span class="lineNum">     266</span>              : </span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getXField(const double&amp; r, const double&amp; z, const double&amp; sinPhi, const double&amp; cosPhi) const {</span></span>
+<span id="L268"><span class="lineNum">     268</span>              :         Vector3d b(0.);</span>
+<span id="L269"><span class="lineNum">     269</span>              : </span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :         if (useXField &amp;&amp; (r * r + z * z &gt; 1 * kpc * kpc)){</span></span>
+<span id="L271"><span class="lineNum">     271</span>              :                 double bMagX;</span>
+<span id="L272"><span class="lineNum">     272</span>              :                 double sinThetaX, cosThetaX;</span>
+<span id="L273"><span class="lineNum">     273</span>              :                 double rp;</span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaUNC">           0 :                 double rc = rXc + fabs(z) / tanThetaX0;</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC">           0 :                 if (r &lt; rc) {</span></span>
+<span id="L276"><span class="lineNum">     276</span>              :                         // varying elevation region</span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC">           0 :                         rp = r * rXc / rc;</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :                         bMagX = bX * exp(-1 * rp / rX) * pow(rXc / rc, 2.);</span></span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaUNC">           0 :                         double thetaX = atan2(fabs(z), (r - rp));</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaUNC">           0 :                         if (z == 0)</span></span>
+<span id="L281"><span class="lineNum">     281</span>              :                                 thetaX = M_PI / 2.;</span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaUNC">           0 :                         sinThetaX = sin(thetaX);</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaUNC">           0 :                         cosThetaX = cos(thetaX);</span></span>
+<span id="L284"><span class="lineNum">     284</span>              :                 } else {</span>
+<span id="L285"><span class="lineNum">     285</span>              :                         // constant elevation region</span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC">           0 :                         rp = r - fabs(z) / tanThetaX0;</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaUNC">           0 :                         bMagX = bX * exp(-rp / rX) * (rp / r);</span></span>
+<span id="L288"><span class="lineNum">     288</span> <span class="tlaUNC">           0 :                         sinThetaX = sinThetaX0;</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaUNC">           0 :                         cosThetaX = cosThetaX0;</span></span>
+<span id="L290"><span class="lineNum">     290</span>              :                 }</span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaUNC">           0 :                 double zsign = z &lt; 0 ? -1 : 1;</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaUNC">           0 :                 b.x += zsign * bMagX * cosThetaX * cosPhi;</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaUNC">           0 :                 b.y += zsign * bMagX * cosThetaX * sinPhi;</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaUNC">           0 :                 b.z += bMagX * sinThetaX;</span></span>
+<span id="L295"><span class="lineNum">     295</span>              :         }</span>
+<span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC">           0 :         return b;</span></span>
+<span id="L297"><span class="lineNum">     297</span>              : }</span>
+<span id="L298"><span class="lineNum">     298</span>              : </span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getStriatedField(const Vector3d&amp; pos) const {</span></span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :         return (getRegularField(pos)</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :                         * (1. + sqrtbeta * striatedGrid-&gt;closestValue(pos)));</span></span>
+<span id="L302"><span class="lineNum">     302</span>              : }</span>
+<span id="L303"><span class="lineNum">     303</span>              : </span>
+<span id="L304"><span class="lineNum">     304</span> <span class="tlaUNC">           0 : double JF12Field::getTurbulentStrength(const Vector3d&amp; pos) const {</span></span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaUNC">           0 :         if (pos.getR() &gt; 20 * kpc)</span></span>
+<span id="L306"><span class="lineNum">     306</span>              :                 return 0;</span>
+<span id="L307"><span class="lineNum">     307</span>              : </span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaUNC">           0 :         double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaUNC">           0 :         double phi = pos.getPhi(); // azimuth</span></span>
+<span id="L310"><span class="lineNum">     310</span>              : </span>
+<span id="L311"><span class="lineNum">     311</span>              :         // disk</span>
+<span id="L312"><span class="lineNum">     312</span>              :         double bDisk = 0;</span>
+<span id="L313"><span class="lineNum">     313</span> <span class="tlaUNC">           0 :         if (r &lt; 5 * kpc) {</span></span>
+<span id="L314"><span class="lineNum">     314</span> <span class="tlaUNC">           0 :                 bDisk = bDiskTurb5;</span></span>
+<span id="L315"><span class="lineNum">     315</span>              :         } else {</span>
+<span id="L316"><span class="lineNum">     316</span>              :                 // spiral region</span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaUNC">           0 :                 double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);</span></span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaUNC">           0 :                 if (r_negx &gt; rArms[7])</span></span>
+<span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC">           0 :                         r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);</span></span>
+<span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 :                 if (r_negx &gt; rArms[7])</span></span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaUNC">           0 :                         r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);</span></span>
+<span id="L322"><span class="lineNum">     322</span>              : </span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaUNC">           0 :                 for (int i = 7; i &gt;= 0; i--)</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaUNC">           0 :                         if (r_negx &lt; rArms[i])</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaUNC">           0 :                                 bDisk = bDiskTurb[i];</span></span>
+<span id="L326"><span class="lineNum">     326</span>              : </span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaUNC">           0 :                 bDisk *= (5 * kpc) / r;</span></span>
+<span id="L328"><span class="lineNum">     328</span>              :         }</span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaUNC">           0 :         bDisk *= exp(-0.5 * pow(pos.z / zDiskTurb, 2));</span></span>
+<span id="L330"><span class="lineNum">     330</span>              : </span>
+<span id="L331"><span class="lineNum">     331</span>              :         // halo</span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaUNC">           0 :         double bHalo = bHaloTurb * exp(-r / rHaloTurb)</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaUNC">           0 :                         * exp(-0.5 * pow(pos.z / zHaloTurb, 2));</span></span>
+<span id="L334"><span class="lineNum">     334</span>              : </span>
+<span id="L335"><span class="lineNum">     335</span>              :         // modulate turbulent field</span>
+<span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :         return sqrt(pow(bDisk, 2) + pow(bHalo, 2));</span></span>
+<span id="L337"><span class="lineNum">     337</span>              : }</span>
+<span id="L338"><span class="lineNum">     338</span>              : </span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getTurbulentField(const Vector3d&amp; pos) const {</span></span>
+<span id="L340"><span class="lineNum">     340</span> <span class="tlaUNC">           0 :         return (turbulentGrid-&gt;interpolate(pos) * getTurbulentStrength(pos));</span></span>
+<span id="L341"><span class="lineNum">     341</span>              : }</span>
+<span id="L342"><span class="lineNum">     342</span>              : </span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaUNC">           0 : Vector3d JF12Field::getField(const Vector3d&amp; pos) const {</span></span>
+<span id="L344"><span class="lineNum">     344</span>              :         Vector3d b(0.);</span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaUNC">           0 :         if (useTurbulentField)</span></span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaUNC">           0 :                 b += getTurbulentField(pos);</span></span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :         if (useStriatedField)</span></span>
+<span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :                 b += getStriatedField(pos);</span></span>
+<span id="L349"><span class="lineNum">     349</span> <span class="tlaUNC">           0 :         else if (useRegularField)</span></span>
+<span id="L350"><span class="lineNum">     350</span> <span class="tlaUNC">           0 :                 b += getRegularField(pos);</span></span>
+<span id="L351"><span class="lineNum">     351</span> <span class="tlaUNC">           0 :         return b;</span></span>
+<span id="L352"><span class="lineNum">     352</span>              : }</span>
+<span id="L353"><span class="lineNum">     353</span>              : </span>
+<span id="L354"><span class="lineNum">     354</span>              : </span>
+<span id="L355"><span class="lineNum">     355</span>              : </span>
+<span id="L356"><span class="lineNum">     356</span> <span class="tlaUNC">           0 : PlanckJF12bField::PlanckJF12bField() : JF12Field::JF12Field(){</span></span>
+<span id="L357"><span class="lineNum">     357</span>              :         // regular field parameters</span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaUNC">           0 :         bDisk[5] = -3.5 * muG;</span></span>
+<span id="L359"><span class="lineNum">     359</span> <span class="tlaUNC">           0 :         bX = 1.8 * muG;</span></span>
+<span id="L360"><span class="lineNum">     360</span>              : </span>
+<span id="L361"><span class="lineNum">     361</span>              :         // turbulent field parameters;</span>
+<span id="L362"><span class="lineNum">     362</span> <span class="tlaUNC">           0 :         bDiskTurb[0] = 3.12 * muG;</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaUNC">           0 :         bDiskTurb[1] = 6.24 * muG;</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaUNC">           0 :         bDiskTurb[2] = 3.12 * muG;</span></span>
+<span id="L365"><span class="lineNum">     365</span> <span class="tlaUNC">           0 :         bDiskTurb[3] = 6.24 * muG;</span></span>
+<span id="L366"><span class="lineNum">     366</span> <span class="tlaUNC">           0 :         bDiskTurb[4] = 3.12 * muG;</span></span>
+<span id="L367"><span class="lineNum">     367</span> <span class="tlaUNC">           0 :         bDiskTurb[5] = 6.24 * muG;</span></span>
+<span id="L368"><span class="lineNum">     368</span> <span class="tlaUNC">           0 :         bDiskTurb[6] = 3.12 * muG;</span></span>
+<span id="L369"><span class="lineNum">     369</span> <span class="tlaUNC">           0 :         bDiskTurb[7] = 6.24 * muG;</span></span>
+<span id="L370"><span class="lineNum">     370</span>              : </span>
+<span id="L371"><span class="lineNum">     371</span> <span class="tlaUNC">           0 :         bDiskTurb5 = 3.90 * muG;</span></span>
+<span id="L372"><span class="lineNum">     372</span>              : </span>
+<span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :         bHaloTurb = 7.332 * muG;</span></span>
+<span id="L374"><span class="lineNum">     374</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L375"><span class="lineNum">     375</span>              : </span>
+<span id="L376"><span class="lineNum">     376</span>              : } // namespace crpropa</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

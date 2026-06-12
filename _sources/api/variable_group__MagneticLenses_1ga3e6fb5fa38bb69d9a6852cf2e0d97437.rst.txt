@@ -3,7 +3,7 @@
 Variable crpropa::_nPix
 =======================
 
-- Defined in :ref:`file_include_crpropa_magneticLens_Pixelization.h`
+.. did not find file this was defined in
 
 
 Variable Documentation

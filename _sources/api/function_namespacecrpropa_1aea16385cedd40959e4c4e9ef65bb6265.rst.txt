@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1aea16385cedd40959e4c4e9ef65bb6265:
+
+Template Function crpropa::safeDelete
+=====================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::safeDelete(T *&)
+   :project: CRPropa3

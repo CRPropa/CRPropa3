@@ -51,17 +51,21 @@ Program Listing for File GridTools.h
    void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
                    double conversion = 1);
    
+   ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double conversion = 1);
+   
    void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
                    double conversion = 1);
+   
+   ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double conversion = 1);
    
    void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
                    double conversion = 1);
    
    void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
-                   double conversion = 1);
+                   double conversion = 1, bool storeProperties = false);
    
    void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
-                   double conversion = 1);
+                   double conversion = 1, bool storeProperties = false);
    
    #ifdef CRPROPA_HAVE_FFTW3F
    std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);

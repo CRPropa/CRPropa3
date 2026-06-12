@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga23cfe520bc00ac4344cae9cadbf5f252:
+
+Variable crpropa::Megayear
+==========================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::Megayear
+   :project: CRPropa3

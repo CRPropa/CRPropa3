@@ -23,16 +23,18 @@ Program Listing for File Output.h
    namespace crpropa {
    
    class Output: public Module {
-   protected:
-           double lengthScale, energyScale;
-           std::bitset<64> fields;
-   
+   public: 
            struct Property
            {
                    std::string name;
                    std::string comment;
                    Variant defaultValue;
            };
+   
+   protected:
+           double lengthScale, timeScale, energyScale;
+           std::bitset<64> fields;
+   
            std::vector<Property> properties;
    
            bool oneDimensional;
@@ -59,7 +61,8 @@ Program Listing for File Output.h
                    CreatedDirectionColumn,
                    CandidateTagColumn,
                    SerialNumberColumn,
-                   WeightColumn
+                   WeightColumn,
+                   TimeColumn
            };
            enum OutputType {
                    Trajectory1D,
@@ -76,7 +79,11 @@ Program Listing for File Output.h
            Output(OutputType outputType);
    
            void setEnergyScale(double scale);
+           double getEnergyScale() const;
            void setLengthScale(double scale);
+           double getLengthScale() const;
+           void setTimeScale(double scale);
+           double getTimeScale() const;
            void setOutputType(OutputType outputType);
            void set(OutputColumn field, bool value);
            void enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
@@ -88,6 +95,13 @@ Program Listing for File Output.h
            size_t size() const;
    
            void process(Candidate *) const;
+   
+           virtual void dumpIndexList(std::vector<int> indices) {
+                   std::cout << "indices:\t"; 
+                   for (int i = 0; i < indices.size(); i++) 
+                           std::cout << indices[i] << ", ";
+                   std::cout << "\n";
+           };
    };
    
    } // namespace crpropa

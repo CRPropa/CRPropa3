@@ -64,18 +64,18 @@ Program Listing for File PhotonOutput1D.cpp
            char buffer[1024];
            size_t p = 0;
    
-           p += std::sprintf(buffer + p, "%4i\t", pid);
-           p += std::sprintf(buffer + p, "%g\t", candidate->current.getEnergy() / EeV);
-           p += std::sprintf(buffer + p, "%8.4f\t", candidate->current.getPosition().getR() / Mpc);
+           p += std::snprintf(buffer + p, 1024 - p, "%4i\t", pid);
+           p += std::snprintf(buffer + p, 1024 - p, "%g\t", candidate->current.getEnergy() / EeV);
+           p += std::snprintf(buffer + p, 1024 - p, "%8.4f\t", candidate->current.getPosition().getR() / Mpc);
    
-           p += std::sprintf(buffer + p, "%10i\t", candidate->created.getId());
-           p += std::sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);
+           p += std::snprintf(buffer + p, 1024 - p, "%10i\t", candidate->created.getId());
+           p += std::snprintf(buffer + p, 1024 - p, "%8.4f\t", candidate->created.getEnergy() / EeV);
    
-           p += std::sprintf(buffer + p, "%10i\t", candidate->source.getId());
-           p += std::sprintf(buffer + p, "%8.4f\t", candidate->source.getEnergy() / EeV);
-           p += std::sprintf(buffer + p, "%8.4f\n", candidate->source.getPosition().getR() / Mpc);
+           p += std::snprintf(buffer + p, 1024 - p, "%10i\t", candidate->source.getId());
+           p += std::snprintf(buffer + p, 1024 - p, "%8.4f\t", candidate->source.getEnergy() / EeV);
+           p += std::snprintf(buffer + p, 1024 - p, "%8.4f\n", candidate->source.getPosition().getR() / Mpc);
    
-   #pragma omp critical
+   #pragma omp critical(FileOutput)
            {
                    out->write(buffer, p);
            }

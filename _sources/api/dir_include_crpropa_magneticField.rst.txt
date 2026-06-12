@@ -26,11 +26,13 @@ Files
 - :ref:`file_include_crpropa_magneticField_GalacticMagneticField.h`
 - :ref:`file_include_crpropa_magneticField_JF12Field.h`
 - :ref:`file_include_crpropa_magneticField_JF12FieldSolenoidal.h`
+- :ref:`file_include_crpropa_magneticField_KST24Field.h`
 - :ref:`file_include_crpropa_magneticField_MagneticField.h`
 - :ref:`file_include_crpropa_magneticField_MagneticFieldGrid.h`
 - :ref:`file_include_crpropa_magneticField_PolarizedSingleModeMagneticField.h`
 - :ref:`file_include_crpropa_magneticField_PT11Field.h`
 - :ref:`file_include_crpropa_magneticField_QuimbyMagneticField.h`
 - :ref:`file_include_crpropa_magneticField_TF17Field.h`
+- :ref:`file_include_crpropa_magneticField_UF23Field.h`
 
 

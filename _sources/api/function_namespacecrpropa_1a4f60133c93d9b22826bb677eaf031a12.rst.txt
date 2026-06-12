@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a4f60133c93d9b22826bb677eaf031a12:
+
+Function crpropa::hsum_double_avx
+=================================
+
+- Defined in :ref:`file_src_magneticField_turbulentField_PlaneWaveTurbulence.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::hsum_double_avx(__m256d)
+   :project: CRPropa3

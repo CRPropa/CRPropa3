@@ -1,0 +1,14 @@
+.. _exhale_function_group__Core_1ga3f42bfc9e04789079f7e301693fdfc2d:
+
+Function crpropa::clip
+======================
+
+.. did not find file this was defined in
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::clip()
+   :project: CRPropa3

@@ -30,6 +30,7 @@ Program Listing for File HDF5Output.h
    
            typedef struct OutputRow {
                    double D;
+                   double time;
                    double z;
                    uint64_t SN;
                    int32_t ID;

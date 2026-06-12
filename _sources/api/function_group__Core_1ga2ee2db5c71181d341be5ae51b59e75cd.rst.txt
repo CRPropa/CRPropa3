@@ -1,0 +1,14 @@
+.. _exhale_function_group__Core_1ga2ee2db5c71181d341be5ae51b59e75cd:
+
+Function crpropa::intrusive_ptr_add_ref
+=======================================
+
+.. did not find file this was defined in
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::intrusive_ptr_add_ref()
+   :project: CRPropa3

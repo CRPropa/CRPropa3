@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a2364d68144515ff61be4c9ad0429843a:
+
+Specialized Template Function crpropa::pow_integer< 0 >
+=======================================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::pow_integer< 0 >(double)
+   :project: CRPropa3

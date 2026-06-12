@@ -1,0 +1,14 @@
+.. _exhale_variable_UF23Field_8cpp_1ab70342abf0832b9dd265964c21681319:
+
+Variable uf23::microgauss
+=========================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf23::microgauss
+   :project: CRPropa3

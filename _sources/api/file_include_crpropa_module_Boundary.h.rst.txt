@@ -52,5 +52,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ReflectiveBox`
 
+- :ref:`exhale_class_classcrpropa_1_1ReflectiveShell`
+
 - :ref:`exhale_class_classcrpropa_1_1SphericalBoundary`
 

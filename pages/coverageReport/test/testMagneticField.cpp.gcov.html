@@ -1,0 +1,425 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - test/testMagneticField.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">test</a> - testMagneticField.cpp<span style="font-size: 80%;"> (source / <a href="testMagneticField.cpp.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">99.4&nbsp;%</td>
+            <td class="headerCovTableEntry">161</td>
+            <td class="headerCovTableEntry">160</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">18</td>
+          </tr>
+                  <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #include &lt;stdexcept&gt;</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;crpropa/magneticField/MagneticFieldGrid.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;crpropa/magneticField/CMZField.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &quot;crpropa/magneticField/PolarizedSingleModeMagneticField.h&quot;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;crpropa/magneticField/GalacticMagneticField.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &quot;crpropa/magneticField/UF23Field.h&quot;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &quot;crpropa/Grid.h&quot;</span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &quot;crpropa/Units.h&quot;</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &quot;crpropa/Common.h&quot;</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &quot;gtest/gtest.h&quot;</span>
+<span id="L13"><span class="lineNum">      13</span>              : </span>
+<span id="L14"><span class="lineNum">      14</span>              : using namespace crpropa;</span>
+<span id="L15"><span class="lineNum">      15</span>              : </span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC tlaBgGNC">           1 : TEST(testUniformMagneticField, SimpleTest) {</span></span>
+<span id="L17"><span class="lineNum">      17</span>              :         UniformMagneticField B(Vector3d(-1, 5, 3));</span>
+<span id="L18"><span class="lineNum">      18</span>              :         Vector3d b = B.getField(Vector3d(1, 0, 0));</span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.getX(), -1);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.getY(), 5);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.getZ(), 3);</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 : TEST(testMagneticDipoleField, SimpleTest) {</span></span>
+<span id="L25"><span class="lineNum">      25</span>              :         // Test magnetic dipole</span>
+<span id="L26"><span class="lineNum">      26</span>              :         // mu0 / (4*M_PI) * m / r^3 (2*cos(theta)*e_r + sin(theta)*e_theta)</span>
+<span id="L27"><span class="lineNum">      27</span>              :         MagneticDipoleField B(Vector3d(0,0,0), Vector3d(0,0,1), 1);</span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :         Vector3d b1 = B.getField(Vector3d(0, 0, 1)); // theta = 0</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :         Vector3d b2 = B.getField(Vector3d(1, 0, 0)); // theta = 0</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b1.getX(), 0, 1E-8);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b1.getY(), 0, 1E-8);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b1.getZ(), mu0 / (4*M_PI) * 2, 1E-8);</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b2.getX(), 0, 1E-8);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b2.getY(), 0, 1E-8);</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b2.getZ(), -1 * mu0 / (4*M_PI), 1E-8);</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span>              : #ifdef CRPROPA_HAVE_MUPARSER</span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           1 : TEST(testRenormalizeMagneticField, simpleTest) {</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           1 :         ref_ptr&lt;UniformMagneticField&gt; field = new UniformMagneticField(Vector3d(2*nG, 0, 0));</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           2 :         RenormalizeMagneticField modField(field, &quot;B^2-1*nG&quot;);</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           1 :         Vector3d b = modField.getField(Vector3d(5, 5, 5));</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.getR(), 3*nG, 0.001);</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           2 : }</span></span>
+<span id="L45"><span class="lineNum">      45</span>              : #endif</span>
+<span id="L46"><span class="lineNum">      46</span>              : </span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           2 : TEST(testMagneticFieldList, SimpleTest) {</span></span>
+<span id="L48"><span class="lineNum">      48</span>              :         // Test a list of three magnetic fields</span>
+<span id="L49"><span class="lineNum">      49</span>              :         MagneticFieldList B;</span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           1 :         B.addField(new UniformMagneticField(Vector3d(1, 0, 0)));</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           1 :         B.addField(new UniformMagneticField(Vector3d(0, 2, 0)));</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           2 :         B.addField(new UniformMagneticField(Vector3d(0, 0, 3)));</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           1 :         Vector3d b = B.getField(Vector3d(0.));</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, 1);</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.y, 2);</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.z, 3);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L58"><span class="lineNum">      58</span>              : </span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           1 : TEST(testMagneticFieldEvolution, SimpleTest) {</span></span>
+<span id="L60"><span class="lineNum">      60</span>              :         // Test if this decorator scales the underlying field as (1+z)^m</span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           1 :         ref_ptr&lt;UniformMagneticField&gt; B = new UniformMagneticField(Vector3d(1,0,0));</span></span>
+<span id="L62"><span class="lineNum">      62</span>              :         double z = 1.2;</span>
+<span id="L63"><span class="lineNum">      63</span>              :         double m = 3;</span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           2 :         MagneticFieldEvolution Bz(B, m);</span></span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span>              :         // scaled field</span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           1 :         Vector3d b = Bz.getField(Vector3d(0,0,0), z);</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, pow(1+z, m));</span></span>
+<span id="L69"><span class="lineNum">      69</span>              : </span>
+<span id="L70"><span class="lineNum">      70</span>              :         // unscaled field</span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           1 :         b = Bz.getField(Vector3d(0,0,0));</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, 1);</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           1 : class EchoMagneticField: public MagneticField {</span></span>
+<span id="L76"><span class="lineNum">      76</span>              : public:</span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           3 :         Vector3d getField(const Vector3d &amp;position) const {</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">           3 :                 return position;</span></span>
+<span id="L79"><span class="lineNum">      79</span>              :         }</span>
+<span id="L80"><span class="lineNum">      80</span>              : };</span>
+<span id="L81"><span class="lineNum">      81</span>              : </span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">           1 : TEST(testPeriodicMagneticField, Exceptions) {</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 :         ref_ptr&lt;EchoMagneticField&gt; f = new EchoMagneticField();</span></span>
+<span id="L84"><span class="lineNum">      84</span>              :         ref_ptr&lt;PeriodicMagneticField&gt; p = new PeriodicMagneticField(f,</span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">           2 :                         Vector3d(10000, 10000, 10000), Vector3d(1000, 1000, 1000), true);</span></span>
+<span id="L86"><span class="lineNum">      86</span>              : </span>
+<span id="L87"><span class="lineNum">      87</span>              :         // box 0, 0, 0</span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">           1 :         Vector3d v = p-&gt;getField(Vector3d(1000, 2000, 3000));</span></span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(0, v.x);</span></span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(1000, v.y);</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(2000, v.z);</span></span>
+<span id="L92"><span class="lineNum">      92</span>              : </span>
+<span id="L93"><span class="lineNum">      93</span>              :         // box 1, 2, 3</span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">           1 :         v = p-&gt;getField(Vector3d(12000, 23000, 34000));</span></span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(9000, v.x);</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(2000, v.y);</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(7000, v.z);</span></span>
+<span id="L98"><span class="lineNum">      98</span>              : </span>
+<span id="L99"><span class="lineNum">      99</span>              :         // box -1, -2, -3</span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaGNC">           1 :         v = p-&gt;getField(Vector3d(0, -10000, -20000));</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(1000, v.x);</span></span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(9000, v.y);</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(1000, v.z);</span></span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L106"><span class="lineNum">     106</span>              : </span>
+<span id="L107"><span class="lineNum">     107</span> <span class="tlaGNC">           1 : TEST(testCMZMagneticField, SimpleTest) {</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaGNC">           1 :         ref_ptr&lt;CMZField&gt; field = new CMZField();</span></span>
+<span id="L109"><span class="lineNum">     109</span>              : </span>
+<span id="L110"><span class="lineNum">     110</span>              :         // check use-Values</span>
+<span id="L111"><span class="lineNum">     111</span> <span class="tlaGNC">           1 :         EXPECT_FALSE(field-&gt;getUseMCField());</span></span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaGNC">           1 :         EXPECT_TRUE(field-&gt;getUseICField());</span></span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaGNC">           1 :         EXPECT_FALSE(field-&gt;getUseNTFField());</span></span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">           1 :         EXPECT_FALSE(field-&gt;getUseRadioArc());</span></span>
+<span id="L115"><span class="lineNum">     115</span>              : </span>
+<span id="L116"><span class="lineNum">     116</span>              :         // check set function</span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">           1 :         field-&gt;setUseMCField(true);</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">           1 :         EXPECT_TRUE(field-&gt;getUseMCField());</span></span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaGNC">           1 :         field-&gt;setUseICField(false);</span></span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">           1 :         EXPECT_FALSE(field-&gt;getUseICField());</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">           1 :         field-&gt;setUseNTFField(true);</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">           1 :         EXPECT_TRUE(field-&gt;getUseNTFField());</span></span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaGNC">           1 :         field-&gt;setUseRadioArc(true);</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">           1 :         EXPECT_TRUE(field-&gt;getUseRadioArc());</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L126"><span class="lineNum">     126</span>              : </span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">           1 : TEST(testCMZMagneticField, TestICComponent) {</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">           1 :         ref_ptr&lt;CMZField&gt; field = new CMZField();</span></span>
+<span id="L129"><span class="lineNum">     129</span>              :         Vector3d pos(10*pc,15*pc,-5*pc);</span>
+<span id="L130"><span class="lineNum">     130</span>              : </span>
+<span id="L131"><span class="lineNum">     131</span>              :         // check IC field at given position</span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">           1 :         Vector3d bVec = field-&gt;getField(pos);</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.getR(), 10.501*muG, 1E-3*muG);</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, 0.225*muG, 1E-3*muG);</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, 0.524*muG, 1E-3*muG);</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.z, 10.486*muG, 1E-3*muG);</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">           1 : TEST(testCMZMagneticField, TestNTFField){</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">           1 :         ref_ptr&lt;CMZField&gt; field = new CMZField();</span></span>
+<span id="L140"><span class="lineNum">     140</span>              :         Vector3d pos(10*pc,15*pc,-5*pc);</span>
+<span id="L141"><span class="lineNum">     141</span>              : </span>
+<span id="L142"><span class="lineNum">     142</span>              :         // check NFTField at given position</span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">           1 :         Vector3d bVec = field-&gt;getNTFField(pos);</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.getR(),1.692*muG, 1e-3*muG);</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, -0.584*muG, 1e-3*muG);</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, -1.185*muG, 1e-3*muG);</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.z, 1.057*muG, 1e-3*muG);</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           1 : TEST(testCMZMagneticField, TestRaidoArcField){</span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">           1 :         ref_ptr&lt;CMZField&gt; field = new CMZField();</span></span>
+<span id="L151"><span class="lineNum">     151</span>              :         Vector3d pos(10*pc,15*pc,-5*pc);</span>
+<span id="L152"><span class="lineNum">     152</span>              : </span>
+<span id="L153"><span class="lineNum">     153</span>              :         // check RadioArcField at given position</span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">           1 :         Vector3d bVec = field-&gt;getRadioArcField(pos);</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.getR(), 31.616*muG, 1e-3*muG);</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, -4.671*muG, 1e-3*muG);</span></span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, 5.465*muG, 1e-3*muG);</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.z, 30.788*muG, 1e-3*muG);</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L160"><span class="lineNum">     160</span>              : </span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">           1 : TEST(testCMZMagneticField, TestAzimutalComponent){</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">           1 :         ref_ptr&lt;CMZField&gt; field = new CMZField();</span></span>
+<span id="L163"><span class="lineNum">     163</span>              :         Vector3d mid(12*pc, 9*pc, 20*pc);</span>
+<span id="L164"><span class="lineNum">     164</span>              :         Vector3d pos(9*pc, 10*pc, 25*pc);</span>
+<span id="L165"><span class="lineNum">     165</span>              : </span>
+<span id="L166"><span class="lineNum">     166</span>              :         // simple Test for inner part</span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">           1 :         Vector3d bVec = field-&gt;BAz(pos, mid, 100, 0.2, 60*pc);</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, 3939.782, 1e-3);</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, 14347.304, 1e-3);</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(bVec.z, 0);</span></span>
+<span id="L171"><span class="lineNum">     171</span>              : </span>
+<span id="L172"><span class="lineNum">     172</span>              :         // simple Test for outer part</span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">           1 :         bVec = field-&gt;BAz(pos, mid, 100, 0.2, 10*pc);</span></span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, -164.659, 1e-3);</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, -1317.270, 1e-3);</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(bVec.z, 0);</span></span>
+<span id="L177"><span class="lineNum">     177</span>              : </span>
+<span id="L178"><span class="lineNum">     178</span>              :         // test for molecular Clouds</span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">           1 :         bVec = field-&gt;getMCField(pos);</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.x, -8.339*muG, 1e-3*muG);</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(bVec.y, -0.850*muG, 1e-3*muG);</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(bVec.z, 0);</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L184"><span class="lineNum">     184</span>              : </span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">           1 : TEST(testToroidalHaloField, SimpleTest) {</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">           1 :         ref_ptr&lt;ToroidalHaloField&gt; field = new ToroidalHaloField();</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">           1 :         Vector3d b = field-&gt;getField(Vector3d(0.));</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, 0);</span></span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.y, 0);</span></span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.z, 0);</span></span>
+<span id="L191"><span class="lineNum">     191</span>              : </span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">           1 :         b = field-&gt;getField(Vector3d(1,0,0));</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, 0.5);</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.y, 0);</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.z, 0);</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L197"><span class="lineNum">     197</span>              : </span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">           1 : TEST(testLogarithmicSpiralField, SimpleTest) {</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           1 :         ref_ptr&lt;LogarithmicSpiralField&gt; field = new LogarithmicSpiralField();</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">           1 :         Vector3d b = field-&gt;getField(Vector3d(8.5, 0, 0)*kpc);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.x, -1., 1E-2);</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.y, 0, 1E-10);</span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.z, 0, 1E-10);</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L205"><span class="lineNum">     205</span>              : </span>
+<span id="L206"><span class="lineNum">     206</span>              : </span>
+<span id="L207"><span class="lineNum">     207</span>              : // UF23 reference values</span>
+<span id="L208"><span class="lineNum">     208</span>              : std::vector&lt;std::vector&lt;Vector3d&gt;&gt;</span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           1 : getUF23ReferenceValues()</span></span>
+<span id="L210"><span class="lineNum">     210</span>              : {</span>
+<span id="L211"><span class="lineNum">     211</span>              :   using V = Vector3d;</span>
+<span id="L212"><span class="lineNum">     212</span>              :   std::vector&lt;std::vector&lt;Vector3d&gt;&gt; retVal;</span>
+<span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L214"><span class="lineNum">     214</span>              :                     V{-1.46860417e+00, 1.64555489e+00, 8.35702311e-01},</span>
+<span id="L215"><span class="lineNum">     215</span>              :                     V{0.00000000e+00, -4.22433497e-01, 1.83232985e-01},</span>
+<span id="L216"><span class="lineNum">     216</span>              :                     V{-3.00239177e-01, -2.97045767e-01, 1.83232985e-01},</span>
+<span id="L217"><span class="lineNum">     217</span>              :                     V{8.58382023e-04, 7.71891049e-03, 9.71705527e-01},</span>
+<span id="L218"><span class="lineNum">     218</span>              :                     V{-1.17276875e+00, -2.33013590e-01, 4.10798494e-01},</span>
+<span id="L219"><span class="lineNum">     219</span>              :                     V{2.63883569e-01, -8.79631081e-01, 5.54229961e-06},</span>
+<span id="L220"><span class="lineNum">     220</span>              :                     V{-1.71971907e-02, -2.00291358e-02, 4.16024875e-02},</span>
+<span id="L221"><span class="lineNum">     221</span>              :                     V{6.18960813e-01, -2.14437026e+00, 8.35702315e-01},</span>
+<span id="L222"><span class="lineNum">     222</span>              :                     V{-1.50883911e+00, 2.63874909e+00, 1.16578928e-02}</span>
+<span id="L223"><span class="lineNum">     223</span>              :     });</span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L225"><span class="lineNum">     225</span>              :                     V{-1.39447625e+00, 1.57135437e+00, 8.65163870e-01},</span>
+<span id="L226"><span class="lineNum">     226</span>              :                     V{0.00000000e+00, -4.44318027e-01, 1.54430718e-01},</span>
+<span id="L227"><span class="lineNum">     227</span>              :                     V{-3.15695875e-01, -3.12652066e-01, 1.54430718e-01},</span>
+<span id="L228"><span class="lineNum">     228</span>              :                     V{2.09678202e-03, 2.63832916e-03, 9.81077691e-01},</span>
+<span id="L229"><span class="lineNum">     229</span>              :                     V{-1.08603376e+00, -1.86359136e-01, 3.91730436e-01},</span>
+<span id="L230"><span class="lineNum">     230</span>              :                     V{2.11095801e-01, -7.04082667e-01, 8.86591950e-05},</span>
+<span id="L231"><span class="lineNum">     231</span>              :                     V{-1.38087843e-02, -1.52011002e-02, 3.06842086e-02},</span>
+<span id="L232"><span class="lineNum">     232</span>              :                     V{5.76543516e-01, -2.03544911e+00, 8.65163870e-01},</span>
+<span id="L233"><span class="lineNum">     233</span>              :                     V{-3.77778745e-01, 6.89644787e-01, 5.85347897e-02},</span>
+<span id="L234"><span class="lineNum">     234</span>              :     });</span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L236"><span class="lineNum">     236</span>              :                     V{-1.04170166e+00, 1.93212739e+00, 2.95362499e+00},</span>
+<span id="L237"><span class="lineNum">     237</span>              :                     V{0.00000000e+00, -5.87995638e-01, 4.66925506e-01},</span>
+<span id="L238"><span class="lineNum">     238</span>              :                     V{-4.20802701e-01, -4.10291633e-01, 4.59557272e-01},</span>
+<span id="L239"><span class="lineNum">     239</span>              :                     V{7.79982996e-03, 1.50482351e-02, 5.50337531e+00},</span>
+<span id="L240"><span class="lineNum">     240</span>              :                     V{-1.34639246e+00, 6.80103301e-02, 8.60002649e-01},</span>
+<span id="L241"><span class="lineNum">     241</span>              :                     V{1.37242004e-01, -8.67085225e-01, 1.25106474e-01},</span>
+<span id="L242"><span class="lineNum">     242</span>              :                     V{-1.69325979e-02, -2.95454738e-02, 4.72616404e-02},</span>
+<span id="L243"><span class="lineNum">     243</span>              :                     V{4.53873303e-01, -2.03292501e+00, 9.95205454e-01},</span>
+<span id="L244"><span class="lineNum">     244</span>              :                     V{-1.30599234e+00, 2.25151057e+00, 2.56704152e-01},</span>
+<span id="L245"><span class="lineNum">     245</span>              :     });</span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L247"><span class="lineNum">     247</span>              :                     V{-1.45840221e+00, 1.64227817e+00, 8.41586777e-01},</span>
+<span id="L248"><span class="lineNum">     248</span>              :                     V{0.00000000e+00, -6.98341816e-01, 1.84323895e-01},</span>
+<span id="L249"><span class="lineNum">     249</span>              :                     V{-4.95342500e-01, -4.92154113e-01, 1.84323895e-01},</span>
+<span id="L250"><span class="lineNum">     250</span>              :                     V{-5.27533653e-03, 1.48965596e-02, 9.86107885e-01},</span>
+<span id="L251"><span class="lineNum">     251</span>              :                     V{-1.47472798e+00, -3.33905274e-01, 4.11265918e-01},</span>
+<span id="L252"><span class="lineNum">     252</span>              :                     V{2.31202234e-01, -7.70722755e-01, 1.12129423e-05},</span>
+<span id="L253"><span class="lineNum">     253</span>              :                     V{-1.54200071e-02, -2.22012150e-02, 4.22733003e-02},</span>
+<span id="L254"><span class="lineNum">     254</span>              :                     V{5.92201401e-01, -2.10378256e+00, 8.41586782e-01},</span>
+<span id="L255"><span class="lineNum">     255</span>              :                     V{4.05057122e-03, -9.76673905e-03, 8.24321504e-03},</span>
+<span id="L256"><span class="lineNum">     256</span>              :     });</span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L258"><span class="lineNum">     258</span>              :                     V{-1.50595160e+00, 1.67869437e+00, 8.29806168e-01},</span>
+<span id="L259"><span class="lineNum">     259</span>              :                     V{0.00000000e+00, -2.27289811e-01, 1.86869632e-01},</span>
+<span id="L260"><span class="lineNum">     260</span>              :                     V{-1.62291024e-01, -1.59076795e-01, 1.86869632e-01},</span>
+<span id="L261"><span class="lineNum">     261</span>              :                     V{6.71536463e-04, 7.88990042e-03, 9.63291786e-01},</span>
+<span id="L262"><span class="lineNum">     262</span>              :                     V{-9.35561196e-01, -1.55840707e-01, 4.13609050e-01},</span>
+<span id="L263"><span class="lineNum">     263</span>              :                     V{2.68120686e-01, -8.93743434e-01, 3.48927149e-06},</span>
+<span id="L264"><span class="lineNum">     264</span>              :                     V{-1.88291055e-02, -1.94245715e-02, 4.29970299e-02},</span>
+<span id="L265"><span class="lineNum">     265</span>              :                     V{6.50804557e-01, -2.18817590e+00, 8.29806172e-01},</span>
+<span id="L266"><span class="lineNum">     266</span>              :                     V{-1.58450595e+00, 2.77817014e+00, 1.10336683e-02},</span>
+<span id="L267"><span class="lineNum">     267</span>              :     });</span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L269"><span class="lineNum">     269</span>              :                     V{-1.33098823e+00, 1.49556466e+00, 6.88642986e-01},</span>
+<span id="L270"><span class="lineNum">     270</span>              :                     V{0.00000000e+00, -4.99342453e-01, 1.16143813e-01},</span>
+<span id="L271"><span class="lineNum">     271</span>              :                     V{-3.54225500e-01, -3.51947350e-01, 1.16143813e-01},</span>
+<span id="L272"><span class="lineNum">     272</span>              :                     V{2.14352986e-03, 3.57971370e-03, 8.05219599e-01},</span>
+<span id="L273"><span class="lineNum">     273</span>              :                     V{-1.15136627e+00, -2.48536546e-01, 2.95713475e-01},</span>
+<span id="L274"><span class="lineNum">     274</span>              :                     V{1.18057505e-01, -3.98308301e-01, 9.11299352e-04},</span>
+<span id="L275"><span class="lineNum">     275</span>              :                     V{-1.06899006e-02, -1.12335952e-02, 2.33358311e-02},</span>
+<span id="L276"><span class="lineNum">     276</span>              :                     V{5.61264936e-01, -1.94601963e+00, 6.88642987e-01},</span>
+<span id="L277"><span class="lineNum">     277</span>              :                     V{-1.18200258e+00, 2.01179003e+00, 8.02453884e-02},</span>
+<span id="L278"><span class="lineNum">     278</span>              :     });</span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L280"><span class="lineNum">     280</span>              :                     V{-3.65508814e-01, 4.74456797e-01, 5.76165841e-01},</span>
+<span id="L281"><span class="lineNum">     281</span>              :                     V{0.00000000e+00, 0.00000000e+00, 6.36668108e-02},</span>
+<span id="L282"><span class="lineNum">     282</span>              :                     V{-3.68784336e-03, -2.20689056e-03, 6.36668108e-02},</span>
+<span id="L283"><span class="lineNum">     283</span>              :                     V{-5.03208784e-02, 5.09887480e-02, 6.27665021e-01},</span>
+<span id="L284"><span class="lineNum">     284</span>              :                     V{-4.04821314e-01, -1.01426396e-02, 2.06022291e-01},</span>
+<span id="L285"><span class="lineNum">     285</span>              :                     V{-2.34287239e-02, -9.72536117e-02, 2.80624948e-02},</span>
+<span id="L286"><span class="lineNum">     286</span>              :                     V{-4.42698169e-03, -6.23429869e-03, 1.07555956e-02},</span>
+<span id="L287"><span class="lineNum">     287</span>              :                     V{3.25022555e-01, -1.18950549e+00, 5.76163734e-01},</span>
+<span id="L288"><span class="lineNum">     288</span>              :                     V{-8.65217092e-01, 1.85270104e+00, 3.73913202e-01},</span>
+<span id="L289"><span class="lineNum">     289</span>              :     });</span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           2 :   retVal.push_back({</span></span>
+<span id="L291"><span class="lineNum">     291</span>              :                     V{-1.92580231e+00, 2.17134243e+00, 1.13723929e+00},</span>
+<span id="L292"><span class="lineNum">     292</span>              :                     V{0.00000000e+00, -4.73261099e-01, 2.65974345e-01},</span>
+<span id="L293"><span class="lineNum">     293</span>              :                     V{-3.36780079e-01, -3.32368900e-01, 2.65974345e-01},</span>
+<span id="L294"><span class="lineNum">     294</span>              :                     V{-5.24558924e-04, 1.51886238e-02, 1.33757258e+00},</span>
+<span id="L295"><span class="lineNum">     295</span>              :                     V{-1.47213976e+00, -2.82203258e-01, 5.71920142e-01},</span>
+<span id="L296"><span class="lineNum">     296</span>              :                     V{3.54206333e-01, -1.18108962e+00, 1.00077423e-04},</span>
+<span id="L297"><span class="lineNum">     297</span>              :                     V{-2.67268842e-02, -2.88588605e-02, 6.38364561e-02},</span>
+<span id="L298"><span class="lineNum">     298</span>              :                     V{7.90570955e-01, -2.84039611e+00, 1.13723931e+00},</span>
+<span id="L299"><span class="lineNum">     299</span>              :                     V{-1.97316856e+00, 3.44153600e+00, 3.20266742e-02},</span>
+<span id="L300"><span class="lineNum">     300</span>              :     });</span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">           1 :   return retVal;</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaUNC tlaBgUNC">           0 : }</span></span>
+<span id="L303"><span class="lineNum">     303</span>              : </span>
+<span id="L304"><span class="lineNum">     304</span>              : </span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC tlaBgGNC">           1 : TEST(testUF23Field, SimpleTest) {</span></span>
+<span id="L306"><span class="lineNum">     306</span>              :   const std::vector&lt;UF23Field::ModelType&gt; models =</span>
+<span id="L307"><span class="lineNum">     307</span>              :     {</span>
+<span id="L308"><span class="lineNum">     308</span>              :      UF23Field::base, UF23Field::neCL, UF23Field::expX, UF23Field::spur,</span>
+<span id="L309"><span class="lineNum">     309</span>              :      UF23Field::cre10, UF23Field::synCG, UF23Field::twistX, UF23Field::nebCor</span>
+<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">           1 :     };</span></span>
+<span id="L311"><span class="lineNum">     311</span>              : </span>
+<span id="L312"><span class="lineNum">     312</span>              :   using V = Vector3d;</span>
+<span id="L313"><span class="lineNum">     313</span>              :   const std::vector&lt;Vector3d&gt; testPositions =</span>
+<span id="L314"><span class="lineNum">     314</span>              :     {</span>
+<span id="L315"><span class="lineNum">     315</span>              :      V{1, 1, 1}, V{0, 0, -8}, V{0.1, -0.1, -8}, V{0.1, 0.1, 0.1}, V{-1, 3, 4},</span>
+<span id="L316"><span class="lineNum">     316</span>              :      V{-10, -3, 2}, V{-10, -10, 20}, V{-4, -2, 1}, V{6, 5, -0.1}</span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">           1 :     };</span></span>
+<span id="L318"><span class="lineNum">     318</span>              : </span>
+<span id="L319"><span class="lineNum">     319</span>              :   const std::vector&lt;std::vector&lt;Vector3d&gt;&gt; referenceValues =</span>
+<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">           1 :     getUF23ReferenceValues();</span></span>
+<span id="L321"><span class="lineNum">     321</span>              : </span>
+<span id="L322"><span class="lineNum">     322</span>              :   const double precision = 1e-6;</span>
+<span id="L323"><span class="lineNum">     323</span>              : </span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">           9 :   for (unsigned int i = 0; i &lt; models.size(); ++i) {</span></span>
+<span id="L325"><span class="lineNum">     325</span>              :     const auto&amp; model = models[i];</span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">           8 :     const UF23Field uf23Field(model);</span></span>
+<span id="L327"><span class="lineNum">     327</span> <span class="tlaGNC">          80 :     for (unsigned int j = 0; j &lt; testPositions.size(); ++j) {</span></span>
+<span id="L328"><span class="lineNum">     328</span>              :       const auto&amp; position = testPositions[j];</span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">          72 :       const auto val = uf23Field.getField(position*kpc);</span></span>
+<span id="L330"><span class="lineNum">     330</span>              :       const auto&amp; refVal = referenceValues[i][j] * microgauss;</span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">          72 :       EXPECT_NEAR(val.x, refVal.x, precision);</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">          72 :       EXPECT_NEAR(val.y, refVal.y, precision);</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">          72 :       EXPECT_NEAR(val.z, refVal.z, precision);</span></span>
+<span id="L334"><span class="lineNum">     334</span>              :     }</span>
+<span id="L335"><span class="lineNum">     335</span>              :   }</span>
+<span id="L336"><span class="lineNum">     336</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L337"><span class="lineNum">     337</span>              : </span>
+<span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">           1 : TEST(testPolarizedSingleModeMagneticField, SimpleTest) {</span></span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">           1 :         PolarizedSingleModeMagneticField B(2, 4, 0.5, Vector3d(1,1,1), Vector3d(0,1,0), Vector3d(1,0,0), &quot;amplitude&quot;, &quot;polarization&quot;, &quot;elliptical&quot;);</span></span>
+<span id="L340"><span class="lineNum">     340</span> <span class="tlaGNC">           1 :         Vector3d b = B.getField(Vector3d(1,1,2));</span></span>
+<span id="L341"><span class="lineNum">     341</span> <span class="tlaGNC">           1 :         EXPECT_DOUBLE_EQ(b.x, 1);</span></span>
+<span id="L342"><span class="lineNum">     342</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.y, 0, 1E-10);</span></span>
+<span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(b.z, 0, 1E-10);</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L345"><span class="lineNum">     345</span>              : </span>
+<span id="L346"><span class="lineNum">     346</span> <span class="tlaGNC">           1 : int main(int argc, char **argv) {</span></span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">           1 :         ::testing::InitGoogleTest(&amp;argc, argv);</span></span>
+<span id="L348"><span class="lineNum">     348</span>              :         return RUN_ALL_TESTS();</span>
+<span id="L349"><span class="lineNum">     349</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

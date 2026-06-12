@@ -46,12 +46,3 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1SimpleTurbulenceSpectrum`
 
-
-Functions
----------
-
-
-- :ref:`exhale_function_group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38`
-
-- :ref:`exhale_function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514`
-

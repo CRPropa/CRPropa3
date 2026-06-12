@@ -1,0 +1,14 @@
+.. _exhale_variable_UF23Field_8cpp_1a617fa5738744da8788a057317ddcd78a:
+
+Variable uf23::kTwoPi
+=====================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf23::kTwoPi
+   :project: CRPropa3

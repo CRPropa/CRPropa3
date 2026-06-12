@@ -1,0 +1,14 @@
+.. _exhale_function_group__Core_1ga661753d2b5fd13b717d86cdc9ec41673:
+
+Function crpropa::operator*
+===========================
+
+.. did not find file this was defined in
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::operator*()
+   :project: CRPropa3

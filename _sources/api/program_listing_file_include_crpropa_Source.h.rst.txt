@@ -462,8 +462,8 @@ Program Listing for File Source.h
    
            std::string getDescription();
    };
-    // end of group SourceFeature
    
+    // end of group SourceFeature
    } // namespace crpropa
    
    #endif // CRPROPA_SOURCE_H

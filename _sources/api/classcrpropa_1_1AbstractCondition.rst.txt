@@ -20,6 +20,7 @@ Derived Types
 
 - ``public CubicBoundary`` (:ref:`exhale_class_classcrpropa_1_1CubicBoundary`)
 - ``public CylindricalBoundary`` (:ref:`exhale_class_classcrpropa_1_1CylindricalBoundary`)
+- ``public Deactivation`` (:ref:`exhale_class_classcrpropa_1_1Deactivation`)
 - ``public DetectionLength`` (:ref:`exhale_class_classcrpropa_1_1DetectionLength`)
 - ``public EllipsoidalBoundary`` (:ref:`exhale_class_classcrpropa_1_1EllipsoidalBoundary`)
 - ``public MaximumTrajectoryLength`` (:ref:`exhale_class_classcrpropa_1_1MaximumTrajectoryLength`)

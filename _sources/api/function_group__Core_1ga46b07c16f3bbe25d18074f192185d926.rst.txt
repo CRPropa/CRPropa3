@@ -3,12 +3,12 @@
 Function crpropa::closestIndex
 ==============================
 
-- Defined in :ref:`file_src_Common.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::closestIndex(double, const std::vector<double>&)
+.. doxygenfunction:: crpropa::closestIndex()
    :project: CRPropa3

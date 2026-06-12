@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a7a3d575ae790de0cd7e71da2d0e83451:
+
+Function crpropa::VARIANT_TO_DECL(Bool, bool)
+=============================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::VARIANT_TO_DECL(Bool, bool)
+   :project: CRPropa3

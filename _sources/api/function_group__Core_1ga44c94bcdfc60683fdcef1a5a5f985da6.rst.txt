@@ -1,14 +1,14 @@
 .. _exhale_function_group__Core_1ga44c94bcdfc60683fdcef1a5a5f985da6:
 
-Function crpropa::loadGridFromTxt(ref_ptr<Grid1f>, std::string, double)
-=======================================================================
+Function crpropa::loadGridFromTxt()
+===================================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::loadGridFromTxt(ref_ptr<Grid1f>, std::string, double)
+.. doxygenfunction:: crpropa::loadGridFromTxt()
    :project: CRPropa3

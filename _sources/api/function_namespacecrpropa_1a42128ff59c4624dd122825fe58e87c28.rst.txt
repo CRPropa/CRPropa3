@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a42128ff59c4624dd122825fe58e87c28:
+
+Function crpropa::INT_FUNCTION(TYPE_INT16, toInt16, int16_t)
+============================================================
+
+- Defined in :ref:`file_src_Variant.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::INT_FUNCTION(TYPE_INT16, toInt16, int16_t)
+   :project: CRPropa3

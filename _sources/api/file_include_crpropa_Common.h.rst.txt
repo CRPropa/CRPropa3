@@ -47,15 +47,11 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_group__Core_1gaea966817d7679bb00bd12e22135184fc`
+- :ref:`exhale_function_namespacecrpropa_1abf925e082b8decd1775a3e7a6a909eb3`
 
-- :ref:`exhale_function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2`
+- :ref:`exhale_function_namespacecrpropa_1a032c8bc18dc7da33baf0c454de1b2390`
 
-- :ref:`exhale_function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1`
-
-- :ref:`exhale_function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95`
-
-- :ref:`exhale_function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf`
+- :ref:`exhale_function_namespacecrpropa_1a2364d68144515ff61be4c9ad0429843a`
 
 
 Variables

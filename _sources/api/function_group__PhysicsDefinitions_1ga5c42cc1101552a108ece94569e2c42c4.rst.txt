@@ -3,12 +3,12 @@
 Function crpropa::setCosmologyParameters
 ========================================
 
-- Defined in :ref:`file_src_Cosmology.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::setCosmologyParameters(double, double)
+.. doxygenfunction:: crpropa::setCosmologyParameters()
    :project: CRPropa3

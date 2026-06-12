@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a1b5abe62bb06d834dc94de03f1a2e9d0:
+
+Function crpropa::reflectiveBoundary
+====================================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::reflectiveBoundary(int, int)
+   :project: CRPropa3

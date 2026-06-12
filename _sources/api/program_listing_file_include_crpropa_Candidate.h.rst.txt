@@ -43,6 +43,7 @@ Program Listing for File Candidate.h
            double currentStep; 
            double nextStep; 
            std::string tagOrigin; 
+           double time; 
            static uint64_t nextSerialNumber;
            uint64_t serialNumber;
    
@@ -64,6 +65,8 @@ Program Listing for File Candidate.h
    
            void setTrajectoryLength(double length);
            double getTrajectoryLength() const;
+           
+           double getVelocity() const;
    
            void setRedshift(double z);
            double getRedshift() const;
@@ -80,6 +83,9 @@ Program Listing for File Candidate.h
    
            void setTagOrigin(std::string tagOrigin);
            std::string getTagOrigin() const;
+   
+           void setTime(double t);
+           double getTime() const;
    
            void limitNextStep(double step);
    

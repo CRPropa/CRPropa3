@@ -1,14 +1,14 @@
 .. _exhale_function_group__Core_1gafbf4174c9a116aaf77904225c3639d24:
 
-Function crpropa::rmsFieldStrength(ref_ptr<Grid1f>)
-===================================================
+Function crpropa::rmsFieldStrength()
+====================================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::rmsFieldStrength(ref_ptr<Grid1f>)
+.. doxygenfunction:: crpropa::rmsFieldStrength()
    :project: CRPropa3

@@ -3,7 +3,7 @@
 Typedef crpropa::Grid3f
 =======================
 
-- Defined in :ref:`file_include_crpropa_Grid.h`
+.. did not find file this was defined in
 
 
 Typedef Documentation

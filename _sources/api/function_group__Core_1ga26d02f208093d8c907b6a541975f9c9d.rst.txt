@@ -1,14 +1,14 @@
 .. _exhale_function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d:
 
-Function crpropa::scaleGrid(ref_ptr<Grid3f>, double)
-====================================================
+Function crpropa::scaleGrid()
+=============================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::scaleGrid(ref_ptr<Grid3f>, double)
+.. doxygenfunction:: crpropa::scaleGrid()
    :project: CRPropa3

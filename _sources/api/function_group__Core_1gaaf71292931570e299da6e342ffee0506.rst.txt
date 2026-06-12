@@ -1,0 +1,14 @@
+.. _exhale_function_group__Core_1gaaf71292931570e299da6e342ffee0506:
+
+Function crpropa::dumpGridToTxt()
+=================================
+
+.. did not find file this was defined in
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::dumpGridToTxt()
+   :project: CRPropa3

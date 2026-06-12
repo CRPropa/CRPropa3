@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga4a2720a2f376e829b62e45fbbe6233bd:
+
+Variable crpropa::year
+======================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::year
+   :project: CRPropa3

@@ -1,0 +1,357 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - src/module/EMPairProduction.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">src/module</a> - EMPairProduction.cpp<span style="font-size: 80%;"> (source / <a href="EMPairProduction.cpp.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">91.9&nbsp;%</td>
+            <td class="headerCovTableEntry">148</td>
+            <td class="headerCovTableEntry">136</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">13</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;crpropa/module/EMPairProduction.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : #include &quot;crpropa/Units.h&quot;</span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &quot;crpropa/Random.h&quot;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &quot;kiss/logger.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &lt;fstream&gt;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;limits&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;stdexcept&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : </span>
+<span id="L11"><span class="lineNum">      11</span>              : namespace crpropa {</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : static const double mec2 = mass_electron * c_squared;</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">           9 : EMPairProduction::EMPairProduction(ref_ptr&lt;PhotonField&gt; photonField, bool haveElectrons, double thinning, double limit) {</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           9 :         setPhotonField(photonField);</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           9 :         setThinning(thinning);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           9 :         setLimit(limit);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           9 :         setHaveElectrons(haveElectrons);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           9 : }</span></span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          33 : void EMPairProduction::setPhotonField(ref_ptr&lt;PhotonField&gt; photonField) {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">          33 :         this-&gt;photonField = photonField;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">          33 :         std::string fname = photonField-&gt;getFieldName();</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">          33 :         setDescription(&quot;EMPairProduction: &quot; + fname);</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">          66 :         initRate(getDataPath(&quot;EMPairProduction/rate_&quot; + fname + &quot;.txt&quot;));</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">          99 :         initCumulativeRate(getDataPath(&quot;EMPairProduction/cdf_&quot; + fname + &quot;.txt&quot;));</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">          33 : }</span></span>
+<span id="L29"><span class="lineNum">      29</span>              : </span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">          14 : void EMPairProduction::setHaveElectrons(bool haveElectrons) {</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          14 :         this-&gt;haveElectrons = haveElectrons;</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">          14 : }</span></span>
+<span id="L33"><span class="lineNum">      33</span>              : </span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           9 : void EMPairProduction::setLimit(double limit) {</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           9 :         this-&gt;limit = limit;</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           9 : }</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">          13 : void EMPairProduction::setThinning(double thinning) {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">          13 :         this-&gt;thinning = thinning;</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">          13 : }</span></span>
+<span id="L41"><span class="lineNum">      41</span>              : </span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">          33 : void EMPairProduction::initRate(std::string filename) {</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">          33 :         std::ifstream infile(filename.c_str());</span></span>
+<span id="L44"><span class="lineNum">      44</span>              : </span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">          33 :         if (!infile.good())</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC tlaBgUNC">           0 :                 throw std::runtime_error(&quot;EMPairProduction: could not open file &quot; + filename);</span></span>
+<span id="L47"><span class="lineNum">      47</span>              : </span>
+<span id="L48"><span class="lineNum">      48</span>              :         // clear previously loaded interaction rates</span>
+<span id="L49"><span class="lineNum">      49</span>              :         tabEnergy.clear();</span>
+<span id="L50"><span class="lineNum">      50</span>              :         tabRate.clear();</span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC tlaBgGNC">        7510 :         while (infile.good()) {</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">        7477 :                 if (infile.peek() != '#') {</span></span>
+<span id="L54"><span class="lineNum">      54</span>              :                         double a, b;</span>
+<span id="L55"><span class="lineNum">      55</span>              :                         infile &gt;&gt; a &gt;&gt; b;</span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">        7345 :                         if (infile) {</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">        7312 :                                 tabEnergy.push_back(pow(10, a) * eV);</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">        7312 :                                 tabRate.push_back(b / Mpc);</span></span>
+<span id="L59"><span class="lineNum">      59</span>              :                         }</span>
+<span id="L60"><span class="lineNum">      60</span>              :                 }</span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">        7477 :                 infile.ignore(std::numeric_limits &lt; std::streamsize &gt; ::max(), '\n');</span></span>
+<span id="L62"><span class="lineNum">      62</span>              :         }</span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">          33 :         infile.close();</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">          33 : }</span></span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">          33 : void EMPairProduction::initCumulativeRate(std::string filename) {</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">          33 :         std::ifstream infile(filename.c_str());</span></span>
+<span id="L68"><span class="lineNum">      68</span>              : </span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">          33 :         if (!infile.good())</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaUNC tlaBgUNC">           0 :                 throw std::runtime_error(&quot;EMPairProduction: could not open file &quot; + filename);</span></span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span>              :         // clear previously loaded tables</span>
+<span id="L73"><span class="lineNum">      73</span>              :         tabE.clear();</span>
+<span id="L74"><span class="lineNum">      74</span>              :         tabs.clear();</span>
+<span id="L75"><span class="lineNum">      75</span>              :         tabCDF.clear();</span>
+<span id="L76"><span class="lineNum">      76</span>              :         </span>
+<span id="L77"><span class="lineNum">      77</span>              :         // skip header</span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC tlaBgGNC">         165 :         while (infile.peek() == '#')</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">         132 :                 infile.ignore(std::numeric_limits &lt; std::streamsize &gt; ::max(), '\n');</span></span>
+<span id="L80"><span class="lineNum">      80</span>              : </span>
+<span id="L81"><span class="lineNum">      81</span>              :         // read s values in first line</span>
+<span id="L82"><span class="lineNum">      82</span>              :         double a;</span>
+<span id="L83"><span class="lineNum">      83</span>              :         infile &gt;&gt; a; // skip first value</span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">        3663 :         while (infile.good() and (infile.peek() != '\n')) {</span></span>
+<span id="L85"><span class="lineNum">      85</span>              :                 infile &gt;&gt; a;</span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">        3630 :                 tabs.push_back(pow(10, a) * eV * eV);</span></span>
+<span id="L87"><span class="lineNum">      87</span>              :         }</span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span>              :         // read all following lines: E, cdf values</span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">        7345 :         while (infile.good()) {</span></span>
+<span id="L91"><span class="lineNum">      91</span>              :                 infile &gt;&gt; a;</span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">        7345 :                 if (!infile)</span></span>
+<span id="L93"><span class="lineNum">      93</span>              :                         break;  // end of file</span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">        7312 :                 tabE.push_back(pow(10, a) * eV);</span></span>
+<span id="L95"><span class="lineNum">      95</span>              :                 std::vector&lt;double&gt; cdf;</span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">      811632 :                 for (int i = 0; i &lt; tabs.size(); i++) {</span></span>
+<span id="L97"><span class="lineNum">      97</span>              :                         infile &gt;&gt; a;</span>
+<span id="L98"><span class="lineNum">      98</span> <span class="tlaGNC">      804320 :                         cdf.push_back(a / Mpc);</span></span>
+<span id="L99"><span class="lineNum">      99</span>              :                 }</span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaGNC">        7312 :                 tabCDF.push_back(cdf);</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaGNC">        7312 :         }</span></span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaGNC">          33 :         infile.close();</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaGNC">          33 : }</span></span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span>              : // Hold an data array to interpolate the energy distribution on</span>
+<span id="L106"><span class="lineNum">     106</span>              : class PPSecondariesEnergyDistribution {</span>
+<span id="L107"><span class="lineNum">     107</span>              :         private:</span>
+<span id="L108"><span class="lineNum">     108</span>              :                 std::vector&lt;double&gt; tab_s;</span>
+<span id="L109"><span class="lineNum">     109</span>              :                 std::vector&lt; std::vector&lt;double&gt; &gt; data;</span>
+<span id="L110"><span class="lineNum">     110</span>              :                 size_t N;</span>
+<span id="L111"><span class="lineNum">     111</span>              : </span>
+<span id="L112"><span class="lineNum">     112</span>              :         public:</span>
+<span id="L113"><span class="lineNum">     113</span>              :                 // differential cross section for pair production for x = Epositron/Egamma, compare Lee 96 arXiv:9604098</span>
+<span id="L114"><span class="lineNum">     114</span>              :                 double dSigmadE_PPx(double x, double beta) {</span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">     1000000 :                         double A = (x / (1. - x) + (1. - x) / x );</span></span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">     1000000 :                         double B =  (1. / x + 1. / (1. - x) );</span></span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">        1000 :                         double y = (1 - beta * beta);</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">     1000000 :                         return A + y * B - y * y / 4 * B * B;</span></span>
+<span id="L119"><span class="lineNum">     119</span>              :                 }</span>
+<span id="L120"><span class="lineNum">     120</span>              : </span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">           1 :                 PPSecondariesEnergyDistribution() {</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">           1 :                         N = 1000;</span></span>
+<span id="L123"><span class="lineNum">     123</span>              :                         size_t Ns = 1000;</span>
+<span id="L124"><span class="lineNum">     124</span>              :                         double s_min = 4 * mec2 * mec2;</span>
+<span id="L125"><span class="lineNum">     125</span>              :                         double s_max = 1e23 * eV * eV;</span>
+<span id="L126"><span class="lineNum">     126</span>              :                         double dls = log(s_max / s_min) / Ns;</span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">           1 :                         data = std::vector&lt; std::vector&lt;double&gt; &gt;(Ns, std::vector&lt;double&gt;(N));</span></span>
+<span id="L128"><span class="lineNum">     128</span> <span class="tlaGNC">           1 :                         tab_s = std::vector&lt;double&gt;(Ns + 1);</span></span>
+<span id="L129"><span class="lineNum">     129</span>              : </span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">        1002 :                         for (size_t i = 0; i &lt; Ns + 1; ++i)</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">        1001 :                                 tab_s[i] = s_min * exp(i*dls); // tabulate s bin borders</span></span>
+<span id="L132"><span class="lineNum">     132</span>              : </span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaGNC">        1001 :                         for (size_t i = 0; i &lt; Ns; i++) {</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaGNC">        1000 :                                 double s = s_min * exp(i*dls + 0.5*dls);</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">        1000 :                                 double beta = sqrt(1 - s_min/s);</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">        1000 :                                 double x0 = (1 - beta) / 2;</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">        1000 :                                 double dx = log((1 + beta) / (1 - beta)) / N;</span></span>
+<span id="L138"><span class="lineNum">     138</span>              : </span>
+<span id="L139"><span class="lineNum">     139</span>              :                                 // cumulative midpoint integration</span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">        1000 :                                 std::vector&lt;double&gt; data_i(1000);</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        1000 :                                 data_i[0] = dSigmadE_PPx(x0, beta) * expm1(dx);</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">     1000000 :                                 for (size_t j = 1; j &lt; N; j++) {</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">      999000 :                                         double x = x0 * exp(j*dx + 0.5*dx);</span></span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC">      999000 :                                         double binWidth = exp((j+1)*dx)-exp(j*dx);</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">      999000 :                                         data_i[j] = dSigmadE_PPx(x, beta) * binWidth + data_i[j-1];</span></span>
+<span id="L146"><span class="lineNum">     146</span>              :                                 }</span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">        1000 :                                 data[i] = data_i;</span></span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">        1000 :                         }</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           1 :                 }</span></span>
+<span id="L150"><span class="lineNum">     150</span>              : </span>
+<span id="L151"><span class="lineNum">     151</span>              :                 // sample positron energy from cdf(E, s_kin)</span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">         567 :                 double sample(double E0, double s) {</span></span>
+<span id="L153"><span class="lineNum">     153</span>              :                         // get distribution for given s</span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">         567 :                         size_t idx = std::lower_bound(tab_s.begin(), tab_s.end(), s) - tab_s.begin();</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">         567 :                         if (idx &gt; data.size())</span></span>
+<span id="L156"><span class="lineNum">     156</span>              :                                 return NAN;</span>
+<span id="L157"><span class="lineNum">     157</span>              :                                 </span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">         567 :                         std::vector&lt;double&gt; s0 = data[idx];</span></span>
+<span id="L159"><span class="lineNum">     159</span>              : </span>
+<span id="L160"><span class="lineNum">     160</span>              :                         // draw random bin</span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">         567 :                         Random &amp;random = Random::instance();</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">         567 :                         size_t j = random.randBin(s0) + 1;</span></span>
+<span id="L163"><span class="lineNum">     163</span>              : </span>
+<span id="L164"><span class="lineNum">     164</span>              :                         double s_min = 4. * mec2 * mec2;</span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">         567 :                         double beta = sqrtl(1. - s_min / s);</span></span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">         567 :                         double x0 = (1. - beta) / 2.;</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">         567 :                         double dx = log((1 + beta) / (1 - beta)) / N;</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">         567 :                         double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">         567 :                         if (random.rand() &lt; 0.5)</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">         279 :                                 return E0 * (x0 * exp((j-1) * dx) + binWidth);</span></span>
+<span id="L171"><span class="lineNum">     171</span>              :                         else</span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         288 :                                 return E0 * (1 - (x0 * exp((j-1) * dx) + binWidth));</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">         567 :                 }</span></span>
+<span id="L174"><span class="lineNum">     174</span>              : };</span>
+<span id="L175"><span class="lineNum">     175</span>              : </span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">         567 : void EMPairProduction::performInteraction(Candidate *candidate) const {</span></span>
+<span id="L177"><span class="lineNum">     177</span>              :         </span>
+<span id="L178"><span class="lineNum">     178</span>              :         // photon is lost after interacting</span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         567 :         candidate-&gt;setActive(false);</span></span>
+<span id="L180"><span class="lineNum">     180</span>              : </span>
+<span id="L181"><span class="lineNum">     181</span>              :         // check if secondary electron pair needs to be produced</span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">         567 :         if (not haveElectrons)</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC tlaBgUNC">           0 :                 return;</span></span>
+<span id="L184"><span class="lineNum">     184</span>              :                 </span>
+<span id="L185"><span class="lineNum">     185</span>              :         // scale particle energy instead of background photon energy</span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC tlaBgGNC">         567 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         567 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
+<span id="L188"><span class="lineNum">     188</span>              : </span>
+<span id="L189"><span class="lineNum">     189</span>              :         // check if in tabulated energy range</span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         567 :         if (E &lt; tabE.front() or (E &gt; tabE.back())) {              </span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING </span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;EMPairProduction: Energy &quot; </span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaUNC">           0 :                         &lt;&lt; E / eV &lt;&lt; &quot; eV is not in tabulated range&quot;;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L195"><span class="lineNum">     195</span>              :         }</span>
+<span id="L196"><span class="lineNum">     196</span>              : </span>
+<span id="L197"><span class="lineNum">     197</span>              :         // sample the value of s</span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC tlaBgGNC">         567 :         Random &amp;random = Random::instance();</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">         567 :         size_t i = closestIndex(E, tabE);  // find closest tabulation point</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">         567 :         size_t j = random.randBin(tabCDF[i]);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">         567 :         if (j &lt;= 0) {</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          74 :                 KISS_LOG_WARNING </span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">          37 :                         &lt;&lt; &quot;EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical.&quot;</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">          37 :                         &lt;&lt; &quot; The index j will be set to 1 to avoid division by zero.&quot;;</span></span>
+<span id="L205"><span class="lineNum">     205</span>              :                 j = 1;  // ensure j is at least 1 to avoid division by</span>
+<span id="L206"><span class="lineNum">     206</span>              :         }</span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">        1134 :         double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value</span></span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">         567 :         double hi = tabs[j];</span></span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">         567 :         double s = lo + random.rand() * (hi - lo);</span></span>
+<span id="L210"><span class="lineNum">     210</span>              : </span>
+<span id="L211"><span class="lineNum">     211</span>              :         // sample electron / positron energy</span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">         567 :         static PPSecondariesEnergyDistribution interpolation;</span></span>
+<span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">         567 :         double Ee = interpolation.sample(E, s);</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">         567 :         double Ep = E - Ee;</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">         567 :         double f = Ep / E;</span></span>
+<span id="L216"><span class="lineNum">     216</span>              : </span>
+<span id="L217"><span class="lineNum">     217</span>              :         // for some backgrounds Ee=nan due to precision limitations.</span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">         567 :         if (not std::isfinite(Ee) || not std::isfinite(Ep)) {</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;EMPairProduction: Sampled energies are not finite for primary energy &quot;</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :                         &lt;&lt; E / eV &lt;&lt; &quot; eV and s = &quot; &lt;&lt; s / (eV * eV) &lt;&lt; &quot; eV^2 (maximum tabulated s = &quot;</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC">           0 :                         &lt;&lt; tabs.back() / (eV * eV) &lt;&lt; &quot; eV^2).&quot;;</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L224"><span class="lineNum">     224</span>              :         }</span>
+<span id="L225"><span class="lineNum">     225</span>              : </span>
+<span id="L226"><span class="lineNum">     226</span>              :         // sample random position along current step</span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC tlaBgGNC">         567 :         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
+<span id="L228"><span class="lineNum">     228</span>              :         // apply sampling</span>
+<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">         567 :         if (random.rand() &lt; pow(f, thinning)) {</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">         567 :                 double w = 1. / pow(f, thinning);</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         567 :                 candidate-&gt;addSecondary(11, Ep / (1 + z), pos, w, interactionTag);</span></span>
+<span id="L232"><span class="lineNum">     232</span>              :         }</span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">         567 :         if (random.rand() &lt; pow(1 - f, thinning)){</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         567 :                 double w = 1. / pow(1 - f, thinning);</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">         567 :                 candidate-&gt;addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);  </span></span>
+<span id="L236"><span class="lineNum">     236</span>              :         }</span>
+<span id="L237"><span class="lineNum">     237</span>              : }</span>
+<span id="L238"><span class="lineNum">     238</span>              : </span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">       11535 : void EMPairProduction::process(Candidate *candidate) const {</span></span>
+<span id="L240"><span class="lineNum">     240</span>              :         // check if photon</span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">       11535 :         if (candidate-&gt;current.getId() != 22)</span></span>
+<span id="L242"><span class="lineNum">     242</span>              :                 return;</span>
+<span id="L243"><span class="lineNum">     243</span>              : </span>
+<span id="L244"><span class="lineNum">     244</span>              :         // scale particle energy instead of background photon energy</span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">         841 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">         841 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
+<span id="L247"><span class="lineNum">     247</span>              : </span>
+<span id="L248"><span class="lineNum">     248</span>              :         // check if in tabulated energy range</span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">         841 :         if ((E &lt; tabEnergy.front()) or (E &gt; tabEnergy.back()))</span></span>
+<span id="L250"><span class="lineNum">     250</span>              :                 return;</span>
+<span id="L251"><span class="lineNum">     251</span>              : </span>
+<span id="L252"><span class="lineNum">     252</span>              :         // interaction rate</span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">         651 :         double rate = interpolate(E, tabEnergy, tabRate);</span></span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">         651 :         rate *= pow_integer&lt;2&gt;(1 + z) * photonField-&gt;getRedshiftScaling(z);</span></span>
+<span id="L255"><span class="lineNum">     255</span>              : </span>
+<span id="L256"><span class="lineNum">     256</span>              :         // run this loop at least once to limit the step size </span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">         651 :         double step = candidate-&gt;getCurrentStep();</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">         651 :         Random &amp;random = Random::instance();</span></span>
+<span id="L259"><span class="lineNum">     259</span>              :         do {</span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">         651 :                 double randDistance = -log(random.rand()) / rate;</span></span>
+<span id="L261"><span class="lineNum">     261</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">         651 :                 if (step &lt; randDistance) { </span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">          85 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
+<span id="L264"><span class="lineNum">     264</span>              :                 } else {</span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         566 :                         performInteraction(candidate);</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         566 :                         return;</span></span>
+<span id="L267"><span class="lineNum">     267</span>              :                 }</span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">          85 :                 step -= randDistance; </span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          85 :         } while (step &gt; 0.);</span></span>
+<span id="L270"><span class="lineNum">     270</span>              : </span>
+<span id="L271"><span class="lineNum">     271</span>              : }</span>
+<span id="L272"><span class="lineNum">     272</span>              : </span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">           1 : void EMPairProduction::setInteractionTag(std::string tag) {</span></span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           1 :         interactionTag = tag;</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L276"><span class="lineNum">     276</span>              : </span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">           2 : std::string EMPairProduction::getInteractionTag() const {</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">           2 :         return interactionTag;</span></span>
+<span id="L279"><span class="lineNum">     279</span>              : }</span>
+<span id="L280"><span class="lineNum">     280</span>              : </span>
+<span id="L281"><span class="lineNum">     281</span>              : } // namespace crpropa</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

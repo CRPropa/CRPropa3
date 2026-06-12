@@ -3,7 +3,7 @@
 Function crpropa::omegaM
 ========================
 
-- Defined in :ref:`file_src_Cosmology.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation

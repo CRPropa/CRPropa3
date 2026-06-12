@@ -1,0 +1,14 @@
+.. _exhale_variable_UF23Field_8cpp_1a2675edd2140472f1d48c6178d4052018:
+
+Variable uf23::degree
+=====================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf23::degree
+   :project: CRPropa3

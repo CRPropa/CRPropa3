@@ -1,0 +1,46 @@
+
+.. _file_include_crpropa_magneticField_UF23Field.h:
+
+File UF23Field.h
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/UF23Field.h``)
+----------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_UF23Field.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1UF23Field`
+

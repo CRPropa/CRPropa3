@@ -3,12 +3,12 @@
 Function crpropa::interpolateEquidistant
 ========================================
 
-- Defined in :ref:`file_src_Common.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::interpolateEquidistant(double, double, double, const std::vector<double>&)
+.. doxygenfunction:: crpropa::interpolateEquidistant()
    :project: CRPropa3

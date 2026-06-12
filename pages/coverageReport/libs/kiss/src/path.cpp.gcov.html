@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - libs/kiss/src/path.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">libs/kiss/src</a> - path.cpp<span style="font-size: 80%;"> (source / <a href="path.cpp.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">25.0&nbsp;%</td>
+            <td class="headerCovTableEntry">52</td>
+            <td class="headerCovTableEntry">13</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryLo">37.5&nbsp;%</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">3</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #include &quot;kiss/path.h&quot;</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : #ifdef WIN32</span>
+<span id="L4"><span class="lineNum">       4</span>              : #  include &quot;windows.h&quot;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #  ifndef S_ISREG</span>
+<span id="L6"><span class="lineNum">       6</span>              : #    define S_ISREG(x) (((x) &amp; S_IFMT) == S_IFREG)</span>
+<span id="L7"><span class="lineNum">       7</span>              : #  endif</span>
+<span id="L8"><span class="lineNum">       8</span>              : #  ifndef S_ISDIR</span>
+<span id="L9"><span class="lineNum">       9</span>              : #    define S_ISDIR(x) (((x) &amp; S_IFMT) == S_IFDIR)</span>
+<span id="L10"><span class="lineNum">      10</span>              : #  endif</span>
+<span id="L11"><span class="lineNum">      11</span>              : #  include &quot;sys/stat.h&quot;</span>
+<span id="L12"><span class="lineNum">      12</span>              : #else</span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &lt;sys/types.h&gt;</span>
+<span id="L14"><span class="lineNum">      14</span>              : #include &lt;fcntl.h&gt;</span>
+<span id="L15"><span class="lineNum">      15</span>              : #include &lt;unistd.h&gt;</span>
+<span id="L16"><span class="lineNum">      16</span>              : #include &lt;dirent.h&gt;</span>
+<span id="L17"><span class="lineNum">      17</span>              : #include &quot;sys/stat.h&quot;</span>
+<span id="L18"><span class="lineNum">      18</span>              : #endif</span>
+<span id="L19"><span class="lineNum">      19</span>              : </span>
+<span id="L20"><span class="lineNum">      20</span>              : #include &lt;stdexcept&gt;</span>
+<span id="L21"><span class="lineNum">      21</span>              : #include &lt;cstdio&gt;</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC tlaBgUNC">           0 : bool create_directory(const std::string &amp;path, size_t user_permission,</span></span>
+<span id="L24"><span class="lineNum">      24</span>              :                 size_t group_permission, size_t other_permission) {</span>
+<span id="L25"><span class="lineNum">      25</span>              : #ifdef WIN32</span>
+<span id="L26"><span class="lineNum">      26</span>              :         BOOL result = ::CreateDirectoryA(path.c_str(), 0);</span>
+<span id="L27"><span class="lineNum">      27</span>              :         return result == TRUE;</span>
+<span id="L28"><span class="lineNum">      28</span>              : #else</span>
+<span id="L29"><span class="lineNum">      29</span>              :         mode_t m = 0;</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         m |= (user_permission &lt;&lt; 6);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         m |= (group_permission &lt;&lt; 3);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :         m |= (other_permission &lt;&lt; 0);</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :         int result = mkdir(path.c_str(), m);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         return (result == 0);</span></span>
+<span id="L35"><span class="lineNum">      35</span>              : #endif</span>
+<span id="L36"><span class="lineNum">      36</span>              : }</span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC tlaBgGNC">          39 : bool is_directory(const std::string &amp;path) {</span></span>
+<span id="L39"><span class="lineNum">      39</span>              : #ifdef WIN32</span>
+<span id="L40"><span class="lineNum">      40</span>              :         struct _stat buf;</span>
+<span id="L41"><span class="lineNum">      41</span>              :         int result = _stat(path.c_str(), &amp;buf);</span>
+<span id="L42"><span class="lineNum">      42</span>              :         if (result == 0 &amp;&amp; S_ISDIR(buf.st_mode))</span>
+<span id="L43"><span class="lineNum">      43</span>              :                 return true;</span>
+<span id="L44"><span class="lineNum">      44</span>              :         else</span>
+<span id="L45"><span class="lineNum">      45</span>              :                 return false;</span>
+<span id="L46"><span class="lineNum">      46</span>              : #else</span>
+<span id="L47"><span class="lineNum">      47</span>              :         struct stat buf;</span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">          39 :         int result = stat(path.c_str(), &amp;buf);</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">          39 :         if (result == 0 &amp;&amp; S_ISDIR(buf.st_mode))</span></span>
+<span id="L50"><span class="lineNum">      50</span>              :         return true;</span>
+<span id="L51"><span class="lineNum">      51</span>              :         else</span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">          26 :         return false;</span></span>
+<span id="L53"><span class="lineNum">      53</span>              : #endif</span>
+<span id="L54"><span class="lineNum">      54</span>              : }</span>
+<span id="L55"><span class="lineNum">      55</span>              : </span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC tlaBgUNC">           0 : bool list_directory(const std::string &amp;directory,</span></span>
+<span id="L57"><span class="lineNum">      57</span>              :                 std::vector&lt;std::string&gt; &amp;elements) {</span>
+<span id="L58"><span class="lineNum">      58</span>              : #ifdef WIN32</span>
+<span id="L59"><span class="lineNum">      59</span>              :         WIN32_FIND_DATA findData;</span>
+<span id="L60"><span class="lineNum">      60</span>              :         HANDLE hFind = FindFirstFileA((directory + &quot;\\*.*&quot;).c_str(), &amp;findData);</span>
+<span id="L61"><span class="lineNum">      61</span>              :         if (hFind == INVALID_HANDLE_VALUE)</span>
+<span id="L62"><span class="lineNum">      62</span>              :                 throw std::runtime_error(&quot;Failed to get directory list&quot;);</span>
+<span id="L63"><span class="lineNum">      63</span>              :         for (;;) {</span>
+<span id="L64"><span class="lineNum">      64</span>              :                 if (findData.cFileName[0] != '.') {</span>
+<span id="L65"><span class="lineNum">      65</span>              :                         elements.push_back(findData.cFileName);</span>
+<span id="L66"><span class="lineNum">      66</span>              :                 }</span>
+<span id="L67"><span class="lineNum">      67</span>              :                 if (FindNextFileA(hFind, &amp;findData) == 0)</span>
+<span id="L68"><span class="lineNum">      68</span>              :                         break;</span>
+<span id="L69"><span class="lineNum">      69</span>              :         }</span>
+<span id="L70"><span class="lineNum">      70</span>              :         FindClose(hFind);</span>
+<span id="L71"><span class="lineNum">      71</span>              : #else</span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :         DIR* dir = opendir(directory.c_str());</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :         if (dir == NULL)</span></span>
+<span id="L74"><span class="lineNum">      74</span>              :         return false;</span>
+<span id="L75"><span class="lineNum">      75</span>              :         dirent* entry;</span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :         while ((entry = readdir(dir)) != NULL) {</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :                 if (entry-&gt;d_name[0] != '.') {</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaUNC">           0 :                         elements.push_back(entry-&gt;d_name);</span></span>
+<span id="L79"><span class="lineNum">      79</span>              :                 }</span>
+<span id="L80"><span class="lineNum">      80</span>              :         }</span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaUNC">           0 :         closedir(dir);</span></span>
+<span id="L82"><span class="lineNum">      82</span>              : #endif</span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaUNC">           0 :         return true;</span></span>
+<span id="L84"><span class="lineNum">      84</span>              : }</span>
+<span id="L85"><span class="lineNum">      85</span>              : </span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaUNC">           0 : bool create_directory_recursive(const std::string &amp;dir, size_t user_permission,</span></span>
+<span id="L87"><span class="lineNum">      87</span>              :                 size_t group_permission, size_t other_permission) {</span>
+<span id="L88"><span class="lineNum">      88</span>              :         // split path</span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :         const char seperators[] = &quot;\\/&quot;;</span></span>
+<span id="L90"><span class="lineNum">      90</span>              :         std::vector&lt;std::string&gt; elements;</span>
+<span id="L91"><span class="lineNum">      91</span>              :         std::string::size_type a, b;</span>
+<span id="L92"><span class="lineNum">      92</span>              :         a = dir.find_first_not_of(seperators), b = dir.find_first_of(seperators, a);</span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :         while (a != std::string::npos) {</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :                 elements.push_back(dir.substr(a, b - a));</span></span>
+<span id="L95"><span class="lineNum">      95</span>              :                 a = dir.find_first_not_of(seperators, b), b = dir.find_first_of(</span>
+<span id="L96"><span class="lineNum">      96</span>              :                                 seperators, a);</span>
+<span id="L97"><span class="lineNum">      97</span>              :         }</span>
+<span id="L98"><span class="lineNum">      98</span>              : </span>
+<span id="L99"><span class="lineNum">      99</span>              :         // create all non existing parts</span>
+<span id="L100"><span class="lineNum">     100</span>              :         std::string path;</span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :         for (size_t i = 0; i &lt; elements.size(); i++) {</span></span>
+<span id="L102"><span class="lineNum">     102</span>              :                 path += elements[i];</span>
+<span id="L103"><span class="lineNum">     103</span>              :                 path += path_seperator;</span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaUNC">           0 :                 if (is_directory(path) == false)</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaUNC">           0 :                         create_directory(path);</span></span>
+<span id="L106"><span class="lineNum">     106</span>              :         }</span>
+<span id="L107"><span class="lineNum">     107</span>              : </span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC">           0 :         return is_directory(dir);</span></span>
+<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 : }</span></span>
+<span id="L110"><span class="lineNum">     110</span>              : </span>
+<span id="L111"><span class="lineNum">     111</span> <span class="tlaGNC tlaBgGNC">         554 : std::string concat_path(const std::string &amp;a, const std::string &amp;b) {</span></span>
+<span id="L112"><span class="lineNum">     112</span> <span class="tlaGNC">         554 :         char last = *a.rbegin();</span></span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaGNC">         554 :         if (last == '\\' || last == '/')</span></span>
+<span id="L114"><span class="lineNum">     114</span>              :                 return a + b;</span>
+<span id="L115"><span class="lineNum">     115</span>              :         else</span>
+<span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">        1108 :                 return a + path_seperator + b;</span></span>
+<span id="L117"><span class="lineNum">     117</span>              : </span>
+<span id="L118"><span class="lineNum">     118</span>              : }</span>
+<span id="L119"><span class="lineNum">     119</span>              : </span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC tlaBgUNC">           0 : std::string concat_path(const std::string &amp;a, const std::string &amp;b,</span></span>
+<span id="L121"><span class="lineNum">     121</span>              :                 const std::string &amp;c) {</span>
+<span id="L122"><span class="lineNum">     122</span>              :         std::string p = a;</span>
+<span id="L123"><span class="lineNum">     123</span> <span class="tlaUNC">           0 :         if (*p.rbegin() != '\\' &amp;&amp; *p.rbegin() != '/')</span></span>
+<span id="L124"><span class="lineNum">     124</span>              :                 p += path_seperator;</span>
+<span id="L125"><span class="lineNum">     125</span>              :         p += b;</span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC">           0 :         if (*p.rbegin() != '\\' &amp;&amp; *p.rbegin() != '/')</span></span>
+<span id="L127"><span class="lineNum">     127</span>              :                 p += path_seperator;</span>
+<span id="L128"><span class="lineNum">     128</span>              :         p += c;</span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :         return p;</span></span>
+<span id="L130"><span class="lineNum">     130</span>              : }</span>
+<span id="L131"><span class="lineNum">     131</span>              : </span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 : void append_file(const std::string &amp;target, const std::string &amp;source,</span></span>
+<span id="L133"><span class="lineNum">     133</span>              :                 bool binary) {</span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :         FILE *t = fopen(target.c_str(), binary ? &quot;wb+&quot; : &quot;w+&quot;);</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :         if (t == NULL)</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L137"><span class="lineNum">     137</span>              : </span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :         FILE *s = fopen(source.c_str(), binary ? &quot;rb&quot; : &quot;r&quot;);</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :         if (s == NULL) {</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :                 fclose(t);</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :                 return;</span></span>
+<span id="L142"><span class="lineNum">     142</span>              :         }</span>
+<span id="L143"><span class="lineNum">     143</span>              : </span>
+<span id="L144"><span class="lineNum">     144</span>              :         size_t size = 0;</span>
+<span id="L145"><span class="lineNum">     145</span>              :         char buffer[1 &lt;&lt; 20];</span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :         while ((size = fread(buffer, 1, sizeof(buffer), s)) &gt; 0) {</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :                 fwrite(buffer, 1, size, t);</span></span>
+<span id="L148"><span class="lineNum">     148</span>              :         }</span>
+<span id="L149"><span class="lineNum">     149</span>              : </span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :         fclose(t);</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :         fclose(s);</span></span>
+<span id="L152"><span class="lineNum">     152</span>              : }</span>
+<span id="L153"><span class="lineNum">     153</span>              : </span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC tlaBgGNC">          13 : std::string executable_path() {</span></span>
+<span id="L155"><span class="lineNum">     155</span>              :         char buf[1024];</span>
+<span id="L156"><span class="lineNum">     156</span>              : </span>
+<span id="L157"><span class="lineNum">     157</span>              : //#if linux</span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">          13 :         size_t len = readlink(&quot;/proc/self/exe&quot;, buf, sizeof(buf)-1);</span></span>
+<span id="L159"><span class="lineNum">     159</span>              : //#else</span>
+<span id="L160"><span class="lineNum">     160</span>              : //      size_t len = ::GetModuleFileName(NULL, buf, sizeof(buf)-1 );</span>
+<span id="L161"><span class="lineNum">     161</span>              : //#endif</span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">         192 :         for (size_t i = 1; i &lt; len; i++) {</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC">         189 :                 if (buf[len - 1] == path_seperator)</span></span>
+<span id="L164"><span class="lineNum">     164</span>              :                         break;</span>
+<span id="L165"><span class="lineNum">     165</span>              :                 else</span>
+<span id="L166"><span class="lineNum">     166</span>              :                         len --;</span>
+<span id="L167"><span class="lineNum">     167</span>              :         }</span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">          13 :         return std::string(buf, len);</span></span>
+<span id="L169"><span class="lineNum">     169</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

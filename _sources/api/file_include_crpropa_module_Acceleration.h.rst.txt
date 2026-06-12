@@ -48,11 +48,11 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1DirectedFlowScattering`
 
+- :ref:`exhale_class_classcrpropa_1_1ParticleSplitting`
+
+- :ref:`exhale_class_classcrpropa_1_1QuasiLinearTheory`
+
 - :ref:`exhale_class_classcrpropa_1_1SecondOrderFermi`
 
 - :ref:`exhale_class_classcrpropa_1_1StepLengthModifier`
-
-- :ref:`exhale_class_classParticleSplitting`
-
-- :ref:`exhale_class_classQuasiLinearTheory`
 

@@ -3,12 +3,12 @@
 Function crpropa::convertIdToName
 =================================
 
-- Defined in :ref:`file_src_ParticleID.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::convertIdToName(int)
+.. doxygenfunction:: crpropa::convertIdToName()
    :project: CRPropa3

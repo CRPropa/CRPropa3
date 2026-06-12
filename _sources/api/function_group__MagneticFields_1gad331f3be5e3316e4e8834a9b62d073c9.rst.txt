@@ -1,0 +1,14 @@
+.. _exhale_function_group__MagneticFields_1gad331f3be5e3316e4e8834a9b62d073c9:
+
+Function crpropa::initHelicalTurbulence
+=======================================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_HelicalGridTurbulence.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::initHelicalTurbulence()
+   :project: CRPropa3

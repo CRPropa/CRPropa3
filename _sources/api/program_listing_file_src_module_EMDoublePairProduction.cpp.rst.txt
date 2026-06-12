@@ -90,7 +90,6 @@ Program Listing for File EMDoublePairProduction.cpp
    
            double f = Ee / E;
    
-           if (haveElectrons) {
                    if (random.rand() < pow(1 - f, thinning)) {
                            double w = 1. / pow(1 - f, thinning);
                            candidate->addSecondary( 11, Ee / (1 + z), pos, w, interactionTag);
@@ -99,7 +98,6 @@ Program Listing for File EMDoublePairProduction.cpp
                            double w = 1. / pow(f, thinning);
                            candidate->addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);
                    }
-           }
    }
    
    void EMDoublePairProduction::process(Candidate *candidate) const {

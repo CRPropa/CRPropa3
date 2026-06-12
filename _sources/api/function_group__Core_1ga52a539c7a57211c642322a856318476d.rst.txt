@@ -1,0 +1,14 @@
+.. _exhale_function_group__Core_1ga52a539c7a57211c642322a856318476d:
+
+Function crpropa::const_pointer_cast
+====================================
+
+.. did not find file this was defined in
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::const_pointer_cast()
+   :project: CRPropa3

@@ -151,21 +151,46 @@ Program Listing for File Observer.h
    
    
    class ObserverTimeEvolution: public ObserverFeature {
-   private:
+   protected:
+           int nIntervals;  // number of time invervals
+           bool isLogarithmicScaling = false;  // enables or disables logarithmic scaling for the intervals
+           bool doDetListConstruction = true;  // enables the construction of detList in the relevant functions (addTime, addTimeRange)
+           double minimum;  // the minimum time
+           double maximum;  // the maximum time
            std::vector<double> detList;
+           mutable std::vector<double> tempDetList;
+           
    public:
            ObserverTimeEvolution();
            ObserverTimeEvolution(double min, double dist, double numb);
            ObserverTimeEvolution(double min, double max, double numb, bool log);
-           // Add a new time step to the detection time list of the observer
-           void addTime(const double &position);
-           // Using log or lin spacing of times in the range between min and
-           // max for observing particles
-           void addTimeRange(double min, double max, double numb, bool log = false);
-           const std::vector<double>& getTimes() const;
+           ObserverTimeEvolution(const std::vector<double> &detList);
+           ~ObserverTimeEvolution(){}
+   
+           void constructDetListIfEmpty();
            DetectionState checkDetection(Candidate *candidate) const;
+           void clear();
+           bool empty(){return detList.empty();}
+   
+           // setter functions:
+           void addTime(const double &time);
+           void addTimeRange(double min, double max, double numb, bool log = false);
+           void setTimes(const std::vector<double> &detList);
+           void setMinimum(double min);
+           void setMaximum(double max){this->maximum = max;}
+           void setNIntervals(int numb){this->nIntervals = numb;}
+           void setIsLogarithmicScaling(bool log){this->isLogarithmicScaling = log;}
+   
+           // getter functions:
+           virtual double getTime(std::size_t index) const;
+           double getMinimum() const {return minimum;}
+           double getMaximum() const {return maximum;}
+           int getNIntervals() const {return nIntervals;}
+           bool getIsLogarithmicScaling() const {return isLogarithmicScaling;}
+           const std::vector<double>& getTimes() const;
            std::string getDescription() const;
    };
+   
    }
    
    #endif // CRPROPA_OBSERVER_H

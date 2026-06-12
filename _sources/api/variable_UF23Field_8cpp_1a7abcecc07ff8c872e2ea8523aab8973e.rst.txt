@@ -1,0 +1,14 @@
+.. _exhale_variable_UF23Field_8cpp_1a7abcecc07ff8c872e2ea8523aab8973e:
+
+Variable uf23::megayear
+=======================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf23::megayear
+   :project: CRPropa3

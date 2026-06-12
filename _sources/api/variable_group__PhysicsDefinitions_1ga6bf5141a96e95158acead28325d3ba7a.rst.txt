@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga6bf5141a96e95158acead28325d3ba7a:
+
+Variable crpropa::day
+=====================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::day
+   :project: CRPropa3

@@ -118,6 +118,8 @@ Program Listing for File HDF5Output.cpp
            sid = H5Tcreate(H5T_COMPOUND, sizeof(OutputRow));
            if (fields.test(TrajectoryLengthColumn))
                    H5Tinsert(sid, "D", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
+           if (fields.test(TimeColumn))
+                   H5Tinsert(sid, "time", HOFFSET(OutputRow, time), H5T_NATIVE_DOUBLE);
            if (fields.test(RedshiftColumn))
                    H5Tinsert(sid, "z", HOFFSET(OutputRow, z), H5T_NATIVE_DOUBLE);
            if (fields.test(SerialNumberColumn))
@@ -216,6 +218,7 @@ Program Listing for File HDF5Output.cpp
            insertStringAttribute("OutputType", outputName);
            insertStringAttribute("Version", g_GIT_DESC);
            insertDoubleAttribute("LengthScale", this->lengthScale);
+           insertDoubleAttribute("TimeScale", this->timeScale);
            insertDoubleAttribute("EnergyScale", this->energyScale);
    
            // add ranom seeds
@@ -231,7 +234,7 @@ Program Listing for File HDF5Output.cpp
    
                    attr_space = H5Screate_simple(0, dims, NULL);
                    char nameBuffer[256];
-                   sprintf(nameBuffer, "SEED_%03lu", i);
+                   snprintf(nameBuffer, 256, "SEED_%03lu", i);
                    KISS_LOG_DEBUG << "Creating HDF5 attribute: " << nameBuffer << " with dimensions " << dims[0] << "x" << dims[1] ;
    
                    version_attr = H5Acreate2(dset, nameBuffer, type, attr_space, H5P_DEFAULT, H5P_DEFAULT);
@@ -260,7 +263,7 @@ Program Listing for File HDF5Output.cpp
    }
    
    void HDF5Output::process(Candidate* candidate) const {
-           #pragma omp critical
+           #pragma omp critical(HDFOutput)
            {
            if (file == -1)
                    // This is ugly, but necesary as otherwise the user has to manually open the
@@ -270,6 +273,7 @@ Program Listing for File HDF5Output.cpp
    
            OutputRow r;
            r.D = candidate->getTrajectoryLength() / lengthScale;
+           r.time = candidate->getTime() / timeScale;
            r.z = candidate->getRedshift();
    
            r.SN = candidate->getSerialNumber();
@@ -328,7 +332,7 @@ Program Listing for File HDF5Output.cpp
                            pos += v.copyToBuffer(&r.propertyBuffer[pos]);
            }
    
-           #pragma omp critical
+           #pragma omp critical(HDFOutput)
            {
                    const_cast<HDF5Output*>(this)->candidatesSinceFlush++;
                    Output::process(candidate);

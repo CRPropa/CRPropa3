@@ -3,12 +3,12 @@
 Function crpropa::redshift2LightTravelDistance
 ==============================================
 
-- Defined in :ref:`file_src_Cosmology.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::redshift2LightTravelDistance(double)
+.. doxygenfunction:: crpropa::redshift2LightTravelDistance()
    :project: CRPropa3

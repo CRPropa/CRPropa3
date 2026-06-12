@@ -3,12 +3,12 @@
 Function crpropa::isNucleus
 ===========================
 
-- Defined in :ref:`file_src_ParticleID.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::isNucleus(int)
+.. doxygenfunction:: crpropa::isNucleus()
    :project: CRPropa3

@@ -112,8 +112,8 @@ Program Listing for File Acceleration.h
            void process(Candidate *candidate) const;
    };
    
-    // end of group Acceleration
    
+    // end of group Acceleration
    } // namespace crpropa
    
    #endif

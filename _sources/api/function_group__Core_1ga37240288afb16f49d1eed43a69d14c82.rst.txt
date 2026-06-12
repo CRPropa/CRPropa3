@@ -1,14 +1,14 @@
 .. _exhale_function_group__Core_1ga37240288afb16f49d1eed43a69d14c82:
 
-Function crpropa::meanFieldStrength(ref_ptr<Grid1f>)
-====================================================
+Function crpropa::meanFieldStrength()
+=====================================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::meanFieldStrength(ref_ptr<Grid1f>)
+.. doxygenfunction:: crpropa::meanFieldStrength()
    :project: CRPropa3

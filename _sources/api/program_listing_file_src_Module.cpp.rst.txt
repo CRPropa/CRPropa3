@@ -31,8 +31,7 @@ Program Listing for File Module.cpp
    
    AbstractCondition::AbstractCondition() :
                    makeRejectedInactive(true), makeAcceptedInactive(false), rejectFlagKey(
-                                   "Rejected") {
-   
+                                   "Rejected"), rejectFlagValue( typeid(*this).name() ) {
    }
    
    void AbstractCondition::reject(Candidate *candidate) const {
@@ -88,5 +87,16 @@ Program Listing for File Module.cpp
            acceptFlagKey = key;
            acceptFlagValue = value;
    }
+   
+   std::string AbstractCondition::getRejectFlag() {
+           std::string out = rejectFlagKey + "&" + rejectFlagValue; 
+           return out;
+   }
+   
+   std::string AbstractCondition::getAcceptFlag() {
+           std::string out = acceptFlagKey + "&" + acceptFlagValue;
+           return out;
+   }
+   
    
    } // namespace crpropa

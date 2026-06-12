@@ -1,0 +1,1 @@
+genhtml -o /home/runner/work/CRPropa3/CRPropa3/build/coverageReport /home/runner/work/CRPropa3/CRPropa3/build/coverage.info.cleaned

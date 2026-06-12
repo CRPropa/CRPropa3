@@ -1,0 +1,14 @@
+.. _exhale_function_UF23Field_8cpp_1ae4e1de806484fd0412f1d01b24a25540:
+
+Function uf23::Sigmoid
+======================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: uf23::Sigmoid(const double, const double, const double)
+   :project: CRPropa3

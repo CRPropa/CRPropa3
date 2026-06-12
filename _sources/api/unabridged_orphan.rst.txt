@@ -425,6 +425,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_magneticField_KST24Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_KST24Field.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_include_crpropa_Logging.h.rst
 
 .. toctree::
@@ -805,6 +815,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_advectionField_TimeDependentAdvectionField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_advectionField_TimeDependentAdvectionField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_module_Tools.cpp.rst
 
 .. toctree::
@@ -816,6 +836,16 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_magneticField_turbulentField_TurbulentField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_UF23Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_UF23Field.h.rst
 
 .. toctree::
    :maxdepth: 5

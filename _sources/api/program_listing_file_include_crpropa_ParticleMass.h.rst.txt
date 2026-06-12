@@ -14,7 +14,10 @@ Program Listing for File ParticleMass.h
    #define CRPROPA_PARTICLE_MASS_H
    
    namespace crpropa {
+    double particleMass(int id);
+    
    double nuclearMass(int id);
+   
    double nuclearMass(int A, int Z);
    
    } // namespace crpropa

@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1aea647af1af5d1be9ea7a003f8cdb3829:
+
+Function crpropa::periodicClamp
+===============================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::periodicClamp(double, int, int&, int&)
+   :project: CRPropa3

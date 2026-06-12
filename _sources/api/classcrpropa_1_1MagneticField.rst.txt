@@ -21,6 +21,7 @@ Derived Types
 - ``public ArchimedeanSpiralField`` (:ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`)
 - ``public CMZField`` (:ref:`exhale_class_classcrpropa_1_1CMZField`)
 - ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)
+- ``public KST24Field`` (:ref:`exhale_class_classcrpropa_1_1KST24Field`)
 - ``public LogarithmicSpiralField`` (:ref:`exhale_class_classcrpropa_1_1LogarithmicSpiralField`)
 - ``public MagneticDipoleField`` (:ref:`exhale_class_classcrpropa_1_1MagneticDipoleField`)
 - ``public MagneticFieldEvolution`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldEvolution`)
@@ -35,6 +36,7 @@ Derived Types
 - ``public TF17Field`` (:ref:`exhale_class_classcrpropa_1_1TF17Field`)
 - ``public ToroidalHaloField`` (:ref:`exhale_class_classcrpropa_1_1ToroidalHaloField`)
 - ``public TurbulentField`` (:ref:`exhale_class_classcrpropa_1_1TurbulentField`)
+- ``public UF23Field`` (:ref:`exhale_class_classcrpropa_1_1UF23Field`)
 - ``public UniformMagneticField`` (:ref:`exhale_class_classcrpropa_1_1UniformMagneticField`)
 
 

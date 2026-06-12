@@ -48,7 +48,7 @@ Program Listing for File DiffusionSDE.h
            void process(crpropa::Candidate *candidate) const;
    
            void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
-           void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
+           void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h, double t) const;
            void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
    
            void setMinimumStep(double minStep);
@@ -71,7 +71,7 @@ Program Listing for File DiffusionSDE.h
      ref_ptr<MagneticField> getMagneticField() const;
            Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
            ref_ptr<AdvectionField> getAdvectionField() const;
-           Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
+           Vector3d getAdvectionFieldAtPosition(Vector3d pos, double t) const;
    
    };
    } //namespace crpropa

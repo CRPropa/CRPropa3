@@ -44,5 +44,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1AbstractCondition`
 
+- :ref:`exhale_class_classcrpropa_1_1Deactivation`
+
 - :ref:`exhale_class_classcrpropa_1_1Module`
 

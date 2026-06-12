@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a032c8bc18dc7da33baf0c454de1b2390:
+
+Template Function crpropa::pow_integer
+======================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::pow_integer(double)
+   :project: CRPropa3

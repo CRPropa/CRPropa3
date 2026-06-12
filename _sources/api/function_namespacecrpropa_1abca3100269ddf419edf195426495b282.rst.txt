@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1abca3100269ddf419edf195426495b282:
+
+Function crpropa::VARIANT_TO_DECL(UChar, unsigned char)
+=======================================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::VARIANT_TO_DECL(UChar, unsigned char)
+   :project: CRPropa3

@@ -3,12 +3,12 @@
 Function crpropa::fromMagneticField
 ===================================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::fromMagneticField(ref_ptr<Grid3f>, ref_ptr<MagneticField>)
+.. doxygenfunction:: crpropa::fromMagneticField()
    :project: CRPropa3

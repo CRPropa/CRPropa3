@@ -1,0 +1,14 @@
+.. _exhale_variable_UF23Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184:
+
+Variable uf23::kpc
+==================
+
+- Defined in :ref:`file_src_magneticField_UF23Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf23::kpc
+   :project: CRPropa3

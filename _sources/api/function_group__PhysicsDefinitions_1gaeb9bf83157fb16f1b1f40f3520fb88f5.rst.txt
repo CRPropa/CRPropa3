@@ -3,12 +3,12 @@
 Function crpropa::chargeNumber
 ==============================
 
-- Defined in :ref:`file_src_ParticleID.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::chargeNumber(int)
+.. doxygenfunction:: crpropa::chargeNumber()
    :project: CRPropa3

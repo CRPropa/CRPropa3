@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a419b846a36c121daa06b1e0b7cd2ec16:
+
+Function crpropa::removeNullCharacter
+=====================================
+
+- Defined in :ref:`file_src_Common.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::removeNullCharacter(std::string)
+   :project: CRPropa3

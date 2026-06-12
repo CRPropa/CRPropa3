@@ -3,12 +3,12 @@
 Function crpropa::comoving2LightTravelDistance
 ==============================================
 
-- Defined in :ref:`file_src_Cosmology.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::comoving2LightTravelDistance(double)
+.. doxygenfunction:: crpropa::comoving2LightTravelDistance()
    :project: CRPropa3

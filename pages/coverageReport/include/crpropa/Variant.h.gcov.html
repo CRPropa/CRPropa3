@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - include/crpropa/Variant.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">include/crpropa</a> - Variant.h<span style="font-size: 80%;"> (source / <a href="Variant.h.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">50.0&nbsp;%</td>
+            <td class="headerCovTableEntry">36</td>
+            <td class="headerCovTableEntry">18</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryLo">37.5&nbsp;%</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">6</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : //-------------------------------------------------------------</span>
+<span id="L2"><span class="lineNum">       2</span>              : // Based on Variant.hh of the Physics eXtension Library (PXL) -</span>
+<span id="L3"><span class="lineNum">       3</span>              : // http://vispa.physik.rwth-aachen.de/                        -</span>
+<span id="L4"><span class="lineNum">       4</span>              : // Licensed under a LGPL-2 or later license                   -</span>
+<span id="L5"><span class="lineNum">       5</span>              : //-------------------------------------------------------------</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : #ifndef CRPROPA_VARIANT_H</span>
+<span id="L8"><span class="lineNum">       8</span>              : #define CRPROPA_VARIANT_H</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;complex&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : #include &lt;cstdint&gt;</span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &lt;cstdlib&gt;</span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &lt;cstring&gt;</span>
+<span id="L14"><span class="lineNum">      14</span>              : #include &lt;iostream&gt;</span>
+<span id="L15"><span class="lineNum">      15</span>              : #include &lt;limits&gt;</span>
+<span id="L16"><span class="lineNum">      16</span>              : #include &lt;string&gt;</span>
+<span id="L17"><span class="lineNum">      17</span>              : #include &lt;sstream&gt;</span>
+<span id="L18"><span class="lineNum">      18</span>              : #include &lt;stdexcept&gt;</span>
+<span id="L19"><span class="lineNum">      19</span>              : #include &lt;typeinfo&gt;</span>
+<span id="L20"><span class="lineNum">      20</span>              : </span>
+<span id="L21"><span class="lineNum">      21</span>              : #include &quot;crpropa/Vector3.h&quot;</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              : </span>
+<span id="L25"><span class="lineNum">      25</span>              : // defines copy constructor X(const X&amp;), isX(), asX(), fromX(), toX(), op(), op=, op==, op!=</span>
+<span id="L26"><span class="lineNum">      26</span>              : #define VARIANT_ADD_TYPE_DECL_POD(NAME, TYPE, VALUE, FIELD) \</span>
+<span id="L27"><span class="lineNum">      27</span>              :         Variant(const VALUE&amp; v) { \</span>
+<span id="L28"><span class="lineNum">      28</span>              :                 data._t_##FIELD = v; \</span>
+<span id="L29"><span class="lineNum">      29</span>              :                 type = TYPE;  \</span>
+<span id="L30"><span class="lineNum">      30</span>              :         } \</span>
+<span id="L31"><span class="lineNum">      31</span>              :         bool is##NAME() const { \</span>
+<span id="L32"><span class="lineNum">      32</span>              :                 return type == TYPE; \</span>
+<span id="L33"><span class="lineNum">      33</span>              :         } \</span>
+<span id="L34"><span class="lineNum">      34</span>              :         VALUE&amp; as##NAME() { \</span>
+<span id="L35"><span class="lineNum">      35</span>              :                 check(TYPE); \</span>
+<span id="L36"><span class="lineNum">      36</span>              :                 return data._t_##FIELD; \</span>
+<span id="L37"><span class="lineNum">      37</span>              :         } \</span>
+<span id="L38"><span class="lineNum">      38</span>              :         const VALUE&amp; as##NAME() const { \</span>
+<span id="L39"><span class="lineNum">      39</span>              :                 check(TYPE); \</span>
+<span id="L40"><span class="lineNum">      40</span>              :                 return data._t_##FIELD; \</span>
+<span id="L41"><span class="lineNum">      41</span>              :         } \</span>
+<span id="L42"><span class="lineNum">      42</span>              :         static Variant from##NAME(const VALUE&amp; v) { \</span>
+<span id="L43"><span class="lineNum">      43</span>              :                 return Variant(v); \</span>
+<span id="L44"><span class="lineNum">      44</span>              :         } \</span>
+<span id="L45"><span class="lineNum">      45</span>              :         VALUE to##NAME() const; \</span>
+<span id="L46"><span class="lineNum">      46</span>              :         operator VALUE() const { \</span>
+<span id="L47"><span class="lineNum">      47</span>              :                 return to##NAME(); \</span>
+<span id="L48"><span class="lineNum">      48</span>              :         } \</span>
+<span id="L49"><span class="lineNum">      49</span>              :         Variant&amp; operator=(const VALUE&amp; v) { \</span>
+<span id="L50"><span class="lineNum">      50</span>              :                 clear(); \</span>
+<span id="L51"><span class="lineNum">      51</span>              :                 type = TYPE; \</span>
+<span id="L52"><span class="lineNum">      52</span>              :                 data._t_##FIELD = v; \</span>
+<span id="L53"><span class="lineNum">      53</span>              :                 return *this; \</span>
+<span id="L54"><span class="lineNum">      54</span>              :         } \</span>
+<span id="L55"><span class="lineNum">      55</span>              :         bool operator==(const VALUE&amp; v) const { \</span>
+<span id="L56"><span class="lineNum">      56</span>              :                 check(TYPE); \</span>
+<span id="L57"><span class="lineNum">      57</span>              :                 return data._t_##FIELD == v; \</span>
+<span id="L58"><span class="lineNum">      58</span>              :         } \</span>
+<span id="L59"><span class="lineNum">      59</span>              :         bool operator!=(const VALUE&amp; v) const { \</span>
+<span id="L60"><span class="lineNum">      60</span>              :                 check(TYPE); \</span>
+<span id="L61"><span class="lineNum">      61</span>              :                 return data._t_##FIELD != v; \</span>
+<span id="L62"><span class="lineNum">      62</span>              :         } \</span>
+<span id="L63"><span class="lineNum">      63</span>              : </span>
+<span id="L64"><span class="lineNum">      64</span>              : // defines isX(), asX(), fromX()</span>
+<span id="L65"><span class="lineNum">      65</span>              : #define VARIANT_ADD_TYPE_DECL_PTR_BASE(NAME, TYPE, VALUE, FIELD) \</span>
+<span id="L66"><span class="lineNum">      66</span>              :         bool is##NAME() const { \</span>
+<span id="L67"><span class="lineNum">      67</span>              :                 return type == TYPE; \</span>
+<span id="L68"><span class="lineNum">      68</span>              :         } \</span>
+<span id="L69"><span class="lineNum">      69</span>              :         VALUE&amp; as##NAME() { \</span>
+<span id="L70"><span class="lineNum">      70</span>              :                 check(TYPE); \</span>
+<span id="L71"><span class="lineNum">      71</span>              :                 return *data._t_##FIELD; \</span>
+<span id="L72"><span class="lineNum">      72</span>              :         } \</span>
+<span id="L73"><span class="lineNum">      73</span>              :         const VALUE&amp; as##NAME() const { \</span>
+<span id="L74"><span class="lineNum">      74</span>              :                 check(TYPE); \</span>
+<span id="L75"><span class="lineNum">      75</span>              :                 return *data._t_##FIELD; \</span>
+<span id="L76"><span class="lineNum">      76</span>              :         } \</span>
+<span id="L77"><span class="lineNum">      77</span>              :         static Variant from##NAME(const VALUE&amp; v) { \</span>
+<span id="L78"><span class="lineNum">      78</span>              :                 return Variant(v); \</span>
+<span id="L79"><span class="lineNum">      79</span>              :         } \</span>
+<span id="L80"><span class="lineNum">      80</span>              : </span>
+<span id="L81"><span class="lineNum">      81</span>              : // defines isX(), asX(), fromX(), and copy constructor X(const X&amp;), op=, op==, op!=</span>
+<span id="L82"><span class="lineNum">      82</span>              : #define VARIANT_ADD_TYPE_DECL_PTR(NAME, TYPE, VALUE, FIELD) \</span>
+<span id="L83"><span class="lineNum">      83</span>              :         VARIANT_ADD_TYPE_DECL_PTR_BASE(NAME, TYPE, VALUE, FIELD) \</span>
+<span id="L84"><span class="lineNum">      84</span>              :         Variant(const VALUE&amp; v) { \</span>
+<span id="L85"><span class="lineNum">      85</span>              :                 data._t_##FIELD = new VALUE(v); \</span>
+<span id="L86"><span class="lineNum">      86</span>              :                 type = TYPE; \</span>
+<span id="L87"><span class="lineNum">      87</span>              :         } \</span>
+<span id="L88"><span class="lineNum">      88</span>              :         Variant&amp; operator=(const VALUE&amp; v) { \</span>
+<span id="L89"><span class="lineNum">      89</span>              :                 if (type != TYPE) { \</span>
+<span id="L90"><span class="lineNum">      90</span>              :                         clear(); \</span>
+<span id="L91"><span class="lineNum">      91</span>              :                         data._t_##FIELD = new VALUE();\</span>
+<span id="L92"><span class="lineNum">      92</span>              :                 } \</span>
+<span id="L93"><span class="lineNum">      93</span>              :                 type = TYPE; \</span>
+<span id="L94"><span class="lineNum">      94</span>              :                 (*data._t_##FIELD) = v; \</span>
+<span id="L95"><span class="lineNum">      95</span>              :                 return *this; \</span>
+<span id="L96"><span class="lineNum">      96</span>              :         } \</span>
+<span id="L97"><span class="lineNum">      97</span>              :         bool operator==(const VALUE&amp; v) const { \</span>
+<span id="L98"><span class="lineNum">      98</span>              :                 check(TYPE); \</span>
+<span id="L99"><span class="lineNum">      99</span>              :                 return *data._t_##FIELD == v; \</span>
+<span id="L100"><span class="lineNum">     100</span>              :         } \</span>
+<span id="L101"><span class="lineNum">     101</span>              :         bool operator!=(const VALUE&amp; v) const { \</span>
+<span id="L102"><span class="lineNum">     102</span>              :                 return !(*this == v); \</span>
+<span id="L103"><span class="lineNum">     103</span>              :         } \</span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span>              : #define VARIANT_ADD_ITER_DECL_PTR(NAME, TYPE, FIELD) \</span>
+<span id="L106"><span class="lineNum">     106</span>              :         typedef FIELD##_t::iterator FIELD##_iterator; \</span>
+<span id="L107"><span class="lineNum">     107</span>              :         typedef FIELD##_t::const_iterator FIELD##_const_iterator; \</span>
+<span id="L108"><span class="lineNum">     108</span>              :         inline FIELD##_iterator begin##NAME() { \</span>
+<span id="L109"><span class="lineNum">     109</span>              :                 check(TYPE); \</span>
+<span id="L110"><span class="lineNum">     110</span>              :                 return data._t_##FIELD-&gt;begin(); \</span>
+<span id="L111"><span class="lineNum">     111</span>              :         } \</span>
+<span id="L112"><span class="lineNum">     112</span>              :         inline FIELD##_iterator end##NAME() { \</span>
+<span id="L113"><span class="lineNum">     113</span>              :                 check(TYPE); \</span>
+<span id="L114"><span class="lineNum">     114</span>              :                 return data._t_##FIELD-&gt;end(); \</span>
+<span id="L115"><span class="lineNum">     115</span>              :         } \</span>
+<span id="L116"><span class="lineNum">     116</span>              :         inline FIELD##_const_iterator begin##NAME() const { \</span>
+<span id="L117"><span class="lineNum">     117</span>              :                 check(TYPE); \</span>
+<span id="L118"><span class="lineNum">     118</span>              :                 return data._t_##FIELD-&gt;begin(); \</span>
+<span id="L119"><span class="lineNum">     119</span>              :         } \</span>
+<span id="L120"><span class="lineNum">     120</span>              :         inline FIELD##_const_iterator end##NAME() const { \</span>
+<span id="L121"><span class="lineNum">     121</span>              :                 check(TYPE); \</span>
+<span id="L122"><span class="lineNum">     122</span>              :                 return data._t_##FIELD-&gt;end(); \</span>
+<span id="L123"><span class="lineNum">     123</span>              :         }                                                                                </span>
+<span id="L124"><span class="lineNum">     124</span>              : </span>
+<span id="L125"><span class="lineNum">     125</span>              : </span>
+<span id="L126"><span class="lineNum">     126</span>              : </span>
+<span id="L127"><span class="lineNum">     127</span>              : namespace crpropa {</span>
+<span id="L128"><span class="lineNum">     128</span>              : </span>
+<span id="L129"><span class="lineNum">     129</span>              : /**</span>
+<span id="L130"><span class="lineNum">     130</span>              :  @class Variant</span>
+<span id="L131"><span class="lineNum">     131</span>              :  @brief storage container for data types as e.g. int, float, string, etc.</span>
+<span id="L132"><span class="lineNum">     132</span>              : </span>
+<span id="L133"><span class="lineNum">     133</span>              :  Allows storage of multiple data types in one base class. Used to construct a map of `arbitrary' data types.</span>
+<span id="L134"><span class="lineNum">     134</span>              :  Note that most default C++ types allow default conversions from `Variant` to the corresponding type.</span>
+<span id="L135"><span class="lineNum">     135</span>              :  Types that require an explicit call via `toTargetType()` are: complex (float and double), Vector3, and vector&lt;Variant&gt;.</span>
+<span id="L136"><span class="lineNum">     136</span>              :  */</span>
+<span id="L137"><span class="lineNum">     137</span>              : class Variant {</span>
+<span id="L138"><span class="lineNum">     138</span>              : public:</span>
+<span id="L139"><span class="lineNum">     139</span>              :         enum Type {</span>
+<span id="L140"><span class="lineNum">     140</span>              :                 TYPE_NONE = 0,</span>
+<span id="L141"><span class="lineNum">     141</span>              :                 TYPE_BOOL,</span>
+<span id="L142"><span class="lineNum">     142</span>              :                 TYPE_CHAR,</span>
+<span id="L143"><span class="lineNum">     143</span>              :                 TYPE_UCHAR,</span>
+<span id="L144"><span class="lineNum">     144</span>              :                 TYPE_INT16,</span>
+<span id="L145"><span class="lineNum">     145</span>              :                 TYPE_UINT16,</span>
+<span id="L146"><span class="lineNum">     146</span>              :                 TYPE_INT32,</span>
+<span id="L147"><span class="lineNum">     147</span>              :                 TYPE_UINT32,</span>
+<span id="L148"><span class="lineNum">     148</span>              :                 TYPE_INT64,</span>
+<span id="L149"><span class="lineNum">     149</span>              :                 TYPE_UINT64,</span>
+<span id="L150"><span class="lineNum">     150</span>              :                 TYPE_FLOAT,</span>
+<span id="L151"><span class="lineNum">     151</span>              :                 TYPE_DOUBLE,</span>
+<span id="L152"><span class="lineNum">     152</span>              :                 TYPE_LONGDOUBLE,</span>
+<span id="L153"><span class="lineNum">     153</span>              :                 TYPE_COMPLEXF,</span>
+<span id="L154"><span class="lineNum">     154</span>              :                 TYPE_COMPLEXD,</span>
+<span id="L155"><span class="lineNum">     155</span>              :                 TYPE_STRING,</span>
+<span id="L156"><span class="lineNum">     156</span>              :                 TYPE_VECTOR3F,</span>
+<span id="L157"><span class="lineNum">     157</span>              :                 TYPE_VECTOR3D,</span>
+<span id="L158"><span class="lineNum">     158</span>              :                 TYPE_VECTOR3C,</span>
+<span id="L159"><span class="lineNum">     159</span>              :                 TYPE_VECTOR</span>
+<span id="L160"><span class="lineNum">     160</span>              :         };</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              :         class bad_conversion: public std::exception {</span>
+<span id="L163"><span class="lineNum">     163</span>              :                 protected:</span>
+<span id="L164"><span class="lineNum">     164</span>              :                         std::string msg;</span>
+<span id="L165"><span class="lineNum">     165</span>              :                 public:</span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC tlaBgUNC">           0 :                         const char* what() const throw () {</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :                                 return msg.c_str();</span></span>
+<span id="L168"><span class="lineNum">     168</span>              :                         }</span>
+<span id="L169"><span class="lineNum">     169</span>              : </span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 :                         bad_conversion(Type f, Type t) {</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaUNC">           0 :                                 msg = &quot;Variant: bad conversion from '&quot;;</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :                                 msg += Variant::getTypeName(f);</span></span>
+<span id="L173"><span class="lineNum">     173</span>              :                                 msg += &quot;' to '&quot;;</span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaUNC">           0 :                                 msg += Variant::getTypeName(t);</span></span>
+<span id="L175"><span class="lineNum">     175</span>              :                                 msg += &quot;'&quot;;</span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :                         }</span></span>
+<span id="L177"><span class="lineNum">     177</span>              : </span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :                         ~bad_conversion() throw () {</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC">           0 :                         }</span></span>
+<span id="L180"><span class="lineNum">     180</span>              :         };</span>
+<span id="L181"><span class="lineNum">     181</span>              : </span>
+<span id="L182"><span class="lineNum">     182</span>              :         typedef std::complex&lt;float&gt; complex_f;</span>
+<span id="L183"><span class="lineNum">     183</span>              :         typedef std::complex&lt;double&gt; complex_d;</span>
+<span id="L184"><span class="lineNum">     184</span>              :         typedef Vector3&lt;std::complex&lt;double&gt;&gt; Vector3c;</span>
+<span id="L185"><span class="lineNum">     185</span>              :         typedef std::vector&lt;Variant&gt; vector_t;</span>
+<span id="L186"><span class="lineNum">     186</span>              : </span>
+<span id="L187"><span class="lineNum">     187</span>              : protected:</span>
+<span id="L188"><span class="lineNum">     188</span>              :         Type type;</span>
+<span id="L189"><span class="lineNum">     189</span>              : </span>
+<span id="L190"><span class="lineNum">     190</span>              :         union {</span>
+<span id="L191"><span class="lineNum">     191</span>              :                 bool _t_bool;</span>
+<span id="L192"><span class="lineNum">     192</span>              :                 char _t_char;</span>
+<span id="L193"><span class="lineNum">     193</span>              :                 unsigned char _t_uchar;</span>
+<span id="L194"><span class="lineNum">     194</span>              :                 int16_t _t_int16;</span>
+<span id="L195"><span class="lineNum">     195</span>              :                 uint16_t _t_uint16;</span>
+<span id="L196"><span class="lineNum">     196</span>              :                 int32_t _t_int32;</span>
+<span id="L197"><span class="lineNum">     197</span>              :                 uint32_t _t_uint32;</span>
+<span id="L198"><span class="lineNum">     198</span>              :                 int64_t _t_int64;</span>
+<span id="L199"><span class="lineNum">     199</span>              :                 uint64_t _t_uint64;</span>
+<span id="L200"><span class="lineNum">     200</span>              :                 float _t_float;</span>
+<span id="L201"><span class="lineNum">     201</span>              :                 double _t_double;</span>
+<span id="L202"><span class="lineNum">     202</span>              :                 long double _t_ldouble;</span>
+<span id="L203"><span class="lineNum">     203</span>              :                 complex_f* _t_complex_f;</span>
+<span id="L204"><span class="lineNum">     204</span>              :                 complex_d* _t_complex_d;</span>
+<span id="L205"><span class="lineNum">     205</span>              :                 std::string* _t_string;</span>
+<span id="L206"><span class="lineNum">     206</span>              :                 Vector3f* _t_vector3f;</span>
+<span id="L207"><span class="lineNum">     207</span>              :                 Vector3d* _t_vector3d;</span>
+<span id="L208"><span class="lineNum">     208</span>              :                 Vector3c* _t_vector3c;</span>
+<span id="L209"><span class="lineNum">     209</span>              :                 vector_t* _t_vector;</span>
+<span id="L210"><span class="lineNum">     210</span>              :         } data;</span>
+<span id="L211"><span class="lineNum">     211</span>              : </span>
+<span id="L212"><span class="lineNum">     212</span>              : </span>
+<span id="L213"><span class="lineNum">     213</span>              : public:</span>
+<span id="L214"><span class="lineNum">     214</span>              :         Variant();</span>
+<span id="L215"><span class="lineNum">     215</span>              :         Variant(Type t);</span>
+<span id="L216"><span class="lineNum">     216</span>              :         Variant(const Variant&amp; v);</span>
+<span id="L217"><span class="lineNum">     217</span>              :         Variant(const char* s);</span>
+<span id="L218"><span class="lineNum">     218</span>              :         ~Variant();</span>
+<span id="L219"><span class="lineNum">     219</span>              :         inline Type getType() const {</span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC tlaBgGNC">           2 :                 return type;</span></span>
+<span id="L221"><span class="lineNum">     221</span>              :         }</span>
+<span id="L222"><span class="lineNum">     222</span>              :         const char* getTypeName() const;</span>
+<span id="L223"><span class="lineNum">     223</span>              :         static const char* getTypeName(Type t);</span>
+<span id="L224"><span class="lineNum">     224</span>              :         const std::type_info&amp; getTypeInfo() const;</span>
+<span id="L225"><span class="lineNum">     225</span>              :         static Type toType(const std::string&amp; name);                </span>
+<span id="L226"><span class="lineNum">     226</span>              :         std::string toString(const std::string&amp; delimiter = &quot;\t&quot;) const;</span>
+<span id="L227"><span class="lineNum">     227</span>              :         std::complex&lt;float&gt; toComplexFloat() const;</span>
+<span id="L228"><span class="lineNum">     228</span>              :         std::complex&lt;double&gt; toComplexDouble() const;</span>
+<span id="L229"><span class="lineNum">     229</span>              :         Vector3f toVector3f() const;</span>
+<span id="L230"><span class="lineNum">     230</span>              :         Vector3d toVector3d() const;</span>
+<span id="L231"><span class="lineNum">     231</span>              :         Vector3c toVector3c() const;</span>
+<span id="L232"><span class="lineNum">     232</span>              :         vector_t toVector() const;</span>
+<span id="L233"><span class="lineNum">     233</span>              :         static Variant fromString(const std::string&amp; str, Type type);</span>
+<span id="L234"><span class="lineNum">     234</span>              :         void clear(Type t = TYPE_NONE);</span>
+<span id="L235"><span class="lineNum">     235</span>              :         bool isValid() const;</span>
+<span id="L236"><span class="lineNum">     236</span>              :         size_t size() const;</span>
+<span id="L237"><span class="lineNum">     237</span>              :         size_t getSizeOf() const;</span>
+<span id="L238"><span class="lineNum">     238</span>              :         size_t getSize() const;</span>
+<span id="L239"><span class="lineNum">     239</span>              :         void resize(size_t i);</span>
+<span id="L240"><span class="lineNum">     240</span>              :         size_t copyToBuffer(void* buffer);</span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">           1 :         operator std::string() const {</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">           2 :                 return toString();</span></span>
+<span id="L243"><span class="lineNum">     243</span>              :         }</span>
+<span id="L244"><span class="lineNum">     244</span>              :         Variant&amp; operator=(const Variant&amp; v);</span>
+<span id="L245"><span class="lineNum">     245</span>              :         bool operator==(const Variant&amp; v) const;</span>
+<span id="L246"><span class="lineNum">     246</span>              :         bool operator!=(const Variant&amp; v) const;</span>
+<span id="L247"><span class="lineNum">     247</span>              :         bool operator!=(const char* a) const;</span>
+<span id="L248"><span class="lineNum">     248</span>              :         Variant&amp; operator[](size_t i);</span>
+<span id="L249"><span class="lineNum">     249</span>              :         inline Variant&amp; operator[](int i) {</span>
+<span id="L250"><span class="lineNum">     250</span>              :                 return operator[]((size_t) i);</span>
+<span id="L251"><span class="lineNum">     251</span>              :         }</span>
+<span id="L252"><span class="lineNum">     252</span>              :         const Variant&amp; operator[](size_t i) const;</span>
+<span id="L253"><span class="lineNum">     253</span>              :         const Variant&amp; operator[](int i) const {</span>
+<span id="L254"><span class="lineNum">     254</span>              :                 return operator[]((size_t) i);</span>
+<span id="L255"><span class="lineNum">     255</span>              :         }</span>
+<span id="L256"><span class="lineNum">     256</span>              :         operator vector_t&amp;();</span>
+<span id="L257"><span class="lineNum">     257</span>              :         operator const vector_t&amp;() const;</span>
+<span id="L258"><span class="lineNum">     258</span>              : </span>
+<span id="L259"><span class="lineNum">     259</span>              : </span>
+<span id="L260"><span class="lineNum">     260</span>              :         template&lt;class T&gt;</span>
+<span id="L261"><span class="lineNum">     261</span>              :         T to() const {</span>
+<span id="L262"><span class="lineNum">     262</span>              :                 throw bad_conversion(type, TYPE_NONE);</span>
+<span id="L263"><span class="lineNum">     263</span>              :         }</span>
+<span id="L264"><span class="lineNum">     264</span>              : </span>
+<span id="L265"><span class="lineNum">     265</span>              :         // automatically-generated functions    </span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">           6 :         VARIANT_ADD_TYPE_DECL_POD(Bool, TYPE_BOOL, bool, bool)</span></span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(Char, TYPE_CHAR, char, char)</span></span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(UChar, TYPE_UCHAR, unsigned char, uchar)</span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(Int16, TYPE_INT16, int16_t, int16)</span></span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(UInt16, TYPE_UINT16, uint16_t, uint16)</span></span>
+<span id="L271"><span class="lineNum">     271</span> <span class="tlaGNC tlaBgGNC">          12 :         VARIANT_ADD_TYPE_DECL_POD(Int32, TYPE_INT32, int32_t, int32)</span></span>
+<span id="L272"><span class="lineNum">     272</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(UInt32, TYPE_UINT32, uint32_t, uint32)</span></span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC tlaBgGNC">           6 :         VARIANT_ADD_TYPE_DECL_POD(Int64, TYPE_INT64, int64_t, int64)</span></span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">          17 :         VARIANT_ADD_TYPE_DECL_POD(UInt64, TYPE_UINT64, uint64_t, uint64)</span></span>
+<span id="L275"><span class="lineNum">     275</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(Float, TYPE_FLOAT, float, float)</span></span>
+<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC tlaBgGNC">          34 :         VARIANT_ADD_TYPE_DECL_POD(Double, TYPE_DOUBLE, double, double)</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(LongDouble, TYPE_LONGDOUBLE, long double, ldouble)</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :         VARIANT_ADD_TYPE_DECL_PTR(ComplexFloat, TYPE_COMPLEXF, std::complex&lt;float&gt;, complex_f)</span></span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC tlaBgGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(ComplexDouble, TYPE_COMPLEXD, std::complex&lt;double&gt;, complex_d)</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">        3399 :         VARIANT_ADD_TYPE_DECL_PTR(String, TYPE_STRING, std::string, string)</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3f, TYPE_VECTOR3F, Vector3f, vector3f)</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC tlaBgGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3d, TYPE_VECTOR3D, Vector3d, vector3d)</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3c, TYPE_VECTOR3C, Vector3c, vector3c)</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           2 :         VARIANT_ADD_TYPE_DECL_PTR(Vector, TYPE_VECTOR, vector_t, vector)</span></span>
+<span id="L285"><span class="lineNum">     285</span>              :         VARIANT_ADD_ITER_DECL_PTR(Vector, TYPE_VECTOR, vector)</span>
+<span id="L286"><span class="lineNum">     286</span>              :                 </span>
+<span id="L287"><span class="lineNum">     287</span>              : private:</span>
+<span id="L288"><span class="lineNum">     288</span>              :         void copy(const Variant&amp; v);</span>
+<span id="L289"><span class="lineNum">     289</span>              :         void check(const Type t) const;</span>
+<span id="L290"><span class="lineNum">     290</span>              :         void check(const Type t);</span>
+<span id="L291"><span class="lineNum">     291</span>              : };</span>
+<span id="L292"><span class="lineNum">     292</span>              : </span>
+<span id="L293"><span class="lineNum">     293</span>              : #define VARIANT_TO_DECL(NAME, VALUE) \</span>
+<span id="L294"><span class="lineNum">     294</span>              :         template&lt;&gt; inline VALUE Variant::to&lt;VALUE&gt;() const { \</span>
+<span id="L295"><span class="lineNum">     295</span>              :                 return to##NAME(); \</span>
+<span id="L296"><span class="lineNum">     296</span>              :         } \</span>
+<span id="L297"><span class="lineNum">     297</span>              : </span>
+<span id="L298"><span class="lineNum">     298</span>              : // declare type conversion functions</span>
+<span id="L299"><span class="lineNum">     299</span>              : // not implemented for Vector3 and complex_*</span>
+<span id="L300"><span class="lineNum">     300</span>              : VARIANT_TO_DECL(Bool, bool)</span>
+<span id="L301"><span class="lineNum">     301</span>              : VARIANT_TO_DECL(Char, char)</span>
+<span id="L302"><span class="lineNum">     302</span>              : VARIANT_TO_DECL(UChar, unsigned char)</span>
+<span id="L303"><span class="lineNum">     303</span>              : VARIANT_TO_DECL(Int16, int16_t)</span>
+<span id="L304"><span class="lineNum">     304</span>              : VARIANT_TO_DECL(UInt16, uint16_t)</span>
+<span id="L305"><span class="lineNum">     305</span>              : VARIANT_TO_DECL(Int32, int32_t)</span>
+<span id="L306"><span class="lineNum">     306</span>              : VARIANT_TO_DECL(UInt32, uint32_t)</span>
+<span id="L307"><span class="lineNum">     307</span>              : VARIANT_TO_DECL(Int64, int64_t)</span>
+<span id="L308"><span class="lineNum">     308</span>              : VARIANT_TO_DECL(UInt64, uint64_t)</span>
+<span id="L309"><span class="lineNum">     309</span>              : VARIANT_TO_DECL(Float, float)</span>
+<span id="L310"><span class="lineNum">     310</span>              : VARIANT_TO_DECL(Double, double)</span>
+<span id="L311"><span class="lineNum">     311</span>              : VARIANT_TO_DECL(LongDouble, long double)</span>
+<span id="L312"><span class="lineNum">     312</span>              : VARIANT_TO_DECL(String, std::string)</span>
+<span id="L313"><span class="lineNum">     313</span>              : VARIANT_TO_DECL(Vector, Variant::vector_t)</span>
+<span id="L314"><span class="lineNum">     314</span>              : </span>
+<span id="L315"><span class="lineNum">     315</span>              : std::ostream&amp; operator &lt;&lt;(std::ostream&amp; os, const Variant &amp;v);</span>
+<span id="L316"><span class="lineNum">     316</span>              : </span>
+<span id="L317"><span class="lineNum">     317</span>              : </span>
+<span id="L318"><span class="lineNum">     318</span>              : /**</span>
+<span id="L319"><span class="lineNum">     319</span>              :  Taken from PXL</span>
+<span id="L320"><span class="lineNum">     320</span>              :  https://git.rwth-aachen.de/3pia/pxl/pxl/-/blob/master/core/include/pxl/core/Functions.hh</span>
+<span id="L321"><span class="lineNum">     321</span>              :  */</span>
+<span id="L322"><span class="lineNum">     322</span>              : template &lt;class T&gt; </span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">        2264 : inline void safeDelete(T*&amp; p) {</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">        2267 :         if (p) {</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">        2267 :                 delete p;</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">        2267 :                 p = 0;</span></span>
+<span id="L327"><span class="lineNum">     327</span>              :         }</span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">        2264 : }</span></span>
+<span id="L329"><span class="lineNum">     329</span>              : </span>
+<span id="L330"><span class="lineNum">     330</span>              : </span>
+<span id="L331"><span class="lineNum">     331</span>              : </span>
+<span id="L332"><span class="lineNum">     332</span>              : } // namespace crpropa </span>
+<span id="L333"><span class="lineNum">     333</span>              : </span>
+<span id="L334"><span class="lineNum">     334</span>              : #endif // CRPROPA_VARIANT</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

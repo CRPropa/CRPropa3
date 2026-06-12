@@ -1,0 +1,300 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Implementing additional Modules and Features using Python only"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Derivatives of base classes such as Module, Source, SourceProperty, etc. can be implemented in\n",
+    "Python and used like the built-in classes. Here is an example for a custom\n",
+    "Module:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.2-80-gfd273fff\n",
+      "9.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "from crpropa import *\n",
+    "print(crpropa.__version__)\n",
+    "\n",
+    "class MyModule(Module):\n",
+    "    \"\"\" Reduces the cosmic ray energy by 10% in each step \"\"\"\n",
+    "    def process(self, c):\n",
+    "        c.current.setEnergy(c.current.getEnergy() * 0.9)\n",
+    "\n",
+    "m = ModuleList()\n",
+    "\n",
+    "mod = MyModule() # See https://github.com/CRPropa/CRPropa3/issues/165\n",
+    "m.add(mod)\n",
+    "\n",
+    "c = Candidate()\n",
+    "c.current.setEnergy(10)\n",
+    "m.process(c)\n",
+    "print(c.current.getEnergy())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "When redefining the constructor make sure to call the constructor of the super\n",
+    "classes as well, as otherwise the code will segfault."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class MyModule(Module):\n",
+    "    def __init__(self):\n",
+    "        Module.__init__(self)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The initial properties of a cosmic rays can be set with a Source, composed of several SourceProperties.\n",
+    "Custom SourceFeatures can be written in the following way:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "10.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "class MySourceFeature(SourceFeature):\n",
+    "\t\"\"\" Set the initial energy to 10 EeV \"\"\"\n",
+    "\tdef __init__(self):\n",
+    "\t\tSourceFeature.__init__(self)\n",
+    "\n",
+    "\tdef prepareParticle(self, particleState):\n",
+    "\t\tparticleState.setEnergy(10 * EeV)\n",
+    "\n",
+    "# The source feature has to be created outside of the class attribute\n",
+    "# s.add(MySourceFeature()) will NOT work! (SWIG issue)\n",
+    "srcFtr = MySourceFeature()\n",
+    "s = Source()\n",
+    "s.add(srcFtr)\n",
+    "c = s.getCandidate()\n",
+    "print(c.current.getEnergy() / EeV)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceFeature, use the following:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0.6\n"
+     ]
+    }
+   ],
+   "source": [
+    "class MySourceFeature(SourceFeature):\n",
+    "    \"\"\" Set the initial redshift \"\"\"\n",
+    "    def __init__(self):\n",
+    "        SourceFeature.__init__(self)\n",
+    "\n",
+    "    def prepareCandidate(self, candidate):\n",
+    "        candidate.setRedshift(0.6)\n",
+    "\n",
+    "# The source feature has to be created outside of the class attribute\n",
+    "# s.add(MySourceFeature()) will NOT work! (SWIG issue)\n",
+    "srcFtr = MySourceFeature()\n",
+    "s = Source()\n",
+    "s.add(srcFtr)\n",
+    "c = s.getCandidate()\n",
+    "print(c.getRedshift())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Manual Simulation Processing\n",
+    "If necessary, the simulation chain (ModuleList) and the cosmic ray source (Source, SourceFeature) can be\n",
+    "replaced by custom loops."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CosmicRay at z = 0\n",
+      "  source:  Particle 1, E = 10 EeV, x = 0 0 0 Mpc, p = -1 0 0\n",
+      "  current: Particle 1, E = 4.30467 EeV, x = -7000 0 0 Mpc, p = -1 0 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "mycandidate = Candidate(1, 10. * EeV)\n",
+    "\n",
+    "m1 = SimplePropagation()\n",
+    "m2 = ElectronPairProduction(CMB())\n",
+    "m3 = MinimumEnergy(5 * EeV)\n",
+    "\n",
+    "while mycandidate.isActive():\n",
+    "    m1.process(mycandidate)\n",
+    "    m2.process(mycandidate)\n",
+    "    m3.process(mycandidate)\n",
+    "    # reduce the energy by 10%\n",
+    "    E = mycandidate.current.getEnergy()\n",
+    "    mycandidate.current.setEnergy(0.9 * E)\n",
+    "print(mycandidate)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A source can be replaced by setting all necessary cosmic rays properties by hand.\n",
+    "The created Candidates can either be propagated one-by-one, or first collected\n",
+    "in a CandidateVector and then propagated."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for i in range(1000):\n",
+    "    p = ParticleState()\n",
+    "    p.setId(nucleusId(12, 6))\n",
+    "    p.setEnergy(200 * EeV)\n",
+    "    p.setPosition(Vector3d(100, 10, 10) * Mpc)\n",
+    "    p.setDirection(Vector3d(-1,0,0))\n",
+    "\n",
+    "    c = Candidate(p)\n",
+    "    m.process(c)"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Plugins: Integrate Custom C++ Code to CRPropa's Python Steering\n",
+    "Extending CRPropa with C++ code and keep python steering is also possible using\n",
+    "SWIG. Make sure that the directory of ~/plugin-template/build is your python PATH\n",
+    "or add it manually, e.g. with:\n",
+    "```\n",
+    "import sys\n",
+    "sys.path.append(\"path/to/plugin-template/build\")\n",
+    "```\n",
+    "\n",
+    "Afterwards, this allows to integrate your code seamless as e.g.\n",
+    "```\n",
+    "import crpropa\n",
+    "import myPlugin\n",
+    "\n",
+    "ml = crpropa.ModuleList()\n",
+    "ml.add(crpropa.MaximumTrajectoryLength(1000 * crpropa.parsec))\n",
+    "ml.add(myPlugin.MyModule())\n",
+    "\n",
+    "source = crpropa.Source()\n",
+    "source.add(myPlugin.AddMyProperty())\n",
+    "```\n",
+    "A template  is in the [plugin-template\n",
+    "folder](https://github.com/CRPropa/CRPropa3/tree/master/plugin-template) of the\n",
+    "CRPropa source. Although the template is complete with build and SWIG wrapper\n",
+    "code, deeper knowledge of SWIG, C++, and CMake are likely required for complex\n",
+    "projects.\n",
+    "\n",
+    "To get started with your own plugin\n",
+    "\n",
+    "1. Copy the folder to a new location. We highly recommended to manage the files\n",
+    "in a (git) repository from the beginning.\n",
+    "2. Test compiling the template\n",
+    "```\n",
+    "mkdir build\n",
+    "cd build\n",
+    "cmake ..\n",
+    "make && python ../testPlugin.py\n",
+    "```\n",
+    "This should work if CRPropa is installed and can be found by python.\n",
+    "\n",
+    "3. Customize the template to your needs, starting with\n",
+    "naming your plugin by modifying the according line in `CMakeLists.txt' and\n",
+    "renaming the files accordingly.\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "crpropa_master",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.2 (default, Feb 28 2021, 17:03:44) \n[GCC 10.2.1 20210110]"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "7dc99857f02ebf862368f83a013de1e635cf753063bd3c6272d454ddc461751e"
+   }
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {},
+    "version_major": 2,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

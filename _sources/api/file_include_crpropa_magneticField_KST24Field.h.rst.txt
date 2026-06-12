@@ -1,0 +1,46 @@
+
+.. _file_include_crpropa_magneticField_KST24Field.h:
+
+File KST24Field.h
+=================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/KST24Field.h``)
+-----------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_KST24Field.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1KST24Field`
+

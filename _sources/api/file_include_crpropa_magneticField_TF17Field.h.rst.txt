@@ -44,12 +44,3 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1TF17Field`
 
-
-Enums
------
-
-
-- :ref:`exhale_enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c`
-
-- :ref:`exhale_enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5`
-

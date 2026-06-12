@@ -3,12 +3,12 @@
 Function crpropa::interpolate2d
 ===============================
 
-- Defined in :ref:`file_src_Common.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::interpolate2d(double, double, const std::vector<double>&, const std::vector<double>&, const std::vector<double>&)
+.. doxygenfunction:: crpropa::interpolate2d()
    :project: CRPropa3

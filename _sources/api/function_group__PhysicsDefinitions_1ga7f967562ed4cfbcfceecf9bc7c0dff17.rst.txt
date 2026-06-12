@@ -3,12 +3,12 @@
 Function crpropa::massNumber
 ============================
 
-- Defined in :ref:`file_src_ParticleID.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::massNumber(int)
+.. doxygenfunction:: crpropa::massNumber()
    :project: CRPropa3

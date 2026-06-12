@@ -1,0 +1,79 @@
+
+.. _file_src_magneticField_UF23Field.cpp:
+
+File UF23Field.cpp
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticField>` (``src/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/magneticField/UF23Field.cpp``)
+------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_magneticField_UF23Field.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+- :ref:`namespace_uf23`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_UF23Field_8cpp_1ac26d86da85c41aa0b1a9d462dd3d7ac0`
+
+- :ref:`exhale_function_UF23Field_8cpp_1a5830e8a14c73cddf009d6214fc1aca12`
+
+- :ref:`exhale_function_UF23Field_8cpp_1aea4e26c00bff6a3e4f14b14bba09374f`
+
+- :ref:`exhale_function_UF23Field_8cpp_1ae4e1de806484fd0412f1d01b24a25540`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a2675edd2140472f1d48c6178d4052018`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1aaf33764feb34669b8ffe006cc943067d`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a6183103d0e243ef4347cd071cc5fd68b`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1ae696324ef7fc119614e60ba6da6fb12b`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a617fa5738744da8788a057317ddcd78a`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a7abcecc07ff8c872e2ea8523aab8973e`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1ab70342abf0832b9dd265964c21681319`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a2884cd030c4c825754349a525a1d06ce`
+
+- :ref:`exhale_variable_UF23Field_8cpp_1a4e6001382c137dd906faab8f49a0a219`
+

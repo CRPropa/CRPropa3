@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1UF23Field:
+
+Class UF23Field
+===============
+
+- Defined in :ref:`file_include_crpropa_magneticField_UF23Field.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::UF23Field
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

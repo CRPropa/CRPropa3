@@ -1,14 +1,14 @@
 .. _exhale_function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7:
 
-Function crpropa::dumpGrid(ref_ptr<Grid3f>, std::string, double)
-================================================================
+Function crpropa::dumpGrid()
+============================
 
-- Defined in :ref:`file_src_GridTools.cpp`
+.. did not find file this was defined in
 
 
 Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: crpropa::dumpGrid(ref_ptr<Grid3f>, std::string, double)
+.. doxygenfunction:: crpropa::dumpGrid()
    :project: CRPropa3

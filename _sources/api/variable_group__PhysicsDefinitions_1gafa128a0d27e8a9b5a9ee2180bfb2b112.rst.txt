@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gafa128a0d27e8a9b5a9ee2180bfb2b112:
+
+Variable crpropa::Gyr
+=====================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::Gyr
+   :project: CRPropa3

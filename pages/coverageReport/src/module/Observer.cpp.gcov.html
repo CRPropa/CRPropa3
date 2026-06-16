@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td class="headerValue">2026-06-16 08:38:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">46.0&nbsp;%</td>
@@ -86,36 +86,36 @@
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :         clone = clone_;</span></span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 : }</span></span>
 <span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">        4969 : void Observer::process(Candidate *candidate) const {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">        2309 : void Observer::process(Candidate *candidate) const {</span></span>
 <span id="L28"><span class="lineNum">      28</span>              :         // loop over all features and have them check the particle</span>
 <span id="L29"><span class="lineNum">      29</span>              :         DetectionState state = NOTHING;</span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">        9938 :         for (int i = 0; i &lt; features.size(); i++) {</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">        4969 :                 DetectionState s = features[i]-&gt;checkDetection(candidate);</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">        4969 :                 if (s == VETO)</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">        4618 :         for (int i = 0; i &lt; features.size(); i++) {</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">        2309 :                 DetectionState s = features[i]-&gt;checkDetection(candidate);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">        2309 :                 if (s == VETO)</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :                         state = VETO;</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">        4969 :                 else if ((s == DETECTED) &amp;&amp; (state != VETO))</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">        2309 :                 else if ((s == DETECTED) &amp;&amp; (state != VETO))</span></span>
 <span id="L35"><span class="lineNum">      35</span>              :                         state = DETECTED;</span>
 <span id="L36"><span class="lineNum">      36</span>              :         }</span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">        4969 :         if (state == DETECTED) {</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">          62 :                 for (int i = 0; i &lt; features.size(); i++) {</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">          31 :                         features[i]-&gt;onDetection(candidate);</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">        2309 :         if (state == DETECTED) {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">          42 :                 for (int i = 0; i &lt; features.size(); i++) {</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">          21 :                         features[i]-&gt;onDetection(candidate);</span></span>
 <span id="L41"><span class="lineNum">      41</span>              :                 }</span>
 <span id="L42"><span class="lineNum">      42</span>              : </span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">          31 :                 if (detectionAction.valid()) {</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">          16 :                         if (clone)</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">          21 :                 if (detectionAction.valid()) {</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           6 :                         if (clone)</span></span>
 <span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC tlaBgUNC">           0 :                                 detectionAction-&gt;process(candidate-&gt;clone(false));</span></span>
 <span id="L46"><span class="lineNum">      46</span>              :                         else</span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC tlaBgGNC">          16 :                                 detectionAction-&gt;process(candidate);</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC tlaBgGNC">           6 :                                 detectionAction-&gt;process(candidate);</span></span>
 <span id="L48"><span class="lineNum">      48</span>              :                 }</span>
 <span id="L49"><span class="lineNum">      49</span>              : </span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">          31 :                 if (!flagKey.empty())</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">          21 :                 if (!flagKey.empty())</span></span>
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           5 :                         candidate-&gt;setProperty(flagKey, flagValue);</span></span>
 <span id="L52"><span class="lineNum">      52</span>              : </span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">          31 :                 if (makeInactive)</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">          28 :                         candidate-&gt;setActive(false);</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">          21 :                 if (makeInactive)</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">          18 :                         candidate-&gt;setActive(false);</span></span>
 <span id="L55"><span class="lineNum">      55</span>              :         }</span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">        4969 : }</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">        2309 : }</span></span>
 <span id="L57"><span class="lineNum">      57</span>              : </span>
 <span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           2 : void Observer::setFlag(std::string key, std::string value) {</span></span>
 <span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           2 :         flagKey = key;</span></span>
@@ -144,8 +144,8 @@
 <span id="L82"><span class="lineNum">      82</span> <span class="tlaUNC">           0 :         return NOTHING;</span></span>
 <span id="L83"><span class="lineNum">      83</span>              : }</span>
 <span id="L84"><span class="lineNum">      84</span>              : </span>
-<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC tlaBgGNC">          31 : void ObserverFeature::onDetection(Candidate *candidate) const {</span></span>
-<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">          31 : }</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC tlaBgGNC">          21 : void ObserverFeature::onDetection(Candidate *candidate) const {</span></span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">          21 : }</span></span>
 <span id="L87"><span class="lineNum">      87</span>              : </span>
 <span id="L88"><span class="lineNum">      88</span> <span class="tlaUNC tlaBgUNC">           0 : std::string ObserverFeature::getDescription() const {</span></span>
 <span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :         return description;</span></span>
@@ -196,12 +196,12 @@
 <span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L135"><span class="lineNum">     135</span>              : </span>
 <span id="L136"><span class="lineNum">     136</span>              : // Observer1D --------------------------------------------------------------</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC tlaBgGNC">        4949 : DetectionState Observer1D::checkDetection(Candidate *candidate) const {</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">        4949 :         double x = candidate-&gt;current.getPosition().x;</span></span>
-<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">        4949 :         if (x &gt; 0) {</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC tlaBgGNC">        2289 : DetectionState Observer1D::checkDetection(Candidate *candidate) const {</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">        2289 :         double x = candidate-&gt;current.getPosition().x;</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">        2289 :         if (x &gt; 0) {</span></span>
 <span id="L140"><span class="lineNum">     140</span>              :                 // Limits the next step size to prevent candidates from overshooting in case of non-detection</span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        4932 :                 candidate-&gt;limitNextStep(x);</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">        4932 :                 return NOTHING;</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        2282 :                 candidate-&gt;limitNextStep(x);</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">        2282 :                 return NOTHING;</span></span>
 <span id="L143"><span class="lineNum">     143</span>              :         }</span>
 <span id="L144"><span class="lineNum">     144</span>              :         // Detects particles when reaching x = 0</span>
 <span id="L145"><span class="lineNum">     145</span>              :         return DETECTED;</span>

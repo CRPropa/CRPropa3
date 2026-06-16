@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-12 14:27:00</td>
+            <td class="headerValue">2026-06-16 08:38:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">98.3&nbsp;%</td>
@@ -471,11 +471,11 @@
 <span id="L409"><span class="lineNum">     409</span> <span class="tlaGNC">           1 :         int A = massNumber(id);</span></span>
 <span id="L410"><span class="lineNum">     410</span> <span class="tlaGNC">           1 :         int Z = chargeNumber(id);</span></span>
 <span id="L411"><span class="lineNum">     411</span>              : </span>
-<span id="L412"><span class="lineNum">     412</span> <span class="tlaGNC">          39 :         for (int i = 0; i &lt; c.secondaries.size(); i++) {</span></span>
-<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">          38 :                 E += (*c.secondaries[i]).current.getEnergy();</span></span>
-<span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">          38 :                 id = (*c.secondaries[i]).current.getId();</span></span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">          38 :                 A += massNumber(id);</span></span>
-<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC">          38 :                 Z += chargeNumber(id);</span></span>
+<span id="L412"><span class="lineNum">     412</span> <span class="tlaGNC">          45 :         for (int i = 0; i &lt; c.secondaries.size(); i++) {</span></span>
+<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">          44 :                 E += (*c.secondaries[i]).current.getEnergy();</span></span>
+<span id="L414"><span class="lineNum">     414</span> <span class="tlaGNC">          44 :                 id = (*c.secondaries[i]).current.getId();</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">          44 :                 A += massNumber(id);</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC">          44 :                 Z += chargeNumber(id);</span></span>
 <span id="L417"><span class="lineNum">     417</span>              :         }</span>
 <span id="L418"><span class="lineNum">     418</span>              : </span>
 <span id="L419"><span class="lineNum">     419</span>              :         // nucleon number conserved</span>
@@ -594,12 +594,12 @@
 <span id="L532"><span class="lineNum">     532</span>              : </span>
 <span id="L533"><span class="lineNum">     533</span> <span class="tlaGNC">           1 :         EXPECT_GT(c.secondaries.size(), 0);</span></span>
 <span id="L534"><span class="lineNum">     534</span>              : </span>
-<span id="L535"><span class="lineNum">     535</span> <span class="tlaGNC">           2 :         for (int i = 0; i &lt; c.secondaries.size(); i++) {</span></span>
-<span id="L536"><span class="lineNum">     536</span> <span class="tlaGNC">           1 :                 int id = (*c.secondaries[i]).current.getId();</span></span>
-<span id="L537"><span class="lineNum">     537</span> <span class="tlaGNC">           1 :                 EXPECT_EQ(id, 22);</span></span>
-<span id="L538"><span class="lineNum">     538</span> <span class="tlaGNC">           1 :                 double energy = (*c.secondaries[i]).current.getEnergy();</span></span>
-<span id="L539"><span class="lineNum">     539</span> <span class="tlaGNC">           1 :                 EXPECT_GT(energy, 0);</span></span>
-<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC">           1 :                 EXPECT_LT(energy, 200 * EeV);</span></span>
+<span id="L535"><span class="lineNum">     535</span> <span class="tlaGNC">           8 :         for (int i = 0; i &lt; c.secondaries.size(); i++) {</span></span>
+<span id="L536"><span class="lineNum">     536</span> <span class="tlaGNC">           7 :                 int id = (*c.secondaries[i]).current.getId();</span></span>
+<span id="L537"><span class="lineNum">     537</span> <span class="tlaGNC">           7 :                 EXPECT_EQ(id, 22);</span></span>
+<span id="L538"><span class="lineNum">     538</span> <span class="tlaGNC">           7 :                 double energy = (*c.secondaries[i]).current.getEnergy();</span></span>
+<span id="L539"><span class="lineNum">     539</span> <span class="tlaGNC">           7 :                 EXPECT_GT(energy, 0);</span></span>
+<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC">           7 :                 EXPECT_LT(energy, 200 * EeV);</span></span>
 <span id="L541"><span class="lineNum">     541</span>              :         }</span>
 <span id="L542"><span class="lineNum">     542</span> <span class="tlaGNC">           2 : }</span></span>
 <span id="L543"><span class="lineNum">     543</span>              : </span>
@@ -833,20 +833,20 @@
 <span id="L771"><span class="lineNum">     771</span>              :                                 continue;</span>
 <span id="L772"><span class="lineNum">     772</span>              : </span>
 <span id="L773"><span class="lineNum">     773</span>              :                         // expect 2 secondaries</span>
-<span id="L774"><span class="lineNum">     774</span> <span class="tlaGNC">         310 :                         EXPECT_EQ(c.secondaries.size(), 2);</span></span>
+<span id="L774"><span class="lineNum">     774</span> <span class="tlaGNC">         311 :                         EXPECT_EQ(c.secondaries.size(), 2);</span></span>
 <span id="L775"><span class="lineNum">     775</span>              : </span>
 <span id="L776"><span class="lineNum">     776</span>              :                         // expect electron / positron with energies 0 &lt; E &lt; Ephoton</span>
 <span id="L777"><span class="lineNum">     777</span>              :                         double Etot = 0;</span>
-<span id="L778"><span class="lineNum">     778</span> <span class="tlaGNC">         930 :                         for (int j = 0; j &lt; c.secondaries.size(); j++) {</span></span>
-<span id="L779"><span class="lineNum">     779</span> <span class="tlaGNC">         620 :                                 Candidate s = *c.secondaries[j];</span></span>
-<span id="L780"><span class="lineNum">     780</span> <span class="tlaGNC">         620 :                                 EXPECT_EQ(abs(s.current.getId()), 11);</span></span>
-<span id="L781"><span class="lineNum">     781</span> <span class="tlaGNC">         620 :                                 EXPECT_GT(s.current.getEnergy(), 0);</span></span>
-<span id="L782"><span class="lineNum">     782</span> <span class="tlaGNC">         620 :                                 EXPECT_LT(s.current.getEnergy(), Ep);</span></span>
-<span id="L783"><span class="lineNum">     783</span> <span class="tlaGNC">         620 :                                 Etot += s.current.getEnergy();</span></span>
-<span id="L784"><span class="lineNum">     784</span> <span class="tlaGNC">         620 :                         }</span></span>
+<span id="L778"><span class="lineNum">     778</span> <span class="tlaGNC">         933 :                         for (int j = 0; j &lt; c.secondaries.size(); j++) {</span></span>
+<span id="L779"><span class="lineNum">     779</span> <span class="tlaGNC">         622 :                                 Candidate s = *c.secondaries[j];</span></span>
+<span id="L780"><span class="lineNum">     780</span> <span class="tlaGNC">         622 :                                 EXPECT_EQ(abs(s.current.getId()), 11);</span></span>
+<span id="L781"><span class="lineNum">     781</span> <span class="tlaGNC">         622 :                                 EXPECT_GT(s.current.getEnergy(), 0);</span></span>
+<span id="L782"><span class="lineNum">     782</span> <span class="tlaGNC">         622 :                                 EXPECT_LT(s.current.getEnergy(), Ep);</span></span>
+<span id="L783"><span class="lineNum">     783</span> <span class="tlaGNC">         622 :                                 Etot += s.current.getEnergy();</span></span>
+<span id="L784"><span class="lineNum">     784</span> <span class="tlaGNC">         622 :                         }</span></span>
 <span id="L785"><span class="lineNum">     785</span>              : </span>
 <span id="L786"><span class="lineNum">     786</span>              :                         // test energy conservation</span>
-<span id="L787"><span class="lineNum">     787</span> <span class="tlaGNC">         310 :                         EXPECT_DOUBLE_EQ(Ep, Etot);</span></span>
+<span id="L787"><span class="lineNum">     787</span> <span class="tlaGNC">         311 :                         EXPECT_DOUBLE_EQ(Ep, Etot);</span></span>
 <span id="L788"><span class="lineNum">     788</span> <span class="tlaGNC">         420 :                 }</span></span>
 <span id="L789"><span class="lineNum">     789</span>              :         }</span>
 <span id="L790"><span class="lineNum">     790</span> <span class="tlaGNC">           2 : }</span></span>
@@ -939,20 +939,20 @@
 <span id="L877"><span class="lineNum">     877</span>              :                                 continue;</span>
 <span id="L878"><span class="lineNum">     878</span>              :                         </span>
 <span id="L879"><span class="lineNum">     879</span>              :                         // expect 2 secondaries (only one pair is considered)</span>
-<span id="L880"><span class="lineNum">     880</span> <span class="tlaGNC">         256 :                         EXPECT_EQ(c.secondaries.size(), 2);</span></span>
+<span id="L880"><span class="lineNum">     880</span> <span class="tlaGNC">         253 :                         EXPECT_EQ(c.secondaries.size(), 2);</span></span>
 <span id="L881"><span class="lineNum">     881</span>              : </span>
 <span id="L882"><span class="lineNum">     882</span>              :                         // expect electron / positron with energies 0 &lt; E &lt; Ephoton</span>
 <span id="L883"><span class="lineNum">     883</span>              :                         double Etot = 0;</span>
-<span id="L884"><span class="lineNum">     884</span> <span class="tlaGNC">         768 :                         for (int j = 0; j &lt; c.secondaries.size(); j++) {</span></span>
-<span id="L885"><span class="lineNum">     885</span> <span class="tlaGNC">         512 :                                 Candidate s = *c.secondaries[j];</span></span>
-<span id="L886"><span class="lineNum">     886</span> <span class="tlaGNC">         512 :                                 EXPECT_EQ(abs(s.current.getId()), 11);</span></span>
-<span id="L887"><span class="lineNum">     887</span> <span class="tlaGNC">         512 :                                 EXPECT_GT(s.current.getEnergy(), 0);</span></span>
-<span id="L888"><span class="lineNum">     888</span> <span class="tlaGNC">         512 :                                 EXPECT_LT(s.current.getEnergy(), Ep);</span></span>
-<span id="L889"><span class="lineNum">     889</span> <span class="tlaGNC">         512 :                                 Etot += s.current.getEnergy();</span></span>
-<span id="L890"><span class="lineNum">     890</span> <span class="tlaGNC">         512 :                         }</span></span>
+<span id="L884"><span class="lineNum">     884</span> <span class="tlaGNC">         759 :                         for (int j = 0; j &lt; c.secondaries.size(); j++) {</span></span>
+<span id="L885"><span class="lineNum">     885</span> <span class="tlaGNC">         506 :                                 Candidate s = *c.secondaries[j];</span></span>
+<span id="L886"><span class="lineNum">     886</span> <span class="tlaGNC">         506 :                                 EXPECT_EQ(abs(s.current.getId()), 11);</span></span>
+<span id="L887"><span class="lineNum">     887</span> <span class="tlaGNC">         506 :                                 EXPECT_GT(s.current.getEnergy(), 0);</span></span>
+<span id="L888"><span class="lineNum">     888</span> <span class="tlaGNC">         506 :                                 EXPECT_LT(s.current.getEnergy(), Ep);</span></span>
+<span id="L889"><span class="lineNum">     889</span> <span class="tlaGNC">         506 :                                 Etot += s.current.getEnergy();</span></span>
+<span id="L890"><span class="lineNum">     890</span> <span class="tlaGNC">         506 :                         }</span></span>
 <span id="L891"><span class="lineNum">     891</span>              : </span>
 <span id="L892"><span class="lineNum">     892</span>              :                         // test energy conservation</span>
-<span id="L893"><span class="lineNum">     893</span> <span class="tlaGNC">         256 :                         EXPECT_NEAR(Ep, Etot, 1E-9);</span></span>
+<span id="L893"><span class="lineNum">     893</span> <span class="tlaGNC">         253 :                         EXPECT_NEAR(Ep, Etot, 1E-9);</span></span>
 <span id="L894"><span class="lineNum">     894</span> <span class="tlaGNC">         420 :                 }</span></span>
 <span id="L895"><span class="lineNum">     895</span>              :         }</span>
 <span id="L896"><span class="lineNum">     896</span> <span class="tlaGNC">           2 : }</span></span>

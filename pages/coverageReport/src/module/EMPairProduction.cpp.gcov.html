@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-16 08:38:19</td>
+            <td class="headerValue">2026-06-16 15:25:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -211,45 +211,45 @@
 <span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           1 :                 }</span></span>
 <span id="L150"><span class="lineNum">     150</span>              : </span>
 <span id="L151"><span class="lineNum">     151</span>              :                 // sample positron energy from cdf(E, s_kin)</span>
-<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">         565 :                 double sample(double E0, double s) {</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">         560 :                 double sample(double E0, double s) {</span></span>
 <span id="L153"><span class="lineNum">     153</span>              :                         // get distribution for given s</span>
-<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">         565 :                         size_t idx = std::lower_bound(tab_s.begin(), tab_s.end(), s) - tab_s.begin();</span></span>
-<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">         565 :                         if (idx &gt; data.size())</span></span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">         560 :                         size_t idx = std::lower_bound(tab_s.begin(), tab_s.end(), s) - tab_s.begin();</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">         560 :                         if (idx &gt; data.size())</span></span>
 <span id="L156"><span class="lineNum">     156</span>              :                                 return NAN;</span>
 <span id="L157"><span class="lineNum">     157</span>              :                                 </span>
-<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">         565 :                         std::vector&lt;double&gt; s0 = data[idx];</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">         560 :                         std::vector&lt;double&gt; s0 = data[idx];</span></span>
 <span id="L159"><span class="lineNum">     159</span>              : </span>
 <span id="L160"><span class="lineNum">     160</span>              :                         // draw random bin</span>
-<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">         565 :                         Random &amp;random = Random::instance();</span></span>
-<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">         565 :                         size_t j = random.randBin(s0) + 1;</span></span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">         560 :                         Random &amp;random = Random::instance();</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">         560 :                         size_t j = random.randBin(s0) + 1;</span></span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
 <span id="L164"><span class="lineNum">     164</span>              :                         double s_min = 4. * mec2 * mec2;</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">         565 :                         double beta = sqrtl(1. - s_min / s);</span></span>
-<span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">         565 :                         double x0 = (1. - beta) / 2.;</span></span>
-<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">         565 :                         double dx = log((1 + beta) / (1 - beta)) / N;</span></span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">         565 :                         double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));</span></span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">         565 :                         if (random.rand() &lt; 0.5)</span></span>
-<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">         288 :                                 return E0 * (x0 * exp((j-1) * dx) + binWidth);</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">         560 :                         double beta = sqrtl(1. - s_min / s);</span></span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">         560 :                         double x0 = (1. - beta) / 2.;</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">         560 :                         double dx = log((1 + beta) / (1 - beta)) / N;</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">         560 :                         double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">         560 :                         if (random.rand() &lt; 0.5)</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">         273 :                                 return E0 * (x0 * exp((j-1) * dx) + binWidth);</span></span>
 <span id="L171"><span class="lineNum">     171</span>              :                         else</span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         277 :                                 return E0 * (1 - (x0 * exp((j-1) * dx) + binWidth));</span></span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">         565 :                 }</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         287 :                                 return E0 * (1 - (x0 * exp((j-1) * dx) + binWidth));</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">         560 :                 }</span></span>
 <span id="L174"><span class="lineNum">     174</span>              : };</span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
-<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">         565 : void EMPairProduction::performInteraction(Candidate *candidate) const {</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">         560 : void EMPairProduction::performInteraction(Candidate *candidate) const {</span></span>
 <span id="L177"><span class="lineNum">     177</span>              :         </span>
 <span id="L178"><span class="lineNum">     178</span>              :         // photon is lost after interacting</span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         565 :         candidate-&gt;setActive(false);</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         560 :         candidate-&gt;setActive(false);</span></span>
 <span id="L180"><span class="lineNum">     180</span>              : </span>
 <span id="L181"><span class="lineNum">     181</span>              :         // check if secondary electron pair needs to be produced</span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">         565 :         if (not haveElectrons)</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">         560 :         if (not haveElectrons)</span></span>
 <span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC tlaBgUNC">           0 :                 return;</span></span>
 <span id="L184"><span class="lineNum">     184</span>              :                 </span>
 <span id="L185"><span class="lineNum">     185</span>              :         // scale particle energy instead of background photon energy</span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC tlaBgGNC">         565 :         double z = candidate-&gt;getRedshift();</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         565 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC tlaBgGNC">         560 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         560 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
 <span id="L188"><span class="lineNum">     188</span>              : </span>
 <span id="L189"><span class="lineNum">     189</span>              :         // check if in tabulated energy range</span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         565 :         if (E &lt; tabE.front() or (E &gt; tabE.back())) {              </span></span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         560 :         if (E &lt; tabE.front() or (E &gt; tabE.back())) {              </span></span>
 <span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING </span></span>
 <span id="L192"><span class="lineNum">     192</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;EMPairProduction: Energy &quot; </span></span>
 <span id="L193"><span class="lineNum">     193</span> <span class="tlaUNC">           0 :                         &lt;&lt; E / eV &lt;&lt; &quot; eV is not in tabulated range&quot;;</span></span>
@@ -257,27 +257,27 @@
 <span id="L195"><span class="lineNum">     195</span>              :         }</span>
 <span id="L196"><span class="lineNum">     196</span>              : </span>
 <span id="L197"><span class="lineNum">     197</span>              :         // sample the value of s</span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC tlaBgGNC">         565 :         Random &amp;random = Random::instance();</span></span>
-<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">         565 :         size_t i = closestIndex(E, tabE);  // find closest tabulation point</span></span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">         565 :         size_t j = random.randBin(tabCDF[i]);</span></span>
-<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">         565 :         if (j &lt;= 0) {</span></span>
-<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          76 :                 KISS_LOG_WARNING </span></span>
-<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">          38 :                         &lt;&lt; &quot;EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical.&quot;</span></span>
-<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">          38 :                         &lt;&lt; &quot; The index j will be set to 1 to avoid division by zero.&quot;;</span></span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC tlaBgGNC">         560 :         Random &amp;random = Random::instance();</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">         560 :         size_t i = closestIndex(E, tabE);  // find closest tabulation point</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">         560 :         size_t j = random.randBin(tabCDF[i]);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">         560 :         if (j &lt;= 0) {</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          82 :                 KISS_LOG_WARNING </span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">          41 :                         &lt;&lt; &quot;EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical.&quot;</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">          41 :                         &lt;&lt; &quot; The index j will be set to 1 to avoid division by zero.&quot;;</span></span>
 <span id="L205"><span class="lineNum">     205</span>              :                 j = 1;  // ensure j is at least 1 to avoid division by</span>
 <span id="L206"><span class="lineNum">     206</span>              :         }</span>
-<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">        1130 :         double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value</span></span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">         565 :         double hi = tabs[j];</span></span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">         565 :         double s = lo + random.rand() * (hi - lo);</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">        1120 :         double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value</span></span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">         560 :         double hi = tabs[j];</span></span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">         560 :         double s = lo + random.rand() * (hi - lo);</span></span>
 <span id="L210"><span class="lineNum">     210</span>              : </span>
 <span id="L211"><span class="lineNum">     211</span>              :         // sample electron / positron energy</span>
-<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">         565 :         static PPSecondariesEnergyDistribution interpolation;</span></span>
-<span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">         565 :         double Ee = interpolation.sample(E, s);</span></span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">         565 :         double Ep = E - Ee;</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">         565 :         double f = Ep / E;</span></span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">         560 :         static PPSecondariesEnergyDistribution interpolation;</span></span>
+<span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">         560 :         double Ee = interpolation.sample(E, s);</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">         560 :         double Ep = E - Ee;</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">         560 :         double f = Ep / E;</span></span>
 <span id="L216"><span class="lineNum">     216</span>              : </span>
 <span id="L217"><span class="lineNum">     217</span>              :         // for some backgrounds Ee=nan due to precision limitations.</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">         565 :         if (not std::isfinite(Ee) || not std::isfinite(Ep)) {</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">         560 :         if (not std::isfinite(Ee) || not std::isfinite(Ep)) {</span></span>
 <span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING</span></span>
 <span id="L220"><span class="lineNum">     220</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;EMPairProduction: Sampled energies are not finite for primary energy &quot;</span></span>
 <span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :                         &lt;&lt; E / eV &lt;&lt; &quot; eV and s = &quot; &lt;&lt; s / (eV * eV) &lt;&lt; &quot; eV^2 (maximum tabulated s = &quot;</span></span>
@@ -286,21 +286,21 @@
 <span id="L224"><span class="lineNum">     224</span>              :         }</span>
 <span id="L225"><span class="lineNum">     225</span>              : </span>
 <span id="L226"><span class="lineNum">     226</span>              :         // sample random position along current step</span>
-<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC tlaBgGNC">         565 :         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC tlaBgGNC">         560 :         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
 <span id="L228"><span class="lineNum">     228</span>              :         // apply sampling</span>
-<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">         565 :         if (random.rand() &lt; pow(f, thinning)) {</span></span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">         565 :                 double w = 1. / pow(f, thinning);</span></span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         565 :                 candidate-&gt;addSecondary(11, Ep / (1 + z), pos, w, interactionTag);</span></span>
+<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">         560 :         if (random.rand() &lt; pow(f, thinning)) {</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">         560 :                 double w = 1. / pow(f, thinning);</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         560 :                 candidate-&gt;addSecondary(11, Ep / (1 + z), pos, w, interactionTag);</span></span>
 <span id="L232"><span class="lineNum">     232</span>              :         }</span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">         565 :         if (random.rand() &lt; pow(1 - f, thinning)){</span></span>
-<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         565 :                 double w = 1. / pow(1 - f, thinning);</span></span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">         565 :                 candidate-&gt;addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);  </span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">         560 :         if (random.rand() &lt; pow(1 - f, thinning)){</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         560 :                 double w = 1. / pow(1 - f, thinning);</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">         560 :                 candidate-&gt;addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);  </span></span>
 <span id="L236"><span class="lineNum">     236</span>              :         }</span>
 <span id="L237"><span class="lineNum">     237</span>              : }</span>
 <span id="L238"><span class="lineNum">     238</span>              : </span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">        6215 : void EMPairProduction::process(Candidate *candidate) const {</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">        2603 : void EMPairProduction::process(Candidate *candidate) const {</span></span>
 <span id="L240"><span class="lineNum">     240</span>              :         // check if photon</span>
-<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">        6215 :         if (candidate-&gt;current.getId() != 22)</span></span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">        2603 :         if (candidate-&gt;current.getId() != 22)</span></span>
 <span id="L242"><span class="lineNum">     242</span>              :                 return;</span>
 <span id="L243"><span class="lineNum">     243</span>              : </span>
 <span id="L244"><span class="lineNum">     244</span>              :         // scale particle energy instead of background photon energy</span>
@@ -322,13 +322,13 @@
 <span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">         651 :                 double randDistance = -log(random.rand()) / rate;</span></span>
 <span id="L261"><span class="lineNum">     261</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
 <span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">         651 :                 if (step &lt; randDistance) { </span></span>
-<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">          87 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">          92 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
 <span id="L264"><span class="lineNum">     264</span>              :                 } else {</span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         564 :                         performInteraction(candidate);</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         564 :                         return;</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">         559 :                         performInteraction(candidate);</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">         559 :                         return;</span></span>
 <span id="L267"><span class="lineNum">     267</span>              :                 }</span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">          87 :                 step -= randDistance; </span></span>
-<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          87 :         } while (step &gt; 0.);</span></span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">          92 :                 step -= randDistance; </span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          92 :         } while (step &gt; 0.);</span></span>
 <span id="L270"><span class="lineNum">     270</span>              : </span>
 <span id="L271"><span class="lineNum">     271</span>              : }</span>
 <span id="L272"><span class="lineNum">     272</span>              : </span>

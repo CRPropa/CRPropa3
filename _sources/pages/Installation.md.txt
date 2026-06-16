@@ -1,258 +1,259 @@
 # Installation
-## Download
 
-Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) (recommended), or, alternatively, download the [current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the repository with
+## Over Conda Package (recommended)
+
+CRPropa can be installed simply over its [conda package](https://anaconda.org/channels/crpropa/packages/crpropa/overview) on every linux or macos system. For the most recent release simply use:
 
 ```sh
-git clone https://github.com/CRPropa/CRPropa3.git
+conda install -c conda-forge crpropa::crpropa
 ```
 
-## Prerequisites
-+ C++ Compiler with C++11 support (gcc, clang and icc are known to work)
-+ Fortran Compiler: to compile SOPHIA
+For the current master you can use:
+
+```sh
+conda install -c conda-forge crpropa::crpropa==master
+```
+
+You will find more information on how to install conda on their [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+
+### Testing CRPropa
+
+You can test your CRPropa installation by just using:
+
+```sh
+testCRPropa
+```
+
+You can find the test logs at the following location:
+
+```sh
+$CONDA_PREFIX/share/crpropa/test/Testing/Temporary/
+```
+
+### Notes
+
+The conda package does not come with all features:
+- No local documentation
+- No [coverage (lcov)](https://github.com/linux-test-project/lcov) report generation for tests
+- No [QUIMBY](https://github.com/CRPropa/Quimby)
+- No SIMD extensions for arm processors (not supported by the architecture)
+
+If you want to include your custom data the location of the different data folders and files is
+
+```sh
+$CONDA_PREFIX/share/crpropa
+```
+
+If you need the location of the swig headers, they can be found at:
+
+```sh
+$CONDA_PREFIX/share/crpropa/swig_interface
+```
+
+the libraries and headers can be found at
+
+```sh
+$CONDA_PREFIX/lib
+$CONDA_PREFIX/include
+```
+
+## Building from Source
+
+### Requirements
+In general you need the following tools to build CRPropa3 from source, below are instructions how to install those on different operating systems.
+
+- C++ Compiler with `C++17` support (`gcc` and `clang` are known to work)
+- Fortran Compiler: to compile SOPHIA (for example `gfortran`)
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
-+ Python, NumPy, and SWIG: to use CRPropa from python (tested for >= Python 3.7 and > SWIG 4.0.2)
-+ FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
-+ Gadget: magnetic fields for large scale structure data
-+ OpenMP: for shared memory parallelization
-+ googleperftools: for performance optimizations regarding shared memory parallelization
-+ muparser: to define the source spectrum through a mathematical formula
+- `Python`, `NumPy`, and `SWIG`: to use CRPropa from python (tested for >= Python 3.10 and > SWIG 4.0.2)
+- `FFTW3`: for turbulent magnetic field grids (FFTW3 with single precision is needed)
+- `googleperftools`: for performance optimizations regarding shared memory parallelization
+- `muparser`: to define the source spectrum through a mathematical formula
+- `doxygen`: to build a `doxygen` documentation
+- `lcov`, `genhtml`: to build coverage report with `cmake --build /path/to/your/buildfolder --target coverage` (requires executed tests over `ctest`)
+- `sphinx`, `sphinx_rtd_theme`, `m2r2`, `nbsphinx`, `lxml_html_clean`, `breathe`, `pandoc`, `exhale`: to build this documentation from the `doxygen` generated documentation with `cmake --build /path/to/your/buildfolder --target doc` and possibly include the coverage report by copying the by `coverage` generated `coverageReport` to `doc/pages/coverageReport` and then do `cmake --build /path/to/your/buildfolder --target coverage`. You might want to install the mentioned packages over `pip` rather than `conda` since there is a known [bug](https://github.com/sphinx-doc/sphinx/issues/12239).
+- `hdf5`: to enable the option to generate binary output
 
-The following packages are provided with the source code and do not need to be installed separately.
-+ SOPHIA: photo-hadronic interactions
-+ googletest: unit-testing
-+ HepPID: particle ID library
-+ kiss: small tool collection
-+ pugixml: for xml steering
-+ eigen: Linear algebra
-+ healpix_base: Equal area pixelization of the sphere
+### CMake Flag Documentation
 
+( name = default : explanation )
+- `BUILD_DOC = OFF` : This enables the building of a `doxygen` version of the documentation, this will look very bare bone. To build a better documentation additionally install `sphinx` and use `cmake --build /path/to/your/buildfolder --target doc` while this options is set to `ON`.
+- `CMAKE_INSTALL_PREFIX = /usr/local` : The installation prefix, a standard variable in every `cmake` build, this specifies where `cmake` should install the project. You should ensure you are actually allowed to write to that location.
+- `DOWNLOAD_DATA = ON` : Whether to download the [data](https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz). You might want to disable this if you already have data downloaded or generated over [CRPrpa3-data](https://github.com/CRPropa/CRPropa3-data/tree/master) and do not want to override the existing data, or downloading and extracting is a problem for you.
+- `EIGEN_PATH = ""` : Here you can specify the path to your own eigen headers. However, CRPropa already provides a `eigen` version.
+- `ENABLE_COVERAGE = OFF` : Whether to enable [coverage (lcov)](https://github.com/linux-test-project/lcov) support. To build the coverage support you can use `cmake --build /path/to/your/buildfolder --target coverage` after doing `ctest`. You will also need `genhtml` and `lcov`
+- `ENABLE_GIT = ON` : This just includes the corresponding CRPropa version correctly in the project
+- `ENABLE_HDF5 = ON` : This enables the generation of HDF5 binary output, this does not replace the normal output.
+- `ENABLE_OPENMP = ON` : Enables OpenMP parallelization, should cause a major speed up for any modern CPU.
+- `ENABLE_PYTHON = ON` : Enables generation of python bindings over `SWIG`. If you want to use CRPropa fully from python you need to enable that option.
+- `ENABLE_QUIMBY = OFF` : Enables [QUIMBY](https://github.com/CRPropa/Quimby) support, however you would need to build that tool yourself. You would want to include the quimby include path to your prefix path, in conda environments this is usually a given.
+- `ENABLE_SWIG_BUILTIN = ON` : This enables us to create python-builtin types rather than proxies which increases performance.
+- `ENABLE_TESTING = ON` : Enables the creation of test executables, the tests can then be done by using `ctest --output-on-failure`.
+- `FAST_WAVES = OFF` : Enables the usage of SIMD extensions in `PlaneWaveTurbulence`, this can increase the performance by a lot if supported by your CPU. To check if you CPU supports this feature use `lscpu | grep -e avx -e fma`.
+- `INSTALL_EIGEN = OFF` : Whether to install the provided eigen or not, this might override any preexisting version.
+- `OMP_SCHEDULE = static,100` : The OMP strategy to use, to see more infos see [OMP Documentation](https://www.openmp.org/spec-html/5.0/openmpse49.html)
+- `SIMD_EXTENSIONS = none` : The SIMD flag to use, allowed are `avx`, `avx+fma`, `native` and `none`. Check with `lscpu | grep -e avx -e fma` what is supported on your CPU, you could also use `native` to use whatever is available.
+- `Python_INSTALL_PACKAGE_DIR` : With this variable you can specify your own install target for the python packages without changing the search path for the required sitelibs like `numpy`.
 
-## Build and Installation Variants
-### Installation in system path
+### Building on Linux
 
-1. CRPropa uses CMAKE to configure the Makefile. From the build directory call
-   ccmake or cmake. See the next section for a list of configuration flags.
-    ```sh
-    mkdir build
-    cd build
-    cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
-    make
-    make install
-    ```
+The following instructions are for a global installation, for a local installation see the conda section.
+First you need to install the requirements with your favorite package manager, in the installation commands is every optional performance package included:
 
-2. A set of unit tests can be run with ```make test```. If the tests are
-   successful continue with ```make install``` to install CRPropa at the
-   specified path, or leave it in the build directory.  Make sure the
-   environment variables are set accordingly: e.g. for an installation under
-   $HOME/.local and using Python 3 set
-    ```sh
-    export PATH=$HOME/.local/bin:$PATH
-    export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
-    export PYTHONPATH=$HOME/.local/lib/python3.9/site-packages:$PYTHONPATH
-    export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
-    ```
+#### Debian/Ubuntu
 
-However, we highly recommend to use a virtualenv setup to install CRPropa!
-
-
-### Installation in python virtualenv
-CRPropa is typically run on clusters where superuser access is not always
-available to the user. Besides that, it is easier to ensure the reproducibility
-of simulations in a user controlled and clean environment. Thus, the user
-space deployment without privileged access to the system would be a preferred
-way. Python provides the most flexible access to CRPropa features, hence,
-Python and SWIG are required. To avoid clashes with the system's Python and its
-libraries, Python virtual environment will be used as well.
-
-This procedure brings a few extra steps compared to the already given plain
-installation from source, but this kind of CRPropa deployment will be a
-worthwhile effort afterwards.
-
-1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example,
-    ```sh
-    export CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"
-    ```
-    and make the directory
-    ```sh
-    mkdir -p $CRPROPA_DIR
-    ```
-
-2. Initialize the Python virtual environment with the virtualenv command,
-    ```sh
-    virtualenv $CRPROPA_DIR
-    ```
-    if there is virtualenv available on the system.
-		If the virtualenv is not installed on a system, try to use your operating
-		system software repository to install it (usually the package is called
-		`virtualenv`, `python-virtualenv`, `python3-virtualenv` or
-		`python2-virtualenv`). There is also an option to manually download it,
-		un-zip it, and run it:
-    ```sh
-    wget https://github.com/pypa/virtualenv/archive/develop.zip
-    unzip develop.zip
-    python virtualenv-develop/virtualenv.py $CRPROPA_DIR
-    ```
-
-    Finally, activate the newly created virtual environment:
-    ```sh
-    source $CRPROPA_DIR"/bin/activate"
-    ```
-
-3. Check the dependencies and install at least mandatory ones (see [prerequisites](#prerequisites)). This can be done with package managers (see the [package list](#notes-for-specific-operating-systems) in different operating systems). If packages are installed from source, during the compilation the installation prefix should be specified:
-    ```sh
-    ./configure --prefix=$CRPROPA_DIR
-    make
-    make install
-    ```
-
-    To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
-
-4. Compile and install CRPropa (please note specific [instructions for different operating systems](#notes-for-specific-operating-systems)).
-    ```sh
-    cd $CRPROPA_DIR
-    git clone https://github.com/CRPropa/CRPropa3.git
-    cd CRPropa3
-    mkdir build
-    cd build
-    CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
-    make
-    make install
-    ```
-
-5. A set of unit tests can be run with ```make test```. 
-
-6. (optional) Check the installation.
-    ```python
-    python
-    import crpropa
-    ```
-    The last command must execute without any output. To check if dependencies are installed and linked correctly use the following Python command, e.g. to test the availability of FFTW3:
-    ```python
-    'initTurbulence' in dir(crpropa)
-    ```
-
-There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
-
-
-### CMake flags
-When using cmake, the following options can be set by adding flags to the cmake command, e.g.
-```
-cmake -DENABLE_PYTHON=ON ..
+```sh
+sudo apt update
+sudo apt install cmake cmake-curses-gui ninja-build git gcc g++ gfortran python3-dev python3-numpy-dev python-dev-is-python3 swig libhdf5-dev libmuparser-dev libfftw3-dev libgoogle-perftools-dev
 ```
 
-+ Set the install path ```-DCMAKE_INSTALL_PREFIX=/my/install/path```
-+ Enable Galactic magnetic lens ```-DENABLE_GALACTICMAGNETICLENS=ON```
-+ Enable FFTW3 (turbulent magnetic fields) ```-DENABLE_FFTW3F=ON```
-+ Enable OpenMP (multi-core parallel computing) ```-DENABLE_OPENMP=ON```
-+ Enable Python (Python interface with SWIG) ```-DENABLE_PYTHON=ON```
-+ Enable HDF5 (HDF5 output) ```-DENABLE_HDF5=ON```
-+ Enable [Quimby](https://git.rwth-aachen.de/3pia/forge/quimby) (multiresolution MHD fields) ```-DENABLE_QUIMBY=ON```
-+ Enable the data file download (can be set to "off" if it is manually provided) ```-DDOWNLOAD_DATA=ON```
-+ Enable unit-tests ```-DENABLE_TESTING=ON```
-+ Enable Coverage (code coverage tool) ```-DENABLE_COVERAGE=ON```
-+ Enable Git ```-DENABLE_GIT=ON```
-+ Optimized parallelization usage for simulations with few particles ```-DOMP_SCHEDULE:STRING=dynamic``` (see [discussion](https://github.com/CRPropa/CRPropa3/issues/117))
-+ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```
-+ Debugging symbols included: ```-DCMAKE_BUILD_TYPE:STRING=Debug```
+#### Fedora
 
-  Generally, for compilers CMake recognise the following env variables: CC, CXX, FC. For example:
-  ```
-  export FC=/usr/bin/gfortran
-  ```
-  while CC and CXX are used C and C++ compilers, respectively.
-
-+ Additional flags for Intel compiler
-  ```
-  -DCMAKE_SHARED_LINKER_FLAGS="-lifcore"
-  -DCMAKE_Fortran_COMPILER=ifort
-  ```
-
-+ The PlaneWaveTurbulence computation can be improved using the FAST_WAVES flag (see [documentation](https://crpropa.github.io/CRPropa3/buildingblocks/MagneticFields.html#classcrpropa_1_1PlaneWaveTurbulence) for details):
-  1. Enable FAST_WAVES flag ```-DFAST_WAVES=ON```
-  2. Enable SIMD_EXTENSIONS ```-DSIMD_EXTENSIONS:STRING=native``` (the compiler will automatically detect support for your CPU and run the build with the appropriate settings).
-
-  Note: If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won’t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again. If the build runs through without errors, the code is built with the optimization.
-
-+ Quite often there are multiple Python versions installed in a system. This is likely the cause of many (if not most) of the installation problems related to Python. To prevent conflicts among them, one can explicitly refer to the Python version to be used. Example:
-  ```
-  -DPython_EXECUTABLE=/usr/bin/python
-  -DPython_INCLUDE_DIRS=<path_to_folder_containing_Python.h>
-  -DPython_LIBRARY=<path_to_file>/libpython<version_tag>.so
-  ```
-Note that in systems running OSX, the extension .so should be replaced by .dylib. 
-In addition, The path where the CRPropa python module is installed can be specified with the flag:
+```sh
+sudo dnf check-update
+sudo dnf install cmake ccmake ninja git gcc g++ gfortran python3-devel python3-numpy swig hdf5-devel muParser-devel fftw3-devel gperftools
 ```
--DPython_INSTALL_PACKAGE_DIR=<path_to_folder>
+
+#### Arch
+
+```sh
+sudo pacman -Sy
+sudo pacman -S cmake ninja git gcc gcc-fortran python python-numpy swig hdf5 muparser fftw gperftools pkgconfig
 ```
-For further details, see [FindPython.cmake](https://cmake.org/cmake/help/latest/module/FindPython.html#module:FindPython).
 
+#### Conda
 
+To see how to install conda please follow their [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-## Notes for Specific Operating Systems
+```sh
+conda install -c conda-forge compilers git cmake ninja swig zlib gperftools fftw hdf5 muparser eigen python numpy pkgconfig
+```
 
-### Debian / Ubuntu
-In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
-  ```sh
-  sudo apt install python-virtualenv build-essential git cmake swig \
-  gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
-  ```
+You should also set `CMAKE_INSTALL_PREFIX=$CONDA_PREFIX` during the configure step.
 
-### Fedora/CentOS/RHEL
-For Fedora/CentOS/RHEL the required packages to build CRPropa:
-   ```sh
-   yum install git cmake gcc gcc-gfortran gcc-c++ make swig zlib-devel \
-   muParser-devel hdf5-devel fftw-devel python-devel
-  ```
-In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from source.
+#### Virtual Environment
 
-### Mac OS X
-For a clean OS X (Sonoma 14+) installation, if you use Homebrew, the main dependencies can be installed as follows:
-   ```sh
-   brew install hdf5 fftw cfitsio muparser libomp numpy swig
-  ```
-Similarly, if you use MacPorts instead of Homebrew, download the corresponding packages:
-   ```sh
-   sudo port install hdf5 fftw cfitsio muparser libomp numpy swig
-  ```
-Note that if you are using a Mac with Arm64 architecture (M1, M2, or M3 processors), `SIMD_EXTENSIONS` might not run straight away.
+If you want to avoid `conda` but still want to use additional python packages for example for the documentation,
+you could also create a python virtual environment and install CRPropa over that.
+To do that you need to do some additional steps, assuming you do not have set up a virtual environment yet:
 
+```sh
+sudo apt install python3-venv
+python -m venv /path/to/your/venv
+source /path/to/your/venv/bin/activate
+pip install numpy
+```
 
-Some combinations of versions of the Apple's clang compiler and python might lead to installation errors.
-In these cases, the user might want to consider the workaround below (tested on version 12.5.1 with M1 pro where command line developer tools are installed).
+After these steps you can then just continue with the [building](#Building) step, the python paths pointing to the virtual environment should be prioritized.
 
-Install Python3, and llvm from Homebrew, and specify the following paths to the Python and llvm directories in the Homebrew folder after step 3 of the above installation, e.g. (please use your exact versions):
-  ```sh
-   export LLVM_DIR="/opt/homebrew/Cellar/llvm/15.0.7_1"
-   PYTHON_VERSION=3.10
-   LLVM_VERSION=15.0.7
-   PYTHON_DIR=/opt/homebrew/Cellar/python@3.10/3.10.9/Frameworks/Python.framework/Versions/3.10
-  ```
-and replace the command in step 4 of the installation routine
-  ```sh
-  CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
-  ```
-with
-  ```sh
-   cmake .. \
-   -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
-   -DPython_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
-   -DPython_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
-   -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
-   -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
-   -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
-   -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
-   -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
-   -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib \
-   -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" \
-   -DOpenMP_C_LIB_NAMES=libomp \
-   -DOpenMP_CXX_LIB_NAMES=libomp \
-   -DNO_TCMALLOC=TRUE
-  ```
-Check that all paths are set correctly with the following command in the build folder
-  ```sh
-   ccmake .. 
-  ```
-and configure and generate again after changes.
+In this example it is assumed you are on ubuntu for the installation of `python3-venv`, on fedora the corresponding package is called `python-venv` and on arch it is already included in the `python` package.
 
+#### Building
+
+To then actually build the project do (independent of distribution):
+
+```sh
+# clone the repository wherever you want:
+git clone https://github.com/CRPropa/CRPropa3.git
+
+# build the project, you can change any of the above mentioned cmake flags with -D
+# if you are not able to install ninja or problems arise use -G "Unix Makefiles"
+cd CRPropa3
+mkdir build && cd build
+cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/path/to/your/desired/install/location
+cmake --build . -j
+
+# optionally do the tests to check if everything was build correctly
+ctest --output-on-failure --repeat until-pass:3
+
+# finally install; sudo might be needed
+cmake --install .
+```
+
+### Building on MacOS
+
+#### Brew
+
+For a clean OS X (Sonoma 14+) installation, if you use [Homebrew](https://brew.sh/), the main dependencies can be installed as follows:
+
+```sh
+brew install cmake ninja gfortran libomp python swig numpy hdf5 fftw muparser gperftools
+```
+
+#### MacPorts
+
+Similarly to Brew, if you use [MacPorts](https://www.macports.org/) instead of Homebrew, download the corresponding packages:
+
+```sh
+sudo port install cmake ninja gcc15 libomp python swig pkgconfig py-numpy hdf5 fftw-3 muparser gperftools
+sudo port select --set gcc mp-gcc15
+```
+
+With MacPorts you might struggle to find the `python` and `numpy` libraries and headers, if so just follow [Notes](#notes-1).
+
+#### Conda
+
+In a conda environment you can build CRPropa3 [exactly like on a linux machine](#conda).
+
+#### Building
+
+With the now installed requirements we can now start building CRPropa. `libomp` is usually not found, so we need to specify the location and corresponding flags here:
+
+```sh
+# clone the repository wherever you want:
+git clone https://github.com/CRPropa/CRPropa3.git
+
+# build the project, you can change any of the above mentioned cmake flags with -D
+# if you are not able to install ninja or problems arise use -G "Unix Makefiles"
+cd CRPropa3
+mkdir build && cd build
+cmake .. -G Ninja \
+  -DCMAKE_INSTALL_PREFIX="/path/to/your/installation" \
+  -DOpenMP_CXX_FLAGS="-I/usr/local/opt/libomp/include" \
+  -DOpenMP_C_FLAGS="-I/usr/local/opt/libomp/include" \
+  -DOpenMP_libomp_LIBRARY=/usr/local/opt/libomp/lib/libomp.dylib \
+  -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/opt/libomp/lib -lomp -Wl,-rpath,/usr/local/opt/libomp/lib" \
+  -DOpenMP_C_LIB_NAMES=libomp \
+  -DOpenMP_CXX_LIB_NAMES=libomp
+cmake --build . -j
+
+# optionally do the tests to check if everything was build correctly
+ctest --output-on-failure --repeat until-pass:3
+
+# finally install; sudo might be needed
+cmake --install .
+```
+
+### Building on Windows
+
+Currently, we do not officially support Windows, it is advised to install UbuntuWSL and install it there.
+
+## Notes
+
+- Sometimes CMake has difficulties finding the correct `python` and `numpy` header and executables, to help CMake finding those define the following environment variables before using `cmake`:
+```sh
+export PYTHON_EXECUTABLE=$(which python)
+export PYTHON_INCLUDE_DIR=$(${PYTHON_EXECUTABLE} -c "import sysconfig; print(sysconfig.get_paths()['include'])")
+export NUMPY_INCLUDE_DIR=$(${PYTHON_EXECUTABLE} -c "import numpy; print(numpy.get_include())")
+export PYTHON_INSTALL_PACKAGE_DIR=$(${PYTHON_EXECUTABLE} -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")
+```
+And hand them over to `cmake` as CMake-Variables so `find_python` can recognize them:
+```sh
+cmake .. \
+  -DPython_EXECUTABLE=${PYTHON_EXECUTABLE} \
+  -DPython_INCLUDE_DIRS=${PYTHON_INCLUDE_DIR} \
+  -DPython_NumPy_INCLUDE_DIRS=${NUMPY_INCLUDE_DIR} \
+  -DPython_INSTALL_PACKAGE_DIR=${PYTHON_INSTALL_PACKAGE_DIR}
+```
+- To do the coverage report first install `lcov` and `genhtml`, then do the tests with `ctest` and built the coverage target with `cmake --build /path/to/your/buildfolder --target coverage`.
+- It is generally advised to use `ninja` instead of the default `make`, use it with the `-G Ninja` flag for `cmake`, you can install it over `pip`, `conda` or your package manager
+- You might want to generate some python stubs to get code recommendation from tools like `pylance`, for that install `pybind11-stubgen` over `pip`, `conda` or your package manager and then do:
+```sh
+pybind11-stubgen -o $(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])") crpropa
+```
+
+# Known Issues
+
+- The command `testCRPropa` is based on `ctest` which is provided by `cmake` which is a runtime requirement for CRPropa for this reason. However, since we do not require a specific version, it is possible, that the provided `ctest` is too modern for your machine and runs into issues even though `crpropa` might still be runnable.
+The current workaround would be either to install an older `ctest` version or to run the tests manually which are located in `$CONDA_PREFIX/share/crpropa/test`.

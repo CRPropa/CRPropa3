@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-16 08:38:19</td>
+            <td class="headerValue">2026-06-16 15:25:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">38.3&nbsp;%</td>
@@ -111,7 +111,7 @@
 <span id="L49"><span class="lineNum">      49</span>              :         }</span>
 <span id="L50"><span class="lineNum">      50</span>              : </span>
 <span id="L51"><span class="lineNum">      51</span>              :         // avoid creation of default non-conversion constructor</span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20389723 :         Vector3(const Vector3 &amp;v) : data{v.data[0], v.data[1], v.data[2]} {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20372829 :         Vector3(const Vector3 &amp;v) : data{v.data[0], v.data[1], v.data[2]} {</span></span>
 <span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC tlaBgUNC">           0 :         }</span></span>
 <span id="L54"><span class="lineNum">      54</span>              : </span>
 <span id="L55"><span class="lineNum">      55</span>              :         // Provides implicit conversion</span>
@@ -124,7 +124,7 @@
 <span id="L62"><span class="lineNum">      62</span>              : </span>
 <span id="L63"><span class="lineNum">      63</span>              :         ~Vector3()</span>
 <span id="L64"><span class="lineNum">      64</span>              :         {</span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC tlaBgGNC">    26230256 :         }</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC tlaBgGNC">    26193246 :         }</span></span>
 <span id="L66"><span class="lineNum">      66</span>              : </span>
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC tlaBgUNC">           0 :         explicit Vector3(const double *v) {</span></span>
 <span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :                 data[0] = v[0];</span></span>
@@ -138,10 +138,10 @@
 <span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :                 data[2] = v[2];</span></span>
 <span id="L77"><span class="lineNum">      77</span>              :         }</span>
 <span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC tlaBgGNC">    12620269 :         explicit Vector3(const T &amp;X, const T &amp;Y, const T &amp;Z) : data{X, Y, Z} {</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC tlaBgGNC">    12603375 :         explicit Vector3(const T &amp;X, const T &amp;Y, const T &amp;Z) : data{X, Y, Z} {</span></span>
 <span id="L80"><span class="lineNum">      80</span>              :         }</span>
 <span id="L81"><span class="lineNum">      81</span>              : </span>
-<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">    18523348 :         explicit Vector3(T t) : data{t, t, t} {</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">    18485628 :         explicit Vector3(T t) : data{t, t, t} {</span></span>
 <span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 :         }</span></span>
 <span id="L84"><span class="lineNum">      84</span>              : </span>
 <span id="L85"><span class="lineNum">      85</span>              :         void setX(const T X) {</span>
@@ -186,7 +186,7 @@
 <span id="L124"><span class="lineNum">     124</span>              : </span>
 <span id="L125"><span class="lineNum">     125</span>              :         // magnitude (2-norm) of the vector</span>
 <span id="L126"><span class="lineNum">     126</span>              :         T getR() const {</span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">    28450750 :                 return std::sqrt(x * x + y * y + z * z);</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">    28397942 :                 return std::sqrt(x * x + y * y + z * z);</span></span>
 <span id="L128"><span class="lineNum">     128</span>              :         }</span>
 <span id="L129"><span class="lineNum">     129</span>              : </span>
 <span id="L130"><span class="lineNum">     130</span>              :         // square of magnitude of the vector</span>
@@ -344,7 +344,7 @@
 <span id="L282"><span class="lineNum">     282</span>              :         }</span>
 <span id="L283"><span class="lineNum">     283</span>              : </span>
 <span id="L284"><span class="lineNum">     284</span>              :         Vector3&lt;T&gt; operator +(const Vector3&lt;T&gt; &amp;v) const {</span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">     4337645 :                 return Vector3(x + v.x, y + v.y, z + v.z);</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">     4329037 :                 return Vector3(x + v.x, y + v.y, z + v.z);</span></span>
 <span id="L286"><span class="lineNum">     286</span>              :         }</span>
 <span id="L287"><span class="lineNum">     287</span>              : </span>
 <span id="L288"><span class="lineNum">     288</span>              :         Vector3&lt;T&gt; operator +(const T &amp;f) const {</span>
@@ -352,7 +352,7 @@
 <span id="L290"><span class="lineNum">     290</span>              :         }</span>
 <span id="L291"><span class="lineNum">     291</span>              : </span>
 <span id="L292"><span class="lineNum">     292</span>              :         Vector3&lt;T&gt; operator -(const Vector3&lt;T&gt; &amp;v) const {</span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC tlaBgGNC">    10869988 :                 return Vector3(x - v.x, y - v.y, z - v.z);</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC tlaBgGNC">    10848098 :                 return Vector3(x - v.x, y - v.y, z - v.z);</span></span>
 <span id="L294"><span class="lineNum">     294</span>              :         }</span>
 <span id="L295"><span class="lineNum">     295</span>              : </span>
 <span id="L296"><span class="lineNum">     296</span>              :         Vector3&lt;T&gt; operator -(const T &amp;f) const {</span>
@@ -365,7 +365,7 @@
 <span id="L303"><span class="lineNum">     303</span>              :         }</span>
 <span id="L304"><span class="lineNum">     304</span>              : </span>
 <span id="L305"><span class="lineNum">     305</span>              :         Vector3&lt;T&gt; operator *(T v) const {</span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">     1186059 :                 return Vector3(data[0] * v, data[1] * v, data[2] * v);</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">     1184253 :                 return Vector3(data[0] * v, data[1] * v, data[2] * v);</span></span>
 <span id="L307"><span class="lineNum">     307</span>              :         }</span>
 <span id="L308"><span class="lineNum">     308</span>              : </span>
 <span id="L309"><span class="lineNum">     309</span>              :         // element-wise division</span>
@@ -460,9 +460,9 @@
 <span id="L398"><span class="lineNum">     398</span>              :         }</span>
 <span id="L399"><span class="lineNum">     399</span>              : </span>
 <span id="L400"><span class="lineNum">     400</span>              :         Vector3&lt;T&gt; &amp;operator =(const Vector3&lt;T&gt; &amp;v) {</span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">    64167689 :                 data[0] = v.x;</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">    64167701 :                 data[1] = v.y;</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">    63682076 :                 data[2] = v.z;</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">    64058482 :                 data[0] = v.x;</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">    64058494 :                 data[1] = v.y;</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">    63572869 :                 data[2] = v.z;</span></span>
 <span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC tlaBgUNC">           0 :                 return *this;</span></span>
 <span id="L405"><span class="lineNum">     405</span>              :         }</span>
 <span id="L406"><span class="lineNum">     406</span>              : </span>
@@ -576,7 +576,7 @@
 <span id="L514"><span class="lineNum">     514</span>              : </span>
 <span id="L515"><span class="lineNum">     515</span>              : template&lt;typename T&gt;</span>
 <span id="L516"><span class="lineNum">     516</span>              : inline Vector3&lt;T&gt; operator *(T f, const Vector3&lt;T&gt; &amp;v) {</span>
-<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3632636 :         return Vector3&lt;T&gt;(v.x * f, v.y * f, v.z * f);</span></span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3625834 :         return Vector3&lt;T&gt;(v.x * f, v.y * f, v.z * f);</span></span>
 <span id="L518"><span class="lineNum">     518</span>              : }</span>
 <span id="L519"><span class="lineNum">     519</span>              : </span>
 <span id="L520"><span class="lineNum">     520</span>              : typedef Vector3&lt;double&gt; Vector3d;</span>

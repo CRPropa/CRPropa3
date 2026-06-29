@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-29 06:48:07</td>
+            <td class="headerValue">2026-06-29 13:47:51</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">37.5&nbsp;%</td>
@@ -105,7 +105,7 @@
 <span id="L43"><span class="lineNum">      43</span>              : #endif</span>
 <span id="L44"><span class="lineNum">      44</span>              : }</span>
 <span id="L45"><span class="lineNum">      45</span>              : </span>
-<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC tlaBgGNC">         184 : bool is_directory(const std::string &amp;path) {</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC tlaBgGNC">         187 : bool is_directory(const std::string &amp;path) {</span></span>
 <span id="L47"><span class="lineNum">      47</span>              : #ifdef WIN32</span>
 <span id="L48"><span class="lineNum">      48</span>              :         struct _stat buf;</span>
 <span id="L49"><span class="lineNum">      49</span>              :         int result = _stat(path.c_str(), &amp;buf);</span>
@@ -115,11 +115,11 @@
 <span id="L53"><span class="lineNum">      53</span>              :                 return false;</span>
 <span id="L54"><span class="lineNum">      54</span>              : #else</span>
 <span id="L55"><span class="lineNum">      55</span>              :         struct stat buf;</span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">         184 :         int result = stat(path.c_str(), &amp;buf);</span></span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">         184 :         if (result == 0 &amp;&amp; S_ISDIR(buf.st_mode))</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">         187 :         int result = stat(path.c_str(), &amp;buf);</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">         187 :         if (result == 0 &amp;&amp; S_ISDIR(buf.st_mode))</span></span>
 <span id="L58"><span class="lineNum">      58</span>              :         return true;</span>
 <span id="L59"><span class="lineNum">      59</span>              :         else</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">         171 :         return false;</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">         173 :         return false;</span></span>
 <span id="L61"><span class="lineNum">      61</span>              : #endif</span>
 <span id="L62"><span class="lineNum">      62</span>              : }</span>
 <span id="L63"><span class="lineNum">      63</span>              : </span>
@@ -178,12 +178,12 @@
 <span id="L116"><span class="lineNum">     116</span> <span class="tlaUNC">           0 :         return is_directory(dir);</span></span>
 <span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L118"><span class="lineNum">     118</span>              : </span>
-<span id="L119"><span class="lineNum">     119</span> <span class="tlaGNC tlaBgGNC">         554 : std::string concat_path(const std::string &amp;a, const std::string &amp;b) {</span></span>
-<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">         554 :         char last = *a.rbegin();</span></span>
-<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">         554 :         if (last == '\\' || last == '/')</span></span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaGNC tlaBgGNC">         555 : std::string concat_path(const std::string &amp;a, const std::string &amp;b) {</span></span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">         555 :         char last = *a.rbegin();</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">         555 :         if (last == '\\' || last == '/')</span></span>
 <span id="L122"><span class="lineNum">     122</span>              :                 return a + b;</span>
 <span id="L123"><span class="lineNum">     123</span>              :         else</span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">        1108 :                 return a + path_seperator + b;</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">        1110 :                 return a + path_seperator + b;</span></span>
 <span id="L125"><span class="lineNum">     125</span>              : </span>
 <span id="L126"><span class="lineNum">     126</span>              : }</span>
 <span id="L127"><span class="lineNum">     127</span>              : </span>
@@ -222,7 +222,7 @@
 <span id="L160"><span class="lineNum">     160</span>              : }</span>
 <span id="L161"><span class="lineNum">     161</span>              : </span>
 <span id="L162"><span class="lineNum">     162</span>              : // see https://stackoverflow.com/a/60250581</span>
-<span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC tlaBgGNC">          13 : std::string executable_path() {</span></span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC tlaBgGNC">          14 : std::string executable_path() {</span></span>
 <span id="L164"><span class="lineNum">     164</span>              :         #ifdef __APPLE__</span>
 <span id="L165"><span class="lineNum">     165</span>              :                 char rawPathName[PATH_MAX];</span>
 <span id="L166"><span class="lineNum">     166</span>              :         char realPathName[PATH_MAX];</span>
@@ -236,18 +236,18 @@
 <span id="L174"><span class="lineNum">     174</span>              :         char buf[PATH_MAX];</span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
 <span id="L176"><span class="lineNum">     176</span>              :         #ifdef __linux__</span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">          13 :                 size_t len = readlink(&quot;/proc/self/exe&quot;, buf, sizeof(buf)-1);</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">          14 :                 size_t len = readlink(&quot;/proc/self/exe&quot;, buf, sizeof(buf)-1);</span></span>
 <span id="L178"><span class="lineNum">     178</span>              :         #elif defined(_WIN32)</span>
 <span id="L179"><span class="lineNum">     179</span>              :                 size_t len = ::GetModuleFileName(NULL, buf, sizeof(buf)-1 );</span>
 <span id="L180"><span class="lineNum">     180</span>              :         #endif  // __linux__</span>
 <span id="L181"><span class="lineNum">     181</span>              : </span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">         192 :         for (size_t i = 1; i &lt; len; i++) {</span></span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         189 :                 if (buf[len - 1] == path_seperator)</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">         202 :         for (size_t i = 1; i &lt; len; i++) {</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         198 :                 if (buf[len - 1] == path_seperator)</span></span>
 <span id="L184"><span class="lineNum">     184</span>              :                         break;</span>
 <span id="L185"><span class="lineNum">     185</span>              :                 else</span>
 <span id="L186"><span class="lineNum">     186</span>              :                         len --;</span>
 <span id="L187"><span class="lineNum">     187</span>              :         }</span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          13 :         return std::string(buf, len);</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          14 :         return std::string(buf, len);</span></span>
 <span id="L189"><span class="lineNum">     189</span>              : </span>
 <span id="L190"><span class="lineNum">     190</span>              :         #endif // __APPLE__</span>
 <span id="L191"><span class="lineNum">     191</span>              : }</span>

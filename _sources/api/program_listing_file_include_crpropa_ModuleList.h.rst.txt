@@ -36,40 +36,40 @@ Program Listing for File ModuleList.h
    
            ModuleList();
            virtual ~ModuleList();
-           void setShowProgress(bool show = true); 
+           void setShowProgress(bool show = true);
    
            void add(Module* module);
            void remove(std::size_t i);
            std::size_t size() const;
            ref_ptr<Module> operator[](const std::size_t i);
    
-           void process(Candidate* candidate) const; 
-           void process(ref_ptr<Candidate> candidate) const; 
+           void process(Candidate* candidate) const;
+           void process(ref_ptr<Candidate> candidate) const;
    
-           void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = false); 
-           void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = false); 
-           void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = false); 
-           void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = false); 
+           void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = true);
+           void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = true);
+           void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = true);
+           void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = true);
    
            std::string getDescription() const;
            void showModules() const;
            
+           /* iterator goodies */
            typedef module_list_t::iterator iterator;
            typedef module_list_t::const_iterator const_iterator;
-           iterator begin();
-           const_iterator begin() const;
-           iterator end();
-           const_iterator end() const;
-   
+           iterator begin(); 
+           const_iterator begin() const; 
+           iterator end(); 
+           const_iterator end() const; 
            void setInterruptAction(Output* action);
            void dumpCandidate(Candidate* cand) const;
    
    private:
-           module_list_t modules;
-           bool showProgress;
-           Output* interruptAction;
-           bool haveInterruptAction = false;
-           std::vector<int> notFinished; // list with not finished numbers of candidates
+           module_list_t modules; 
+           bool showProgress; 
+           Output* interruptAction; 
+           bool haveInterruptAction = false; 
+           std::vector<int> notFinished; 
    };
    
    class ModuleListRunner: public Module {

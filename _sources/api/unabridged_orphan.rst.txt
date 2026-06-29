@@ -405,6 +405,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_InteractionRates.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_InteractionRates.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_magneticField_JF12Field.cpp.rst
 
 .. toctree::

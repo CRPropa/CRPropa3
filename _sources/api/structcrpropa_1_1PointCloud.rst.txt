@@ -1,0 +1,17 @@
+.. _exhale_struct_structcrpropa_1_1PointCloud:
+
+Struct PointCloud
+=================
+
+- Defined in :ref:`file_include_crpropa_InteractionRates.h`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::PointCloud
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

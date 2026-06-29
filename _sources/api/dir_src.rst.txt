@@ -28,6 +28,7 @@ Files
 - :ref:`file_src_EmissionMap.cpp`
 - :ref:`file_src_Geometry.cpp`
 - :ref:`file_src_GridTools.cpp`
+- :ref:`file_src_InteractionRates.cpp`
 - :ref:`file_src_Module.cpp`
 - :ref:`file_src_ParticleID.cpp`
 - :ref:`file_src_ParticleMass.cpp`

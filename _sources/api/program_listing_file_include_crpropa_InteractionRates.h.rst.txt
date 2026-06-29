@@ -1,0 +1,189 @@
+
+.. _program_listing_file_include_crpropa_InteractionRates.h:
+
+Program Listing for File InteractionRates.h
+===========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_InteractionRates.h>` (``include/crpropa/InteractionRates.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_INTERACTIONRATES_H
+   #define CRPROPA_INTERACTIONRATES_H
+   
+   #include "crpropa/Common.h"
+   #include "crpropa/Referenced.h"
+   #include "crpropa/Vector3.h"
+   #include "crpropa/Geometry.h"
+   
+   #include <nanoflann.hpp>
+   
+   #include <vector>
+   #include <string>
+   #include <unordered_map>
+   
+   namespace crpropa {
+   
+   struct PointCloud {
+           std::vector<Vector3d> points;
+           std::vector<int> ids;
+   
+           inline size_t kdtree_get_point_count() const { return points.size(); }
+   
+           inline double kdtree_get_pt(const size_t idx, const size_t dim) const {
+                   if (dim == 0) return points[idx].x;
+                   if (dim == 1) return points[idx].y;
+                   return points[idx].z;
+           }
+   
+           // optional bounding-box computation (required by nanoflann)
+           template <class BBOX>
+           bool kdtree_get_bbox(BBOX& /*bb*/) const {
+                   return false;  // no bounding box optimization
+           }
+   
+   };
+   
+   using KDTree = nanoflann::KDTreeSingleIndexAdaptor<
+           nanoflann::L2_Simple_Adaptor<double, PointCloud>,
+           PointCloud,
+           3
+   >;
+   
+   class InteractionRates: public Referenced {
+   public:
+           virtual double getProcessRate(const double E, const Vector3d &position) const = 0;
+           virtual void loadPerformInteractionTabs(
+                   const Vector3d &position, 
+                   std::vector<double> &tabE, 
+                   std::vector<double> &tabs, 
+                   std::vector<std::vector<double>> &tabCDF
+           ) const = 0;
+           
+           std::string getRatesName() const {
+                   return this->ratesName;
+           }
+           
+           bool hasPositionDependence() const {
+                   return this->isPositionDependent;
+           }
+           
+           void setRatesName(std::string ratesName) {
+                   this->ratesName = ratesName;
+           }
+   
+           virtual void initRate(std::string path) = 0;
+           virtual void initCumulativeRate(std::string path) = 0;
+   
+           protected: 
+   
+           std::string ratesName = "AbstractInteractionRates";
+           bool isPositionDependent = false; 
+   
+   };
+   
+   class InteractionRatesHomogeneous: public InteractionRates {
+           public:
+           InteractionRatesHomogeneous(std::string RateFile = "", std::string CumulativeRateFile = "");
+           
+           inline std::vector<double> getTabulatedEnergy() const {return tabEnergy;}
+           inline std::vector<double> getTabulatedRate() const {return tabRate;}
+           inline std::vector<double> getTabulatedE() const {return tabE;}
+           inline std::vector<double> getTabulateds() const {return tabs;}
+           inline std::vector<std::vector<double>> getTabulatedCDF() const {return tabCDF;}
+           
+           double getProcessRate(const double E, const Vector3d &position = Vector3d(0,0,0)) const;
+           void loadPerformInteractionTabs(
+                   const Vector3d &position, 
+                   std::vector<double> &tabE, 
+                   std::vector<double> &tabs, 
+                   std::vector<std::vector<double>> &tabCDF
+           ) const;
+           
+           void setTabulatedEnergy (std::vector<double>& tabEnergy);
+           void setTabulatedRate (std::vector<double>& tabRate);
+           void setTabulatedE (std::vector<double>& tabE);
+           void setTabulateds (std::vector<double>& tabs);
+           void setTabulatedCDF (std::vector<std::vector<double>>& tabCDF);
+   
+           void initRate(std::string filename);
+           void initCumulativeRate(std::string filename);
+           
+           protected:
+           
+           // tabulated interaction rates 1/lambda(E)
+           std::vector<double> tabEnergy; 
+           std::vector<double> tabRate; 
+           
+           // tabulated CDF(s_kin, E) = cumulative differential interaction rate
+           std::vector<double> tabE; 
+           std::vector<double> tabs; 
+           std::vector<std::vector<double>> tabCDF; 
+           
+   };
+   
+   class InteractionRatesPositionDependent: public InteractionRates {
+           private:
+           int findClosestGridPoint(const Vector3d &position) const;
+   
+           public:
+           InteractionRatesPositionDependent(
+                   std::string RateFilePath = "", 
+                   std::string CumulativeRateFilePath = "", 
+                   ref_ptr<Surface> surface = NULL
+           );
+           
+           inline std::vector<double> getTabulatedEnergy() const {return tabEnergy;}
+           inline std::vector<std::vector<double>> getTabulatedRate() const {return tabRate;}
+           inline std::vector<double> getTabulatedE() const {return tabE;}
+           inline std::vector<std::vector<double>> getTabulateds() const {return tabs;}
+           inline std::vector<std::vector<std::vector<double>>> getTabulatedCDF() const {return tabCDF;}
+           inline std::unordered_map<int, Vector3d> getPhotonDict() const {return photonDict;}
+           std::vector<double> getClosestRate(const Vector3d &position) const;
+           std::vector<double> getClosests(const Vector3d &position) const;
+           std::vector<std::vector<double>> getClosestCDF(const Vector3d &position) const;
+           
+           double getProcessRate(const double E, const Vector3d &position) const;
+           void loadPerformInteractionTabs(
+                   const Vector3d &position, 
+                   std::vector<double> &tabE, 
+                   std::vector<double> &tabs, 
+                   std::vector<std::vector<double>> &tabCDF
+           ) const;
+           
+           void setTabulatedEnergy (std::vector<double>& tabEnergy);
+           void setTabulatedRate (std::vector<std::vector<double>>& tabRate);
+           void setTabulatedE (std::vector<double>& tabE);
+           void setTabulateds (std::vector<std::vector<double>>& tabs);
+           void setTabulatedCDF (std::vector<std::vector<std::vector<double>>>& tabCDF);
+           void setPhotonDict (std::unordered_map<int, Vector3d>& photonDict);
+   
+           void setSurface(ref_ptr<Surface> surface);
+           inline ref_ptr<Surface> getSurface() const {return surface;}
+   
+           void initRate(std::string filepath);
+           void initCumulativeRate(std::string filepath);
+   
+           protected:
+           
+           // tabulated interaction rates 1/lambda(E)
+           std::vector<double> tabEnergy; 
+           std::vector<std::vector<double>> tabRate; 
+           
+           // tabulated CDF(s_kin, E) = cumulative differential interaction rate
+           std::vector<double> tabE; 
+           std::vector<std::vector<double>> tabs; 
+           std::vector<std::vector<std::vector<double>>> tabCDF; 
+           std::unordered_map<int, Vector3d> photonDict; 
+           
+           PointCloud cloud; 
+           KDTree* tree = nullptr; 
+           ref_ptr<Surface> surface;
+           
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_INTERACTIONRATES_H

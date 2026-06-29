@@ -1,0 +1,17 @@
+.. _exhale_class_classISRF:
+
+Class ISRF
+==========
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: ISRF
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

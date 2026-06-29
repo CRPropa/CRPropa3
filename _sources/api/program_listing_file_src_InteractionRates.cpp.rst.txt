@@ -1,0 +1,432 @@
+
+.. _program_listing_file_src_InteractionRates.cpp:
+
+Program Listing for File InteractionRates.cpp
+=============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_src_InteractionRates.cpp>` (``src/InteractionRates.cpp``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #include "crpropa/InteractionRates.h"
+   #include "crpropa/Units.h"
+   #include "crpropa/Random.h"
+   
+   #include "kiss/path.h"
+   
+   #include <vector>
+   #include <string>
+   #include <unordered_map>
+   #include <fstream>
+   
+   namespace crpropa {
+   
+   InteractionRatesHomogeneous::InteractionRatesHomogeneous(std::string RateFile, std::string CumulativeRateFile) {
+           this->ratesName = "interactionRatesHomogeneous";
+           this->isPositionDependent = false;
+   
+           if (RateFile!="")
+                   initRate(RateFile);
+           if (CumulativeRateFile!="")
+                   initCumulativeRate(CumulativeRateFile);
+   }
+   
+   double InteractionRatesHomogeneous::getProcessRate(const double E, const Vector3d &position) const {
+           return interpolate(E, this->tabEnergy, this->tabRate);
+   }
+   
+   void InteractionRatesHomogeneous::loadPerformInteractionTabs(const Vector3d &position, std::vector<double> &tabE, std::vector<double> &tabs, std::vector<std::vector<double>> &tabCDF) const {
+           tabE = this->getTabulatedE();
+           tabs = this->getTabulateds();
+           tabCDF = this->getTabulatedCDF();
+   }
+   
+   void InteractionRatesHomogeneous::setTabulatedEnergy(std::vector<double>& tabEnergy) {
+           this->tabEnergy = tabEnergy;
+   }
+   
+   void InteractionRatesHomogeneous::setTabulatedRate(std::vector<double>& tabRate) {
+           this->tabRate = tabRate;
+   }
+   
+   void InteractionRatesHomogeneous::setTabulatedE(std::vector<double>& tabE) {
+           this->tabE = tabE;
+   }
+   
+   void InteractionRatesHomogeneous::setTabulateds(std::vector<double>& tabs) {
+           this->tabs = tabs;
+   }
+   
+   void InteractionRatesHomogeneous::setTabulatedCDF(std::vector<std::vector<double>>& tabCDF) {
+           this->tabCDF = tabCDF;
+   }
+   
+   void InteractionRatesHomogeneous::initRate(std::string filename){
+           if(is_directory(filename))
+                   throw std::runtime_error("InteractionRatesHomogeneous: The given filename " + filename + " is a directory!\
+                           If you wanted to use position dependent photon fields instead, set the correct InteractionRates class first!");
+           
+           std::ifstream infile(filename.c_str());
+           if (!infile.good())
+                   throw std::runtime_error("InteractionRatesHomogeneous: could not open file " + filename);
+   
+           std::vector<double> tabEnergy;
+           std::vector<double> tabRate;
+   
+           while (infile.good()) {
+                   
+                   if (infile.peek() != '#') {     
+                           double a, b;
+                           infile >> a >> b;
+                           if (infile) {
+                                   tabEnergy.push_back(pow(10, a) * eV);
+                                   tabRate.push_back(b / Mpc);
+                           }
+                   }
+                   infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+                   
+           }
+           
+           infile.close();
+                   
+           setTabulatedEnergy(tabEnergy);
+           setTabulatedRate(tabRate);
+   }
+   
+   void InteractionRatesHomogeneous::initCumulativeRate(std::string filename){
+           if(is_directory(filename))
+                   throw std::runtime_error("InteractionRatesHomogeneous: The given filename " + filename + " is a directory!\
+                           If you wanted to use position dependent photon fields instead, set the correct InteractionRates class first!");
+   
+           std::ifstream infile(filename.c_str());
+           
+           if (!infile.good())
+                   throw std::runtime_error("InteractionRatesHomogeneous: could not open file " + filename);
+           
+           std::vector<double> tabE;
+           std::vector<double> tabs;
+           std::vector<std::vector<double>> tabCDF;
+           
+           // skip header
+           while (infile.peek() == '#')
+                   infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+           
+           // read s values in first line
+           double a;
+           infile >> a; // skip first value
+           while (infile.good() and (infile.peek() != '\n')) {
+                   infile >> a;
+                   tabs.push_back(pow(10, a) * eV * eV);
+           }
+           
+           // read all following lines: E, cdf values
+           while (infile.good()) {
+                   infile >> a;
+                   if (!infile)
+                           break;  // end of file
+                   tabE.push_back(pow(10, a) * eV);
+                   std::vector<double> cdf;
+                   for (int i = 0; i < tabs.size(); i++) {
+                           infile >> a;
+                           cdf.push_back(a / Mpc);
+                   }
+                   tabCDF.push_back(cdf);
+           }
+           infile.close();
+           
+           setTabulatedE(tabE);
+           setTabulateds(tabs);
+           setTabulatedCDF(tabCDF);
+   }
+   
+   
+   InteractionRatesPositionDependent::InteractionRatesPositionDependent(
+           std::string RateFilePath, std::string CumulativeRateFilePath, ref_ptr<Surface> surface) {
+           
+           this->ratesName = "interactionRatesPositionDependent";
+           this->isPositionDependent = true;
+           this->surface = surface;
+   
+           if (RateFilePath!="")
+                   initRate(RateFilePath);
+           if (CumulativeRateFilePath!="")
+                   initCumulativeRate(CumulativeRateFilePath);
+   }
+   
+   int InteractionRatesPositionDependent::findClosestGridPoint(const Vector3d &position) const {
+           if (!tree) {
+                   throw std::runtime_error("KD-Tree not initialized!");
+           }
+           
+           unsigned int closestIndex;
+           double closestDistSquared;
+           double queryPoint[3] = { position.x, position.y, position.z };
+           
+           this->tree->knnSearch(queryPoint, 1, &closestIndex, &closestDistSquared);
+           return this->cloud.ids[closestIndex];
+           
+   }
+   
+   std::vector<double> InteractionRatesPositionDependent::getClosestRate(const Vector3d &position) const {
+           int iMin = findClosestGridPoint(position);
+           return tabRate[iMin];
+   }
+   
+   std::vector<double> InteractionRatesPositionDependent::getClosests(const Vector3d &position) const {
+           int iMin = findClosestGridPoint(position);
+           return tabs[iMin];
+   }
+   
+   std::vector<std::vector<double>> InteractionRatesPositionDependent::getClosestCDF(const Vector3d &position) const {
+           int iMin = findClosestGridPoint(position);
+           return tabCDF[iMin];
+   }
+   
+   double InteractionRatesPositionDependent::getProcessRate(const double E, const Vector3d &position) const {
+           std::vector<double> tabRate = this->getClosestRate(position);
+           // compute the interaction rate for the given candidate energy, E
+           return interpolate(E, this->tabEnergy, tabRate);
+   }
+   
+   void InteractionRatesPositionDependent::loadPerformInteractionTabs(const Vector3d &position, std::vector<double> &tabE, std::vector<double> &tabs, std::vector<std::vector<double>> &tabCDF) const {
+           
+           std::vector<double> E = this->getTabulatedE();
+           std::vector<double> s = this->getClosests(position);
+           std::vector<std::vector<double>> CDF = this->getClosestCDF(position);
+           
+           tabE = E;
+           tabs = s;
+           tabCDF = CDF;
+   }
+   
+   void InteractionRatesPositionDependent::setTabulatedEnergy(std::vector<double>& tabEnergy) {
+           this->tabEnergy = tabEnergy;
+   }
+   
+   void InteractionRatesPositionDependent::setTabulatedRate(std::vector<std::vector<double>>& tabRate) {
+           this->tabRate = tabRate;
+   }
+   
+   void InteractionRatesPositionDependent::setTabulatedE(std::vector<double>& tabE) {
+           this->tabE = tabE;
+   }
+   
+   void InteractionRatesPositionDependent::setTabulateds(std::vector<std::vector<double>>& tabs) {
+           this->tabs = tabs;
+   }
+   
+   void InteractionRatesPositionDependent::setTabulatedCDF(std::vector<std::vector<std::vector<double>>>& tabCDF) {
+           this->tabCDF = tabCDF;
+   }
+   
+   void InteractionRatesPositionDependent::setPhotonDict(std::unordered_map<int, Vector3d>& photonDict) {
+           this->photonDict = photonDict;
+           
+           // delete old clouds
+           this->cloud.points.clear();
+           this->cloud.ids.clear();
+           
+           for (const auto& el : this->photonDict) {
+                   this->cloud.ids.push_back(el.first);
+                   this->cloud.points.push_back(el.second);
+           }
+           
+           // delete old tree
+           if (this->tree) {
+                   delete this->tree;
+           }
+           
+           int maxLeafTree = 20;
+           int nThreads = 4;
+           nanoflann::KDTreeSingleIndexAdaptorFlags flag;
+   
+           this->tree = new KDTree(3, cloud, nanoflann::KDTreeSingleIndexAdaptorParams(maxLeafTree, flag, nThreads));
+           this->tree->buildIndex();
+   }
+   
+   void InteractionRatesPositionDependent::setSurface(ref_ptr<Surface> surface) {
+           this->surface = surface;
+   }
+   
+   void InteractionRatesPositionDependent::initRate(std::string filepath){
+           if(!is_directory(filepath))
+                   throw std::runtime_error("InteractionRatesPositionDependent: The given path " + filepath + " is not a directory or does not exist!\
+                           If you wanted to use homogeneous photon fields instead, set the correct InteractionRates class first!");
+   
+           std::vector<std::vector<double>> tabRate;
+                   
+           std::unordered_map<int, Vector3d> photonDict;
+           int iFile = 0;
+           
+           std::vector<std::string> dirs;
+           if(!list_directory(filepath, dirs))
+                   throw std::runtime_error("Could not find any files in " + filepath + "!\n");
+   
+           for (auto const& filename : dirs) {
+                   
+                   // the input filename here should be a string
+                   //check if it is correct, i.e. a proper filename string
+                   std::ifstream infile(filename.c_str());         
+                   if (!infile.good())
+                           throw std::runtime_error("InteractionRatesPositionDependent: could not open file " + filename);
+                   
+                   std::vector<double> vecEnergy;
+                   std::vector<double> vecRate;
+                   
+                   double x, y, z;
+                   std::string str;
+                   std::stringstream ss;
+                   
+                   std::string filename_split = splitFilename(filename);
+                   ss << filename_split;
+                   
+                   int iLine = 0;
+                   
+                   std::locale::global(std::locale("C"));
+                   
+                   while (getline(ss, str, '_')) {
+                           if (iLine == 3) {
+                                   x = std::stod(str) * kpc;
+                           }
+                           if (iLine == 4) {
+                                   y = std::stod(str) * kpc;
+                           }
+                           if (iLine == 5) {
+                                   z = std::stod(str) * kpc;
+                           }
+                           iLine = iLine + 1;
+                   }
+                   
+                   Vector3d vPos(x, y, z);
+                   
+                   // continue when not "inside" surface
+                   if (getSurface() && getSurface()->distance(vPos)>=0)
+                           continue;
+                   
+                   photonDict[iFile] = vPos;
+                   
+                   while (infile.good()) {
+                           if (infile.peek() != '#') {
+                                   double a, b;
+                                   infile >> a >> b;
+                                   if (infile) {
+                                           if (iFile == 0) {
+                                                   vecEnergy.push_back(pow(10, a) * eV);
+                                                   setTabulatedEnergy(vecEnergy);
+                                           }
+                                           vecRate.push_back(b / Mpc);
+                                   }
+                           }
+                           infile.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+                   }
+                   
+                   tabRate.push_back(vecRate);
+                   
+                   iFile = iFile + 1;
+                   infile.close();
+           }
+                   
+           if (tabRate.empty())
+                   throw std::runtime_error("Rate's table empty! Check if the surface is properly set.");
+                   
+           setTabulatedRate(tabRate);
+           setPhotonDict(photonDict);
+   }
+   
+   void InteractionRatesPositionDependent::initCumulativeRate(std::string filepath){
+           if(!is_directory(filepath))
+                   throw std::runtime_error("InteractionRatesPositionDependent: The given path " + filepath + " is not a directory or does not exist!\
+                           If you wanted to use homogeneous photon fields instead, set the correct InteractionRates class first!");
+   
+           std::vector<std::vector<double>> tabs;
+           std::vector<std::vector<std::vector<double>>> tabCDF;
+           
+           int iFile = 0;
+           std::vector<std::string> dirs;
+           if(!list_directory(filepath, dirs))
+                   throw std::runtime_error("Could not find any files in " + filepath + "!\n");
+    
+           for (auto const& filename : dirs) {
+                   
+                   std::vector<double> vecE;
+                   std::vector<double> vecs;
+                   std::vector<std::vector<double>> vecCDF;
+                   
+                   std::ifstream infile(filename.c_str());
+                   
+                   if (!infile.good())
+                           throw std::runtime_error("InteractionRatesPositionDependent: could not open file " + filename);
+                   
+                   double x, y, z;
+                   std::string str;
+                   std::stringstream ss;
+                   
+                   std::string filename_split = splitFilename(filename);
+                   ss << filename_split;
+                   
+                   int iLine = 0;
+                   
+                   std::locale::global(std::locale("C"));
+                   
+                   while (getline(ss, str, '_')) {
+                           if (iLine == 3) {
+                                   x = -std::stod(str) * kpc;
+                           }
+                           if (iLine == 4) {
+                                   y = std::stod(str) * kpc;
+                           }
+                           if (iLine == 5) {
+                                   z = std::stod(str) * kpc;
+                           }
+                           iLine = iLine + 1;
+                   }
+                   
+                   Vector3d vPos(x, y, z);
+                   
+                   // continue when not "inside" surface
+                   if (getSurface() && getSurface()->distance(vPos)>=0)
+                           continue;
+                   
+                   // skip header
+                   while (infile.peek() == '#')
+                           infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+                   
+                   // read s values in first line
+                   double a;
+                   infile >> a; // skip first value
+                   while (infile.good() and (infile.peek() != '\n')) {
+                           infile >> a;
+                           vecs.push_back(pow(10, a) * eV * eV);
+                   }
+                   
+                   // read all following lines: E, cdf values
+                   while (infile.good()) {
+                           infile >> a;
+                           if (!infile)
+                                   break;  // end of file
+                           if (iFile == 0) {
+                                   vecE.push_back(pow(10, a) * eV);
+                                   setTabulatedE(vecE);
+                           }
+                           std::vector<double> cdf;
+                           for (int i = 0; i < tabs.size(); i++) {
+                                   infile >> a;
+                                   cdf.push_back(a / Mpc);
+                           }
+                           vecCDF.push_back(cdf);
+                   }
+                   
+                   iFile = iFile + 1;
+                   
+                   tabs.push_back(vecs);
+                   tabCDF.push_back(vecCDF);
+                   infile.close();
+           }
+           
+           setTabulateds(tabs);
+           setTabulatedCDF(tabCDF);
+   }
+   
+   } //namespace crpropa

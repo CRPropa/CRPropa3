@@ -1,0 +1,17 @@
+.. _exhale_class_classInteraction:
+
+Class Interaction
+=================
+
+- Defined in :ref:`file_include_crpropa_InteractionRates.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Interaction
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

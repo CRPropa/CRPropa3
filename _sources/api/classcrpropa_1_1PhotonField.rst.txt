@@ -20,6 +20,7 @@ Derived Types
 
 - ``public BlackbodyPhotonField`` (:ref:`exhale_class_classcrpropa_1_1BlackbodyPhotonField`)
 - ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+- ``public TabularSpatialPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularSpatialPhotonField`)
 
 
 Class Documentation

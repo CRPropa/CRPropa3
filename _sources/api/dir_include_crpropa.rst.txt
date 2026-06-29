@@ -35,6 +35,7 @@ Files
 - :ref:`file_include_crpropa_Geometry.h`
 - :ref:`file_include_crpropa_Grid.h`
 - :ref:`file_include_crpropa_GridTools.h`
+- :ref:`file_include_crpropa_InteractionRates.h`
 - :ref:`file_include_crpropa_Logging.h`
 - :ref:`file_include_crpropa_Module.h`
 - :ref:`file_include_crpropa_ModuleList.h`

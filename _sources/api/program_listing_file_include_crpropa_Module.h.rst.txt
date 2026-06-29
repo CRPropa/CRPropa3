@@ -24,10 +24,10 @@ Program Listing for File Module.h
    class Candidate;
    
    class Module: public Referenced {
-           std::string description;
+           std::string description; //< Description of any module, can be overriden by setDescription
    public:
            Module();
-           virtual ~Module() {
+           virtual ~Module() override {
            }
            virtual std::string getDescription() const;
            void setDescription(const std::string &description);
@@ -40,11 +40,14 @@ Program Listing for File Module.h
    
    class AbstractCondition: public Module {
    protected:
-           ref_ptr<Module> rejectAction, acceptAction;
-           bool makeRejectedInactive, makeAcceptedInactive;
-           std::string rejectFlagKey, rejectFlagValue;
-           std::string acceptFlagKey, acceptFlagValue;
-   
+           ref_ptr<Module> rejectAction; 
+           ref_ptr<Module> acceptAction; 
+           bool makeRejectedInactive; 
+           bool makeAcceptedInactive; 
+           std::string rejectFlagKey; 
+           std::string rejectFlagValue; 
+           std::string acceptFlagKey; 
+           std::string acceptFlagValue; 
            void reject(Candidate *candidate) const;
            inline void reject(ref_ptr<Candidate> candidate) const {
                    reject(candidate.get());

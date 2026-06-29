@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1ISRF__Robitaille12:
+
+Class ISRF_Robitaille12
+=======================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TabularSpatialPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularSpatialPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ISRF_Robitaille12
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

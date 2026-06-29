@@ -89,10 +89,10 @@ Program Listing for File Candidate.h
    
            void limitNextStep(double step);
    
-           void setProperty(const std::string &name, const Variant &value);
-           const Variant &getProperty(const std::string &name) const;
-           bool removeProperty(const std::string &name);
-           bool hasProperty(const std::string &name) const;
+           void setProperty(const std::string &key, const Variant &value);
+           const Variant &getProperty(const std::string &key) const;
+           bool removeProperty(const std::string &key);
+           bool hasProperty(const std::string &key) const;
    
            void addSecondary(Candidate *c);
            inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };

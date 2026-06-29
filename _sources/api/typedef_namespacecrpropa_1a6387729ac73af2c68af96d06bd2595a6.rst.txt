@@ -1,0 +1,14 @@
+.. _exhale_typedef_namespacecrpropa_1a6387729ac73af2c68af96d06bd2595a6:
+
+Typedef crpropa::KDTree
+=======================
+
+- Defined in :ref:`file_include_crpropa_InteractionRates.h`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: crpropa::KDTree
+   :project: CRPropa3

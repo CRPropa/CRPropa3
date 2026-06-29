@@ -13,11 +13,12 @@ Program Listing for File EMDoublePairProduction.h
    #ifndef CRPROPA_EMDOUBLEPAIRPRODUCTION_H
    #define CRPROPA_EMDOUBLEPAIRPRODUCTION_H
    
-   #include <fstream>
-   #include <cmath>
+   #include <string>
    
    #include "crpropa/Module.h"
    #include "crpropa/PhotonBackground.h"
+   #include "crpropa/InteractionRates.h"
+   #include "crpropa/Geometry.h"
    
    namespace crpropa {
    class EMDoublePairProduction: public Module {
@@ -26,31 +27,36 @@ Program Listing for File EMDoublePairProduction.h
            bool haveElectrons;
            double limit;
            double thinning;
+           ref_ptr<Surface> surface;
            std::string interactionTag = "EMDP";
-   
-           // tabulated interaction rate 1/lambda(E)
-           std::vector<double> tabEnergy;  
-           std::vector<double> tabRate;  
-   
+           ref_ptr<InteractionRates> interactionRates;
    public:
-           EMDoublePairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1);
-   
+           EMDoublePairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1, ref_ptr<Surface> surface = nullptr);
+           
            // set the target photon field
            void setPhotonField(ref_ptr<PhotonField> photonField);
-   
+           
            // decide if secondary electrons are added to the simulation
            void setHaveElectrons(bool haveElectrons);
            
            void setLimit(double limit);
-   
+           
            void setThinning(double thinning);
+           
+           void setSurface(ref_ptr<Surface> surface);
+           ref_ptr<Surface> getSurface() const;
+   
+           void setInteractionRates(ref_ptr<InteractionRates> intRates);
+           ref_ptr<InteractionRates> getInteractionRates() const;
            
            void setInteractionTag(std::string tag);
            std::string getInteractionTag() const;
    
-           void initRate(std::string filename);
+           void initRate(std::string path);
+           
            void process(Candidate *candidate) const;
            void performInteraction(Candidate *candidate) const;
+           
    };
    } // namespace crpropa
    

@@ -38,6 +38,8 @@ Classes
 
 - :ref:`exhale_struct_structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission`
 
+- :ref:`exhale_struct_structcrpropa_1_1PointCloud`
+
 - :ref:`exhale_struct_structcrpropa_1_1RANDOM__TLS__ITEM`
 
 - :ref:`exhale_struct_structcrpropa_1_1SophiaEventOutput`
@@ -138,6 +140,12 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ICSSecondariesEnergyDistribution`
 
+- :ref:`exhale_class_classcrpropa_1_1InteractionRates`
+
+- :ref:`exhale_class_classcrpropa_1_1InteractionRatesHomogeneous`
+
+- :ref:`exhale_class_classcrpropa_1_1InteractionRatesPositionDependent`
+
 - :ref:`exhale_class_classcrpropa_1_1IRB__Dominguez11`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Finke10`
@@ -161,6 +169,10 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__lower`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__upper`
+
+- :ref:`exhale_class_classcrpropa_1_1ISRF__Freudenreich98`
+
+- :ref:`exhale_class_classcrpropa_1_1ISRF__Robitaille12`
 
 - :ref:`exhale_class_classcrpropa_1_1JF12Field`
 
@@ -416,6 +428,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1TabularPhotonField`
 
+- :ref:`exhale_class_classcrpropa_1_1TabularSpatialPhotonField`
+
 - :ref:`exhale_class_classcrpropa_1_1TextOutput`
 
 - :ref:`exhale_class_classcrpropa_1_1TF17Field`
@@ -576,7 +590,7 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga6917eb33329066dd9097182aa83cf01c`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga4575a11fd9dc0420c5817fea1610fba2`
 
@@ -636,6 +650,8 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4`
 
+- :ref:`exhale_function_group__Core_1gaeeb018a8bcfd3cc323064ab988c8fe20`
+
 - :ref:`exhale_function_group__Core_1gae44b5188591bc2089166211850c8921d`
 
 - :ref:`exhale_function_group__Core_1ga1ec4ae56abd6a1326775869fd3fa8e7e`
@@ -672,6 +688,8 @@ Typedefs
 - :ref:`exhale_typedef_group__Core_1gace03eaf2fd573de2d84e3aebf60fd729`
 
 - :ref:`exhale_typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23`
+
+- :ref:`exhale_typedef_namespacecrpropa_1a6387729ac73af2c68af96d06bd2595a6`
 
 - :ref:`exhale_typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3`
 

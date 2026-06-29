@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1InteractionRatesHomogeneous:
+
+Class InteractionRatesHomogeneous
+=================================
+
+- Defined in :ref:`file_include_crpropa_InteractionRates.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public InteractionRates`` (:ref:`exhale_class_classcrpropa_1_1InteractionRates`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::InteractionRatesHomogeneous
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

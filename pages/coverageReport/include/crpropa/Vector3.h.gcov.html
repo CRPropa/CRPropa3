@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-06-18 09:49:19</td>
+            <td class="headerValue">2026-06-29 06:48:07</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">38.3&nbsp;%</td>
@@ -111,7 +111,7 @@
 <span id="L49"><span class="lineNum">      49</span>              :         }</span>
 <span id="L50"><span class="lineNum">      50</span>              : </span>
 <span id="L51"><span class="lineNum">      51</span>              :         // avoid creation of default non-conversion constructor</span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20388214 :         Vector3(const Vector3 &amp;v) : data{v.data[0], v.data[1], v.data[2]} {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20383691 :         Vector3(const Vector3 &amp;v) : data{v.data[0], v.data[1], v.data[2]} {</span></span>
 <span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC tlaBgUNC">           0 :         }</span></span>
 <span id="L54"><span class="lineNum">      54</span>              : </span>
 <span id="L55"><span class="lineNum">      55</span>              :         // Provides implicit conversion</span>
@@ -124,7 +124,7 @@
 <span id="L62"><span class="lineNum">      62</span>              : </span>
 <span id="L63"><span class="lineNum">      63</span>              :         ~Vector3()</span>
 <span id="L64"><span class="lineNum">      64</span>              :         {</span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC tlaBgGNC">    26231545 :         }</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC tlaBgGNC">    30997323 :         }</span></span>
 <span id="L66"><span class="lineNum">      66</span>              : </span>
 <span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC tlaBgUNC">           0 :         explicit Vector3(const double *v) {</span></span>
 <span id="L68"><span class="lineNum">      68</span> <span class="tlaUNC">           0 :                 data[0] = v[0];</span></span>
@@ -138,10 +138,10 @@
 <span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC">           0 :                 data[2] = v[2];</span></span>
 <span id="L77"><span class="lineNum">      77</span>              :         }</span>
 <span id="L78"><span class="lineNum">      78</span>              : </span>
-<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC tlaBgGNC">    12618760 :         explicit Vector3(const T &amp;X, const T &amp;Y, const T &amp;Z) : data{X, Y, Z} {</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC tlaBgGNC">    17392327 :         explicit Vector3(const T &amp;X, const T &amp;Y, const T &amp;Z) : data{X, Y, Z} {</span></span>
 <span id="L80"><span class="lineNum">      80</span>              :         }</span>
 <span id="L81"><span class="lineNum">      81</span>              : </span>
-<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">    18524158 :         explicit Vector3(T t) : data{t, t, t} {</span></span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">    18510048 :         explicit Vector3(T t) : data{t, t, t} {</span></span>
 <span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 :         }</span></span>
 <span id="L84"><span class="lineNum">      84</span>              : </span>
 <span id="L85"><span class="lineNum">      85</span>              :         void setX(const T X) {</span>
@@ -184,17 +184,17 @@
 <span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">       40010 :                 return z;</span></span>
 <span id="L123"><span class="lineNum">     123</span>              :         }</span>
 <span id="L124"><span class="lineNum">     124</span>              : </span>
-<span id="L125"><span class="lineNum">     125</span>              :         // magnitude (2-norm) of the vector</span>
+<span id="L125"><span class="lineNum">     125</span>              :         /// magnitude (2-norm) of the vector</span>
 <span id="L126"><span class="lineNum">     126</span>              :         T getR() const {</span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">    28451884 :                 return std::sqrt(x * x + y * y + z * z);</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">    28432130 :                 return std::sqrt(x * x + y * y + z * z);</span></span>
 <span id="L128"><span class="lineNum">     128</span>              :         }</span>
 <span id="L129"><span class="lineNum">     129</span>              : </span>
-<span id="L130"><span class="lineNum">     130</span>              :         // square of magnitude of the vector</span>
+<span id="L130"><span class="lineNum">     130</span>              :         /// square of magnitude of the vector</span>
 <span id="L131"><span class="lineNum">     131</span>              :         T getR2() const {</span>
 <span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">     2883657 :                 return x * x + y * y + z * z;</span></span>
 <span id="L133"><span class="lineNum">     133</span>              :         }</span>
 <span id="L134"><span class="lineNum">     134</span>              : </span>
-<span id="L135"><span class="lineNum">     135</span>              :         // return the azimuth angle</span>
+<span id="L135"><span class="lineNum">     135</span>              :         /// return the azimuth angle</span>
 <span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">          19 :         T getPhi() const {</span></span>
 <span id="L137"><span class="lineNum">     137</span>              :                 T eps = std::numeric_limits &lt; T &gt; ::min();</span>
 <span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">          19 :                 if ((fabs(x) &lt; eps) &amp;&amp; (fabs(y) &lt; eps))</span></span>
@@ -203,7 +203,7 @@
 <span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">          18 :                         return std::atan2(y, x);</span></span>
 <span id="L142"><span class="lineNum">     142</span>              :         }</span>
 <span id="L143"><span class="lineNum">     143</span>              : </span>
-<span id="L144"><span class="lineNum">     144</span>              :         // return the zenith angle</span>
+<span id="L144"><span class="lineNum">     144</span>              :         /// return the zenith angle</span>
 <span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">           8 :         T getTheta() const {</span></span>
 <span id="L146"><span class="lineNum">     146</span>              :                 T eps = std::numeric_limits &lt; T &gt; ::min();</span>
 <span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">           8 :                 if ((fabs(x) &lt; eps) &amp;&amp; (fabs(y) &lt; eps) &amp;&amp; (fabs(z) &lt; eps))</span></span>
@@ -212,12 +212,12 @@
 <span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">           8 :                         return atan2((T) sqrt(x * x + y * y), z);</span></span>
 <span id="L151"><span class="lineNum">     151</span>              :         }</span>
 <span id="L152"><span class="lineNum">     152</span>              : </span>
-<span id="L153"><span class="lineNum">     153</span>              :         // return the unit-vector e_r</span>
+<span id="L153"><span class="lineNum">     153</span>              :         /// return the unit-vector e_r</span>
 <span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">     7201366 :         Vector3&lt;T&gt; getUnitVector() const {</span></span>
 <span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">     7201366 :                 return *this / getR();</span></span>
 <span id="L156"><span class="lineNum">     156</span>              :         }</span>
 <span id="L157"><span class="lineNum">     157</span>              : </span>
-<span id="L158"><span class="lineNum">     158</span>              :         // return the unit-vector e_theta</span>
+<span id="L158"><span class="lineNum">     158</span>              :         /// return the unit-vector e_theta</span>
 <span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">           1 :         Vector3&lt;T&gt; getUnitVectorTheta() const {</span></span>
 <span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">           1 :                 T theta = getTheta();</span></span>
 <span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">           1 :                 T phi = getPhi();</span></span>
@@ -225,12 +225,12 @@
 <span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC">           1 :                                 -sin(theta));</span></span>
 <span id="L164"><span class="lineNum">     164</span>              :         }</span>
 <span id="L165"><span class="lineNum">     165</span>              : </span>
-<span id="L166"><span class="lineNum">     166</span>              :         // return the unit-vector e_phi</span>
+<span id="L166"><span class="lineNum">     166</span>              :         /// return the unit-vector e_phi</span>
 <span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">           4 :         Vector3&lt;T&gt; getUnitVectorPhi() const {</span></span>
 <span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">           4 :                 return Vector3&lt;T&gt;(-sin(getPhi()), cos(getPhi()), 0);</span></span>
 <span id="L169"><span class="lineNum">     169</span>              :         }</span>
 <span id="L170"><span class="lineNum">     170</span>              : </span>
-<span id="L171"><span class="lineNum">     171</span>              :         // return the angle [0, pi] between the vectors</span>
+<span id="L171"><span class="lineNum">     171</span>              :         /// return the angle [0, pi] between the vectors</span>
 <span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">      691021 :         T getAngleTo(const Vector3&lt;T&gt; &amp;v) const {</span></span>
 <span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">      691021 :                 T cosdistance = dot(v) / v.getR() / getR();</span></span>
 <span id="L174"><span class="lineNum">     174</span>              :                 // In some directions cosdistance is &gt; 1 on some compilers</span>
@@ -243,19 +243,19 @@
 <span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">      690876 :                         return acos(cosdistance);</span></span>
 <span id="L182"><span class="lineNum">     182</span>              :         }</span>
 <span id="L183"><span class="lineNum">     183</span>              : </span>
-<span id="L184"><span class="lineNum">     184</span>              :         // return true if the angle between the vectors is smaller than a threshold</span>
+<span id="L184"><span class="lineNum">     184</span>              :         /// return true if the angle between the vectors is smaller than a threshold</span>
 <span id="L185"><span class="lineNum">     185</span>              :         bool isParallelTo(const Vector3&lt;T&gt; &amp;v, T maxAngle) const {</span>
 <span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">      691017 :                 return getAngleTo(v) &lt; maxAngle;</span></span>
 <span id="L187"><span class="lineNum">     187</span>              :         }</span>
 <span id="L188"><span class="lineNum">     188</span>              : </span>
-<span id="L189"><span class="lineNum">     189</span>              :         // linear distance to a given vector</span>
+<span id="L189"><span class="lineNum">     189</span>              :         /// linear distance to a given vector</span>
 <span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">         110 :         T getDistanceTo(const Vector3&lt;T&gt; &amp;point) const {</span></span>
 <span id="L191"><span class="lineNum">     191</span>              :                 Vector3&lt;T&gt; d = *this - point;</span>
 <span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         110 :                 return d.getR();</span></span>
 <span id="L193"><span class="lineNum">     193</span>              :         }</span>
 <span id="L194"><span class="lineNum">     194</span>              : </span>
-<span id="L195"><span class="lineNum">     195</span>              :         // return the component parallel to a second vector</span>
-<span id="L196"><span class="lineNum">     196</span>              :         // 0 if the second vector has 0 magnitude</span>
+<span id="L195"><span class="lineNum">     195</span>              :         /// return the component parallel to a second vector</span>
+<span id="L196"><span class="lineNum">     196</span>              :         /// 0 if the second vector has 0 magnitude</span>
 <span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">           2 :         Vector3&lt;T&gt; getParallelTo(const Vector3&lt;T&gt; &amp;v) const {</span></span>
 <span id="L198"><span class="lineNum">     198</span>              :                 T vmag = v.getR();</span>
 <span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           2 :                 if (vmag == std::numeric_limits &lt; T &gt; ::min())</span></span>
@@ -263,15 +263,15 @@
 <span id="L201"><span class="lineNum">     201</span>              :                 return v * dot(v) / vmag;</span>
 <span id="L202"><span class="lineNum">     202</span>              :         }</span>
 <span id="L203"><span class="lineNum">     203</span>              : </span>
-<span id="L204"><span class="lineNum">     204</span>              :         // return the component perpendicular to a second vector</span>
-<span id="L205"><span class="lineNum">     205</span>              :         // 0 if the second vector has 0 magnitude</span>
+<span id="L204"><span class="lineNum">     204</span>              :         /// return the component perpendicular to a second vector</span>
+<span id="L205"><span class="lineNum">     205</span>              :         /// 0 if the second vector has 0 magnitude</span>
 <span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">           1 :         Vector3&lt;T&gt; getPerpendicularTo(const Vector3&lt;T&gt; &amp;v) const {</span></span>
 <span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">           1 :                 if (v.getR() == std::numeric_limits &lt; T &gt; ::min())</span></span>
 <span id="L208"><span class="lineNum">     208</span>              :                         return Vector3&lt;T&gt;(0.);</span>
 <span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           1 :                 return (*this) - getParallelTo(v);</span></span>
 <span id="L210"><span class="lineNum">     210</span>              :         }</span>
 <span id="L211"><span class="lineNum">     211</span>              : </span>
-<span id="L212"><span class="lineNum">     212</span>              :         // rotate the vector around a given axis by a given angle</span>
+<span id="L212"><span class="lineNum">     212</span>              :         /// rotate the vector around a given axis by a given angle</span>
 <span id="L213"><span class="lineNum">     213</span> <span class="tlaGNC">      481006 :         Vector3&lt;T&gt; getRotated(const Vector3&lt;T&gt; &amp;axis, T angle) const {</span></span>
 <span id="L214"><span class="lineNum">     214</span>              :                 Vector3&lt;T&gt; u = axis;</span>
 <span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">      481006 :                 if (u.getR() != 0.)</span></span>
@@ -287,7 +287,7 @@
 <span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">      481006 :                 return Vector3&lt;T&gt;(dot(Rx), dot(Ry), dot(Rz));</span></span>
 <span id="L226"><span class="lineNum">     226</span>              :         }</span>
 <span id="L227"><span class="lineNum">     227</span>              : </span>
-<span id="L228"><span class="lineNum">     228</span>              :         // return vector with values limited to the range [lower, upper]</span>
+<span id="L228"><span class="lineNum">     228</span>              :         /// return vector with values limited to the range [lower, upper]</span>
 <span id="L229"><span class="lineNum">     229</span> <span class="tlaUNC tlaBgUNC">           0 :         Vector3&lt;T&gt; clip(T lower, T upper) const {</span></span>
 <span id="L230"><span class="lineNum">     230</span>              :                 Vector3&lt;T&gt; out;</span>
 <span id="L231"><span class="lineNum">     231</span> <span class="tlaUNC">           0 :                 out.x = std::max(lower, std::min(x, upper));</span></span>
@@ -296,43 +296,43 @@
 <span id="L234"><span class="lineNum">     234</span> <span class="tlaUNC">           0 :                 return out;</span></span>
 <span id="L235"><span class="lineNum">     235</span>              :         }</span>
 <span id="L236"><span class="lineNum">     236</span>              : </span>
-<span id="L237"><span class="lineNum">     237</span>              :         // return vector with absolute values</span>
+<span id="L237"><span class="lineNum">     237</span>              :         /// return vector with absolute values</span>
 <span id="L238"><span class="lineNum">     238</span>              :         Vector3&lt;T&gt; abs() const {</span>
 <span id="L239"><span class="lineNum">     239</span> <span class="tlaUNC">           0 :                 return Vector3&lt;T&gt;(std::abs(x), std::abs(y), std::abs(z));</span></span>
 <span id="L240"><span class="lineNum">     240</span>              :         }</span>
 <span id="L241"><span class="lineNum">     241</span>              : </span>
-<span id="L242"><span class="lineNum">     242</span>              :         // return vector with floored values</span>
+<span id="L242"><span class="lineNum">     242</span>              :         /// return vector with floored values</span>
 <span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC tlaBgGNC">           6 :         Vector3&lt;T&gt; floor() const {</span></span>
 <span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">           6 :                 return Vector3&lt;T&gt;(std::floor(x), std::floor(y), std::floor(z));</span></span>
 <span id="L245"><span class="lineNum">     245</span>              :         }</span>
 <span id="L246"><span class="lineNum">     246</span>              : </span>
-<span id="L247"><span class="lineNum">     247</span>              :         // return vector with ceiled values</span>
+<span id="L247"><span class="lineNum">     247</span>              :         /// return vector with ceiled values</span>
 <span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC tlaBgUNC">           0 :         Vector3&lt;T&gt; ceil() const {</span></span>
 <span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :                 return Vector3&lt;T&gt;(std::ceil(x), std::ceil(y), std::ceil(z));</span></span>
 <span id="L250"><span class="lineNum">     250</span>              :         }</span>
 <span id="L251"><span class="lineNum">     251</span>              : </span>
-<span id="L252"><span class="lineNum">     252</span>              :         // minimum element</span>
+<span id="L252"><span class="lineNum">     252</span>              :         /// minimum element</span>
 <span id="L253"><span class="lineNum">     253</span>              :         T min() const {</span>
 <span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC tlaBgGNC">           4 :                 return std::min(x, std::min(y, z));</span></span>
 <span id="L255"><span class="lineNum">     255</span>              :         }</span>
 <span id="L256"><span class="lineNum">     256</span>              : </span>
-<span id="L257"><span class="lineNum">     257</span>              :         // maximum element</span>
+<span id="L257"><span class="lineNum">     257</span>              :         /// maximum element</span>
 <span id="L258"><span class="lineNum">     258</span>              :         T max() const {</span>
 <span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">           4 :                 return std::max(x, std::max(y, z));</span></span>
 <span id="L260"><span class="lineNum">     260</span>              :         }</span>
 <span id="L261"><span class="lineNum">     261</span>              : </span>
-<span id="L262"><span class="lineNum">     262</span>              :         // dot product</span>
+<span id="L262"><span class="lineNum">     262</span>              :         /// dot product</span>
 <span id="L263"><span class="lineNum">     263</span>              :         T dot(const Vector3&lt;T&gt; &amp;v) const {</span>
 <span id="L264"><span class="lineNum">     264</span> <span class="tlaGNC">      692580 :                 return x * v.x + y * v.y + z * v.z;</span></span>
 <span id="L265"><span class="lineNum">     265</span>              :         }</span>
 <span id="L266"><span class="lineNum">     266</span>              : </span>
-<span id="L267"><span class="lineNum">     267</span>              :         // cross product</span>
+<span id="L267"><span class="lineNum">     267</span>              :         /// cross product</span>
 <span id="L268"><span class="lineNum">     268</span>              :         Vector3&lt;T&gt; cross(const Vector3&lt;T&gt; &amp;v) const {</span>
 <span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">     2132230 :                 return Vector3&lt;T&gt;(y * v.z - v.y * z, z * v.x - v.z * x,</span></span>
 <span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">     1652230 :                                 x * v.y - v.x * y);</span></span>
 <span id="L271"><span class="lineNum">     271</span>              :         }</span>
 <span id="L272"><span class="lineNum">     272</span>              : </span>
-<span id="L273"><span class="lineNum">     273</span>              :         // returns true if all elements of the two vectors are equal</span>
+<span id="L273"><span class="lineNum">     273</span>              :         /// returns true if all elements of the two vectors are equal</span>
 <span id="L274"><span class="lineNum">     274</span>              :         bool operator ==(const Vector3&lt;T&gt; &amp;v) const {</span>
 <span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">          33 :                 if (x != v.x)</span></span>
 <span id="L276"><span class="lineNum">     276</span>              :                         return false;</span>
@@ -344,7 +344,7 @@
 <span id="L282"><span class="lineNum">     282</span>              :         }</span>
 <span id="L283"><span class="lineNum">     283</span>              : </span>
 <span id="L284"><span class="lineNum">     284</span>              :         Vector3&lt;T&gt; operator +(const Vector3&lt;T&gt; &amp;v) const {</span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">     4337555 :                 return Vector3(x + v.x, y + v.y, z + v.z);</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">     4333532 :                 return Vector3(x + v.x, y + v.y, z + v.z);</span></span>
 <span id="L286"><span class="lineNum">     286</span>              :         }</span>
 <span id="L287"><span class="lineNum">     287</span>              : </span>
 <span id="L288"><span class="lineNum">     288</span>              :         Vector3&lt;T&gt; operator +(const T &amp;f) const {</span>
@@ -352,23 +352,23 @@
 <span id="L290"><span class="lineNum">     290</span>              :         }</span>
 <span id="L291"><span class="lineNum">     291</span>              : </span>
 <span id="L292"><span class="lineNum">     292</span>              :         Vector3&lt;T&gt; operator -(const Vector3&lt;T&gt; &amp;v) const {</span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC tlaBgGNC">    10872055 :                 return Vector3(x - v.x, y - v.y, z - v.z);</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC tlaBgGNC">    10862619 :                 return Vector3(x - v.x, y - v.y, z - v.z);</span></span>
 <span id="L294"><span class="lineNum">     294</span>              :         }</span>
 <span id="L295"><span class="lineNum">     295</span>              : </span>
 <span id="L296"><span class="lineNum">     296</span>              :         Vector3&lt;T&gt; operator -(const T &amp;f) const {</span>
 <span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC tlaBgUNC">           0 :                 return Vector3(x - f, y - f, z - f);</span></span>
 <span id="L298"><span class="lineNum">     298</span>              :         }</span>
 <span id="L299"><span class="lineNum">     299</span>              : </span>
-<span id="L300"><span class="lineNum">     300</span>              :         // element-wise multiplication</span>
+<span id="L300"><span class="lineNum">     300</span>              :         /// element-wise multiplication</span>
 <span id="L301"><span class="lineNum">     301</span>              :         Vector3&lt;T&gt; operator *(const Vector3&lt;T&gt; &amp;v) const {</span>
 <span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC tlaBgGNC">          20 :                 return Vector3(x * v.x, y * v.y, z * v.z);</span></span>
 <span id="L303"><span class="lineNum">     303</span>              :         }</span>
 <span id="L304"><span class="lineNum">     304</span>              : </span>
 <span id="L305"><span class="lineNum">     305</span>              :         Vector3&lt;T&gt; operator *(T v) const {</span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">     1184226 :                 return Vector3(data[0] * v, data[1] * v, data[2] * v);</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">     1183995 :                 return Vector3(data[0] * v, data[1] * v, data[2] * v);</span></span>
 <span id="L307"><span class="lineNum">     307</span>              :         }</span>
 <span id="L308"><span class="lineNum">     308</span>              : </span>
-<span id="L309"><span class="lineNum">     309</span>              :         // element-wise division</span>
+<span id="L309"><span class="lineNum">     309</span>              :         /// element-wise division</span>
 <span id="L310"><span class="lineNum">     310</span>              :         Vector3&lt;T&gt; operator /(const Vector3&lt;T&gt; &amp;v) const {</span>
 <span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">      100097 :                 return Vector3(x / v.x, y / v.y, z / v.z);</span></span>
 <span id="L312"><span class="lineNum">     312</span>              :         }</span>
@@ -377,7 +377,7 @@
 <span id="L315"><span class="lineNum">     315</span> <span class="tlaGNC">     6242748 :                 return Vector3(x / f, y / f, z / f);</span></span>
 <span id="L316"><span class="lineNum">     316</span>              :         }</span>
 <span id="L317"><span class="lineNum">     317</span>              : </span>
-<span id="L318"><span class="lineNum">     318</span>              :         // element-wise modulo operation</span>
+<span id="L318"><span class="lineNum">     318</span>              :         /// element-wise modulo operation</span>
 <span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC tlaBgUNC">           0 :         Vector3&lt;T&gt; operator %(const Vector3&lt;T&gt; &amp;v) const {</span></span>
 <span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 :                 return Vector3(fmod(x, v.x), fmod(y, v.y), fmod(z, v.z));</span></span>
 <span id="L321"><span class="lineNum">     321</span>              :         }</span>
@@ -414,7 +414,7 @@
 <span id="L352"><span class="lineNum">     352</span>              :                 return *this;</span>
 <span id="L353"><span class="lineNum">     353</span>              :         }</span>
 <span id="L354"><span class="lineNum">     354</span>              : </span>
-<span id="L355"><span class="lineNum">     355</span>              :         // element-wise multiplication</span>
+<span id="L355"><span class="lineNum">     355</span>              :         /// element-wise multiplication</span>
 <span id="L356"><span class="lineNum">     356</span>              :         Vector3&lt;T&gt; &amp;operator *=(const Vector3&lt;T&gt; &amp;v) {</span>
 <span id="L357"><span class="lineNum">     357</span> <span class="tlaUNC">           0 :                 data[0] *= v.x;</span></span>
 <span id="L358"><span class="lineNum">     358</span> <span class="tlaUNC">           0 :                 data[1] *= v.y;</span></span>
@@ -429,7 +429,7 @@
 <span id="L367"><span class="lineNum">     367</span>              :                 return *this;</span>
 <span id="L368"><span class="lineNum">     368</span>              :         }</span>
 <span id="L369"><span class="lineNum">     369</span>              : </span>
-<span id="L370"><span class="lineNum">     370</span>              :         // element-wise division</span>
+<span id="L370"><span class="lineNum">     370</span>              :         /// element-wise division</span>
 <span id="L371"><span class="lineNum">     371</span>              :         Vector3&lt;T&gt; &amp;operator /=(const Vector3&lt;T&gt; &amp;v) {</span>
 <span id="L372"><span class="lineNum">     372</span> <span class="tlaUNC tlaBgUNC">           0 :                 data[0] /= v.x;</span></span>
 <span id="L373"><span class="lineNum">     373</span> <span class="tlaUNC">           0 :                 data[1] /= v.y;</span></span>
@@ -444,7 +444,7 @@
 <span id="L382"><span class="lineNum">     382</span>              :                 return *this;</span>
 <span id="L383"><span class="lineNum">     383</span>              :         }</span>
 <span id="L384"><span class="lineNum">     384</span>              : </span>
-<span id="L385"><span class="lineNum">     385</span>              :         // element-wise modulo operation</span>
+<span id="L385"><span class="lineNum">     385</span>              :         /// element-wise modulo operation</span>
 <span id="L386"><span class="lineNum">     386</span> <span class="tlaUNC tlaBgUNC">           0 :         Vector3&lt;T&gt; &amp;operator %=(const Vector3&lt;T&gt; &amp;v) {</span></span>
 <span id="L387"><span class="lineNum">     387</span> <span class="tlaUNC">           0 :                 data[0] = fmod(x, v.x);</span></span>
 <span id="L388"><span class="lineNum">     388</span> <span class="tlaUNC">           0 :                 data[1] = fmod(y, v.y);</span></span>
@@ -460,9 +460,9 @@
 <span id="L398"><span class="lineNum">     398</span>              :         }</span>
 <span id="L399"><span class="lineNum">     399</span>              : </span>
 <span id="L400"><span class="lineNum">     400</span>              :         Vector3&lt;T&gt; &amp;operator =(const Vector3&lt;T&gt; &amp;v) {</span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">    64166297 :                 data[0] = v.x;</span></span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">    64166309 :                 data[1] = v.y;</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">    63680684 :                 data[2] = v.z;</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">    64126340 :                 data[0] = v.x;</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">    64126352 :                 data[1] = v.y;</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">    63640727 :                 data[2] = v.z;</span></span>
 <span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC tlaBgUNC">           0 :                 return *this;</span></span>
 <span id="L405"><span class="lineNum">     405</span>              :         }</span>
 <span id="L406"><span class="lineNum">     406</span>              : </span>
@@ -509,7 +509,7 @@
 <span id="L447"><span class="lineNum">     447</span>              :                 return 3;</span>
 <span id="L448"><span class="lineNum">     448</span>              :         }</span>
 <span id="L449"><span class="lineNum">     449</span>              :         </span>
-<span id="L450"><span class="lineNum">     450</span>              :         // initialize the vector from a numpy array</span>
+<span id="L450"><span class="lineNum">     450</span>              :         /// initialize the vector from a numpy array</span>
 <span id="L451"><span class="lineNum">     451</span> <span class="tlaGNC tlaBgGNC">           4 :         Vector3(PyObject* inputObject) {</span></span>
 <span id="L452"><span class="lineNum">     452</span>              :                 // check if input is a numpy array</span>
 <span id="L453"><span class="lineNum">     453</span> <span class="tlaGNC">           4 :                 if (!PyArray_Check(inputObject)) {</span></span>
@@ -576,7 +576,7 @@
 <span id="L514"><span class="lineNum">     514</span>              : </span>
 <span id="L515"><span class="lineNum">     515</span>              : template&lt;typename T&gt;</span>
 <span id="L516"><span class="lineNum">     516</span>              : inline Vector3&lt;T&gt; operator *(T f, const Vector3&lt;T&gt; &amp;v) {</span>
-<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3634379 :         return Vector3&lt;T&gt;(v.x * f, v.y * f, v.z * f);</span></span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3630587 :         return Vector3&lt;T&gt;(v.x * f, v.y * f, v.z * f);</span></span>
 <span id="L518"><span class="lineNum">     518</span>              : }</span>
 <span id="L519"><span class="lineNum">     519</span>              : </span>
 <span id="L520"><span class="lineNum">     520</span>              : typedef Vector3&lt;double&gt; Vector3d;</span>

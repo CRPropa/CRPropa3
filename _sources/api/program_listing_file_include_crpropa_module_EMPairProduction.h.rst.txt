@@ -13,11 +13,12 @@ Program Listing for File EMPairProduction.h
    #ifndef CRPROPA_EMPAIRPRODUCTION_H
    #define CRPROPA_EMPAIRPRODUCTION_H
    
-   #include <fstream>
-   #include <cmath>
+   #include <string>
    
    #include "crpropa/Module.h"
    #include "crpropa/PhotonBackground.h"
+   #include "crpropa/Geometry.h"
+   #include "crpropa/InteractionRates.h"
    
    
    namespace crpropa {
@@ -27,19 +28,11 @@ Program Listing for File EMPairProduction.h
            bool haveElectrons;                                     // add secondary electrons to simulation
            double limit;                                           // limit the step to a fraction of the mean free path
            double thinning;                                        // factor of the thinning (0: no thinning, 1: maximum thinning)
+           ref_ptr<Surface> surface; // surface that includes the nodes in the photonField grid to be included
            std::string interactionTag = "EMPP";
-   
-           // tabulated interaction rate 1/lambda(E)
-           std::vector<double> tabEnergy;  
-           std::vector<double> tabRate;  
-           
-           // tabulated CDF(s_kin, E) = cumulative differential interaction rate
-           std::vector<double> tabE;  
-           std::vector<double> tabs;  
-           std::vector< std::vector<double> > tabCDF;  
-   
+           ref_ptr<InteractionRates> interactionRates;
    public:
-           EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0,double limit = 0.1);
+           EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1, ref_ptr<Surface> surface = nullptr);
    
            // set the target photon field
            void setPhotonField(ref_ptr<PhotonField> photonField);
@@ -51,15 +44,23 @@ Program Listing for File EMPairProduction.h
    
            void setThinning(double thinning);
    
+           void setSurface(ref_ptr<Surface> surface);
+           ref_ptr<Surface> getSurface() const;
+                   
            void setInteractionTag(std::string tag);
            std::string getInteractionTag() const;
    
-           void initRate(std::string filename);
-           void initCumulativeRate(std::string filename);
-   
+           void setInteractionRates(ref_ptr<InteractionRates> intRates);
+           ref_ptr<InteractionRates> getInteractionRates() const;
+           
+           void initRate(std::string path);
+           
+           void initCumulativeRate(std::string path);
+                   
            void performInteraction(Candidate *candidate) const;
            void process(Candidate *candidate) const;
    };
+   
    } // namespace crpropa
    
    #endif // CRPROPA_EMPAIRPRODUCTION_H

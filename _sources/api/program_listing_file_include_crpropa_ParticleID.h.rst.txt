@@ -18,13 +18,11 @@ Program Listing for File ParticleID.h
    #include <string>
    
    namespace crpropa {
-   int nucleusId(int a, int z);
+   int nucleusId(int A, int Z);
    int chargeNumber(int id);
    int massNumber(int id);
-   
    bool isNucleus(int id);
    
-   /* Additional modules */
    std::string convertIdToName(int id); 
    
    } // namespace crpropa

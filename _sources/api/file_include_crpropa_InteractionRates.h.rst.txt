@@ -1,0 +1,65 @@
+
+.. _file_include_crpropa_InteractionRates.h:
+
+File InteractionRates.h
+=======================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/InteractionRates.h``)
+---------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_InteractionRates.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structcrpropa_1_1PointCloud`
+
+- :ref:`exhale_class_classcrpropa_1_1InteractionRates`
+
+- :ref:`exhale_class_classcrpropa_1_1InteractionRatesHomogeneous`
+
+- :ref:`exhale_class_classcrpropa_1_1InteractionRatesPositionDependent`
+
+- :ref:`exhale_class_classInteraction`
+
+- :ref:`exhale_class_classInteractionRateHomogeneous`
+
+- :ref:`exhale_class_classInteractionRatePositionDependent`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_namespacecrpropa_1a6387729ac73af2c68af96d06bd2595a6`
+

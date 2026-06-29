@@ -13,7 +13,6 @@ Program Listing for File Geometry.h
    #ifndef CRPROPA_GEOMETRY_H
    #define CRPROPA_GEOMETRY_H
    
-   #include <vector>
    #include <string>
    
    #include "crpropa/Candidate.h"
@@ -36,7 +35,7 @@ Program Listing for File Geometry.h
            Plane(const Vector3d& x0, const Vector3d& v1,const Vector3d& v2);
            Plane(const Vector3d& x0, const Vector3d& n);
            virtual double distance(const Vector3d &x) const;
-           virtual Vector3d normal(const Vector3d& point) const;
+           virtual Vector3d normal(const Vector3d& point=Vector3d(0,0,0)) const;
            virtual std::string getDescription() const;
    };
    

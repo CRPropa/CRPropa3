@@ -19,6 +19,7 @@ Derived Types
 - ``public EmissionMap`` (:ref:`exhale_class_classcrpropa_1_1EmissionMap`)
 - ``public Grid< T >`` (:ref:`exhale_class_classcrpropa_1_1Grid`)
 - ``public GridProperties`` (:ref:`exhale_class_classcrpropa_1_1GridProperties`)
+- ``public InteractionRates`` (:ref:`exhale_class_classcrpropa_1_1InteractionRates`)
 - ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
 - ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
 - ``public ObserverFeature`` (:ref:`exhale_class_classcrpropa_1_1ObserverFeature`)

@@ -826,8 +826,3 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_Vector3.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_include_crpropa_Version.h.rst

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-02 05:36:45</td>
+            <td class="headerValue">2026-07-02 05:40:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">95.2&nbsp;%</td>
@@ -215,34 +215,34 @@
 <span id="L153"><span class="lineNum">     153</span>              :         double dE0 = dE;</span>
 <span id="L154"><span class="lineNum">     154</span>              :         std::vector&lt;double&gt; energies;</span>
 <span id="L155"><span class="lineNum">     155</span>              :         int counter = 0;</span>
-<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">     3621917 :         while (dE &gt; 0) {</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">     3622844 :         while (dE &gt; 0) {</span></span>
 <span id="L157"><span class="lineNum">     157</span>              :                 // draw random value between 0 and maximum of corresponding cdf</span>
 <span id="L158"><span class="lineNum">     158</span>              :                 // choose bin of s where cdf(x) = cdf_rand -&gt; x_rand</span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">     3621917 :                 size_t i = random.randBin(tabCDF); // draw random bin (upper bin boundary returned)</span></span>
-<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">     3621917 :                 double binWidth = (tabx[i] - tabx[i-1]);</span></span>
-<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">     3621917 :                 double x = tabx[i-1] + random.rand() * binWidth; // draw random x uniformly distributed in bin</span></span>
-<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">     3621917 :                 double Ephoton = x * Ecrit;</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">     3622844 :                 size_t i = random.randBin(tabCDF); // draw random bin (upper bin boundary returned)</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">     3622844 :                 double binWidth = (tabx[i] - tabx[i-1]);</span></span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">     3622844 :                 double x = tabx[i-1] + random.rand() * binWidth; // draw random x uniformly distributed in bin</span></span>
+<span id="L162"><span class="lineNum">     162</span> <span class="tlaGNC">     3622844 :                 double Ephoton = x * Ecrit;</span></span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
 <span id="L164"><span class="lineNum">     164</span>              :                 // if the remaining energy is not sufficient check for random accepting</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">     3621917 :                 if (Ephoton &gt; dE) {</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">     3622844 :                 if (Ephoton &gt; dE) {</span></span>
 <span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">           1 :                         if (random.rand() &gt; (dE / Ephoton))</span></span>
 <span id="L167"><span class="lineNum">     167</span>              :                                 break; // not accepted</span>
 <span id="L168"><span class="lineNum">     168</span>              :                 }</span>
 <span id="L169"><span class="lineNum">     169</span>              : </span>
 <span id="L170"><span class="lineNum">     170</span>              :                 // only activate the &quot;per-step&quot; sampling if maximumSamples is explicitly set.</span>
-<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">     3621916 :                 if (maximumSamples &gt; 0) {</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">     3622843 :                 if (maximumSamples &gt; 0) {</span></span>
 <span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">        1001 :                         if (counter &gt;= maximumSamples) </span></span>
 <span id="L173"><span class="lineNum">     173</span>              :                                 break;                  </span>
 <span id="L174"><span class="lineNum">     174</span>              :                 }</span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
 <span id="L176"><span class="lineNum">     176</span>              :                 // store energies in array</span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">     3621915 :                 energies.push_back(Ephoton);</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">     3622842 :                 energies.push_back(Ephoton);</span></span>
 <span id="L178"><span class="lineNum">     178</span>              : </span>
 <span id="L179"><span class="lineNum">     179</span>              :                 // energy loss</span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">     3621915 :                 dE -= Ephoton;</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">     3622842 :                 dE -= Ephoton;</span></span>
 <span id="L181"><span class="lineNum">     181</span>              : </span>
 <span id="L182"><span class="lineNum">     182</span>              :                 // counter for sampling break condition;</span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">     3621915 :                 counter++;</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">     3622842 :                 counter++;</span></span>
 <span id="L184"><span class="lineNum">     184</span>              :         }</span>
 <span id="L185"><span class="lineNum">     185</span>              : </span>
 <span id="L186"><span class="lineNum">     186</span>              :         // while loop before gave total energy which is just a fraction of the required</span>
@@ -251,16 +251,16 @@
 <span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">           1 :                 w1 = 1. / (1. - dE / dE0); </span></span>
 <span id="L190"><span class="lineNum">     190</span>              : </span>
 <span id="L191"><span class="lineNum">     191</span>              :         // loop over sampled photons and attribute weights accordingly</span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">     3621917 :         for (int i = 0; i &lt; energies.size(); i++) {</span></span>
-<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">     3621915 :                 double Ephoton = energies[i];</span></span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">     3621915 :                 double f = Ephoton / (E - dE0);</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">     3621915 :                 double w = w1 / pow(f, thinning);</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">     3622844 :         for (int i = 0; i &lt; energies.size(); i++) {</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">     3622842 :                 double Ephoton = energies[i];</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">     3622842 :                 double f = Ephoton / (E - dE0);</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">     3622842 :                 double w = w1 / pow(f, thinning);</span></span>
 <span id="L196"><span class="lineNum">     196</span>              : </span>
 <span id="L197"><span class="lineNum">     197</span>              :                 // thinning procedure: accepts only a few random secondaries</span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">     3621915 :                 if (random.rand() &lt; pow(f, thinning)) {</span></span>
-<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">     3621915 :                         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">     3621915 :                         if (Ephoton &gt; secondaryThreshold) // create only photons with energies above threshold</span></span>
-<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">     3310617 :                                 candidate-&gt;addSecondary(22, Ephoton, pos, w, interactionTag);</span></span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">     3622842 :                 if (random.rand() &lt; pow(f, thinning)) {</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">     3622842 :                         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">     3622842 :                         if (Ephoton &gt; secondaryThreshold) // create only photons with energies above threshold</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">     3310584 :                                 candidate-&gt;addSecondary(22, Ephoton, pos, w, interactionTag);</span></span>
 <span id="L202"><span class="lineNum">     202</span>              :                 }</span>
 <span id="L203"><span class="lineNum">     203</span>              :         }</span>
 <span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">           2 : }</span></span>

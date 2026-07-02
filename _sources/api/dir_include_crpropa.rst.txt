@@ -48,6 +48,5 @@ Files
 - :ref:`file_include_crpropa_Units.h`
 - :ref:`file_include_crpropa_Variant.h`
 - :ref:`file_include_crpropa_Vector3.h`
-- :ref:`file_include_crpropa_Version.h`
 
 

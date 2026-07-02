@@ -12,7 +12,6 @@ Subdirectories
 
 - :ref:`dir_src_advectionField`
 - :ref:`dir_src_magneticField`
-- :ref:`dir_src_magneticLens`
 - :ref:`dir_src_massDistribution`
 - :ref:`dir_src_module`
 

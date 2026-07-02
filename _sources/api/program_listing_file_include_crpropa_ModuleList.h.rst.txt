@@ -46,10 +46,10 @@ Program Listing for File ModuleList.h
            void process(Candidate* candidate) const;
            void process(ref_ptr<Candidate> candidate) const;
    
-           void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = true);
-           void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = true);
-           void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = true);
-           void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = true);
+           void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
+           void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
+           void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
+           void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
    
            std::string getDescription() const;
            void showModules() const;

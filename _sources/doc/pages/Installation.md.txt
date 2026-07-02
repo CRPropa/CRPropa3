@@ -81,7 +81,6 @@ Optionally CRPropa can be compiled with the following dependencies to enable cer
 - `BUILD_DOC = OFF` : This enables the building of a `doxygen` version of the documentation, this will look very bare bone. To build a better documentation additionally install `sphinx` and use `cmake --build /path/to/your/buildfolder --target doc` while this options is set to `ON`.
 - `CMAKE_INSTALL_PREFIX = /usr/local` : The installation prefix, a standard variable in every `cmake` build, this specifies where `cmake` should install the project. You should ensure you are actually allowed to write to that location.
 - `DOWNLOAD_DATA = ON` : Whether to download the [data](https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz). You might want to disable this if you already have data downloaded or generated over [CRPrpa3-data](https://github.com/CRPropa/CRPropa3-data/tree/master) and do not want to override the existing data, or downloading and extracting is a problem for you.
-- `EIGEN_PATH = ""` : Here you can specify the path to your own eigen headers. However, CRPropa already provides a `eigen` version.
 - `ENABLE_COVERAGE = OFF` : Whether to enable [coverage (lcov)](https://github.com/linux-test-project/lcov) support. To build the coverage support you can use `cmake --build /path/to/your/buildfolder --target coverage` after doing `ctest`. You will also need `genhtml` and `lcov`
 - `ENABLE_GIT = ON` : This just includes the corresponding CRPropa version correctly in the project
 - `ENABLE_HDF5 = ON` : This enables the generation of HDF5 binary output, this does not replace the normal output.
@@ -91,7 +90,6 @@ Optionally CRPropa can be compiled with the following dependencies to enable cer
 - `ENABLE_SWIG_BUILTIN = ON` : This enables us to create python-builtin types rather than proxies which increases performance.
 - `ENABLE_TESTING = ON` : Enables the creation of test executables, the tests can then be done by using `ctest --output-on-failure`.
 - `FAST_WAVES = OFF` : Enables the usage of SIMD extensions in `PlaneWaveTurbulence`, this can increase the performance by a lot if supported by your CPU. To check if you CPU supports this feature use `lscpu | grep -e avx -e fma`.
-- `INSTALL_EIGEN = OFF` : Whether to install the provided eigen or not, this might override any preexisting version.
 - `OMP_SCHEDULE = static,100` : The OMP strategy to use, to see more infos see [OMP Documentation](https://www.openmp.org/spec-html/5.0/openmpse49.html)
 - `SIMD_EXTENSIONS = none` : The SIMD flag to use, allowed are `avx`, `avx+fma`, `native` and `none`. Check with `lscpu | grep -e avx -e fma` what is supported on your CPU, you could also use `native` to use whatever is available.
 - `Python_INSTALL_PACKAGE_DIR` : With this variable you can specify your own install target for the python packages without changing the search path for the required sitelibs like `numpy`.
@@ -127,7 +125,7 @@ sudo pacman -S cmake ninja git gcc gcc-fortran python python-numpy swig hdf5 mup
 To see how to install conda please follow their [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
 ```sh
-conda install -c conda-forge compilers git cmake ninja swig zlib gperftools fftw hdf5 muparser eigen python numpy pkgconfig
+conda install -c conda-forge compilers git cmake ninja swig zlib gperftools fftw hdf5 muparser python numpy pkgconfig
 ```
 
 You should also set `CMAKE_INSTALL_PREFIX=$CONDA_PREFIX` during the configure step.

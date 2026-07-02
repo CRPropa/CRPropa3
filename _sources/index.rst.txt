@@ -26,7 +26,6 @@ Contents
    pages/Simulation-Modules.md
    pages/example_notebooks/basics/basics.ipynb
    pages/extragalactic-simulations.rst
-   pages/galactic_lensing.rst
    pages/galactic_cosmic_rays.rst
    pages/acceleration.rst
    pages/extending_crpropa.rst

@@ -1,3 +1,0 @@
-Magnetic Lenses
-===============
-.. doxygengroup:: MagneticLenses

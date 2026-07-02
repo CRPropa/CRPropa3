@@ -22,6 +22,8 @@ Additional Resources
    `here <https://ruhr-uni-bochum.sciebo.de/s/oerRpvSzFKbkQNj>`__.
 -  Data for the Galactic mass distribution by `Mertsch et al. (2020) <https://arxiv.org/abs/2012.15770>`__ can be found 
    `here <https://ruhr-uni-bochum.sciebo.de/s/YD4wiiAdn3AK1SU>`__. 
+-  Data for the spatial grids for the ISRF photon field __ can be found 
+   `here <https://saco.csic.es/s/2FD4AespQ4TQd57?opendetails=>`__.
 
 
 Note that these resources are completely external to CRPropa. We cannot supply any kind of additional information nor can we offer support on how to use them.

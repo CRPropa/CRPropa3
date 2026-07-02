@@ -301,6 +301,42 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html">Position-dependent photon fields / 1 - Generating a spatially-scaled power-law photon field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Physics-background">Physics background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Setup">Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#1.-Define-the-homogeneous-photon-field-(CRPropa-data)">1. Define the homogeneous photon field (CRPropa-data)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Plot-the-field">Plot the field</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#2.-Generate-the-interaction-tables-(CRPropa-data)">2. Generate the interaction tables (CRPropa-data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#3.-Scale-the-field-in-space">3. Scale the field in space</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#On-disk-layout">On-disk layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Writers">Writers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#4.-Generate-the-spatial-field">4. Generate the spatial field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#5.-Check-the-implementation">5. Check the implementation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Density-gradient">Density gradient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#Interaction-rate">Interaction rate</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/01_field_generation.html#6.-Notes-and-limitations">6. Notes and limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html">Position-dependent photon fields / 2 - Propagating through a spatially-scaled photon field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#Geometry">Geometry</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#Setup">Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#Per-node-field-writers">Per-node field writers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#Analysis-helpers">Analysis helpers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#1.-Surviving-spectrum:-homogeneous-vs-1/r-scaled">1. Surviving spectrum: homogeneous vs <span class="math notranslate nohighlight">\(1/r\)</span>-scaled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#2.-Convergence-with-grid-sampling">2. Convergence with grid sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/photonfield_grid/02_position_dependent_propagation.html#3.-Notes">3. Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Cpp-projects.html">Using CRPropa from C++</a></li>
 </ul>
 </li>
@@ -1531,7 +1567,7 @@
 <span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Could not find any files in &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dirE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dir_entry</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dirsE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readPhotonEnergy</span><span class="p">(</span><span class="n">dir_entry</span><span class="p">);</span>
+<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readPhotonEnergy</span><span class="p">(</span><span class="n">concat_path</span><span class="p">(</span><span class="n">dirE</span><span class="p">,</span><span class="w"> </span><span class="n">dir_entry</span><span class="p">));</span>
 
 <span class="w">                </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">photonEnergies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vE</span><span class="p">;</span>
 <span class="w">                </span><span class="k">break</span><span class="p">;</span>
@@ -1582,7 +1618,7 @@
 <span class="w">                </span><span class="n">photonDict</span><span class="p">[</span><span class="n">iFile</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vPos</span><span class="p">;</span>
 <span class="w">                </span><span class="n">iFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iFile</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 
-<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readPhotonDensity</span><span class="p">(</span><span class="n">dir_entry</span><span class="p">);</span>
+<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readPhotonDensity</span><span class="p">(</span><span class="n">concat_path</span><span class="p">(</span><span class="n">dirD</span><span class="p">,</span><span class="w"> </span><span class="n">dir_entry</span><span class="p">));</span>
 <span class="w">                </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">photonDensity</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">vD</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 

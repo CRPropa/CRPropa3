@@ -1,0 +1,14 @@
+.. _exhale_variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d:
+
+Variable crpropa::_nOrder_max
+=============================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::_nOrder_max
+   :project: CRPropa3

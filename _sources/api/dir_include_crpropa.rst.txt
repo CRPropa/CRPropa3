@@ -17,6 +17,7 @@ Subdirectories
 
 - :ref:`dir_include_crpropa_advectionField`
 - :ref:`dir_include_crpropa_magneticField`
+- :ref:`dir_include_crpropa_magneticLens`
 - :ref:`dir_include_crpropa_massDistribution`
 - :ref:`dir_include_crpropa_module`
 

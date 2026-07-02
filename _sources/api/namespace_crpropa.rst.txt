@@ -180,6 +180,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1KST24Field`
 
+- :ref:`exhale_class_classcrpropa_1_1LensPart`
+
 - :ref:`exhale_class_classcrpropa_1_1LogarithmicSpiralField`
 
 - :ref:`exhale_class_classcrpropa_1_1MagneticDipoleField`
@@ -191,6 +193,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1MagneticFieldGrid`
 
 - :ref:`exhale_class_classcrpropa_1_1MagneticFieldList`
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticLens`
 
 - :ref:`exhale_class_classcrpropa_1_1MaximumTrajectoryLength`
 
@@ -260,6 +264,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ParticleFilter`
 
+- :ref:`exhale_class_classcrpropa_1_1ParticleMapsContainer`
+
 - :ref:`exhale_class_classcrpropa_1_1ParticleSplitting`
 
 - :ref:`exhale_class_classcrpropa_1_1ParticleState`
@@ -277,6 +283,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1PhotonOutput1D`
 
 - :ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`
+
+- :ref:`exhale_class_classcrpropa_1_1Pixelization`
 
 - :ref:`exhale_class_classcrpropa_1_1PlanckJF12bField`
 
@@ -486,6 +494,8 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8`
 
+- :ref:`exhale_function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8`
+
 - :ref:`exhale_function_group__Core_1gaf5f68d073df1782bc298f18280f2bc16`
 
 - :ref:`exhale_function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7`
@@ -562,11 +572,19 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga7f967562ed4cfbcfceecf9bc7c0dff17`
 
+- :ref:`exhale_function_namespacecrpropa_1a6650acbc2cdb17eb8354052fe7f6d15c`
+
 - :ref:`exhale_function_group__Core_1ga37240288afb16f49d1eed43a69d14c82`
 
 - :ref:`exhale_function_group__Core_1ga55f6cd87b0ce100c08cfcdd08d8e6ba8`
 
 - :ref:`exhale_function_group__Core_1gadd91fef32b46a63095d2bd239ad71aba`
+
+- :ref:`exhale_function_namespacecrpropa_1a06b39559d8cac3b80579993d8a187b36`
+
+- :ref:`exhale_function_namespacecrpropa_1a58d1c26f67a5fb318a051cdb203d2f57`
+
+- :ref:`exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
 
@@ -600,6 +618,8 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a2364d68144515ff61be4c9ad0429843a`
 
+- :ref:`exhale_function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7`
+
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a`
@@ -625,6 +645,8 @@ Functions
 - :ref:`exhale_function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025`
 
 - :ref:`exhale_function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d`
+
+- :ref:`exhale_function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4`
 
@@ -657,6 +679,8 @@ Typedefs
 --------
 
 
+- :ref:`exhale_typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293`
+
 - :ref:`exhale_typedef_group__Core_1gad761d09abe25f824acac027b04dd1507`
 
 - :ref:`exhale_typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925`
@@ -667,6 +691,12 @@ Typedefs
 
 - :ref:`exhale_typedef_namespacecrpropa_1a6387729ac73af2c68af96d06bd2595a6`
 
+- :ref:`exhale_typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3`
+
+- :ref:`exhale_typedef_namespacecrpropa_1afdeae388527922b41dd13abc77ffdb59`
+
+- :ref:`exhale_typedef_namespacecrpropa_1a38b820ffe798c468ff6cf1b15efad830`
+
 - :ref:`exhale_typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206`
 
 - :ref:`exhale_typedef_group__Core_1gaf345ad77ba5e240c7ab72b4b2077e754`
@@ -675,6 +705,10 @@ Typedefs
 Variables
 ---------
 
+
+- :ref:`exhale_variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d`
+
+- :ref:`exhale_variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437`
 
 - :ref:`exhale_variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164`
 

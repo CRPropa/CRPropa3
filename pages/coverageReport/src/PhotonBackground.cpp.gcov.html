@@ -31,18 +31,18 @@
             <td class="headerValue">coverage.info.cleaned</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">44.2&nbsp;%</td>
+            <td class="headerCovTableEntryLo">42.3&nbsp;%</td>
             <td class="headerCovTableEntry">208</td>
-            <td class="headerCovTableEntry">92</td>
+            <td class="headerCovTableEntry">88</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-02 05:23:49</td>
+            <td class="headerValue">2026-07-02 05:22:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryLo">60.9&nbsp;%</td>
+            <td class="headerCovTableEntryLo">52.2&nbsp;%</td>
             <td class="headerCovTableEntry">23</td>
-            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">12</td>
           </tr>
                   <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -91,45 +91,45 @@
 <span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">          94 : }</span></span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
 <span id="L31"><span class="lineNum">      31</span>              : </span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">     9538539 : double TabularPhotonField::getPhotonDensity(double Ephoton, double z, const Vector3d &amp;pos) const {</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">     9538539 :         if (this-&gt;isRedshiftDependent) {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">     9536930 : double TabularPhotonField::getPhotonDensity(double Ephoton, double z, const Vector3d &amp;pos) const {</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">     9536930 :         if (this-&gt;isRedshiftDependent) {</span></span>
 <span id="L34"><span class="lineNum">      34</span>              :                 // fix behaviour for future redshift. See issue #414</span>
 <span id="L35"><span class="lineNum">      35</span>              :                 // with redshift &lt; 0 the photon density is set to 0 in interpolate2d.</span>
 <span id="L36"><span class="lineNum">      36</span>              :                 // Therefore it is assumed that the photon density does not change from values at z = 0. This is only valid for small changes in redshift.</span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">     9538539 :                 double zMin = this-&gt;redshifts[0];</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">     9536930 :                 double zMin = this-&gt;redshifts[0];</span></span>
 <span id="L38"><span class="lineNum">      38</span>              :                 </span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">     9538539 :                 if(z &lt; zMin){</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">     9536930 :                 if(z &lt; zMin){</span></span>
 <span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC tlaBgUNC">           0 :                         if(z &lt; -1) {</span></span>
 <span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :                                 KISS_LOG_WARNING &lt;&lt; &quot;Photon Field &quot; &lt;&lt; fieldName &lt;&lt; &quot; uses FutureRedshift with z &lt; -1. The photon density is set to n(Ephoton, z=0). \n&quot;;</span></span>
 <span id="L42"><span class="lineNum">      42</span>              :                         }</span>
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :                         return getPhotonDensity(Ephoton, zMin);</span></span>
 <span id="L44"><span class="lineNum">      44</span>              :                 } else {</span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC tlaBgGNC">     9538539 :                         return interpolate2d(Ephoton, z, this-&gt;photonEnergies, this-&gt;redshifts, this-&gt;photonDensity);</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC tlaBgGNC">     9536930 :                         return interpolate2d(Ephoton, z, this-&gt;photonEnergies, this-&gt;redshifts, this-&gt;photonDensity);</span></span>
 <span id="L46"><span class="lineNum">      46</span>              :                 }</span>
 <span id="L47"><span class="lineNum">      47</span>              :         } else {</span>
 <span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC tlaBgUNC">           0 :                 return interpolate(Ephoton, this-&gt;photonEnergies, this-&gt;photonDensity);</span></span>
 <span id="L49"><span class="lineNum">      49</span>              :         }</span>
 <span id="L50"><span class="lineNum">      50</span>              : }</span>
 <span id="L51"><span class="lineNum">      51</span>              : </span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC tlaBgGNC">        2262 : double TabularPhotonField::getRedshiftScaling(double z) const {</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">        2262 :         if (!this-&gt;isRedshiftDependent)</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC tlaBgGNC">        4125 : double TabularPhotonField::getRedshiftScaling(double z) const {</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">        4125 :         if (!this-&gt;isRedshiftDependent)</span></span>
 <span id="L54"><span class="lineNum">      54</span>              :                 return 1.;</span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">        1982 :         if (z &lt; this-&gt;redshifts.front())</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">        3845 :         if (z &lt; this-&gt;redshifts.front())</span></span>
 <span id="L56"><span class="lineNum">      56</span>              :                 return 1.;</span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">        1982 :         if (z &gt; this-&gt;redshifts.back())</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">        3845 :         if (z &gt; this-&gt;redshifts.back())</span></span>
 <span id="L58"><span class="lineNum">      58</span>              :                 return 0.;</span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">        1982 :         return interpolate(z, this-&gt;redshifts, this-&gt;redshiftScalings);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">        3845 :         return interpolate(z, this-&gt;redshifts, this-&gt;redshiftScalings);</span></span>
 <span id="L60"><span class="lineNum">      60</span>              : }</span>
 <span id="L61"><span class="lineNum">      61</span>              : </span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 : double TabularPhotonField::getMinimumPhotonEnergy(double z, const Vector3d &amp;pos) const{</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           1 :         return photonEnergies[0];</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaUNC tlaBgUNC">           0 : double TabularPhotonField::getMinimumPhotonEnergy(double z, const Vector3d &amp;pos) const{</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :         return photonEnergies[0];</span></span>
 <span id="L64"><span class="lineNum">      64</span>              : }</span>
 <span id="L65"><span class="lineNum">      65</span>              : </span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           2 : double TabularPhotonField::getMaximumPhotonEnergy(double z, const Vector3d &amp;pos) const{</span></span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           2 :         return photonEnergies[photonEnergies.size() -1];</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaUNC">           0 : double TabularPhotonField::getMaximumPhotonEnergy(double z, const Vector3d &amp;pos) const{</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaUNC">           0 :         return photonEnergies[photonEnergies.size() -1];</span></span>
 <span id="L68"><span class="lineNum">      68</span>              : }</span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">          94 : void TabularPhotonField::readPhotonEnergy(std::string filePath) {</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC tlaBgGNC">          94 : void TabularPhotonField::readPhotonEnergy(std::string filePath) {</span></span>
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">          94 :         std::ifstream infile(filePath.c_str());</span></span>
 <span id="L72"><span class="lineNum">      72</span>              :         </span>
 <span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">          94 :         if (!infile.good())</span></span>
@@ -436,14 +436,14 @@
 <span id="L374"><span class="lineNum">     374</span> <span class="tlaGNC">          40 :                 this-&gt;quantile = 0.0001; // tested to be sufficient, only used for extreme values of primary energy or temperature</span></span>
 <span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">          40 : }</span></span>
 <span id="L376"><span class="lineNum">     376</span>              : </span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">        8584 : double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z, const Vector3d &amp;pos) const {</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">        8584 :         return 8 * M_PI * pow_integer&lt;3&gt;(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this-&gt;blackbodyTemperature));</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">        8054 : double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z, const Vector3d &amp;pos) const {</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">        8054 :         return 8 * M_PI * pow_integer&lt;3&gt;(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this-&gt;blackbodyTemperature));</span></span>
 <span id="L379"><span class="lineNum">     379</span>              : }</span>
 <span id="L380"><span class="lineNum">     380</span>              : </span>
-<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">          28 : double BlackbodyPhotonField::getMinimumPhotonEnergy(double z, const Vector3d &amp;pos) const {</span></span>
+<span id="L381"><span class="lineNum">     381</span> <span class="tlaGNC">          25 : double BlackbodyPhotonField::getMinimumPhotonEnergy(double z, const Vector3d &amp;pos) const {</span></span>
 <span id="L382"><span class="lineNum">     382</span>              :         double A;</span>
-<span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">          28 :         int quantile_int = 10000 * quantile;</span></span>
-<span id="L384"><span class="lineNum">     384</span> <span class="tlaGNC">          28 :         switch (quantile_int)</span></span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">          25 :         int quantile_int = 10000 * quantile;</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaGNC">          25 :         switch (quantile_int)</span></span>
 <span id="L385"><span class="lineNum">     385</span>              :         {</span>
 <span id="L386"><span class="lineNum">     386</span>              :         case 1: // 0.01 % percentil</span>
 <span id="L387"><span class="lineNum">     387</span>              :                 A = 1.093586e-5 * eV / kelvin;</span>
@@ -458,12 +458,12 @@
 <span id="L396"><span class="lineNum">     396</span> <span class="tlaUNC">           0 :                 throw std::runtime_error(&quot;Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n&quot;);</span></span>
 <span id="L397"><span class="lineNum">     397</span>              :                 break;</span>
 <span id="L398"><span class="lineNum">     398</span>              :         }</span>
-<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC tlaBgGNC">          28 :         return A * this -&gt; blackbodyTemperature;</span></span>
+<span id="L399"><span class="lineNum">     399</span> <span class="tlaGNC tlaBgGNC">          25 :         return A * this -&gt; blackbodyTemperature;</span></span>
 <span id="L400"><span class="lineNum">     400</span>              : }</span>
 <span id="L401"><span class="lineNum">     401</span>              : </span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">          55 : double BlackbodyPhotonField::getMaximumPhotonEnergy(double z, const Vector3d &amp;pos) const {</span></span>
-<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">          55 :         double factor = std::max(1., blackbodyTemperature / 2.73);</span></span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">          55 :         return 0.1 * factor * eV; // T dependent scaling, starting at 0.1 eV as suitable for CMB</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaGNC">          49 : double BlackbodyPhotonField::getMaximumPhotonEnergy(double z, const Vector3d &amp;pos) const {</span></span>
+<span id="L403"><span class="lineNum">     403</span> <span class="tlaGNC">          49 :         double factor = std::max(1., blackbodyTemperature / 2.73);</span></span>
+<span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">          49 :         return 0.1 * factor * eV; // T dependent scaling, starting at 0.1 eV as suitable for CMB</span></span>
 <span id="L405"><span class="lineNum">     405</span>              : }</span>
 <span id="L406"><span class="lineNum">     406</span>              : </span>
 <span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC tlaBgUNC">           0 : void BlackbodyPhotonField::setQuantile(double q) {</span></span>

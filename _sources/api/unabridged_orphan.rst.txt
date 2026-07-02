@@ -36,6 +36,11 @@ Directories
 .. toctree::
    :maxdepth: 5
 
+   dir_include_crpropa_magneticLens.rst
+
+.. toctree::
+   :maxdepth: 5
+
    dir_include_crpropa_massDistribution.rst
 
 .. toctree::
@@ -62,6 +67,11 @@ Directories
    :maxdepth: 5
 
    dir_src_magneticField_turbulentField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_magneticLens.rst
 
 .. toctree::
    :maxdepth: 5
@@ -460,12 +470,32 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_magneticLens_MagneticLens.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_MagneticLens.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_massDistribution_Massdistribution.cpp.rst
 
 .. toctree::
    :maxdepth: 5
 
    file_include_crpropa_massDistribution_Massdistribution.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_ModelMatrix.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_ModelMatrix.h.rst
 
 .. toctree::
    :maxdepth: 5
@@ -565,6 +595,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_magneticLens_ParticleMapsContainer.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_ParticleMapsContainer.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_ParticleMass.cpp.rst
 
 .. toctree::
@@ -621,6 +661,16 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_module_PhotoPionProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_Pixelization.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_Pixelization.h.rst
 
 .. toctree::
    :maxdepth: 5

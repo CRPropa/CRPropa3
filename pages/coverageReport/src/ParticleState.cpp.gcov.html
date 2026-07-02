@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-02 05:23:49</td>
+            <td class="headerValue">2026-07-02 05:22:47</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">94.1&nbsp;%</td>
@@ -73,56 +73,56 @@
 <span id="L11"><span class="lineNum">      11</span>              : </span>
 <span id="L12"><span class="lineNum">      12</span>              : namespace crpropa {</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC tlaBgGNC">    16850521 : ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir): id(0), energy(0.), position(0.), direction(0.), pmass(0.), charge(0.)</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC tlaBgGNC">    16854526 : ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir): id(0), energy(0.), position(0.), direction(0.), pmass(0.), charge(0.)</span></span>
 <span id="L15"><span class="lineNum">      15</span>              : {</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">    16850521 :         setId(id);</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">    16850521 :         setEnergy(E);</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">    16850521 :         setPosition(pos);</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">    16850521 :         setDirection(dir);</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">    16850521 : }</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">    16854526 :         setId(id);</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">    16854526 :         setEnergy(E);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">    16854526 :         setPosition(pos);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">    16854526 :         setDirection(dir);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">    16854526 : }</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">    24116578 : void ParticleState::setPosition(const Vector3d &amp;pos) {</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">    24122316 : void ParticleState::setPosition(const Vector3d &amp;pos) {</span></span>
 <span id="L23"><span class="lineNum">      23</span>              :         position = pos;</span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">    24116578 : }</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">    24122316 : }</span></span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">    15807814 : const Vector3d &amp;ParticleState::getPosition() const {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">    15807814 :         return position;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">    15811706 : const Vector3d &amp;ParticleState::getPosition() const {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">    15811706 :         return position;</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : }</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">    17335762 : void ParticleState::setDirection(const Vector3d &amp;dir) {</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">    17339767 : void ParticleState::setDirection(const Vector3d &amp;dir) {</span></span>
 <span id="L31"><span class="lineNum">      31</span>              :         direction = dir / dir.getR();</span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">    17335762 : }</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">    17339767 : }</span></span>
 <span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">      493477 : const Vector3d &amp;ParticleState::getDirection() const {</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">      493477 :         return direction;</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">      493608 : const Vector3d &amp;ParticleState::getDirection() const {</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">      493608 :         return direction;</span></span>
 <span id="L36"><span class="lineNum">      36</span>              : }</span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">    20323144 : void ParticleState::setEnergy(double newEnergy) {</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">    20323144 :         energy = std::max(0., newEnergy); // prevent negative energies</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">    20323144 : }</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">    20328098 : void ParticleState::setEnergy(double newEnergy) {</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">    20328098 :         energy = std::max(0., newEnergy); // prevent negative energies</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">    20328098 : }</span></span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">      590145 : double ParticleState::getEnergy() const {</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">      590145 :         return energy;</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">      590330 : double ParticleState::getEnergy() const {</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">      590330 :         return energy;</span></span>
 <span id="L44"><span class="lineNum">      44</span>              : }</span>
 <span id="L45"><span class="lineNum">      45</span>              : </span>
 <span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           2 : double ParticleState::getRigidity() const {</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           2 :         return fabs(energy / charge);</span></span>
 <span id="L48"><span class="lineNum">      48</span>              : }</span>
 <span id="L49"><span class="lineNum">      49</span>              : </span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">    20321782 : void ParticleState::setId(int newId) {</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">    20321782 :         id = newId;</span></span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20321782 :         pmass = particleMass(id);</span></span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">    20321782 :         if (isNucleus(id)) {</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">      146121 :                 charge = chargeNumber(id) * eplus;</span></span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">      146121 :                 if (id &lt; 0)</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">    20326604 : void ParticleState::setId(int newId) {</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">    20326604 :         id = newId;</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">    20326604 :         pmass = particleMass(id);</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">    20326604 :         if (isNucleus(id)) {</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">      146205 :                 charge = chargeNumber(id) * eplus;</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">      146205 :                 if (id &lt; 0)</span></span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           4 :                         charge *= -1; // anti-nucleus</span></span>
 <span id="L57"><span class="lineNum">      57</span>              :         } else {</span>
-<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">    20175661 :                 charge = HepPID::charge(id) * eplus;</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">    20180399 :                 charge = HepPID::charge(id) * eplus;</span></span>
 <span id="L59"><span class="lineNum">      59</span>              :         }</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">    20321782 : }</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">    20326604 : }</span></span>
 <span id="L61"><span class="lineNum">      61</span>              : </span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">      213609 : int ParticleState::getId() const {</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">      213609 :         return id;</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">      215060 : int ParticleState::getId() const {</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">      215060 :         return id;</span></span>
 <span id="L64"><span class="lineNum">      64</span>              : }</span>
 <span id="L65"><span class="lineNum">      65</span>              : </span>
 <span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           7 : double ParticleState::getMass() const {</span></span>
@@ -133,14 +133,14 @@
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">      960340 :         return charge;</span></span>
 <span id="L72"><span class="lineNum">      72</span>              : }</span>
 <span id="L73"><span class="lineNum">      73</span>              : </span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">        3988 : double ParticleState::getLorentzFactor() const {</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">        3988 :         return energy / (pmass * c_squared);</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">        6126 : double ParticleState::getLorentzFactor() const {</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">        6126 :         return energy / (pmass * c_squared);</span></span>
 <span id="L76"><span class="lineNum">      76</span>              : }</span>
 <span id="L77"><span class="lineNum">      77</span>              : </span>
-<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">        1951 : void ParticleState::setLorentzFactor(double lf) {</span></span>
-<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">        1951 :         lf = std::max(0., lf); // prevent negative Lorentz factors</span></span>
-<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">        1951 :         energy = lf * pmass * c_squared;</span></span>
-<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">        1951 : }</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">        2212 : void ParticleState::setLorentzFactor(double lf) {</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">        2212 :         lf = std::max(0., lf); // prevent negative Lorentz factors</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">        2212 :         energy = lf * pmass * c_squared;</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">        2212 : }</span></span>
 <span id="L82"><span class="lineNum">      82</span>              : </span>
 <span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 : Vector3d ParticleState::getVelocity() const {</span></span>
 <span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">           1 :         return direction * c_light;</span></span>

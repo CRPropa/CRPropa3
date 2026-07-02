@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7:
+
+Function crpropa::prod_up
+=========================
+
+- Defined in :ref:`file_src_magneticLens_ModelMatrix.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::prod_up(const ModelMatrixType&, double *)
+   :project: CRPropa3

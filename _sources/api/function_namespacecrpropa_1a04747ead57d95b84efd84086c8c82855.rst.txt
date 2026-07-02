@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855:
+
+Function crpropa::normalizeMatrix
+=================================
+
+- Defined in :ref:`file_src_magneticLens_ModelMatrix.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::normalizeMatrix(ModelMatrixType&, double)
+   :project: CRPropa3

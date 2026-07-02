@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8:
+
+Function crpropa::deserialize
+=============================
+
+- Defined in :ref:`file_src_magneticLens_ModelMatrix.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::deserialize(const string&, ModelMatrixType&)
+   :project: CRPropa3

@@ -12,7 +12,6 @@ Building Blocks
   buildingblocks/Condition.rst
   buildingblocks/SourceFeatures.rst
   buildingblocks/Output.rst
-  buildingblocks/MagneticLens.rst
   buildingblocks/Tools.rst
   buildingblocks/PhotonFields.rst
 

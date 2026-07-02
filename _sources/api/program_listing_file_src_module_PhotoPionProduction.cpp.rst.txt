@@ -229,13 +229,13 @@ Program Listing for File PhotoPionProduction.cpp
            int sign = (id > 0) ? 1 : -1;
    
            // check if below SOPHIA's energy threshold
-           double E_threshold = (photonField->getFieldName() == "CMB") ? 3.72e18 * eV : 5.83e15 * eV;
-           if (EpA * (1 + z) < E_threshold)
-                   return;
-   
+           double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit
+           double epsThreshold = epsMinInteraction(onProton, Ein);
+           if (epsThreshold > photonField->getMaximumPhotonEnergy(z)/eV) {
+                   return;   
+           }
            // SOPHIA - input:
            int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
-           double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit
            double eps = sampleEps(onProton, EpA, z) / GeV;  // GeV for SOPHIA
    
            // SOPHIA - output:

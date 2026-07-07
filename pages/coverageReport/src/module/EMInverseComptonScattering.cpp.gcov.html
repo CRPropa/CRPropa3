@@ -31,18 +31,18 @@
             <td class="headerValue">coverage.info.cleaned</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryMed">85.2&nbsp;%</td>
-            <td class="headerCovTableEntry">128</td>
-            <td class="headerCovTableEntry">109</td>
+            <td class="headerCovTableEntryMed">85.4&nbsp;%</td>
+            <td class="headerCovTableEntry">130</td>
+            <td class="headerCovTableEntry">111</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-02 05:40:57</td>
+            <td class="headerValue">2026-07-07 09:24:15</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryLo">70.6&nbsp;%</td>
-            <td class="headerCovTableEntry">17</td>
-            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryLo">72.2&nbsp;%</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">13</td>
           </tr>
                   <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -204,95 +204,98 @@
 <span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">           1 :                 }</span></span>
 <span id="L143"><span class="lineNum">     143</span>              : };</span>
 <span id="L144"><span class="lineNum">     144</span>              : </span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">           1 : void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {</span></span>
-<span id="L146"><span class="lineNum">     146</span>              : </span>
-<span id="L147"><span class="lineNum">     147</span>              :         // scale the particle energy instead of background photons</span>
-<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>
-<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           1 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
-<span id="L150"><span class="lineNum">     150</span>              :         </span>
-<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">           1 :         Vector3d position = candidate-&gt;current.getPosition();</span></span>
-<span id="L152"><span class="lineNum">     152</span>              :         </span>
-<span id="L153"><span class="lineNum">     153</span>              :         std::vector&lt;double&gt; tabE;</span>
-<span id="L154"><span class="lineNum">     154</span>              :         std::vector&lt;double&gt; tabs;</span>
-<span id="L155"><span class="lineNum">     155</span>              :         std::vector&lt;std::vector&lt;double&gt;&gt; tabCDF;</span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">           1 : double EMInverseComptonScattering::getRate(double E, const Vector3d &amp;position, double z) const {</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">           1 :         return this-&gt;interactionRates-&gt;getProcessRate(E, position) * pow_integer&lt;2&gt;(1 + z) * photonField-&gt;getRedshiftScaling(z);</span></span>
+<span id="L147"><span class="lineNum">     147</span>              : }</span>
+<span id="L148"><span class="lineNum">     148</span>              : </span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">           1 : void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {</span></span>
+<span id="L150"><span class="lineNum">     150</span>              : </span>
+<span id="L151"><span class="lineNum">     151</span>              :         // scale the particle energy instead of background photons</span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L153"><span class="lineNum">     153</span> <span class="tlaGNC">           1 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
+<span id="L154"><span class="lineNum">     154</span>              :         </span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">           1 :         Vector3d position = candidate-&gt;current.getPosition();</span></span>
 <span id="L156"><span class="lineNum">     156</span>              :         </span>
-<span id="L157"><span class="lineNum">     157</span> <span class="tlaGNC">           1 :         this-&gt;interactionRates-&gt;loadPerformInteractionTabs(position, tabE, tabs, tabCDF);</span></span>
-<span id="L158"><span class="lineNum">     158</span>              :         </span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaGNC">           1 :         if (E &lt; tabE.front() or E &gt; tabE.back())</span></span>
-<span id="L160"><span class="lineNum">     160</span>              :                 return;</span>
-<span id="L161"><span class="lineNum">     161</span>              :         </span>
-<span id="L162"><span class="lineNum">     162</span>              :         // sample the value of s</span>
-<span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
-<span id="L164"><span class="lineNum">     164</span> <span class="tlaGNC">           1 :         size_t i = closestIndex(E, tabE);</span></span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">           1 :         size_t j = random.randBin(tabCDF[i]);</span></span>
-<span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">           1 :         double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);</span></span>
-<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">           1 :         double s = s_kin + mec2 * mec2;</span></span>
-<span id="L168"><span class="lineNum">     168</span>              :         </span>
-<span id="L169"><span class="lineNum">     169</span>              :         // sample electron energy after scattering</span>
-<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">           1 :         static ICSSecondariesEnergyDistribution distribution;</span></span>
-<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">           1 :         double Enew = distribution.sample(E, s);</span></span>
+<span id="L157"><span class="lineNum">     157</span>              :         std::vector&lt;double&gt; tabE;</span>
+<span id="L158"><span class="lineNum">     158</span>              :         std::vector&lt;double&gt; tabs;</span>
+<span id="L159"><span class="lineNum">     159</span>              :         std::vector&lt;std::vector&lt;double&gt;&gt; tabCDF;</span>
+<span id="L160"><span class="lineNum">     160</span>              :         </span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">           1 :         this-&gt;interactionRates-&gt;loadPerformInteractionTabs(position, tabE, tabs, tabCDF);</span></span>
+<span id="L162"><span class="lineNum">     162</span>              :         </span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaGNC">           1 :         if (E &lt; tabE.front() or E &gt; tabE.back())</span></span>
+<span id="L164"><span class="lineNum">     164</span>              :                 return;</span>
+<span id="L165"><span class="lineNum">     165</span>              :         </span>
+<span id="L166"><span class="lineNum">     166</span>              :         // sample the value of s</span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">           1 :         size_t i = closestIndex(E, tabE);</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">           1 :         size_t j = random.randBin(tabCDF[i]);</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">           1 :         double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">           1 :         double s = s_kin + mec2 * mec2;</span></span>
 <span id="L172"><span class="lineNum">     172</span>              :         </span>
-<span id="L173"><span class="lineNum">     173</span>              :         // add up-scattered photon</span>
-<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">           1 :         double Esecondary = E - Enew;</span></span>
-<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">           1 :         double f = Enew / E;</span></span>
-<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">           1 :         if (havePhotons) {</span></span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">           1 :                 if (random.rand() &lt; pow(1 - f, thinning)) {</span></span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">           1 :                         double w = 1. / pow(1 - f, thinning);</span></span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">           1 :                         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">           1 :                         candidate-&gt;addSecondary(22, Esecondary / (1 + z), pos, w, interactionTag);</span></span>
-<span id="L181"><span class="lineNum">     181</span>              :                 }</span>
-<span id="L182"><span class="lineNum">     182</span>              :         }</span>
-<span id="L183"><span class="lineNum">     183</span>              :         </span>
-<span id="L184"><span class="lineNum">     184</span>              :         // update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent</span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">           1 :         candidate-&gt;current.setEnergy(Enew / (1 + z));</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">           1 : }</span></span>
-<span id="L187"><span class="lineNum">     187</span>              : </span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">        1763 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
-<span id="L189"><span class="lineNum">     189</span>              :         // check if electron / positron</span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">        1763 :         int id = candidate-&gt;current.getId();</span></span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">        1763 :         if (abs(id) != 11)</span></span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        1763 :                 return;</span></span>
-<span id="L193"><span class="lineNum">     193</span>              :         </span>
-<span id="L194"><span class="lineNum">     194</span>              :         // scale the particle energy instead of background photons</span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">           1 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">           1 :         Vector3d position = candidate-&gt;current.getPosition();</span></span>
-<span id="L198"><span class="lineNum">     198</span>              :         </span>
-<span id="L199"><span class="lineNum">     199</span>              :         // interaction rate</span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">           1 :         double rate = this-&gt;interactionRates-&gt;getProcessRate(E, position);</span></span>
-<span id="L201"><span class="lineNum">     201</span>              :         </span>
-<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">           1 :         if (rate &lt; 0)</span></span>
-<span id="L203"><span class="lineNum">     203</span>              :                 return;</span>
-<span id="L204"><span class="lineNum">     204</span>              :         </span>
-<span id="L205"><span class="lineNum">     205</span> <span class="tlaGNC">           1 :         rate *= pow_integer&lt;2&gt;(1 + z) * photonField-&gt;getRedshiftScaling(z);</span></span>
-<span id="L206"><span class="lineNum">     206</span>              :         </span>
-<span id="L207"><span class="lineNum">     207</span>              :         // run this loop at least once to limit the step size</span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">           1 :         double step = candidate-&gt;getCurrentStep();</span></span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
-<span id="L210"><span class="lineNum">     210</span>              :         do {</span>
-<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           1 :                 double randDistance = -log(random.rand()) / rate;</span></span>
-<span id="L212"><span class="lineNum">     212</span>              :                 </span>
-<span id="L213"><span class="lineNum">     213</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">           1 :                 if (step &lt; randDistance) {</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">           1 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">           1 :                         return;</span></span>
-<span id="L217"><span class="lineNum">     217</span>              :                 }</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaUNC tlaBgUNC">           0 :                 performInteraction(candidate);</span></span>
-<span id="L219"><span class="lineNum">     219</span>              :                 </span>
-<span id="L220"><span class="lineNum">     220</span>              :                 // repeat with remaining step</span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :                 step -= randDistance;</span></span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC">           0 :         } while (step &gt; 0);</span></span>
-<span id="L223"><span class="lineNum">     223</span>              : }</span>
-<span id="L224"><span class="lineNum">     224</span>              : </span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC tlaBgGNC">           1 : void EMInverseComptonScattering::setInteractionTag(std::string tag) {</span></span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">           1 :         interactionTag = tag;</span></span>
-<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">           1 : }</span></span>
-<span id="L228"><span class="lineNum">     228</span>              : </span>
-<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">           2 : std::string EMInverseComptonScattering::getInteractionTag() const {</span></span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           2 :         return interactionTag;</span></span>
-<span id="L231"><span class="lineNum">     231</span>              : }</span>
-<span id="L232"><span class="lineNum">     232</span>              : </span>
-<span id="L233"><span class="lineNum">     233</span>              : } // namespace crpropa</span>
+<span id="L173"><span class="lineNum">     173</span>              :         // sample electron energy after scattering</span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">           1 :         static ICSSecondariesEnergyDistribution distribution;</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">           1 :         double Enew = distribution.sample(E, s);</span></span>
+<span id="L176"><span class="lineNum">     176</span>              :         </span>
+<span id="L177"><span class="lineNum">     177</span>              :         // add up-scattered photon</span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">           1 :         double Esecondary = E - Enew;</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">           1 :         double f = Enew / E;</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">           1 :         if (havePhotons) {</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">           1 :                 if (random.rand() &lt; pow(1 - f, thinning)) {</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">           1 :                         double w = 1. / pow(1 - f, thinning);</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">           1 :                         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
+<span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">           1 :                         candidate-&gt;addSecondary(22, Esecondary / (1 + z), pos, w, interactionTag);</span></span>
+<span id="L185"><span class="lineNum">     185</span>              :                 }</span>
+<span id="L186"><span class="lineNum">     186</span>              :         }</span>
+<span id="L187"><span class="lineNum">     187</span>              :         </span>
+<span id="L188"><span class="lineNum">     188</span>              :         // update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent</span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">           1 :         candidate-&gt;current.setEnergy(Enew / (1 + z));</span></span>
+<span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L191"><span class="lineNum">     191</span>              : </span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        1181 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
+<span id="L193"><span class="lineNum">     193</span>              :         // check if electron / positron</span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        1181 :         int id = candidate-&gt;current.getId();</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">        1181 :         if (abs(id) != 11)</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        1181 :                 return;</span></span>
+<span id="L197"><span class="lineNum">     197</span>              :         </span>
+<span id="L198"><span class="lineNum">     198</span>              :         // scale the particle energy instead of background photons</span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">           1 :         double E = candidate-&gt;current.getEnergy() * (1 + z);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">           1 :         Vector3d position = candidate-&gt;current.getPosition();</span></span>
+<span id="L202"><span class="lineNum">     202</span>              :         </span>
+<span id="L203"><span class="lineNum">     203</span>              :         // interaction rate</span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">           1 :         double rate = getRate(E, position, z);</span></span>
+<span id="L205"><span class="lineNum">     205</span> <span class="tlaGNC">           1 :         if (rate &lt; 0)</span></span>
+<span id="L206"><span class="lineNum">     206</span>              :                 return;</span>
+<span id="L207"><span class="lineNum">     207</span>              :         </span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">           1 :         rate *= pow_integer&lt;2&gt;(1 + z) * photonField-&gt;getRedshiftScaling(z);</span></span>
+<span id="L209"><span class="lineNum">     209</span>              :         </span>
+<span id="L210"><span class="lineNum">     210</span>              :         // run this loop at least once to limit the step size</span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           1 :         double step = candidate-&gt;getCurrentStep();</span></span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
+<span id="L213"><span class="lineNum">     213</span>              :         do {</span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">           1 :                 double randDistance = -log(random.rand()) / rate;</span></span>
+<span id="L215"><span class="lineNum">     215</span>              :                 </span>
+<span id="L216"><span class="lineNum">     216</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">           1 :                 if (step &lt; randDistance) {</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           1 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">           1 :                         return;</span></span>
+<span id="L220"><span class="lineNum">     220</span>              :                 }</span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC tlaBgUNC">           0 :                 performInteraction(candidate);</span></span>
+<span id="L222"><span class="lineNum">     222</span>              :                 </span>
+<span id="L223"><span class="lineNum">     223</span>              :                 // repeat with remaining step</span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :                 step -= randDistance;</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :         } while (step &gt; 0);</span></span>
+<span id="L226"><span class="lineNum">     226</span>              : }</span>
+<span id="L227"><span class="lineNum">     227</span>              : </span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC tlaBgGNC">           1 : void EMInverseComptonScattering::setInteractionTag(std::string tag) {</span></span>
+<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">           1 :         interactionTag = tag;</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L231"><span class="lineNum">     231</span>              : </span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">           2 : std::string EMInverseComptonScattering::getInteractionTag() const {</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">           2 :         return interactionTag;</span></span>
+<span id="L234"><span class="lineNum">     234</span>              : }</span>
+<span id="L235"><span class="lineNum">     235</span>              : </span>
+<span id="L236"><span class="lineNum">     236</span>              : } // namespace crpropa</span>
         </pre>
               </td>
             </tr>

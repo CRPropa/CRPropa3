@@ -80,6 +80,10 @@ Program Listing for File EMDoublePairProduction.cpp
            this->interactionRates->initRate(path);
    }
    
+   double EMDoublePairProduction::getRate(double E, const Vector3d &position, double z) const {
+           return this->interactionRates->getProcessRate(E, position) * pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
+   }
+   
    void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
    
            // Use assumption of Lee 96 arXiv:9604098
@@ -122,13 +126,10 @@ Program Listing for File EMDoublePairProduction.cpp
            Vector3d position = candidate->current.getPosition();
    
            // interaction rate
-           double rate = this->interactionRates->getProcessRate(E, position);
-                   
+           double rate = getRate(E, position, z);
            if (rate < 0)
                    return;
                    
-           rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
-   
            // check for interaction
            Random &random = Random::instance();
            double randDistance = -log(random.rand()) / rate;

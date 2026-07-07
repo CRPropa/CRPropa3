@@ -591,6 +591,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4NK19getInteractionRatesEv"><code class="docutils literal notranslate"><span class="pre">getInteractionRates()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv48initRateNSt6stringE"><code class="docutils literal notranslate"><span class="pre">initRate()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv418initCumulativeRateNSt6stringE"><code class="docutils literal notranslate"><span class="pre">initCumulativeRate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4NK7getRateEdRK8Vector3dd"><code class="docutils literal notranslate"><span class="pre">getRate()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4NK18performInteractionEP9Candidate"><code class="docutils literal notranslate"><span class="pre">performInteraction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4NK7processEP9Candidate"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv411photonField"><code class="docutils literal notranslate"><span class="pre">photonField</span></code></a></li>
@@ -1499,6 +1500,21 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> – The name of the file/folder containing the interaction rates </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa23EMTripletPairProduction7getRateEdRK8Vector3dd">
+<span class="target" id="classcrpropa_1_1EMTripletPairProduction_1a9fd3b7aa5f4854924ef3a509ee354ba2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">E</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48Vector3d" title="Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48Vector3d" title="Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0.</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">z</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa23EMTripletPairProduction7getRateEdRK8Vector3dd" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the interaction rate for a given energy, position, and redshift. For now, this function uses a redshift scaling factor for the interaction rate. Future releases will include a more accurate treatment of the redshift evolution of the photon field. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> – Energy of the primary particle </p></li>
+<li><p><strong>position</strong> – Position of the primary particle </p></li>
+<li><p><strong>z</strong> – <a class="reference internal" href="../doc/buildingblocks/EnergyLosses.html#classcrpropa_1_1Redshift"><span class="std std-ref">Redshift</span></a> of the primary particle </p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

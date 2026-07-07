@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-02 05:40:57</td>
+            <td class="headerValue">2026-07-07 09:24:15</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">38.5&nbsp;%</td>
@@ -73,25 +73,25 @@
 <span id="L11"><span class="lineNum">      11</span>              : </span>
 <span id="L12"><span class="lineNum">      12</span>              : namespace crpropa {</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC tlaBgGNC">          80 : InteractionRatesHomogeneous::InteractionRatesHomogeneous(std::string RateFile, std::string CumulativeRateFile) {</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC tlaBgGNC">          80 : InteractionRatesHomogeneous::InteractionRatesHomogeneous(std::string rateFile, std::string cumulativeRateFile) {</span></span>
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">          80 :         this-&gt;ratesName = &quot;interactionRatesHomogeneous&quot;;</span></span>
 <span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">          80 :         this-&gt;isPositionDependent = false;</span></span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">          80 :         if (RateFile!=&quot;&quot;)</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">         160 :                 initRate(RateFile);</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          80 :         if (CumulativeRateFile!=&quot;&quot;)</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">         130 :                 initCumulativeRate(CumulativeRateFile);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">          80 :         if (rateFile != &quot;&quot;)</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">         160 :                 initRate(rateFile);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">          80 :         if (cumulativeRateFile != &quot;&quot;)</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">         130 :                 initCumulativeRate(cumulativeRateFile);</span></span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          80 : }</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">         844 : double InteractionRatesHomogeneous::getProcessRate(const double E, const Vector3d &amp;position) const {</span></span>
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">         844 :         return interpolate(E, this-&gt;tabEnergy, this-&gt;tabRate);</span></span>
 <span id="L26"><span class="lineNum">      26</span>              : }</span>
 <span id="L27"><span class="lineNum">      27</span>              : </span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">         508 : void InteractionRatesHomogeneous::loadPerformInteractionTabs(const Vector3d &amp;position, std::vector&lt;double&gt; &amp;tabE, std::vector&lt;double&gt; &amp;tabs, std::vector&lt;std::vector&lt;double&gt;&gt; &amp;tabCDF) const {</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">         508 :         tabE = this-&gt;getTabulatedE();</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         508 :         tabs = this-&gt;getTabulateds();</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">         508 :         tabCDF = this-&gt;getTabulatedCDF();</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">         508 : }</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">         503 : void InteractionRatesHomogeneous::loadPerformInteractionTabs(const Vector3d &amp;position, std::vector&lt;double&gt; &amp;tabE, std::vector&lt;double&gt; &amp;tabs, std::vector&lt;std::vector&lt;double&gt;&gt; &amp;tabCDF) const {</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">         503 :         tabE = this-&gt;getTabulatedE();</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         503 :         tabs = this-&gt;getTabulateds();</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">         503 :         tabCDF = this-&gt;getTabulatedCDF();</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">         503 : }</span></span>
 <span id="L33"><span class="lineNum">      33</span>              : </span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">          80 : void InteractionRatesHomogeneous::setTabulatedEnergy(std::vector&lt;double&gt;&amp; tabEnergy) {</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">          80 :         this-&gt;tabEnergy = tabEnergy;</span></span>
@@ -193,16 +193,16 @@
 <span id="L131"><span class="lineNum">     131</span>              : </span>
 <span id="L132"><span class="lineNum">     132</span>              : </span>
 <span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC tlaBgUNC">           0 : InteractionRatesPositionDependent::InteractionRatesPositionDependent(</span></span>
-<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :         std::string RateFilePath, std::string CumulativeRateFilePath, ref_ptr&lt;Surface&gt; surface) {</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :         std::string rateFilePath, std::string cumulativeRateFilePath, ref_ptr&lt;Surface&gt; surface) {</span></span>
 <span id="L135"><span class="lineNum">     135</span>              :         </span>
 <span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :         this-&gt;ratesName = &quot;interactionRatesPositionDependent&quot;;</span></span>
 <span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :         this-&gt;isPositionDependent = true;</span></span>
 <span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :         this-&gt;surface = surface;</span></span>
 <span id="L139"><span class="lineNum">     139</span>              : </span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :         if (RateFilePath!=&quot;&quot;)</span></span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :                 initRate(RateFilePath);</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :         if (CumulativeRateFilePath!=&quot;&quot;)</span></span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :                 initCumulativeRate(CumulativeRateFilePath);</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :         if (rateFilePath != &quot;&quot;)</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :                 initRate(rateFilePath);</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :         if (cumulativeRateFilePath != &quot;&quot;)</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :                 initCumulativeRate(cumulativeRateFilePath);</span></span>
 <span id="L144"><span class="lineNum">     144</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L145"><span class="lineNum">     145</span>              : </span>
 <span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 : int InteractionRatesPositionDependent::findClosestGridPoint(const Vector3d &amp;position) const {</span></span>
@@ -397,7 +397,7 @@
 <span id="L335"><span class="lineNum">     335</span>              :         std::vector&lt;std::string&gt; dirs;</span>
 <span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :         if(!list_directory(filepath, dirs))</span></span>
 <span id="L337"><span class="lineNum">     337</span> <span class="tlaUNC">           0 :                 throw std::runtime_error(&quot;Could not find any files in &quot; + filepath + &quot;!\n&quot;);</span></span>
-<span id="L338"><span class="lineNum">     338</span>              :  </span>
+<span id="L338"><span class="lineNum">     338</span>              : </span>
 <span id="L339"><span class="lineNum">     339</span> <span class="tlaUNC">           0 :         for (auto const&amp; filename : dirs) {</span></span>
 <span id="L340"><span class="lineNum">     340</span>              :                 </span>
 <span id="L341"><span class="lineNum">     341</span>              :                 std::vector&lt;double&gt; vecE;</span>

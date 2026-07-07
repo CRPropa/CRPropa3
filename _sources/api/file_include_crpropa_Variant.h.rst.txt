@@ -53,8 +53,6 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1aea16385cedd40959e4c4e9ef65bb6265`
 
-- :ref:`exhale_function_namespacecrpropa_1a41e9ae7e43e94e567e7e9f9918fe8ddf`
-
 - :ref:`exhale_function_namespacecrpropa_1a7a3d575ae790de0cd7e71da2d0e83451`
 
 - :ref:`exhale_function_namespacecrpropa_1abca3100269ddf419edf195426495b282`
@@ -66,4 +64,6 @@ Functions
 - :ref:`exhale_function_namespacecrpropa_1ab5691f467f6ac235a05ad868e2c3f378`
 
 - :ref:`exhale_function_namespacecrpropa_1a4cf3a1957b3e8fb63bac500a4b8a894c`
+
+- :ref:`exhale_function_namespacecrpropa_1a41e9ae7e43e94e567e7e9f9918fe8ddf`
 

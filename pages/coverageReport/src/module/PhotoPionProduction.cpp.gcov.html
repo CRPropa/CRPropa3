@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info.cleaned</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">62.9&nbsp;%</td>
+            <td class="headerCovTableEntryLo">63.4&nbsp;%</td>
             <td class="headerCovTableEntry">383</td>
-            <td class="headerCovTableEntry">241</td>
+            <td class="headerCovTableEntry">243</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-08 11:37:41</td>
+            <td class="headerValue">2026-07-09 12:52:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">60.0&nbsp;%</td>
@@ -185,134 +185,134 @@
 <span id="L123"><span class="lineNum">     123</span> <span class="tlaGNC">          22 :         infile.close();</span></span>
 <span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">          22 : }</span></span>
 <span id="L125"><span class="lineNum">     125</span>              : </span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">        4247 : double PhotoPionProduction::nucleonMFP(double gamma, double z, bool onProton) const {</span></span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">        4247 :         const std::vector&lt;double&gt; &amp;tabRate = (onProton)? tabProtonRate : tabNeutronRate;</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">         320 : double PhotoPionProduction::nucleonMFP(double gamma, double z, bool onProton) const {</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">         320 :         const std::vector&lt;double&gt; &amp;tabRate = (onProton)? tabProtonRate : tabNeutronRate;</span></span>
 <span id="L128"><span class="lineNum">     128</span>              : </span>
 <span id="L129"><span class="lineNum">     129</span>              :         // scale nucleus energy instead of background photon energy</span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">        4247 :         gamma *= (1 + z);</span></span>
-<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">        4247 :         if (gamma &lt; tabLorentz.front() or (gamma &gt; tabLorentz.back()))</span></span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">         320 :         gamma *= (1 + z);</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaGNC">         320 :         if (gamma &lt; tabLorentz.front() or (gamma &gt; tabLorentz.back()))</span></span>
 <span id="L132"><span class="lineNum">     132</span>              :                 return std::numeric_limits&lt;double&gt;::max();</span>
 <span id="L133"><span class="lineNum">     133</span>              : </span>
 <span id="L134"><span class="lineNum">     134</span>              :         double rate;</span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">        4247 :         if (haveRedshiftDependence)</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">         320 :         if (haveRedshiftDependence)</span></span>
 <span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC tlaBgUNC">           0 :                 rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabRate);</span></span>
 <span id="L137"><span class="lineNum">     137</span>              :         else</span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC tlaBgGNC">        4247 :                 rate = interpolate(gamma, tabLorentz, tabRate) * photonField-&gt;getRedshiftScaling(z);</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC tlaBgGNC">         320 :                 rate = interpolate(gamma, tabLorentz, tabRate) * photonField-&gt;getRedshiftScaling(z);</span></span>
 <span id="L139"><span class="lineNum">     139</span>              : </span>
 <span id="L140"><span class="lineNum">     140</span>              :         // cosmological scaling</span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">        4247 :         rate *= pow_integer&lt;2&gt;(1 + z);</span></span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">         320 :         rate *= pow_integer&lt;2&gt;(1 + z);</span></span>
 <span id="L142"><span class="lineNum">     142</span>              : </span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">        4247 :         return 1. / rate;</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">         320 :         return 1. / rate;</span></span>
 <span id="L144"><span class="lineNum">     144</span>              : }</span>
 <span id="L145"><span class="lineNum">     145</span>              : </span>
-<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">        4247 : double PhotoPionProduction::nucleiModification(int A, int X) const {</span></span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">        4247 :         if (A == 1)</span></span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">         320 : double PhotoPionProduction::nucleiModification(int A, int X) const {</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">         320 :         if (A == 1)</span></span>
 <span id="L148"><span class="lineNum">     148</span>              :                 return 1.;</span>
-<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">        3858 :         if (A &lt;= 8)</span></span>
-<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">        3438 :                 return 0.85 * pow(X, 2. / 3.);</span></span>
-<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">         420 :         return 0.85 * X;</span></span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">         302 :         if (A &lt;= 8)</span></span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">           6 :                 return 0.85 * pow(X, 2. / 3.);</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">         296 :         return 0.85 * X;</span></span>
 <span id="L152"><span class="lineNum">     152</span>              : }</span>
 <span id="L153"><span class="lineNum">     153</span>              : </span>
-<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">        2303 : void PhotoPionProduction::process(Candidate *candidate) const {</span></span>
-<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">        2303 :         double step = candidate-&gt;getCurrentStep();</span></span>
-<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">        2303 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">         153 : void PhotoPionProduction::process(Candidate *candidate) const {</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">         153 :         double step = candidate-&gt;getCurrentStep();</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">         153 :         double z = candidate-&gt;getRedshift();</span></span>
 <span id="L157"><span class="lineNum">     157</span>              :         // the loop is processed at least once for limiting the next step</span>
 <span id="L158"><span class="lineNum">     158</span>              :         do {</span>
 <span id="L159"><span class="lineNum">     159</span>              :                 // check if nucleus</span>
-<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">        2319 :                 int id = candidate-&gt;current.getId();</span></span>
-<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">        2319 :                 if (!isNucleus(id))</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaGNC">         170 :                 int id = candidate-&gt;current.getId();</span></span>
+<span id="L161"><span class="lineNum">     161</span> <span class="tlaGNC">         170 :                 if (!isNucleus(id))</span></span>
 <span id="L162"><span class="lineNum">     162</span>              :                         return;</span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
 <span id="L164"><span class="lineNum">     164</span>              :                 // find interaction with minimum random distance</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">        2318 :                 Random &amp;random = Random::instance();</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">         169 :                 Random &amp;random = Random::instance();</span></span>
 <span id="L166"><span class="lineNum">     166</span>              :                 double randDistance = std::numeric_limits&lt;double&gt;::max();</span>
 <span id="L167"><span class="lineNum">     167</span>              :                 double meanFreePath;</span>
 <span id="L168"><span class="lineNum">     168</span>              :                 double totalRate = 0;</span>
 <span id="L169"><span class="lineNum">     169</span>              :                 bool onProton = true; // interacting particle: proton or neutron</span>
 <span id="L170"><span class="lineNum">     170</span>              : </span>
-<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">        2318 :                 int A = massNumber(id);</span></span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">        2318 :                 int Z = chargeNumber(id);</span></span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">        2318 :                 int N = A - Z;</span></span>
-<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">        2318 :                 double gamma = candidate-&gt;current.getLorentzFactor();</span></span>
+<span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">         169 :                 int A = massNumber(id);</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">         169 :                 int Z = chargeNumber(id);</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">         169 :                 int N = A - Z;</span></span>
+<span id="L174"><span class="lineNum">     174</span> <span class="tlaGNC">         169 :                 double gamma = candidate-&gt;current.getLorentzFactor();</span></span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
 <span id="L176"><span class="lineNum">     176</span>              :                 // check for interaction on protons</span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">        2318 :                 if (Z &gt; 0) {</span></span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">        2292 :                         meanFreePath = nucleonMFP(gamma, z, true) / nucleiModification(A, Z);</span></span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">        2292 :                         randDistance = -log(random.rand()) * meanFreePath;</span></span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">        2292 :                         totalRate += 1. / meanFreePath;</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">         169 :                 if (Z &gt; 0) {</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">         160 :                         meanFreePath = nucleonMFP(gamma, z, true) / nucleiModification(A, Z);</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         160 :                         randDistance = -log(random.rand()) * meanFreePath;</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         160 :                         totalRate += 1. / meanFreePath;</span></span>
 <span id="L181"><span class="lineNum">     181</span>              :                 }</span>
 <span id="L182"><span class="lineNum">     182</span>              :                 // check for interaction on neutrons</span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">        2318 :                 if (N &gt; 0) {</span></span>
-<span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">        1955 :                         meanFreePath = nucleonMFP(gamma, z, false) / nucleiModification(A, N);</span></span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">        1955 :                         totalRate += 1. / meanFreePath;</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">        1955 :                         double d = -log(random.rand()) * meanFreePath;</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">        1955 :                         if (d &lt; randDistance) {</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">         169 :                 if (N &gt; 0) {</span></span>
+<span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">         160 :                         meanFreePath = nucleonMFP(gamma, z, false) / nucleiModification(A, N);</span></span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">         160 :                         totalRate += 1. / meanFreePath;</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">         160 :                         double d = -log(random.rand()) * meanFreePath;</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">         160 :                         if (d &lt; randDistance) {</span></span>
 <span id="L188"><span class="lineNum">     188</span>              :                                 randDistance = d;</span>
 <span id="L189"><span class="lineNum">     189</span>              :                                 onProton = false;</span>
 <span id="L190"><span class="lineNum">     190</span>              :                         }</span>
 <span id="L191"><span class="lineNum">     191</span>              :                 }</span>
 <span id="L192"><span class="lineNum">     192</span>              : </span>
 <span id="L193"><span class="lineNum">     193</span>              :                 // check if interaction does not happen</span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        2318 :                 if (step &lt; randDistance) {</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">        2302 :                         if (totalRate &gt; 0.)</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        2302 :                                 candidate-&gt;limitNextStep(limit / totalRate);</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">        2302 :                         return;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         169 :                 if (step &lt; randDistance) {</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         152 :                         if (totalRate &gt; 0.)</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">          78 :                                 candidate-&gt;limitNextStep(limit / totalRate);</span></span>
+<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">         152 :                         return;</span></span>
 <span id="L198"><span class="lineNum">     198</span>              :                 }</span>
 <span id="L199"><span class="lineNum">     199</span>              : </span>
 <span id="L200"><span class="lineNum">     200</span>              :                 // interact and repeat with remaining step</span>
-<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">          16 :                 performInteraction(candidate, onProton);</span></span>
-<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          16 :                 step -= randDistance;</span></span>
-<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">          16 :         } while (step &gt; 0);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">          17 :                 performInteraction(candidate, onProton);</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          17 :                 step -= randDistance;</span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">          17 :         } while (step &gt; 0);</span></span>
 <span id="L204"><span class="lineNum">     204</span>              : }</span>
 <span id="L205"><span class="lineNum">     205</span>              : </span>
-<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">          26 : void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton) const {</span></span>
-<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">          26 :         int id = candidate-&gt;current.getId();</span></span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">          26 :         int A = massNumber(id);</span></span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">          26 :         int Z = chargeNumber(id);</span></span>
-<span id="L210"><span class="lineNum">     210</span> <span class="tlaGNC">          26 :         double E = candidate-&gt;current.getEnergy();</span></span>
-<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">          26 :         double EpA = E / A;</span></span>
-<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">          26 :         double z = candidate-&gt;getRedshift();</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">          27 : void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton) const {</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">          27 :         int id = candidate-&gt;current.getId();</span></span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">          27 :         int A = massNumber(id);</span></span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">          27 :         int Z = chargeNumber(id);</span></span>
+<span id="L210"><span class="lineNum">     210</span> <span class="tlaGNC">          27 :         double E = candidate-&gt;current.getEnergy();</span></span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">          27 :         double EpA = E / A;</span></span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">          27 :         double z = candidate-&gt;getRedshift();</span></span>
 <span id="L213"><span class="lineNum">     213</span>              : </span>
 <span id="L214"><span class="lineNum">     214</span>              :         // SOPHIA simulates interactions only for protons / neutrons.</span>
 <span id="L215"><span class="lineNum">     215</span>              :         // For anti-protons / neutrons assume charge symmetry and change all</span>
 <span id="L216"><span class="lineNum">     216</span>              :         // interaction products from particle &lt;--&gt; anti-particle (sign)</span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">          26 :         int sign = (id &gt; 0) ? 1 : -1;</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">          27 :         int sign = (id &gt; 0) ? 1 : -1;</span></span>
 <span id="L218"><span class="lineNum">     218</span>              : </span>
 <span id="L219"><span class="lineNum">     219</span>              :         // check if below SOPHIA's energy threshold</span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          26 :         double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit</span></span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          26 :         double epsThreshold = epsMinInteraction(onProton, Ein);</span></span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          26 :         if (epsThreshold &gt; photonField-&gt;getMaximumPhotonEnergy(z)/eV) {</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          27 :         double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          27 :         double epsThreshold = epsMinInteraction(onProton, Ein);</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          27 :         if (epsThreshold &gt; photonField-&gt;getMaximumPhotonEnergy(z)/eV) {</span></span>
 <span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC tlaBgUNC">           0 :                 return;   </span></span>
 <span id="L224"><span class="lineNum">     224</span>              :         }</span>
 <span id="L225"><span class="lineNum">     225</span>              :         // SOPHIA - input:</span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC tlaBgGNC">          26 :         int nature = 1 - static_cast&lt;int&gt;(onProton);  // 0=proton, 1=neutron</span></span>
-<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">          26 :         double eps = sampleEps(onProton, EpA, z) / GeV;  // GeV for SOPHIA</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC tlaBgGNC">          27 :         int nature = 1 - static_cast&lt;int&gt;(onProton);  // 0=proton, 1=neutron</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">          27 :         double eps = sampleEps(onProton, EpA, z) / GeV;  // GeV for SOPHIA</span></span>
 <span id="L228"><span class="lineNum">     228</span>              : </span>
 <span id="L229"><span class="lineNum">     229</span>              :         // SOPHIA - output:</span>
 <span id="L230"><span class="lineNum">     230</span>              :         double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]</span>
 <span id="L231"><span class="lineNum">     231</span>              :         int outPartID[2000];</span>
 <span id="L232"><span class="lineNum">     232</span>              :         int nParticles;</span>
 <span id="L233"><span class="lineNum">     233</span>              : </span>
-<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          52 : #pragma omp critical(SophiaEvent)</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          54 : #pragma omp critical(SophiaEvent)</span></span>
 <span id="L235"><span class="lineNum">     235</span>              :         {</span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">          26 :                 sophiaevent_(nature, Ein, eps, outputEnergy, outPartID, nParticles);</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">          27 :                 sophiaevent_(nature, Ein, eps, outputEnergy, outPartID, nParticles);</span></span>
 <span id="L237"><span class="lineNum">     237</span>              :         }</span>
 <span id="L238"><span class="lineNum">     238</span>              : </span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">          26 :         Random &amp;random = Random::instance();</span></span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          26 :         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">          27 :         Random &amp;random = Random::instance();</span></span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          27 :         Vector3d pos = random.randomInterpolatedPosition(candidate-&gt;previous.getPosition(), candidate-&gt;current.getPosition());</span></span>
 <span id="L241"><span class="lineNum">     241</span>              :         std::vector&lt;int&gt; pnType;  // filled with either 13 (proton) or 14 (neutron)</span>
 <span id="L242"><span class="lineNum">     242</span>              :         std::vector&lt;double&gt; pnEnergy;  // corresponding energies of proton or neutron</span>
-<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          26 :         if (nParticles == 0)</span></span>
+<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          27 :         if (nParticles == 0)</span></span>
 <span id="L244"><span class="lineNum">     244</span>              :                 return;</span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">         132 :         for (int i = 0; i &lt; nParticles; i++) { // loop over out-going particles</span></span>
-<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">         106 :                 double Eout = outputEnergy[3][i] * GeV; // only the energy is used; could be changed for more detail</span></span>
-<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">         106 :                 int pType = outPartID[i];</span></span>
-<span id="L248"><span class="lineNum">     248</span> <span class="tlaGNC">         106 :                 switch (pType) {</span></span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">          26 :                 case 13: // proton</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">         144 :         for (int i = 0; i &lt; nParticles; i++) { // loop over out-going particles</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">         117 :                 double Eout = outputEnergy[3][i] * GeV; // only the energy is used; could be changed for more detail</span></span>
+<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">         117 :                 int pType = outPartID[i];</span></span>
+<span id="L248"><span class="lineNum">     248</span> <span class="tlaGNC">         117 :                 switch (pType) {</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">          27 :                 case 13: // proton</span></span>
 <span id="L250"><span class="lineNum">     250</span>              :                 case 14: // neutron</span>
 <span id="L251"><span class="lineNum">     251</span>              :                         // proton and neutron data is taken to determine primary particle in a later step</span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">          26 :                         pnType.push_back(pType);</span></span>
-<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">          26 :                         pnEnergy.push_back(Eout);</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">          27 :                         pnType.push_back(pType);</span></span>
+<span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">          27 :                         pnEnergy.push_back(Eout);</span></span>
 <span id="L254"><span class="lineNum">     254</span>              :                         break;</span>
 <span id="L255"><span class="lineNum">     255</span> <span class="tlaUNC tlaBgUNC">           0 :                 case -13: // anti-proton</span></span>
 <span id="L256"><span class="lineNum">     256</span>              :                 case -14: // anti-neutron</span>
@@ -327,47 +327,47 @@
 <span id="L265"><span class="lineNum">     265</span> <span class="tlaUNC">           0 :                                         throw;</span></span>
 <span id="L266"><span class="lineNum">     266</span> <span class="tlaUNC">           0 :                                 }</span></span>
 <span id="L267"><span class="lineNum">     267</span>              :                         break;</span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC tlaBgGNC">          24 :                 case 1: // photon</span></span>
-<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          24 :                         if (havePhotons)</span></span>
-<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">          12 :                                 candidate-&gt;addSecondary(22, Eout, pos, 1., interactionTag);</span></span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC tlaBgGNC">          18 :                 case 1: // photon</span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          18 :                         if (havePhotons)</span></span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">           8 :                                 candidate-&gt;addSecondary(22, Eout, pos, 1., interactionTag);</span></span>
 <span id="L271"><span class="lineNum">     271</span>              :                         break;</span>
-<span id="L272"><span class="lineNum">     272</span> <span class="tlaGNC">          11 :                 case 2: // positron</span></span>
-<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">          11 :                         if (haveElectrons)</span></span>
-<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * -11, Eout, pos, 1., interactionTag);</span></span>
+<span id="L272"><span class="lineNum">     272</span> <span class="tlaGNC">          14 :                 case 2: // positron</span></span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">          14 :                         if (haveElectrons)</span></span>
+<span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           2 :                                 candidate-&gt;addSecondary(sign * -11, Eout, pos, 1., interactionTag);</span></span>
 <span id="L275"><span class="lineNum">     275</span>              :                         break;</span>
-<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">           3 :                 case 3: // electron</span></span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">           3 :                         if (haveElectrons)</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC tlaBgUNC">           0 :                                 candidate-&gt;addSecondary(sign * 11, Eout, pos, 1., interactionTag);</span></span>
+<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">           4 :                 case 3: // electron</span></span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">           4 :                         if (haveElectrons)</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * 11, Eout, pos, 1., interactionTag);</span></span>
 <span id="L279"><span class="lineNum">     279</span>              :                         break;</span>
-<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC tlaBgGNC">          11 :                 case 15: // nu_e</span></span>
-<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">          11 :                         if (haveNeutrinos)</span></span>
-<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * 12, Eout, pos, 1., interactionTag);</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">          14 :                 case 15: // nu_e</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">          14 :                         if (haveNeutrinos)</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           2 :                                 candidate-&gt;addSecondary(sign * 12, Eout, pos, 1., interactionTag);</span></span>
 <span id="L283"><span class="lineNum">     283</span>              :                         break;</span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           3 :                 case 16: // anti-nu_e</span></span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">           3 :                         if (haveNeutrinos)</span></span>
-<span id="L286"><span class="lineNum">     286</span> <span class="tlaUNC tlaBgUNC">           0 :                                 candidate-&gt;addSecondary(sign * -12, Eout, pos, 1., interactionTag);</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           4 :                 case 16: // anti-nu_e</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">           4 :                         if (haveNeutrinos)</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * -12, Eout, pos, 1., interactionTag);</span></span>
 <span id="L287"><span class="lineNum">     287</span>              :                         break;</span>
-<span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC tlaBgGNC">          14 :                 case 17: // nu_mu</span></span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">          14 :                         if (haveNeutrinos)</span></span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * 14, Eout, pos, 1., interactionTag);</span></span>
+<span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC">          18 :                 case 17: // nu_mu</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">          18 :                         if (haveNeutrinos)</span></span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           3 :                                 candidate-&gt;addSecondary(sign * 14, Eout, pos, 1., interactionTag);</span></span>
 <span id="L291"><span class="lineNum">     291</span>              :                         break;</span>
-<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">          14 :                 case 18: // anti-nu_mu</span></span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">          14 :                         if (haveNeutrinos)</span></span>
-<span id="L294"><span class="lineNum">     294</span> <span class="tlaGNC">           1 :                                 candidate-&gt;addSecondary(sign * -14, Eout, pos, 1., interactionTag);</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">          18 :                 case 18: // anti-nu_mu</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">          18 :                         if (haveNeutrinos)</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaGNC">           3 :                                 candidate-&gt;addSecondary(sign * -14, Eout, pos, 1., interactionTag);</span></span>
 <span id="L295"><span class="lineNum">     295</span>              :                         break;</span>
 <span id="L296"><span class="lineNum">     296</span> <span class="tlaUNC tlaBgUNC">           0 :                 default:</span></span>
 <span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :                         throw std::runtime_error(&quot;PhotoPionProduction: unexpected particle &quot; + kiss::str(pType));</span></span>
 <span id="L298"><span class="lineNum">     298</span>              :                 }</span>
 <span id="L299"><span class="lineNum">     299</span>              :         }</span>
-<span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC tlaBgGNC">          26 :         double maxEnergy = *std::max_element(pnEnergy.begin(), pnEnergy.end());  // criterion for being declared primary</span></span>
-<span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">          52 :         for (int i = 0; i &lt; pnEnergy.size(); ++i) {</span></span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">          26 :                 if (pnEnergy[i] == maxEnergy) {  // nucleon is primary particle</span></span>
-<span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">          26 :                         if (A == 1) {</span></span>
+<span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC tlaBgGNC">          27 :         double maxEnergy = *std::max_element(pnEnergy.begin(), pnEnergy.end());  // criterion for being declared primary</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">          54 :         for (int i = 0; i &lt; pnEnergy.size(); ++i) {</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">          27 :                 if (pnEnergy[i] == maxEnergy) {  // nucleon is primary particle</span></span>
+<span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">          27 :                         if (A == 1) {</span></span>
 <span id="L304"><span class="lineNum">     304</span>              :                                 // single interacting nucleon</span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">          23 :                                 candidate-&gt;current.setEnergy(pnEnergy[i]);</span></span>
+<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">          24 :                                 candidate-&gt;current.setEnergy(pnEnergy[i]);</span></span>
 <span id="L306"><span class="lineNum">     306</span>              :                                 try</span>
 <span id="L307"><span class="lineNum">     307</span>              :                                 {</span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">          23 :                                         candidate-&gt;current.setId(sign * nucleusId(1, 14 - pnType[i]));</span></span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">          24 :                                         candidate-&gt;current.setId(sign * nucleusId(1, 14 - pnType[i]));</span></span>
 <span id="L309"><span class="lineNum">     309</span>              :                                 }</span>
 <span id="L310"><span class="lineNum">     310</span> <span class="tlaUNC tlaBgUNC">           0 :                                 catch (std::runtime_error &amp;e)</span></span>
 <span id="L311"><span class="lineNum">     311</span>              :                                 {</span>
@@ -392,7 +392,7 @@
 <span id="L330"><span class="lineNum">     330</span> <span class="tlaUNC">           0 :                         candidate-&gt;addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos, 1., interactionTag);</span></span>
 <span id="L331"><span class="lineNum">     331</span>              :                 }</span>
 <span id="L332"><span class="lineNum">     332</span>              :         }</span>
-<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC tlaBgGNC">          26 : }</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC tlaBgGNC">          27 : }</span></span>
 <span id="L334"><span class="lineNum">     334</span>              : </span>
 <span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC tlaBgUNC">           0 : double PhotoPionProduction::lossLength(int id, double gamma, double z) {</span></span>
 <span id="L336"><span class="lineNum">     336</span> <span class="tlaUNC">           0 :         int A = massNumber(id);</span></span>
@@ -475,61 +475,61 @@
 <span id="L413"><span class="lineNum">     413</span> <span class="tlaUNC">           0 :         return output;</span></span>
 <span id="L414"><span class="lineNum">     414</span>              : }</span>
 <span id="L415"><span class="lineNum">     415</span>              : </span>
-<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC tlaBgGNC">          26 : double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {</span></span>
+<span id="L416"><span class="lineNum">     416</span> <span class="tlaGNC tlaBgGNC">          27 : double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {</span></span>
 <span id="L417"><span class="lineNum">     417</span>              :         // sample eps between epsMin ... epsMax</span>
-<span id="L418"><span class="lineNum">     418</span> <span class="tlaGNC">          26 :         double Ein = E / GeV;</span></span>
-<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          52 :         double epsMin = std::max(photonField -&gt; getMinimumPhotonEnergy(z) / eV, epsMinInteraction(onProton, Ein));</span></span>
-<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          26 :         double epsMax = photonField -&gt; getMaximumPhotonEnergy(z) / eV;</span></span>
-<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          26 :         double pEpsMax = probEpsMax(onProton, Ein, z, epsMin, epsMax);</span></span>
+<span id="L418"><span class="lineNum">     418</span> <span class="tlaGNC">          27 :         double Ein = E / GeV;</span></span>
+<span id="L419"><span class="lineNum">     419</span> <span class="tlaGNC">          54 :         double epsMin = std::max(photonField -&gt; getMinimumPhotonEnergy(z) / eV, epsMinInteraction(onProton, Ein));</span></span>
+<span id="L420"><span class="lineNum">     420</span> <span class="tlaGNC">          27 :         double epsMax = photonField -&gt; getMaximumPhotonEnergy(z) / eV;</span></span>
+<span id="L421"><span class="lineNum">     421</span> <span class="tlaGNC">          27 :         double pEpsMax = probEpsMax(onProton, Ein, z, epsMin, epsMax);</span></span>
 <span id="L422"><span class="lineNum">     422</span>              : </span>
-<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">          26 :         Random &amp;random = Random::instance();</span></span>
-<span id="L424"><span class="lineNum">     424</span> <span class="tlaGNC">        3699 :         for (int i = 0; i &lt; 1000000; i++) {</span></span>
-<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC">        3699 :                 double eps = epsMin + random.rand() * (epsMax - epsMin);</span></span>
-<span id="L426"><span class="lineNum">     426</span> <span class="tlaGNC">        3699 :                 double pEps = probEps(eps, onProton, Ein, z);</span></span>
-<span id="L427"><span class="lineNum">     427</span> <span class="tlaGNC">        3699 :                 if (random.rand() * pEpsMax &lt; pEps)</span></span>
-<span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">          26 :                         return eps * eV;</span></span>
+<span id="L423"><span class="lineNum">     423</span> <span class="tlaGNC">          27 :         Random &amp;random = Random::instance();</span></span>
+<span id="L424"><span class="lineNum">     424</span> <span class="tlaGNC">        3754 :         for (int i = 0; i &lt; 1000000; i++) {</span></span>
+<span id="L425"><span class="lineNum">     425</span> <span class="tlaGNC">        3754 :                 double eps = epsMin + random.rand() * (epsMax - epsMin);</span></span>
+<span id="L426"><span class="lineNum">     426</span> <span class="tlaGNC">        3754 :                 double pEps = probEps(eps, onProton, Ein, z);</span></span>
+<span id="L427"><span class="lineNum">     427</span> <span class="tlaGNC">        3754 :                 if (random.rand() * pEpsMax &lt; pEps)</span></span>
+<span id="L428"><span class="lineNum">     428</span> <span class="tlaGNC">          27 :                         return eps * eV;</span></span>
 <span id="L429"><span class="lineNum">     429</span>              :         }</span>
 <span id="L430"><span class="lineNum">     430</span> <span class="tlaUNC tlaBgUNC">           0 :         throw std::runtime_error(&quot;error: no photon found in sampleEps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.&quot;);</span></span>
 <span id="L431"><span class="lineNum">     431</span>              : }</span>
 <span id="L432"><span class="lineNum">     432</span>              : </span>
-<span id="L433"><span class="lineNum">     433</span> <span class="tlaGNC tlaBgGNC">          52 : double PhotoPionProduction::epsMinInteraction(bool onProton, double Ein) const {</span></span>
+<span id="L433"><span class="lineNum">     433</span> <span class="tlaGNC tlaBgGNC">          54 : double PhotoPionProduction::epsMinInteraction(bool onProton, double Ein) const {</span></span>
 <span id="L434"><span class="lineNum">     434</span>              :         // labframe energy of least energetic photon where PPP can occur</span>
 <span id="L435"><span class="lineNum">     435</span>              :         // this kind-of ties samplingEps to the PPP and SOPHIA</span>
-<span id="L436"><span class="lineNum">     436</span> <span class="tlaGNC">          52 :         const double m = mass(onProton);</span></span>
-<span id="L437"><span class="lineNum">     437</span> <span class="tlaGNC">          52 :         const double p = momentum(onProton, Ein);</span></span>
-<span id="L438"><span class="lineNum">     438</span> <span class="tlaGNC">          52 :         double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + p); // eV</span></span>
-<span id="L439"><span class="lineNum">     439</span> <span class="tlaGNC">          52 :         return epsMin;</span></span>
+<span id="L436"><span class="lineNum">     436</span> <span class="tlaGNC">          54 :         const double m = mass(onProton);</span></span>
+<span id="L437"><span class="lineNum">     437</span> <span class="tlaGNC">          54 :         const double p = momentum(onProton, Ein);</span></span>
+<span id="L438"><span class="lineNum">     438</span> <span class="tlaGNC">          54 :         double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + p); // eV</span></span>
+<span id="L439"><span class="lineNum">     439</span> <span class="tlaGNC">          54 :         return epsMin;</span></span>
 <span id="L440"><span class="lineNum">     440</span>              : }</span>
 <span id="L441"><span class="lineNum">     441</span>              : </span>
-<span id="L442"><span class="lineNum">     442</span> <span class="tlaGNC">          27 : double PhotoPionProduction::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {</span></span>
+<span id="L442"><span class="lineNum">     442</span> <span class="tlaGNC">          28 : double PhotoPionProduction::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {</span></span>
 <span id="L443"><span class="lineNum">     443</span>              :         // find pEpsMax by testing photon energies (eps) for their interaction</span>
 <span id="L444"><span class="lineNum">     444</span>              :         // probabilities (p) in order to find the maximum (max) probability</span>
 <span id="L445"><span class="lineNum">     445</span>              :         const int nrSteps = 100;</span>
 <span id="L446"><span class="lineNum">     446</span>              :         double pEpsMaxTested = 0.;</span>
 <span id="L447"><span class="lineNum">     447</span>              :         double step = 0.;</span>
-<span id="L448"><span class="lineNum">     448</span> <span class="tlaGNC">          27 :         if (sampleLog){</span></span>
+<span id="L448"><span class="lineNum">     448</span> <span class="tlaGNC">          28 :         if (sampleLog){</span></span>
 <span id="L449"><span class="lineNum">     449</span>              :                 // sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with nrSteps+1 steps log. equidis. spaced</span>
-<span id="L450"><span class="lineNum">     450</span> <span class="tlaGNC">          27 :                 step = std::min(0.01, std::log10(epsMax / epsMin) / nrSteps);</span></span>
+<span id="L450"><span class="lineNum">     450</span> <span class="tlaGNC">          28 :                 step = std::min(0.01, std::log10(epsMax / epsMin) / nrSteps);</span></span>
 <span id="L451"><span class="lineNum">     451</span>              :         } else</span>
 <span id="L452"><span class="lineNum">     452</span> <span class="tlaUNC tlaBgUNC">           0 :                 step = (epsMax - epsMin) / nrSteps;</span></span>
 <span id="L453"><span class="lineNum">     453</span>              : </span>
 <span id="L454"><span class="lineNum">     454</span>              :         double epsDummy = 0.;</span>
 <span id="L455"><span class="lineNum">     455</span>              :         int i = 0;</span>
-<span id="L456"><span class="lineNum">     456</span> <span class="tlaGNC tlaBgGNC">        5262 :         while (epsDummy &lt; epsMax) {</span></span>
-<span id="L457"><span class="lineNum">     457</span> <span class="tlaGNC">        5235 :                 if (sampleLog)</span></span>
-<span id="L458"><span class="lineNum">     458</span> <span class="tlaGNC">        5235 :                         epsDummy = epsMin * pow(10, step * i);</span></span>
+<span id="L456"><span class="lineNum">     456</span> <span class="tlaGNC tlaBgGNC">        5605 :         while (epsDummy &lt; epsMax) {</span></span>
+<span id="L457"><span class="lineNum">     457</span> <span class="tlaGNC">        5577 :                 if (sampleLog)</span></span>
+<span id="L458"><span class="lineNum">     458</span> <span class="tlaGNC">        5577 :                         epsDummy = epsMin * pow(10, step * i);</span></span>
 <span id="L459"><span class="lineNum">     459</span>              :                 else</span>
 <span id="L460"><span class="lineNum">     460</span> <span class="tlaUNC tlaBgUNC">           0 :                         epsDummy = epsMin + step * i;</span></span>
-<span id="L461"><span class="lineNum">     461</span> <span class="tlaGNC tlaBgGNC">        5235 :                 double p = probEps(epsDummy, onProton, Ein, z);</span></span>
-<span id="L462"><span class="lineNum">     462</span> <span class="tlaGNC">        5235 :                 if(p &gt; pEpsMaxTested)</span></span>
+<span id="L461"><span class="lineNum">     461</span> <span class="tlaGNC tlaBgGNC">        5577 :                 double p = probEps(epsDummy, onProton, Ein, z);</span></span>
+<span id="L462"><span class="lineNum">     462</span> <span class="tlaGNC">        5577 :                 if(p &gt; pEpsMaxTested)</span></span>
 <span id="L463"><span class="lineNum">     463</span>              :                         pEpsMaxTested = p;</span>
-<span id="L464"><span class="lineNum">     464</span> <span class="tlaGNC">        5235 :                 i++;</span></span>
+<span id="L464"><span class="lineNum">     464</span> <span class="tlaGNC">        5577 :                 i++;</span></span>
 <span id="L465"><span class="lineNum">     465</span>              :         }</span>
 <span id="L466"><span class="lineNum">     466</span>              :         // the following factor corrects for only trying to find the maximum on nrIteration photon energies</span>
 <span id="L467"><span class="lineNum">     467</span>              :         // the factor should be determined in convergence tests</span>
-<span id="L468"><span class="lineNum">     468</span> <span class="tlaGNC">          27 :         double pEpsMax = pEpsMaxTested * correctionFactor;</span></span>
+<span id="L468"><span class="lineNum">     468</span> <span class="tlaGNC">          28 :         double pEpsMax = pEpsMaxTested * correctionFactor;</span></span>
 <span id="L469"><span class="lineNum">     469</span>              : </span>
-<span id="L470"><span class="lineNum">     470</span> <span class="tlaGNC">          27 :         if(pEpsMax == 0) {</span></span>
+<span id="L470"><span class="lineNum">     470</span> <span class="tlaGNC">          28 :         if(pEpsMax == 0) {</span></span>
 <span id="L471"><span class="lineNum">     471</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING &lt;&lt; &quot;pEpsMax is 0 in the following configuration: \n&quot;</span></span>
 <span id="L472"><span class="lineNum">     472</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;onProton: &quot; &lt;&lt; onProton &lt;&lt; &quot;\n&quot;</span></span>
 <span id="L473"><span class="lineNum">     473</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;Ein: &quot; &lt;&lt; Ein &lt;&lt; &quot; [GeV] \n&quot;</span></span>
@@ -538,34 +538,34 @@
 <span id="L476"><span class="lineNum">     476</span> <span class="tlaUNC">           0 :                         &lt;&lt; &quot;\t&quot; &lt;&lt; &quot;sample Log &quot; &lt;&lt; sampleLog &lt;&lt; &quot; with step &quot; &lt;&lt; step &lt;&lt; &quot; [eV] \n&quot;;</span></span>
 <span id="L477"><span class="lineNum">     477</span>              :         }</span>
 <span id="L478"><span class="lineNum">     478</span>              : </span>
-<span id="L479"><span class="lineNum">     479</span> <span class="tlaGNC tlaBgGNC">          27 :         return pEpsMax;</span></span>
+<span id="L479"><span class="lineNum">     479</span> <span class="tlaGNC tlaBgGNC">          28 :         return pEpsMax;</span></span>
 <span id="L480"><span class="lineNum">     480</span>              : }</span>
 <span id="L481"><span class="lineNum">     481</span>              : </span>
-<span id="L482"><span class="lineNum">     482</span> <span class="tlaGNC">        8934 : double PhotoPionProduction::probEps(double eps, bool onProton, double Ein, double z) const {</span></span>
+<span id="L482"><span class="lineNum">     482</span> <span class="tlaGNC">        9331 : double PhotoPionProduction::probEps(double eps, bool onProton, double Ein, double z) const {</span></span>
 <span id="L483"><span class="lineNum">     483</span>              :         // probEps returns &quot;probability to encounter a photon of energy eps&quot;, given a primary nucleon</span>
 <span id="L484"><span class="lineNum">     484</span>              :         // note, probEps does not return a normalized probability [0,...,1]</span>
-<span id="L485"><span class="lineNum">     485</span> <span class="tlaGNC">        8934 :         double photonDensity = photonField-&gt;getPhotonDensity(eps * eV, z) * ccm / eps;</span></span>
-<span id="L486"><span class="lineNum">     486</span> <span class="tlaGNC">        8934 :         if (photonDensity != 0.) {</span></span>
-<span id="L487"><span class="lineNum">     487</span> <span class="tlaGNC">        8934 :                 const double p = momentum(onProton, Ein);</span></span>
-<span id="L488"><span class="lineNum">     488</span> <span class="tlaGNC">        8934 :                 const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;</span></span>
-<span id="L489"><span class="lineNum">     489</span> <span class="tlaGNC">        8934 :                 if (sMax &lt;= sMin())</span></span>
+<span id="L485"><span class="lineNum">     485</span> <span class="tlaGNC">        9331 :         double photonDensity = photonField-&gt;getPhotonDensity(eps * eV, z) * ccm / eps;</span></span>
+<span id="L486"><span class="lineNum">     486</span> <span class="tlaGNC">        9331 :         if (photonDensity != 0.) {</span></span>
+<span id="L487"><span class="lineNum">     487</span> <span class="tlaGNC">        9331 :                 const double p = momentum(onProton, Ein);</span></span>
+<span id="L488"><span class="lineNum">     488</span> <span class="tlaGNC">        9331 :                 const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;</span></span>
+<span id="L489"><span class="lineNum">     489</span> <span class="tlaGNC">        9331 :                 if (sMax &lt;= sMin())</span></span>
 <span id="L490"><span class="lineNum">     490</span>              :                         return 0;</span>
-<span id="L491"><span class="lineNum">     491</span> <span class="tlaGNC">       80163 :                 double sIntegr = gaussInt([this, onProton](double s) { return this-&gt;functs(s, onProton); }, sMin(), sMax);</span></span>
-<span id="L492"><span class="lineNum">     492</span> <span class="tlaGNC">        8907 :                 return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;</span></span>
+<span id="L491"><span class="lineNum">     491</span> <span class="tlaGNC">       83727 :                 double sIntegr = gaussInt([this, onProton](double s) { return this-&gt;functs(s, onProton); }, sMin(), sMax);</span></span>
+<span id="L492"><span class="lineNum">     492</span> <span class="tlaGNC">        9303 :                 return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;</span></span>
 <span id="L493"><span class="lineNum">     493</span>              :         }</span>
 <span id="L494"><span class="lineNum">     494</span>              :         return 0;</span>
 <span id="L495"><span class="lineNum">     495</span>              : }</span>
 <span id="L496"><span class="lineNum">     496</span>              : </span>
-<span id="L497"><span class="lineNum">     497</span> <span class="tlaGNC">        8986 : double PhotoPionProduction::momentum(bool onProton, double Ein) const {</span></span>
-<span id="L498"><span class="lineNum">     498</span> <span class="tlaGNC">        8986 :         const double m = mass(onProton);</span></span>
-<span id="L499"><span class="lineNum">     499</span> <span class="tlaGNC">        8986 :         const double momentumHadron = sqrt(Ein * Ein - m * m);  // GeV/c</span></span>
-<span id="L500"><span class="lineNum">     500</span> <span class="tlaGNC">        8986 :         return momentumHadron;</span></span>
+<span id="L497"><span class="lineNum">     497</span> <span class="tlaGNC">        9385 : double PhotoPionProduction::momentum(bool onProton, double Ein) const {</span></span>
+<span id="L498"><span class="lineNum">     498</span> <span class="tlaGNC">        9385 :         const double m = mass(onProton);</span></span>
+<span id="L499"><span class="lineNum">     499</span> <span class="tlaGNC">        9385 :         const double momentumHadron = sqrt(Ein * Ein - m * m);  // GeV/c</span></span>
+<span id="L500"><span class="lineNum">     500</span> <span class="tlaGNC">        9385 :         return momentumHadron;</span></span>
 <span id="L501"><span class="lineNum">     501</span>              : }</span>
 <span id="L502"><span class="lineNum">     502</span>              : </span>
-<span id="L503"><span class="lineNum">     503</span> <span class="tlaGNC">      142512 : double PhotoPionProduction::crossection(double eps, bool onProton) const {</span></span>
-<span id="L504"><span class="lineNum">     504</span> <span class="tlaGNC">      142512 :         const double m = mass(onProton);</span></span>
-<span id="L505"><span class="lineNum">     505</span> <span class="tlaGNC">      142512 :         const double s = m * m + 2. * m * eps;</span></span>
-<span id="L506"><span class="lineNum">     506</span> <span class="tlaGNC">      142512 :         if (s &lt; sMin())</span></span>
+<span id="L503"><span class="lineNum">     503</span> <span class="tlaGNC">      148848 : double PhotoPionProduction::crossection(double eps, bool onProton) const {</span></span>
+<span id="L504"><span class="lineNum">     504</span> <span class="tlaGNC">      148848 :         const double m = mass(onProton);</span></span>
+<span id="L505"><span class="lineNum">     505</span> <span class="tlaGNC">      148848 :         const double s = m * m + 2. * m * eps;</span></span>
+<span id="L506"><span class="lineNum">     506</span> <span class="tlaGNC">      148848 :         if (s &lt; sMin())</span></span>
 <span id="L507"><span class="lineNum">     507</span>              :                 return 0.;</span>
 <span id="L508"><span class="lineNum">     508</span>              :         double cross_res = 0.;</span>
 <span id="L509"><span class="lineNum">     509</span>              :         double cross_dir = 0.;</span>
@@ -580,113 +580,113 @@
 <span id="L518"><span class="lineNum">     518</span>              :         static const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2., 1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};</span>
 <span id="L519"><span class="lineNum">     519</span>              :         static const double AM2[2] = {0.882792, 0.880351};</span>
 <span id="L520"><span class="lineNum">     520</span>              : </span>
-<span id="L521"><span class="lineNum">     521</span> <span class="tlaGNC">      142512 :         const int idx = onProton? 0 : 9;</span></span>
+<span id="L521"><span class="lineNum">     521</span> <span class="tlaGNC">      148848 :         const int idx = onProton? 0 : 9;</span></span>
 <span id="L522"><span class="lineNum">     522</span>              :         double SIG0[9];</span>
-<span id="L523"><span class="lineNum">     523</span> <span class="tlaGNC">     1425120 :         for (int i = 0; i &lt; 9; ++i) {</span></span>
-<span id="L524"><span class="lineNum">     524</span> <span class="tlaGNC">     1282608 :                 SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];</span></span>
+<span id="L523"><span class="lineNum">     523</span> <span class="tlaGNC">     1488480 :         for (int i = 0; i &lt; 9; ++i) {</span></span>
+<span id="L524"><span class="lineNum">     524</span> <span class="tlaGNC">     1339632 :                 SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];</span></span>
 <span id="L525"><span class="lineNum">     525</span>              :         }</span>
-<span id="L526"><span class="lineNum">     526</span> <span class="tlaGNC">      142512 :         if (eps &lt;= 10.) {</span></span>
-<span id="L527"><span class="lineNum">     527</span> <span class="tlaGNC">      134609 :                 cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], eps, onProton) * Ef(eps, 0.152, 0.17);</span></span>
+<span id="L526"><span class="lineNum">     526</span> <span class="tlaGNC">      148848 :         if (eps &lt;= 10.) {</span></span>
+<span id="L527"><span class="lineNum">     527</span> <span class="tlaGNC">      140093 :                 cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], eps, onProton) * Ef(eps, 0.152, 0.17);</span></span>
 <span id="L528"><span class="lineNum">     528</span>              :                 sig_res[0] = cross_res;</span>
-<span id="L529"><span class="lineNum">     529</span> <span class="tlaGNC">     1211481 :                 for (int i = 1; i &lt; 9; ++i) {</span></span>
-<span id="L530"><span class="lineNum">     530</span> <span class="tlaGNC">     1076872 :                         sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], eps, onProton) * Ef(eps, 0.15, 0.38);</span></span>
-<span id="L531"><span class="lineNum">     531</span> <span class="tlaGNC">     1076872 :                         cross_res += sig_res[i];</span></span>
+<span id="L529"><span class="lineNum">     529</span> <span class="tlaGNC">     1260837 :                 for (int i = 1; i &lt; 9; ++i) {</span></span>
+<span id="L530"><span class="lineNum">     530</span> <span class="tlaGNC">     1120744 :                         sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], eps, onProton) * Ef(eps, 0.15, 0.38);</span></span>
+<span id="L531"><span class="lineNum">     531</span> <span class="tlaGNC">     1120744 :                         cross_res += sig_res[i];</span></span>
 <span id="L532"><span class="lineNum">     532</span>              :                 }</span>
 <span id="L533"><span class="lineNum">     533</span>              :                 // direct channel</span>
-<span id="L534"><span class="lineNum">     534</span> <span class="tlaGNC">      134609 :                 if ((eps &gt; 0.1) &amp;&amp; (eps &lt; 0.6)) {</span></span>
-<span id="L535"><span class="lineNum">     535</span> <span class="tlaGNC">       57201 :                         cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0)  // single pion production</span></span>
-<span id="L536"><span class="lineNum">     536</span> <span class="tlaGNC">       57201 :                                            + 40. * std::exp(-(eps - 0.29) * (eps - 0.29) / 0.002)</span></span>
-<span id="L537"><span class="lineNum">     537</span> <span class="tlaGNC">       57201 :                                            - 15. * std::exp(-(eps - 0.37) * (eps - 0.37) / 0.002);</span></span>
+<span id="L534"><span class="lineNum">     534</span> <span class="tlaGNC">      140093 :                 if ((eps &gt; 0.1) &amp;&amp; (eps &lt; 0.6)) {</span></span>
+<span id="L535"><span class="lineNum">     535</span> <span class="tlaGNC">       59479 :                         cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0)  // single pion production</span></span>
+<span id="L536"><span class="lineNum">     536</span> <span class="tlaGNC">       59479 :                                            + 40. * std::exp(-(eps - 0.29) * (eps - 0.29) / 0.002)</span></span>
+<span id="L537"><span class="lineNum">     537</span> <span class="tlaGNC">       59479 :                                            - 15. * std::exp(-(eps - 0.37) * (eps - 0.37) / 0.002);</span></span>
 <span id="L538"><span class="lineNum">     538</span>              :                 } else {</span>
-<span id="L539"><span class="lineNum">     539</span> <span class="tlaGNC">       77408 :                         cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0);  // single pion production</span></span>
+<span id="L539"><span class="lineNum">     539</span> <span class="tlaGNC">       80614 :                         cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0);  // single pion production</span></span>
 <span id="L540"><span class="lineNum">     540</span>              :                 }</span>
-<span id="L541"><span class="lineNum">     541</span> <span class="tlaGNC">      134609 :                 cross_dir2 = 37.7 * Pl(eps, 0.4, 0.6, 2.0);  // double pion production</span></span>
-<span id="L542"><span class="lineNum">     542</span> <span class="tlaGNC">      134609 :                 cross_dir = cross_dir1 + cross_dir2;</span></span>
+<span id="L541"><span class="lineNum">     541</span> <span class="tlaGNC">      140093 :                 cross_dir2 = 37.7 * Pl(eps, 0.4, 0.6, 2.0);  // double pion production</span></span>
+<span id="L542"><span class="lineNum">     542</span> <span class="tlaGNC">      140093 :                 cross_dir = cross_dir1 + cross_dir2;</span></span>
 <span id="L543"><span class="lineNum">     543</span>              :         }</span>
 <span id="L544"><span class="lineNum">     544</span>              :         // fragmentation 2:</span>
-<span id="L545"><span class="lineNum">     545</span> <span class="tlaGNC">      142512 :         double cross_frag2 = onProton? 80.3 : 60.2;</span></span>
-<span id="L546"><span class="lineNum">     546</span> <span class="tlaGNC">      142512 :         cross_frag2 *= Ef(eps, 0.5, 0.1) * std::pow(s, -0.34);</span></span>
+<span id="L545"><span class="lineNum">     545</span> <span class="tlaGNC">      148848 :         double cross_frag2 = onProton? 80.3 : 60.2;</span></span>
+<span id="L546"><span class="lineNum">     546</span> <span class="tlaGNC">      148848 :         cross_frag2 *= Ef(eps, 0.5, 0.1) * std::pow(s, -0.34);</span></span>
 <span id="L547"><span class="lineNum">     547</span>              :         // multipion production/fragmentation 1 cross section</span>
 <span id="L548"><span class="lineNum">     548</span>              :         double cs_multidiff = 0.;</span>
 <span id="L549"><span class="lineNum">     549</span>              :         double cs_multi = 0.;</span>
 <span id="L550"><span class="lineNum">     550</span>              :         double cross_diffr1 = 0.;</span>
 <span id="L551"><span class="lineNum">     551</span>              :         double cross_diffr2 = 0.;</span>
 <span id="L552"><span class="lineNum">     552</span>              :         double cross_diffr = 0.;</span>
-<span id="L553"><span class="lineNum">     553</span> <span class="tlaGNC">      142512 :         if (eps &gt; 0.85) {</span></span>
-<span id="L554"><span class="lineNum">     554</span> <span class="tlaGNC">       75610 :                 double ss1 = (eps - 0.85) / 0.69;</span></span>
-<span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">       75610 :                 double ss2 = onProton? 29.3 : 26.4;</span></span>
-<span id="L556"><span class="lineNum">     556</span> <span class="tlaGNC">       75610 :                 ss2 *= std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);</span></span>
-<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">       75610 :                 cs_multidiff = (1. - std::exp(-ss1)) * ss2;</span></span>
-<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">       75610 :                 cs_multi = 0.89 * cs_multidiff;</span></span>
+<span id="L553"><span class="lineNum">     553</span> <span class="tlaGNC">      148848 :         if (eps &gt; 0.85) {</span></span>
+<span id="L554"><span class="lineNum">     554</span> <span class="tlaGNC">       79218 :                 double ss1 = (eps - 0.85) / 0.69;</span></span>
+<span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">       79218 :                 double ss2 = onProton? 29.3 : 26.4;</span></span>
+<span id="L556"><span class="lineNum">     556</span> <span class="tlaGNC">       79218 :                 ss2 *= std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);</span></span>
+<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">       79218 :                 cs_multidiff = (1. - std::exp(-ss1)) * ss2;</span></span>
+<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">       79218 :                 cs_multi = 0.89 * cs_multidiff;</span></span>
 <span id="L559"><span class="lineNum">     559</span>              :                 // diffractive scattering:</span>
 <span id="L560"><span class="lineNum">     560</span>              :                 cross_diffr1 = 0.099 * cs_multidiff;</span>
 <span id="L561"><span class="lineNum">     561</span>              :                 cross_diffr2 = 0.011 * cs_multidiff;</span>
-<span id="L562"><span class="lineNum">     562</span> <span class="tlaGNC">       75610 :                 cross_diffr = 0.11 * cs_multidiff;</span></span>
+<span id="L562"><span class="lineNum">     562</span> <span class="tlaGNC">       79218 :                 cross_diffr = 0.11 * cs_multidiff;</span></span>
 <span id="L563"><span class="lineNum">     563</span>              :                 // **************************************</span>
-<span id="L564"><span class="lineNum">     564</span> <span class="tlaGNC">       75610 :                 ss1 = std::pow(eps - 0.85, 0.75) / 0.64;</span></span>
-<span id="L565"><span class="lineNum">     565</span> <span class="tlaGNC">       75610 :                 ss2 = 74.1 * std::pow(eps, -0.44) + 62. * std::pow(s, 0.08);</span></span>
-<span id="L566"><span class="lineNum">     566</span> <span class="tlaGNC">       75610 :                 double cs_tmp = 0.96 * (1. - std::exp(-ss1)) * ss2;</span></span>
-<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">       75610 :                 cross_diffr1 = 0.14 * cs_tmp;</span></span>
-<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">       75610 :                 cross_diffr2 = 0.013 * cs_tmp;</span></span>
-<span id="L569"><span class="lineNum">     569</span> <span class="tlaGNC">       75610 :                 double cs_delta = cross_frag2 - (cross_diffr1 + cross_diffr2 - cross_diffr);</span></span>
-<span id="L570"><span class="lineNum">     570</span> <span class="tlaGNC">       75610 :                 if (cs_delta &lt; 0.) {</span></span>
+<span id="L564"><span class="lineNum">     564</span> <span class="tlaGNC">       79218 :                 ss1 = std::pow(eps - 0.85, 0.75) / 0.64;</span></span>
+<span id="L565"><span class="lineNum">     565</span> <span class="tlaGNC">       79218 :                 ss2 = 74.1 * std::pow(eps, -0.44) + 62. * std::pow(s, 0.08);</span></span>
+<span id="L566"><span class="lineNum">     566</span> <span class="tlaGNC">       79218 :                 double cs_tmp = 0.96 * (1. - std::exp(-ss1)) * ss2;</span></span>
+<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">       79218 :                 cross_diffr1 = 0.14 * cs_tmp;</span></span>
+<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">       79218 :                 cross_diffr2 = 0.013 * cs_tmp;</span></span>
+<span id="L569"><span class="lineNum">     569</span> <span class="tlaGNC">       79218 :                 double cs_delta = cross_frag2 - (cross_diffr1 + cross_diffr2 - cross_diffr);</span></span>
+<span id="L570"><span class="lineNum">     570</span> <span class="tlaGNC">       79218 :                 if (cs_delta &lt; 0.) {</span></span>
 <span id="L571"><span class="lineNum">     571</span>              :                         cross_frag2 = 0.;</span>
 <span id="L572"><span class="lineNum">     572</span> <span class="tlaUNC tlaBgUNC">           0 :                         cs_multi += cs_delta;</span></span>
 <span id="L573"><span class="lineNum">     573</span>              :                 } else {</span>
 <span id="L574"><span class="lineNum">     574</span>              :                         cross_frag2 = cs_delta;</span>
 <span id="L575"><span class="lineNum">     575</span>              :                 }</span>
 <span id="L576"><span class="lineNum">     576</span>              :                 cross_diffr = cross_diffr1 + cross_diffr2;</span>
-<span id="L577"><span class="lineNum">     577</span> <span class="tlaGNC tlaBgGNC">       75610 :                 cs_multidiff = cs_multi + cross_diffr;</span></span>
+<span id="L577"><span class="lineNum">     577</span> <span class="tlaGNC tlaBgGNC">       79218 :                 cs_multidiff = cs_multi + cross_diffr;</span></span>
 <span id="L578"><span class="lineNum">     578</span>              :         // in the original SOPHIA code, here is a switch for the return argument.</span>
 <span id="L579"><span class="lineNum">     579</span>              :         // Here, only one case (compare in SOPHIA: NDIR=3) is needed.</span>
 <span id="L580"><span class="lineNum">     580</span>              :         }</span>
-<span id="L581"><span class="lineNum">     581</span> <span class="tlaGNC">      142512 :         return cross_res + cross_dir + cs_multidiff + cross_frag2;</span></span>
+<span id="L581"><span class="lineNum">     581</span> <span class="tlaGNC">      148848 :         return cross_res + cross_dir + cs_multidiff + cross_frag2;</span></span>
 <span id="L582"><span class="lineNum">     582</span>              : }</span>
 <span id="L583"><span class="lineNum">     583</span>              : </span>
-<span id="L584"><span class="lineNum">     584</span> <span class="tlaGNC">      269218 : double PhotoPionProduction::Pl(double eps, double epsTh, double epsMax, double alpha) const {</span></span>
-<span id="L585"><span class="lineNum">     585</span> <span class="tlaGNC">      269218 :         if (epsTh &gt; eps)</span></span>
+<span id="L584"><span class="lineNum">     584</span> <span class="tlaGNC">      280186 : double PhotoPionProduction::Pl(double eps, double epsTh, double epsMax, double alpha) const {</span></span>
+<span id="L585"><span class="lineNum">     585</span> <span class="tlaGNC">      280186 :         if (epsTh &gt; eps)</span></span>
 <span id="L586"><span class="lineNum">     586</span>              :                 return 0.;</span>
-<span id="L587"><span class="lineNum">     587</span> <span class="tlaGNC">      222516 :         const double a = alpha * epsMax / epsTh;</span></span>
-<span id="L588"><span class="lineNum">     588</span> <span class="tlaGNC">      222516 :         const double prod1 = std::pow((eps - epsTh) / (epsMax - epsTh), a - alpha);</span></span>
-<span id="L589"><span class="lineNum">     589</span> <span class="tlaGNC">      222516 :         const double prod2 = std::pow(eps / epsMax, -a);</span></span>
-<span id="L590"><span class="lineNum">     590</span> <span class="tlaGNC">      222516 :         return prod1 * prod2;</span></span>
+<span id="L587"><span class="lineNum">     587</span> <span class="tlaGNC">      231686 :         const double a = alpha * epsMax / epsTh;</span></span>
+<span id="L588"><span class="lineNum">     588</span> <span class="tlaGNC">      231686 :         const double prod1 = std::pow((eps - epsTh) / (epsMax - epsTh), a - alpha);</span></span>
+<span id="L589"><span class="lineNum">     589</span> <span class="tlaGNC">      231686 :         const double prod2 = std::pow(eps / epsMax, -a);</span></span>
+<span id="L590"><span class="lineNum">     590</span> <span class="tlaGNC">      231686 :         return prod1 * prod2;</span></span>
 <span id="L591"><span class="lineNum">     591</span>              : }</span>
 <span id="L592"><span class="lineNum">     592</span>              : </span>
-<span id="L593"><span class="lineNum">     593</span> <span class="tlaGNC">     1353993 : double PhotoPionProduction::Ef(double eps, double epsTh, double w) const {</span></span>
-<span id="L594"><span class="lineNum">     594</span> <span class="tlaGNC">     1353993 :         const double wTh = w + epsTh;</span></span>
-<span id="L595"><span class="lineNum">     595</span> <span class="tlaGNC">     1353993 :         if (eps &lt;= epsTh) {</span></span>
+<span id="L593"><span class="lineNum">     593</span> <span class="tlaGNC">     1409685 : double PhotoPionProduction::Ef(double eps, double epsTh, double w) const {</span></span>
+<span id="L594"><span class="lineNum">     594</span> <span class="tlaGNC">     1409685 :         const double wTh = w + epsTh;</span></span>
+<span id="L595"><span class="lineNum">     595</span> <span class="tlaGNC">     1409685 :         if (eps &lt;= epsTh) {</span></span>
 <span id="L596"><span class="lineNum">     596</span>              :                 return 0.;</span>
-<span id="L597"><span class="lineNum">     597</span> <span class="tlaGNC">     1300664 :         } else if ((eps &gt; epsTh) &amp;&amp; (eps &lt; wTh)) {</span></span>
-<span id="L598"><span class="lineNum">     598</span> <span class="tlaGNC">      472163 :                 return (eps - epsTh) / w;</span></span>
-<span id="L599"><span class="lineNum">     599</span> <span class="tlaGNC">      828501 :         } else if (eps &gt;= wTh) {</span></span>
+<span id="L597"><span class="lineNum">     597</span> <span class="tlaGNC">     1354409 :         } else if ((eps &gt; epsTh) &amp;&amp; (eps &lt; wTh)) {</span></span>
+<span id="L598"><span class="lineNum">     598</span> <span class="tlaGNC">      490633 :                 return (eps - epsTh) / w;</span></span>
+<span id="L599"><span class="lineNum">     599</span> <span class="tlaGNC">      863776 :         } else if (eps &gt;= wTh) {</span></span>
 <span id="L600"><span class="lineNum">     600</span>              :                 return 1.;</span>
 <span id="L601"><span class="lineNum">     601</span>              :         } else {</span>
 <span id="L602"><span class="lineNum">     602</span> <span class="tlaUNC tlaBgUNC">           0 :                 throw std::runtime_error(&quot;error in function Ef&quot;);</span></span>
 <span id="L603"><span class="lineNum">     603</span>              :         }</span>
 <span id="L604"><span class="lineNum">     604</span>              : }</span>
 <span id="L605"><span class="lineNum">     605</span>              : </span>
-<span id="L606"><span class="lineNum">     606</span> <span class="tlaGNC tlaBgGNC">     1211481 : double PhotoPionProduction::breitwigner(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const {</span></span>
-<span id="L607"><span class="lineNum">     607</span> <span class="tlaGNC">     1211481 :         const double m = mass(onProton);</span></span>
-<span id="L608"><span class="lineNum">     608</span> <span class="tlaGNC">     1211481 :         const double s = m * m + 2. * m * epsPrime;</span></span>
-<span id="L609"><span class="lineNum">     609</span> <span class="tlaGNC">     1211481 :         const double gam2s = gamma * gamma * s;</span></span>
-<span id="L610"><span class="lineNum">     610</span> <span class="tlaGNC">     1211481 :         return sigma0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);</span></span>
+<span id="L606"><span class="lineNum">     606</span> <span class="tlaGNC tlaBgGNC">     1260837 : double PhotoPionProduction::breitwigner(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const {</span></span>
+<span id="L607"><span class="lineNum">     607</span> <span class="tlaGNC">     1260837 :         const double m = mass(onProton);</span></span>
+<span id="L608"><span class="lineNum">     608</span> <span class="tlaGNC">     1260837 :         const double s = m * m + 2. * m * epsPrime;</span></span>
+<span id="L609"><span class="lineNum">     609</span> <span class="tlaGNC">     1260837 :         const double gam2s = gamma * gamma * s;</span></span>
+<span id="L610"><span class="lineNum">     610</span> <span class="tlaGNC">     1260837 :         return sigma0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);</span></span>
 <span id="L611"><span class="lineNum">     611</span>              : }</span>
 <span id="L612"><span class="lineNum">     612</span>              : </span>
-<span id="L613"><span class="lineNum">     613</span> <span class="tlaGNC">      142512 : double PhotoPionProduction::functs(double s, bool onProton) const {</span></span>
-<span id="L614"><span class="lineNum">     614</span> <span class="tlaGNC">      142512 :         const double m = mass(onProton);</span></span>
-<span id="L615"><span class="lineNum">     615</span> <span class="tlaGNC">      142512 :         const double factor = s - m * m;</span></span>
-<span id="L616"><span class="lineNum">     616</span> <span class="tlaGNC">      142512 :         const double epsPrime = factor / 2. / m;</span></span>
-<span id="L617"><span class="lineNum">     617</span> <span class="tlaGNC">      142512 :         const double sigmaPg = crossection(epsPrime, onProton);</span></span>
-<span id="L618"><span class="lineNum">     618</span> <span class="tlaGNC">      142512 :         return factor * sigmaPg;</span></span>
+<span id="L613"><span class="lineNum">     613</span> <span class="tlaGNC">      148848 : double PhotoPionProduction::functs(double s, bool onProton) const {</span></span>
+<span id="L614"><span class="lineNum">     614</span> <span class="tlaGNC">      148848 :         const double m = mass(onProton);</span></span>
+<span id="L615"><span class="lineNum">     615</span> <span class="tlaGNC">      148848 :         const double factor = s - m * m;</span></span>
+<span id="L616"><span class="lineNum">     616</span> <span class="tlaGNC">      148848 :         const double epsPrime = factor / 2. / m;</span></span>
+<span id="L617"><span class="lineNum">     617</span> <span class="tlaGNC">      148848 :         const double sigmaPg = crossection(epsPrime, onProton);</span></span>
+<span id="L618"><span class="lineNum">     618</span> <span class="tlaGNC">      148848 :         return factor * sigmaPg;</span></span>
 <span id="L619"><span class="lineNum">     619</span>              : }</span>
 <span id="L620"><span class="lineNum">     620</span>              : </span>
-<span id="L621"><span class="lineNum">     621</span> <span class="tlaGNC">     1523411 : double PhotoPionProduction::mass(bool onProton) const {</span></span>
-<span id="L622"><span class="lineNum">     622</span> <span class="tlaGNC">     1523411 :         const double m =  onProton ? mass_proton : mass_neutron;</span></span>
-<span id="L623"><span class="lineNum">     623</span> <span class="tlaGNC">     1523411 :         return m / GeV * c_squared;</span></span>
+<span id="L621"><span class="lineNum">     621</span> <span class="tlaGNC">     1586634 : double PhotoPionProduction::mass(bool onProton) const {</span></span>
+<span id="L622"><span class="lineNum">     622</span> <span class="tlaGNC">     1586634 :         const double m =  onProton ? mass_proton : mass_neutron;</span></span>
+<span id="L623"><span class="lineNum">     623</span> <span class="tlaGNC">     1586634 :         return m / GeV * c_squared;</span></span>
 <span id="L624"><span class="lineNum">     624</span>              : }</span>
 <span id="L625"><span class="lineNum">     625</span>              : </span>
-<span id="L626"><span class="lineNum">     626</span> <span class="tlaGNC">      160353 : double PhotoPionProduction::sMin() const {</span></span>
-<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">      160353 :         return 1.1646; // [GeV^2] head-on collision</span></span>
+<span id="L626"><span class="lineNum">     626</span> <span class="tlaGNC">      167482 : double PhotoPionProduction::sMin() const {</span></span>
+<span id="L627"><span class="lineNum">     627</span> <span class="tlaGNC">      167482 :         return 1.1646; // [GeV^2] head-on collision</span></span>
 <span id="L628"><span class="lineNum">     628</span>              : }</span>
 <span id="L629"><span class="lineNum">     629</span>              : </span>
 <span id="L630"><span class="lineNum">     630</span> <span class="tlaUNC tlaBgUNC">           0 : void PhotoPionProduction::setSampleLog(bool b) {</span></span>

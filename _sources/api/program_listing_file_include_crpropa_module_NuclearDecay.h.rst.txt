@@ -30,7 +30,7 @@ Program Listing for File NuclearDecay.h
                    std::vector<double> energy; // photon energies of ensuing gamma decays
                    std::vector<double> intensity; // probabilities of ensuing gamma decays
            };
-           std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
+           std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * NUCLEAR_NSTRIDE + N] = vector<DecayMode>
            std::string interactionTag = "ND";
    
    public:

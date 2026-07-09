@@ -1,0 +1,14 @@
+.. _exhale_variable_group__Core_1ga01d0cf822d91d308a944169992c49354:
+
+Variable crpropa::NUCLEAR_NSTRIDE
+=================================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::NUCLEAR_NSTRIDE
+   :project: CRPropa3

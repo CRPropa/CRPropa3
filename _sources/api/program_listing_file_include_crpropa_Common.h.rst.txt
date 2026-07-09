@@ -16,6 +16,13 @@ Program Listing for File Common.h
    #include <string>
    #include <vector>
    namespace crpropa {
+   // Maximum nuclear charge number, neutron number, and flat-array stride
+   // for all nuclear interaction tables (PhotoDisintegration, NuclearDecay, ParticleMass).
+   // Coverage matches PD_Talys1.9: Z up to Pb (82), N up to Pb-214 (132).
+   static const int NUCLEAR_ZMAX    = 82;
+   static const int NUCLEAR_NMAX    = 132;
+   static const int NUCLEAR_NSTRIDE = 133; // = NUCLEAR_NMAX + 1
+   
    // Returns the full path to a CRPropa data file
    std::string getDataPath(std::string filename);
    

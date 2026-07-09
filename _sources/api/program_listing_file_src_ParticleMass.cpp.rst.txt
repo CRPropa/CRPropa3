@@ -40,12 +40,15 @@ Program Listing for File ParticleMass.cpp
                    if (!infile.good())
                            throw std::runtime_error("crpropa: could not open file " + filename);
    
+                   table.assign((NUCLEAR_ZMAX + 1) * NUCLEAR_NSTRIDE, 0.0);
+   
                    int Z, N;
                    double mass;
                    while (infile.good()) {
                            if (infile.peek() != '#') {
                                    infile >> Z >> N >> mass;
-                                   table.push_back(mass);
+                                   if (Z <= NUCLEAR_ZMAX && N <= NUCLEAR_NMAX)
+                                           table[Z * NUCLEAR_NSTRIDE + N] = mass;
                            }
                            infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                    }
@@ -59,6 +62,8 @@ Program Listing for File ParticleMass.cpp
    #pragma omp critical(init)
                            init();
                    }
+                   if (table[idx] == 0.0)
+                           return 0.0; // triggers approximation in nuclearMass()
                    return table[idx];
            }
    };
@@ -80,15 +85,23 @@ Program Listing for File ParticleMass.cpp
    }
    
    double nuclearMass(int A, int Z) {
-           if ((A < 1) or (A > 56) or (Z < 0) or (Z > 26) or (Z > A)) {
+           int N = A - Z;
+           if ((A < 1) or (Z < 0) or (Z > A) or (Z > NUCLEAR_ZMAX) or (N > NUCLEAR_NMAX)) {
                    KISS_LOG_WARNING <<
                    "nuclearMass: nuclear mass not found in the mass table for " <<
                    "A = " << A << ", Z = " << Z << ". " <<
                    "Approximated value used A * amu - Z * m_e instead.";
                    return A * amu - Z * mass_electron;
            }
-           int N = A - Z;
-           return nuclearMassTable.getMass(Z * 31 + N);
+           double m = nuclearMassTable.getMass(Z * NUCLEAR_NSTRIDE + N);
+           if (m == 0.0) {
+                   KISS_LOG_WARNING <<
+                   "nuclearMass: nuclear mass not found in the mass table for " <<
+                   "A = " << A << ", Z = " << Z << ". " <<
+                   "Approximated value used A * amu - Z * m_e instead.";
+                   return A * amu - Z * mass_electron;
+           }
+           return m;
    }
    
    } // namespace crpropa

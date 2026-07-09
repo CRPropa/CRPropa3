@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-08 11:37:41</td>
+            <td class="headerValue">2026-07-09 12:52:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -246,21 +246,21 @@
 <span id="L184"><span class="lineNum">     184</span>              :         size_type max_size() { return Base::max_size(); }</span>
 <span id="L185"><span class="lineNum">     185</span>              : </span>
 <span id="L186"><span class="lineNum">     186</span>              :         // 23.3.1.2 element access:</span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">        1146 :         mapped_type&amp; operator[](const key_type&amp; key)</span></span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">        2292 :         { return insert(value_type(key, mapped_type())).first-&gt;second; }</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">        1145 :         mapped_type&amp; operator[](const key_type&amp; key)</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">        2290 :         { return insert(value_type(key, mapped_type())).first-&gt;second; }</span></span>
 <span id="L189"><span class="lineNum">     189</span>              : </span>
 <span id="L190"><span class="lineNum">     190</span>              :         // modifiers:</span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">        1146 :         std::pair&lt;iterator, bool&gt; insert(const value_type&amp; val)</span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">        1145 :         std::pair&lt;iterator, bool&gt; insert(const value_type&amp; val)</span></span>
 <span id="L192"><span class="lineNum">     192</span>              :         {</span>
 <span id="L193"><span class="lineNum">     193</span>              :             bool found(true);</span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        1146 :             iterator i(lower_bound(val.first));</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        1145 :             iterator i(lower_bound(val.first));</span></span>
 <span id="L195"><span class="lineNum">     195</span>              : </span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        1146 :             if (i == end() || this-&gt;operator()(val.first, i-&gt;first))</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        1145 :             if (i == end() || this-&gt;operator()(val.first, i-&gt;first))</span></span>
 <span id="L197"><span class="lineNum">     197</span>              :             {</span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">        1133 :                 i = Base::insert(i, val);</span></span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">        1132 :                 i = Base::insert(i, val);</span></span>
 <span id="L199"><span class="lineNum">     199</span>              :                 found = false;</span>
 <span id="L200"><span class="lineNum">     200</span>              :             }</span>
-<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">        1146 :             return std::make_pair(i, !found);</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">        1145 :             return std::make_pair(i, !found);</span></span>
 <span id="L202"><span class="lineNum">     202</span>              :         }</span>
 <span id="L203"><span class="lineNum">     203</span>              :         //Section [23.1.2], Table 69</span>
 <span id="L204"><span class="lineNum">     204</span>              :         //http://developer.apple.com/documentation/DeveloperTools/gcc-3.3/libstdc++/23_containers/howto.html#4</span>
@@ -340,7 +340,7 @@
 <span id="L278"><span class="lineNum">     278</span>              :         iterator lower_bound(const key_type&amp; k)</span>
 <span id="L279"><span class="lineNum">     279</span>              :         {</span>
 <span id="L280"><span class="lineNum">     280</span>              :             MyCompare&amp; me = *this;</span>
-<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">        1149 :             return std::lower_bound(begin(), end(), k, me);</span></span>
+<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">        1148 :             return std::lower_bound(begin(), end(), k, me);</span></span>
 <span id="L282"><span class="lineNum">     282</span>              :         }</span>
 <span id="L283"><span class="lineNum">     283</span>              : </span>
 <span id="L284"><span class="lineNum">     284</span>              :         const_iterator lower_bound(const key_type&amp; k) const</span>

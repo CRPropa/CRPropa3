@@ -16,12 +16,12 @@ Interaction modules implement physical interactions which modify the particle an
 Currently, only interactions with extragalactic background photon fields (CMB, EBL, CRB) are implemented.
 Hadronic interactions with matter distributions is highly subdominant except for high density regions, and is currently not implemented.
 
-Interactions of protons, neutrons, and nuclei (Z = 1 - 26, N = 1 - 30)
+Interactions of protons, neutrons, and nuclei (Z = 1 - 82, N = 1 - 132)
 
 * **ElectronPairProduction** - Electron pair production (Bethe-Heitler) for charged nuclei using the continuous energy loss approximation, optional secondaries: electrons/positrons
 * **PhotoPionProduction** - photo-meson production for protons, neutrinos and nuclei, uses SOPHIA as event generator, secondaries: protons/neutrons, optional secondaries: antiprotons/antineutrons, photons, electrons/positrons and neutrinos
 * **PhotoDisintegration** - photodisintegration using TALYS cross sections (alternatively, PSB and Kossov models are available), secondaries: protons, neutrons, deuterons, tritons, alpha-3, alpha-4, optional secondaries: photons
-* **NuclearDecay** - decay of neutrons and nuclei up to iron, optional secondaries: photons, electrons/positrons and neutrinos
+* **NuclearDecay** - decay of neutrons and nuclei up to lead, optional secondaries: photons, electrons/positrons and neutrinos
 
 Interactions of photons, electrons and positrons
 

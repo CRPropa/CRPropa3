@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-08 11:37:41</td>
+            <td class="headerValue">2026-07-09 12:52:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">72.2&nbsp;%</td>
@@ -202,9 +202,9 @@
 <span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">         505 :                 double dx = log((1 + beta) / (1 - beta)) / N;</span></span>
 <span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">         505 :                 double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));</span></span>
 <span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC">         505 :                 if (random.rand() &lt; 0.5)</span></span>
-<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">         247 :                         return E0 * (x0 * exp((j-1) * dx) + binWidth);</span></span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">         271 :                         return E0 * (x0 * exp((j-1) * dx) + binWidth);</span></span>
 <span id="L144"><span class="lineNum">     144</span>              :                 else</span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">         258 :                         return E0 * (1 - (x0 * exp((j-1) * dx) + binWidth));</span></span>
+<span id="L145"><span class="lineNum">     145</span> <span class="tlaGNC">         234 :                         return E0 * (1 - (x0 * exp((j-1) * dx) + binWidth));</span></span>
 <span id="L146"><span class="lineNum">     146</span> <span class="tlaGNC">         505 :         }</span></span>
 <span id="L147"><span class="lineNum">     147</span>              :         </span>
 <span id="L148"><span class="lineNum">     148</span>              : };</span>
@@ -246,9 +246,9 @@
 <span id="L184"><span class="lineNum">     184</span> <span class="tlaGNC">         505 :         size_t i = closestIndex(E, tabE);  // find closest tabulation point</span></span>
 <span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">         505 :         size_t j = random.randBin(tabCDF[i]);</span></span>
 <span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">         505 :         if (j &lt;= 0) {</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">          68 :                 KISS_LOG_WARNING </span></span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          34 :                         &lt;&lt; &quot;EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical.&quot;</span></span>
-<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">          34 :                         &lt;&lt; &quot; The index j will be set to 1 to avoid division by zero.&quot;;</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaGNC">          46 :                 KISS_LOG_WARNING </span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          23 :                         &lt;&lt; &quot;EMPaiProduction: Sampled s value is the lowest tabulated value, which is not physical.&quot;</span></span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">          23 :                         &lt;&lt; &quot; The index j will be set to 1 to avoid division by zero.&quot;;</span></span>
 <span id="L190"><span class="lineNum">     190</span>              :                 j = 1;  // ensure j is at least 1 to avoid division by</span>
 <span id="L191"><span class="lineNum">     191</span>              :         }</span>
 <span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        1010 :         double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value</span></span>
@@ -283,11 +283,11 @@
 <span id="L221"><span class="lineNum">     221</span>              :         }</span>
 <span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">         505 : }</span></span>
 <span id="L223"><span class="lineNum">     223</span>              : </span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">        3979 : void EMPairProduction::process(Candidate *candidate) const {</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">        1829 : void EMPairProduction::process(Candidate *candidate) const {</span></span>
 <span id="L225"><span class="lineNum">     225</span>              :         </span>
 <span id="L226"><span class="lineNum">     226</span>              :         // check if photon</span>
-<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">        3979 :         if (candidate-&gt;current.getId() != 22)</span></span>
-<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">        3642 :                 return;</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">        1829 :         if (candidate-&gt;current.getId() != 22)</span></span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">        1492 :                 return;</span></span>
 <span id="L229"><span class="lineNum">     229</span>              :         </span>
 <span id="L230"><span class="lineNum">     230</span>              :         // scale particle energy instead of background photon energy</span>
 <span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">         841 :         double z = candidate-&gt;getRedshift();</span></span>

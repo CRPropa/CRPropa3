@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-08 11:37:41</td>
+            <td class="headerValue">2026-07-09 12:52:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryMed">81.0&nbsp;%</td>
@@ -93,12 +93,12 @@
 <span id="L31"><span class="lineNum">      31</span>              :          * @var isPositionDependent = false;</span>
 <span id="L32"><span class="lineNum">      32</span>              :          * @var surface = nullptr;</span>
 <span id="L33"><span class="lineNum">      33</span>              :          */</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">         136 :         PhotonField() {</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">         136 :                 this-&gt;fieldName = &quot;AbstractPhotonField&quot;;</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">         136 :                 this-&gt;isRedshiftDependent = false;</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">         136 :                 this-&gt;isPositionDependent = false;</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">         144 :         PhotonField() {</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">         144 :                 this-&gt;fieldName = &quot;AbstractPhotonField&quot;;</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">         144 :                 this-&gt;isRedshiftDependent = false;</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">         144 :                 this-&gt;isPositionDependent = false;</span></span>
 <span id="L38"><span class="lineNum">      38</span>              :                 this-&gt;surface = nullptr;</span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">         136 :         }</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">         144 :         }</span></span>
 <span id="L40"><span class="lineNum">      40</span>              :         </span>
 <span id="L41"><span class="lineNum">      41</span>              :         /**</span>
 <span id="L42"><span class="lineNum">      42</span>              :          returns comoving photon density [1/m^3].</span>
@@ -119,8 +119,8 @@
 <span id="L57"><span class="lineNum">      57</span>              :          */</span>
 <span id="L58"><span class="lineNum">      58</span>              :         virtual double getMaximumPhotonEnergy(double z, const Vector3d &amp;pos = Vector3d(0.,0.,0.)) const = 0;</span>
 <span id="L59"><span class="lineNum">      59</span>              :         /// Returns name of the current used photon field</span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">         147 :         virtual inline std::string getFieldName() const {</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">         147 :                 return this-&gt;fieldName;</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">         159 :         virtual inline std::string getFieldName() const {</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">         159 :                 return this-&gt;fieldName;</span></span>
 <span id="L62"><span class="lineNum">      62</span>              :         }</span>
 <span id="L63"><span class="lineNum">      63</span>              :         </span>
 <span id="L64"><span class="lineNum">      64</span>              :         /**</span>
@@ -128,8 +128,8 @@
 <span id="L66"><span class="lineNum">      66</span>              :          (cf. CRPropa3-data/calc_scaling.py)</span>
 <span id="L67"><span class="lineNum">      67</span>              :          @param z               redshift</span>
 <span id="L68"><span class="lineNum">      68</span>              :          */</span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">        4884 :         virtual inline double getRedshiftScaling(double z) const {</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">        4884 :                 return 1.;</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">        2751 :         virtual inline double getRedshiftScaling(double z) const {</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">        2751 :                 return 1.;</span></span>
 <span id="L71"><span class="lineNum">      71</span>              :         };</span>
 <span id="L72"><span class="lineNum">      72</span>              :         </span>
 <span id="L73"><span class="lineNum">      73</span>              :         /// Returns if the derived field has a redshift dependency or not</span>
@@ -353,7 +353,7 @@
 <span id="L291"><span class="lineNum">     291</span>              :  */</span>
 <span id="L292"><span class="lineNum">     292</span>              : class IRB_Gilmore12: public TabularPhotonField {</span>
 <span id="L293"><span class="lineNum">     293</span>              : public:</span>
-<span id="L294"><span class="lineNum">     294</span> <span class="tlaGNC">          14 :         IRB_Gilmore12() : TabularPhotonField(&quot;IRB_Gilmore12&quot;, true) {}</span></span>
+<span id="L294"><span class="lineNum">     294</span> <span class="tlaGNC">          16 :         IRB_Gilmore12() : TabularPhotonField(&quot;IRB_Gilmore12&quot;, true) {}</span></span>
 <span id="L295"><span class="lineNum">     295</span>              : };</span>
 <span id="L296"><span class="lineNum">     296</span>              : </span>
 <span id="L297"><span class="lineNum">     297</span>              : /**</span>
@@ -548,7 +548,7 @@
 <span id="L486"><span class="lineNum">     486</span>              :  */</span>
 <span id="L487"><span class="lineNum">     487</span>              : class CMB: public BlackbodyPhotonField {</span>
 <span id="L488"><span class="lineNum">     488</span>              : public:</span>
-<span id="L489"><span class="lineNum">     489</span> <span class="tlaGNC tlaBgGNC">          80 :         CMB() : BlackbodyPhotonField(&quot;CMB&quot;, 2.73) {}</span></span>
+<span id="L489"><span class="lineNum">     489</span> <span class="tlaGNC tlaBgGNC">          94 :         CMB() : BlackbodyPhotonField(&quot;CMB&quot;, 2.73) {}</span></span>
 <span id="L490"><span class="lineNum">     490</span>              : };</span>
 <span id="L491"><span class="lineNum">     491</span>              : </span>
 <span id="L492"><span class="lineNum">     492</span>              : </span>

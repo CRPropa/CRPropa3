@@ -1,0 +1,14 @@
+.. _exhale_variable_group__Core_1ga07be10ebe791ec962d8a46188c54f8cb:
+
+Variable crpropa::NUCLEAR_ZMAX
+==============================
+
+.. did not find file this was defined in
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::NUCLEAR_ZMAX
+   :project: CRPropa3

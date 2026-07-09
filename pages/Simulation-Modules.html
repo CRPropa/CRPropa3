@@ -433,6 +433,9 @@
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0ElsRNSt7ostreamERNSt7ostreamERK7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator&lt;&lt;()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0ErsRNSt7istreamERNSt7istreamER7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator&gt;&gt;()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0Eml7Vector3I1TE1TRK7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator*()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv412NUCLEAR_ZMAX"><code class="docutils literal notranslate"><span class="pre">NUCLEAR_ZMAX</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv412NUCLEAR_NMAX"><code class="docutils literal notranslate"><span class="pre">NUCLEAR_NMAX</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv415NUCLEAR_NSTRIDE"><code class="docutils literal notranslate"><span class="pre">NUCLEAR_NSTRIDE</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa9CandidateE"><code class="docutils literal notranslate"><span class="pre">crpropa::Candidate</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa7SurfaceE"><code class="docutils literal notranslate"><span class="pre">crpropa::Surface</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa5PlaneE"><code class="docutils literal notranslate"><span class="pre">crpropa::Plane</span></code></a></li>
@@ -1263,6 +1266,9 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga86cabed6b39944d7bada06028f98c864.html">Variable crpropa::newton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gab2255fb9f970de1ddc40b38fe9065de4.html">Variable crpropa::nG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7.html">Variable crpropa::ns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__Core_1gae3583eaf7ee379fdbb29e87f85dfc935.html">Variable crpropa::NUCLEAR_NMAX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__Core_1ga01d0cf822d91d308a944169992c49354.html">Variable crpropa::NUCLEAR_NSTRIDE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__Core_1ga07be10ebe791ec962d8a46188c54f8cb.html">Variable crpropa::NUCLEAR_ZMAX</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_namespacecrpropa_1a121307288ad0b7f53e11a30e86f1bfed.html">Variable crpropa::nuclearMassTable</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa.html">Variable crpropa::parsec</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c.html">Variable crpropa::pascal</a></li>
@@ -1380,12 +1386,12 @@ For a more detailed explanation refer to the Doxygen documentation.</p>
 <p>Interaction modules implement physical interactions which modify the particle and eventually produce secondary particles. Hadronic secondaries are always generated, non-hadronic secondaries are optionally generated.
 Currently, only interactions with extragalactic background photon fields (CMB, EBL, CRB) are implemented.
 Hadronic interactions with matter distributions is highly subdominant except for high density regions, and is currently not implemented.</p>
-<p>Interactions of protons, neutrons, and nuclei (Z = 1 - 26, N = 1 - 30)</p>
+<p>Interactions of protons, neutrons, and nuclei (Z = 1 - 82, N = 1 - 132)</p>
 <ul class="simple">
 <li><p><strong>ElectronPairProduction</strong> - Electron pair production (Bethe-Heitler) for charged nuclei using the continuous energy loss approximation, optional secondaries: electrons/positrons</p></li>
 <li><p><strong>PhotoPionProduction</strong> - photo-meson production for protons, neutrinos and nuclei, uses SOPHIA as event generator, secondaries: protons/neutrons, optional secondaries: antiprotons/antineutrons, photons, electrons/positrons and neutrinos</p></li>
 <li><p><strong>PhotoDisintegration</strong> - photodisintegration using TALYS cross sections (alternatively, PSB and Kossov models are available), secondaries: protons, neutrons, deuterons, tritons, alpha-3, alpha-4, optional secondaries: photons</p></li>
-<li><p><strong>NuclearDecay</strong> - decay of neutrons and nuclei up to iron, optional secondaries: photons, electrons/positrons and neutrinos</p></li>
+<li><p><strong>NuclearDecay</strong> - decay of neutrons and nuclei up to lead, optional secondaries: photons, electrons/positrons and neutrinos</p></li>
 </ul>
 <p>Interactions of photons, electrons and positrons</p>
 <ul class="simple">

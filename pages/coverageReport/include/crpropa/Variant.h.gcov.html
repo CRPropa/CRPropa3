@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-08 11:37:41</td>
+            <td class="headerValue">2026-07-09 12:52:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">37.5&nbsp;%</td>
@@ -339,7 +339,7 @@
 <span id="L277"><span class="lineNum">     277</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_POD(LongDouble, TYPE_LONGDOUBLE, long double, ldouble)</span></span>
 <span id="L278"><span class="lineNum">     278</span> <span class="tlaUNC">           0 :         VARIANT_ADD_TYPE_DECL_PTR(ComplexFloat, TYPE_COMPLEXF, std::complex&lt;float&gt;, complex_f)</span></span>
 <span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC tlaBgGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(ComplexDouble, TYPE_COMPLEXD, std::complex&lt;double&gt;, complex_d)</span></span>
-<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">        3402 :         VARIANT_ADD_TYPE_DECL_PTR(String, TYPE_STRING, std::string, string)</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">        3399 :         VARIANT_ADD_TYPE_DECL_PTR(String, TYPE_STRING, std::string, string)</span></span>
 <span id="L281"><span class="lineNum">     281</span> <span class="tlaUNC tlaBgUNC">           0 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3f, TYPE_VECTOR3F, Vector3f, vector3f)</span></span>
 <span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC tlaBgGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3d, TYPE_VECTOR3D, Vector3d, vector3d)</span></span>
 <span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           1 :         VARIANT_ADD_TYPE_DECL_PTR(Vector3c, TYPE_VECTOR3C, Vector3c, vector3c)</span></span>
@@ -382,12 +382,12 @@
 <span id="L320"><span class="lineNum">     320</span>              :  https://git.rwth-aachen.de/3pia/pxl/pxl/-/blob/master/core/include/pxl/core/Functions.hh</span>
 <span id="L321"><span class="lineNum">     321</span>              :  */</span>
 <span id="L322"><span class="lineNum">     322</span>              : template &lt;class T&gt; </span>
-<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">        2266 : inline void safeDelete(T*&amp; p) {</span></span>
-<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">        2269 :         if (p) {</span></span>
-<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">        2269 :                 delete p;</span></span>
-<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">        2269 :                 p = 0;</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">        2264 : inline void safeDelete(T*&amp; p) {</span></span>
+<span id="L324"><span class="lineNum">     324</span> <span class="tlaGNC">        2267 :         if (p) {</span></span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">        2267 :                 delete p;</span></span>
+<span id="L326"><span class="lineNum">     326</span> <span class="tlaGNC">        2267 :                 p = 0;</span></span>
 <span id="L327"><span class="lineNum">     327</span>              :         }</span>
-<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">        2266 : }</span></span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">        2264 : }</span></span>
 <span id="L329"><span class="lineNum">     329</span>              : </span>
 <span id="L330"><span class="lineNum">     330</span>              : </span>
 <span id="L331"><span class="lineNum">     331</span>              : </span>

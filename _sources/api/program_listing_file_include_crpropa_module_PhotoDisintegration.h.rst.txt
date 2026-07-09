@@ -37,8 +37,8 @@ Program Listing for File PhotoDisintegration.h
                    std::vector<double> emissionProbability; // emission probability as function of nucleus Lorentz factor
            };
    
-           std::vector<std::vector<double> > pdRate; // pdRate[Z * 31 + N] = total interaction rate
-           std::vector<std::vector<Branch> > pdBranch; // pdTable[Z * 31 + N] = branching ratios
+           std::vector<std::vector<double> > pdRate; // pdRate[Z * NUCLEAR_NSTRIDE + N] = total interaction rate
+           std::vector<std::vector<Branch> > pdBranch; // pdBranch[Z * NUCLEAR_NSTRIDE + N] = branching ratios
            mutable std::map<int, std::vector<PhotonEmission> > pdPhoton; // map of emitted photon energies and photon emission probabilities
    
            static const double lgmin; // minimum log10(Lorentz-factor)
@@ -46,10 +46,9 @@ Program Listing for File PhotoDisintegration.h
            static const size_t nlg; // number of Lorentz-factor steps
    
    public:
-           PhotoDisintegration(ref_ptr<PhotonField> photonField, bool havePhotons = false, double limit = 0.1);
+           PhotoDisintegration(ref_ptr<PhotonField> photonField, bool havePhotons = false, double limit = 0.1, bool superheavy = false);
    
-           // set the target photon field
-           void setPhotonField(ref_ptr<PhotonField> photonField);
+           void setPhotonField(ref_ptr<PhotonField> photonField, bool superheavy = false);
    
            // decide if secondary photons are added to the simulation
            void setHavePhotons(bool havePhotons);

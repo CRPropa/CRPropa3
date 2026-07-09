@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-09 12:52:30</td>
+            <td class="headerValue">2026-07-09 19:08:39</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">52.2&nbsp;%</td>
@@ -139,8 +139,8 @@
 <span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">        4625 :         seed();</span></span>
 <span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">        4625 : }</span></span>
 <span id="L79"><span class="lineNum">      79</span>              : </span>
-<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">    22409837 : double Random::rand() {</span></span>
-<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">    22409837 :         return double(randInt()) * (1.0 / 4294967295.0);</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">    22402380 : double Random::rand() {</span></span>
+<span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">    22402380 :         return double(randInt()) * (1.0 / 4294967295.0);</span></span>
 <span id="L82"><span class="lineNum">      82</span>              : }</span>
 <span id="L83"><span class="lineNum">      83</span>              : </span>
 <span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC tlaBgUNC">           0 : double Random::rand(const double&amp; n) {</span></span>
@@ -194,10 +194,10 @@
 <span id="L132"><span class="lineNum">     132</span> <span class="tlaGNC">       10102 :         return it - cdf.begin();</span></span>
 <span id="L133"><span class="lineNum">     133</span>              : }</span>
 <span id="L134"><span class="lineNum">     134</span>              : </span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">     3739703 : size_t Random::randBin(const std::vector&lt;double&gt; &amp;cdf) {</span></span>
-<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">     3739703 :         std::vector&lt;double&gt;::const_iterator it = std::lower_bound(cdf.begin(),</span></span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">     3739703 :                         cdf.end(), rand() * cdf.back());</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">     3739703 :         return it - cdf.begin();</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaGNC">     3739316 : size_t Random::randBin(const std::vector&lt;double&gt; &amp;cdf) {</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaGNC">     3739316 :         std::vector&lt;double&gt;::const_iterator it = std::lower_bound(cdf.begin(),</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">     3739316 :                         cdf.end(), rand() * cdf.back());</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">     3739316 :         return it - cdf.begin();</span></span>
 <span id="L139"><span class="lineNum">     139</span>              : }</span>
 <span id="L140"><span class="lineNum">     140</span>              : </span>
 <span id="L141"><span class="lineNum">     141</span> <span class="tlaGNC">      962203 : Vector3d Random::randVector() {</span></span>
@@ -244,8 +244,8 @@
 <span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :         return vLambertz.getRotated(axis / axis.getR(), -angle);</span></span>
 <span id="L183"><span class="lineNum">     183</span>              : }</span>
 <span id="L184"><span class="lineNum">     184</span>              : </span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC tlaBgGNC">     3638086 : Vector3d Random::randomInterpolatedPosition(const Vector3d &amp;a, const Vector3d &amp;b) {</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">     3638086 :         return a + rand() * (b - a);</span></span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC tlaBgGNC">     3637726 : Vector3d Random::randomInterpolatedPosition(const Vector3d &amp;a, const Vector3d &amp;b) {</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">     3637726 :         return a + rand() * (b - a);</span></span>
 <span id="L187"><span class="lineNum">     187</span>              : }</span>
 <span id="L188"><span class="lineNum">     188</span>              : </span>
 <span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">        1104 : double Random::randPowerLaw(double index, double min, double max) {</span></span>
@@ -308,17 +308,17 @@
 <span id="L246"><span class="lineNum">     246</span> <span class="tlaUNC">           0 :         return -1.0 * log(dum);</span></span>
 <span id="L247"><span class="lineNum">     247</span>              : }</span>
 <span id="L248"><span class="lineNum">     248</span>              : </span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC tlaBgGNC">    25846695 : uint32_t Random::randInt() {</span></span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">    25846695 :         if (left == 0)</span></span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">       41414 :                 reload();</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">    25846695 :         --left;</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC tlaBgGNC">    25839238 : uint32_t Random::randInt() {</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">    25839238 :         if (left == 0)</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">       41402 :                 reload();</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">    25839238 :         --left;</span></span>
 <span id="L253"><span class="lineNum">     253</span>              : </span>
 <span id="L254"><span class="lineNum">     254</span>              :         uint32_t s1;</span>
-<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">    25846695 :         s1 = *pNext++;</span></span>
-<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">    25846695 :         s1 ^= (s1 &gt;&gt; 11);</span></span>
-<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">    25846695 :         s1 ^= (s1 &lt;&lt; 7) &amp; 0x9d2c5680UL;</span></span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">    25846695 :         s1 ^= (s1 &lt;&lt; 15) &amp; 0xefc60000UL;</span></span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">    25846695 :         return (s1 ^ (s1 &gt;&gt; 18));</span></span>
+<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">    25839238 :         s1 = *pNext++;</span></span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">    25839238 :         s1 ^= (s1 &gt;&gt; 11);</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">    25839238 :         s1 ^= (s1 &lt;&lt; 7) &amp; 0x9d2c5680UL;</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">    25839238 :         s1 ^= (s1 &lt;&lt; 15) &amp; 0xefc60000UL;</span></span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">    25839238 :         return (s1 ^ (s1 &gt;&gt; 18));</span></span>
 <span id="L260"><span class="lineNum">     260</span>              : }</span>
 <span id="L261"><span class="lineNum">     261</span>              : </span>
 <span id="L262"><span class="lineNum">     262</span> <span class="tlaUNC tlaBgUNC">           0 : uint32_t Random::randInt(const uint32_t&amp; n) {</span></span>
@@ -450,17 +450,17 @@
 <span id="L388"><span class="lineNum">     388</span>              :         }</span>
 <span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">        4641 : }</span></span>
 <span id="L390"><span class="lineNum">     390</span>              : </span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">       46055 : void Random::reload() {</span></span>
-<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">       46055 :         uint32_t *p = state;</span></span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">       46043 : void Random::reload() {</span></span>
+<span id="L392"><span class="lineNum">     392</span> <span class="tlaGNC">       46043 :         uint32_t *p = state;</span></span>
 <span id="L393"><span class="lineNum">     393</span>              :         int i;</span>
-<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">    10500540 :         for (i = +N - M; i--; ++p)</span></span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">    10454485 :                 *p = twist(p[M], p[0], p[1]);</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">    18283835 :         for (i = M; --i; ++p)</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">    18237780 :                 *p = twist(p[+M - N], p[0], p[1]);</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">       46055 :         *p = twist(p[+M - N], p[0], state[0]);</span></span>
+<span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">    10497804 :         for (i = +N - M; i--; ++p)</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">    10451761 :                 *p = twist(p[M], p[0], p[1]);</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">    18279071 :         for (i = M; --i; ++p)</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">    18233028 :                 *p = twist(p[+M - N], p[0], p[1]);</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">       46043 :         *p = twist(p[+M - N], p[0], state[0]);</span></span>
 <span id="L399"><span class="lineNum">     399</span>              : </span>
-<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">       46055 :         left = N, pNext = state;</span></span>
-<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">       46055 : }</span></span>
+<span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">       46043 :         left = N, pNext = state;</span></span>
+<span id="L401"><span class="lineNum">     401</span> <span class="tlaGNC">       46043 : }</span></span>
 <span id="L402"><span class="lineNum">     402</span>              : </span>
 <span id="L403"><span class="lineNum">     403</span> <span class="tlaUNC tlaBgUNC">           0 : uint32_t Random::hash(time_t t, clock_t c) {</span></span>
 <span id="L404"><span class="lineNum">     404</span>              :         static uint32_t differ = 0; // guarantee time-based seeds will change</span>
@@ -540,11 +540,11 @@
 <span id="L478"><span class="lineNum">     478</span>              : __attribute__ ((aligned(64))) static RANDOM_TLS_ITEM _tls[MAX_THREAD];</span>
 <span id="L479"><span class="lineNum">     479</span>              : #endif</span>
 <span id="L480"><span class="lineNum">     480</span>              : </span>
-<span id="L481"><span class="lineNum">     481</span> <span class="tlaGNC tlaBgGNC">     2637353 : Random &amp;Random::instance() {</span></span>
-<span id="L482"><span class="lineNum">     482</span> <span class="tlaGNC">     2637353 :         int i = omp_get_thread_num();</span></span>
-<span id="L483"><span class="lineNum">     483</span> <span class="tlaGNC">     2637353 :         if (i &gt;= MAX_THREAD)</span></span>
+<span id="L481"><span class="lineNum">     481</span> <span class="tlaGNC tlaBgGNC">     2637438 : Random &amp;Random::instance() {</span></span>
+<span id="L482"><span class="lineNum">     482</span> <span class="tlaGNC">     2637438 :         int i = omp_get_thread_num();</span></span>
+<span id="L483"><span class="lineNum">     483</span> <span class="tlaGNC">     2637438 :         if (i &gt;= MAX_THREAD)</span></span>
 <span id="L484"><span class="lineNum">     484</span> <span class="tlaUNC tlaBgUNC">           0 :         throw std::runtime_error(&quot;crpropa::Random: more than MAX_THREAD threads!&quot;);</span></span>
-<span id="L485"><span class="lineNum">     485</span> <span class="tlaGNC tlaBgGNC">     2637353 :         return _tls[i].r;</span></span>
+<span id="L485"><span class="lineNum">     485</span> <span class="tlaGNC tlaBgGNC">     2637438 :         return _tls[i].r;</span></span>
 <span id="L486"><span class="lineNum">     486</span>              : }</span>
 <span id="L487"><span class="lineNum">     487</span>              : </span>
 <span id="L488"><span class="lineNum">     488</span> <span class="tlaUNC tlaBgUNC">           0 : void Random::seedThreads(const uint32_t oneSeed) {</span></span>

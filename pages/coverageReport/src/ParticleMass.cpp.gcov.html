@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-10 09:19:30</td>
+            <td class="headerValue">2026-07-13 06:03:10</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -107,12 +107,12 @@
 <span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">          13 :                 initialized = true;</span></span>
 <span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">          26 :         }</span></span>
 <span id="L47"><span class="lineNum">      47</span>              : </span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">      179351 :         double getMass(std::size_t idx) {</span></span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">      179351 :                 if (!initialized) {</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">      179991 :         double getMass(std::size_t idx) {</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">      179991 :                 if (!initialized) {</span></span>
 <span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">          13 : #pragma omp critical(init)</span></span>
 <span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">          13 :                         init();</span></span>
 <span id="L52"><span class="lineNum">      52</span>              :                 }</span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">      179351 :                 if (table[idx] == 0.0)</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">      179991 :                 if (table[idx] == 0.0)</span></span>
 <span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC tlaBgUNC">           0 :                         return 0.0; // triggers approximation in nuclearMass()</span></span>
 <span id="L55"><span class="lineNum">      55</span>              :                 return table[idx];</span>
 <span id="L56"><span class="lineNum">      56</span>              :         }</span>
@@ -120,31 +120,31 @@
 <span id="L58"><span class="lineNum">      58</span>              : </span>
 <span id="L59"><span class="lineNum">      59</span>              : static NuclearMassTable nuclearMassTable;</span>
 <span id="L60"><span class="lineNum">      60</span>              : </span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC tlaBgGNC">    20398866 : double particleMass(int id) {</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">    20398866 :         if (isNucleus(id))</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">      178557 :                 return nuclearMass(id);</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">    20220309 :         if (abs(id) == 11)</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">       16081 :                 return mass_electron;</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC tlaBgGNC">    20402425 : double particleMass(int id) {</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">    20402425 :         if (isNucleus(id))</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">      178527 :                 return nuclearMass(id);</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">    20223898 :         if (abs(id) == 11)</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">       15082 :                 return mass_electron;</span></span>
 <span id="L66"><span class="lineNum">      66</span>              :         return 0.0;</span>
 <span id="L67"><span class="lineNum">      67</span>              : }</span>
 <span id="L68"><span class="lineNum">      68</span>              : </span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">      179335 : double nuclearMass(int id) {</span></span>
-<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">      179335 :         int A = massNumber(id);</span></span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">      179335 :         int Z = chargeNumber(id);</span></span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">      179335 :         return nuclearMass(A, Z);</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">      179975 : double nuclearMass(int id) {</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">      179975 :         int A = massNumber(id);</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">      179975 :         int Z = chargeNumber(id);</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">      179975 :         return nuclearMass(A, Z);</span></span>
 <span id="L73"><span class="lineNum">      73</span>              : }</span>
 <span id="L74"><span class="lineNum">      74</span>              : </span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">      179362 : double nuclearMass(int A, int Z) {</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">      179362 :         int N = A - Z;</span></span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">      179362 :         if ((A &lt; 1) or (Z &lt; 0) or (Z &gt; A) or (Z &gt; NUCLEAR_ZMAX) or (N &gt; NUCLEAR_NMAX)) {</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">      180002 : double nuclearMass(int A, int Z) {</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">      180002 :         int N = A - Z;</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">      180002 :         if ((A &lt; 1) or (Z &lt; 0) or (Z &gt; A) or (Z &gt; NUCLEAR_ZMAX) or (N &gt; NUCLEAR_NMAX)) {</span></span>
 <span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">          22 :                 KISS_LOG_WARNING &lt;&lt;</span></span>
 <span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">          11 :                 &quot;nuclearMass: nuclear mass not found in the mass table for &quot; &lt;&lt;</span></span>
 <span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">          11 :                 &quot;A = &quot; &lt;&lt; A &lt;&lt; &quot;, Z = &quot; &lt;&lt; Z &lt;&lt; &quot;. &quot; &lt;&lt;</span></span>
 <span id="L81"><span class="lineNum">      81</span> <span class="tlaGNC">          11 :                 &quot;Approximated value used A * amu - Z * m_e instead.&quot;;</span></span>
 <span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">          11 :                 return A * amu - Z * mass_electron;</span></span>
 <span id="L83"><span class="lineNum">      83</span>              :         }</span>
-<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">      179351 :         double m = nuclearMassTable.getMass(Z * NUCLEAR_NSTRIDE + N);</span></span>
-<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">      179351 :         if (m == 0.0) {</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">      179991 :         double m = nuclearMassTable.getMass(Z * NUCLEAR_NSTRIDE + N);</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">      179991 :         if (m == 0.0) {</span></span>
 <span id="L86"><span class="lineNum">      86</span> <span class="tlaUNC tlaBgUNC">           0 :                 KISS_LOG_WARNING &lt;&lt;</span></span>
 <span id="L87"><span class="lineNum">      87</span> <span class="tlaUNC">           0 :                 &quot;nuclearMass: nuclear mass not found in the mass table for &quot; &lt;&lt;</span></span>
 <span id="L88"><span class="lineNum">      88</span> <span class="tlaUNC">           0 :                 &quot;A = &quot; &lt;&lt; A &lt;&lt; &quot;, Z = &quot; &lt;&lt; Z &lt;&lt; &quot;. &quot; &lt;&lt;</span></span>

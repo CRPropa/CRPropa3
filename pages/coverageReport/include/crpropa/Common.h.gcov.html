@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-10 09:19:30</td>
+            <td class="headerValue">2026-07-13 06:03:10</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
@@ -91,13 +91,13 @@
 <span id="L29"><span class="lineNum">      29</span>              : </span>
 <span id="L30"><span class="lineNum">      30</span>              : // Returns a certain digit from a given integer</span>
 <span id="L31"><span class="lineNum">      31</span>              : inline int digit(const int&amp; value, const int&amp; d) {</span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC tlaBgGNC">       55586 :         return (value % (d * 10)) / d;</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC tlaBgGNC">       55566 :         return (value % (d * 10)) / d;</span></span>
 <span id="L33"><span class="lineNum">      33</span>              : }</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
 <span id="L35"><span class="lineNum">      35</span>              : // Return value xclip which is the closest to x, so that lower &lt;= xclip &lt;= upper</span>
 <span id="L36"><span class="lineNum">      36</span>              : template &lt;typename T&gt;</span>
 <span id="L37"><span class="lineNum">      37</span>              : T clip(const T&amp; x, const T&amp; lower, const T&amp; upper) {</span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">      492017 :         return std::max(lower, std::min(x, upper));</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">      492352 :         return std::max(lower, std::min(x, upper));</span></span>
 <span id="L39"><span class="lineNum">      39</span>              : }</span>
 <span id="L40"><span class="lineNum">      40</span>              : </span>
 <span id="L41"><span class="lineNum">      41</span>              : // Perform linear interpolation on a set of n tabulated data points X[0 .. n-1] -&gt; Y[0 .. n-1]</span>
@@ -128,7 +128,7 @@
 <span id="L66"><span class="lineNum">      66</span>              : template &lt;unsigned int exponent&gt;</span>
 <span id="L67"><span class="lineNum">      67</span>              : inline double pow_integer(double base)</span>
 <span id="L68"><span class="lineNum">      68</span>              : {</span>
-<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">       36703 :   return pow_integer&lt;(exponent &gt;&gt; 1)&gt;(base*base) * (((exponent &amp; 1) &gt; 0) ? base : 1);</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">       35430 :   return pow_integer&lt;(exponent &gt;&gt; 1)&gt;(base*base) * (((exponent &amp; 1) &gt; 0) ? base : 1);</span></span>
 <span id="L70"><span class="lineNum">      70</span>              : }</span>
 <span id="L71"><span class="lineNum">      71</span>              : </span>
 <span id="L72"><span class="lineNum">      72</span>              : template &lt;&gt;</span>
@@ -142,15 +142,15 @@
 <span id="L80"><span class="lineNum">      80</span>              : static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};</span>
 <span id="L81"><span class="lineNum">      81</span>              : static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};</span>
 <span id="L82"><span class="lineNum">      82</span>              : template&lt;typename Integrand&gt;</span>
-<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">       10922 : double gaussInt(Integrand&amp;&amp; integrand, double A, double B) {</span></span>
-<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">       10922 :         const double XM = 0.5 * (B + A);</span></span>
-<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">       10922 :         const double XR = 0.5 * (B - A);</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">        9601 : double gaussInt(Integrand&amp;&amp; integrand, double A, double B) {</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">        9601 :         const double XM = 0.5 * (B + A);</span></span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">        9601 :         const double XR = 0.5 * (B - A);</span></span>
 <span id="L86"><span class="lineNum">      86</span>              :         double SS = 0.;</span>
-<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">       98307 :         for (int i = 0; i &lt; 8; ++i) {</span></span>
-<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">       87384 :                 double DX = XR * X[i];</span></span>
-<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">       87384 :                 SS += W[i] * (integrand(XM + DX) + integrand(XM - DX));</span></span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">       86418 :         for (int i = 0; i &lt; 8; ++i) {</span></span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">       76816 :                 double DX = XR * X[i];</span></span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaGNC">       76816 :                 SS += W[i] * (integrand(XM + DX) + integrand(XM - DX));</span></span>
 <span id="L90"><span class="lineNum">      90</span>              :         }</span>
-<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">       10922 :         return XR * SS;</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">        9601 :         return XR * SS;</span></span>
 <span id="L92"><span class="lineNum">      92</span>              : }</span>
 <span id="L93"><span class="lineNum">      93</span>              : </span>
 <span id="L94"><span class="lineNum">      94</span>              : } // namespace crpropa</span>

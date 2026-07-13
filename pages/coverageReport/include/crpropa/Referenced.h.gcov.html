@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-10 09:19:30</td>
+            <td class="headerValue">2026-07-13 06:03:10</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">54.5&nbsp;%</td>
@@ -89,8 +89,8 @@
 <span id="L27"><span class="lineNum">      27</span>              : class Referenced {</span>
 <span id="L28"><span class="lineNum">      28</span>              : public:</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC tlaBgGNC">     3379707 :         inline Referenced() :</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">     3379686 :                         _referenceCount(0) {</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC tlaBgGNC">     3380304 :         inline Referenced() :</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">     3380283 :                         _referenceCount(0) {</span></span>
 <span id="L32"><span class="lineNum">      32</span>              :         }</span>
 <span id="L33"><span class="lineNum">      33</span>              : </span>
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC tlaBgUNC">           0 :         inline Referenced(const Referenced&amp;) :</span></span>
@@ -107,15 +107,15 @@
 <span id="L45"><span class="lineNum">      45</span>              :                 #pragma omp atomic capture</span>
 <span id="L46"><span class="lineNum">      46</span>              :                 {newRef = _referenceCount++;}</span>
 <span id="L47"><span class="lineNum">      47</span>              : #elif defined(__GNUC__)</span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC tlaBgGNC">    10949717 :                 newRef = __sync_add_and_fetch(&amp;_referenceCount, 1);</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC tlaBgGNC">    10950856 :                 newRef = __sync_add_and_fetch(&amp;_referenceCount, 1);</span></span>
 <span id="L49"><span class="lineNum">      49</span>              : #else</span>
 <span id="L50"><span class="lineNum">      50</span>              :                 #pragma omp critical(newRef)</span>
 <span id="L51"><span class="lineNum">      51</span>              :                 {newRef = _referenceCount++;}</span>
 <span id="L52"><span class="lineNum">      52</span>              : #endif</span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">     7572674 :                 return newRef;</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">     7573179 :                 return newRef;</span></span>
 <span id="L54"><span class="lineNum">      54</span>              :         }</span>
 <span id="L55"><span class="lineNum">      55</span>              : </span>
-<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">    10951352 :         inline size_t removeReference() const {</span></span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">    10952453 :         inline size_t removeReference() const {</span></span>
 <span id="L57"><span class="lineNum">      57</span>              : #ifdef DEBUG</span>
 <span id="L58"><span class="lineNum">      58</span>              :                 if (_referenceCount == 0)</span>
 <span id="L59"><span class="lineNum">      59</span>              :                         std::cerr</span>
@@ -127,16 +127,16 @@
 <span id="L65"><span class="lineNum">      65</span>              :                 #pragma omp atomic capture</span>
 <span id="L66"><span class="lineNum">      66</span>              :                 {newRef = _referenceCount--;}</span>
 <span id="L67"><span class="lineNum">      67</span>              : #elif defined(__GNUC__)</span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">    10951352 :                 newRef = __sync_sub_and_fetch(&amp;_referenceCount, 1);</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">    10952453 :                 newRef = __sync_sub_and_fetch(&amp;_referenceCount, 1);</span></span>
 <span id="L69"><span class="lineNum">      69</span>              : #else</span>
 <span id="L70"><span class="lineNum">      70</span>              :                 #pragma omp critical(newRef)</span>
 <span id="L71"><span class="lineNum">      71</span>              :                 {newRef = _referenceCount--;}</span>
 <span id="L72"><span class="lineNum">      72</span>              : #endif</span>
 <span id="L73"><span class="lineNum">      73</span>              : </span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">    10951352 :                 if (newRef == 0) {</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">     3377652 :                         delete this;</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">    10952453 :                 if (newRef == 0) {</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">     3378249 :                         delete this;</span></span>
 <span id="L76"><span class="lineNum">      76</span>              :                 }</span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">    10951352 :                 return newRef;</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">    10952453 :                 return newRef;</span></span>
 <span id="L78"><span class="lineNum">      78</span>              :         }</span>
 <span id="L79"><span class="lineNum">      79</span>              : </span>
 <span id="L80"><span class="lineNum">      80</span>              :         int removeReferenceNoDelete() const {</span>
@@ -179,14 +179,14 @@
 <span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC tlaBgGNC">         348 :         ref_ptr() :</span></span>
 <span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">         328 :                         _ptr(0) {</span></span>
 <span id="L119"><span class="lineNum">     119</span>              :         }</span>
-<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">     3338453 :         ref_ptr(T* ptr) :</span></span>
-<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">     3340482 :                         _ptr(ptr) {</span></span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">     3339050 :         ref_ptr(T* ptr) :</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">     3341079 :                         _ptr(ptr) {</span></span>
 <span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">        3307 :                 if (_ptr)</span></span>
 <span id="L123"><span class="lineNum">     123</span>              :                         _ptr-&gt;addReference();</span>
 <span id="L124"><span class="lineNum">     124</span>              :         }</span>
-<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">     7567978 :         ref_ptr(const ref_ptr&amp; rp) :</span></span>
-<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">     7567863 :                         _ptr(rp._ptr) {</span></span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">     7567901 :                 if (_ptr)</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">     7568483 :         ref_ptr(const ref_ptr&amp; rp) :</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">     7568368 :                         _ptr(rp._ptr) {</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">     7568406 :                 if (_ptr)</span></span>
 <span id="L128"><span class="lineNum">     128</span>              :                         _ptr-&gt;addReference();</span>
 <span id="L129"><span class="lineNum">     129</span> <span class="tlaGNC">           2 :         }</span></span>
 <span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">           4 :         template&lt;class Other&gt; ref_ptr(const ref_ptr&lt;Other&gt;&amp; rp) :</span></span>
@@ -196,10 +196,10 @@
 <span id="L134"><span class="lineNum">     134</span>              :         }</span>
 <span id="L135"><span class="lineNum">     135</span>              : </span>
 <span id="L136"><span class="lineNum">     136</span>              :         ~ref_ptr() {</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">     7572460 :                 if (_ptr)</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">    10907558 :                         _ptr-&gt;removeReference();</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">     7572965 :                 if (_ptr)</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaGNC">    10908660 :                         _ptr-&gt;removeReference();</span></span>
 <span id="L139"><span class="lineNum">     139</span>              :                 _ptr = 0;</span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">    10907489 :         }</span></span>
+<span id="L140"><span class="lineNum">     140</span> <span class="tlaGNC">    10908591 :         }</span></span>
 <span id="L141"><span class="lineNum">     141</span>              : </span>
 <span id="L142"><span class="lineNum">     142</span>              :         ref_ptr&amp; operator =(const ref_ptr&amp; rp) {</span>
 <span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">         253 :                 assign(rp);</span></span>
@@ -224,14 +224,14 @@
 <span id="L162"><span class="lineNum">     162</span>              :         }</span>
 <span id="L163"><span class="lineNum">     163</span>              : </span>
 <span id="L164"><span class="lineNum">     164</span>              :         operator T*() const {</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">      481152 :                 return _ptr;</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">      481151 :                 return _ptr;</span></span>
 <span id="L166"><span class="lineNum">     166</span>              :         }</span>
 <span id="L167"><span class="lineNum">     167</span>              : </span>
 <span id="L168"><span class="lineNum">     168</span>              :         T&amp; operator*() const {</span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">        6506 :                 return *_ptr;</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">        6509 :                 return *_ptr;</span></span>
 <span id="L170"><span class="lineNum">     170</span>              :         }</span>
 <span id="L171"><span class="lineNum">     171</span>              :         T* operator-&gt;() const {</span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">     6162094 :                 return _ptr;</span></span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaGNC">     6166765 :                 return _ptr;</span></span>
 <span id="L173"><span class="lineNum">     173</span>              :         }</span>
 <span id="L174"><span class="lineNum">     174</span>              :         T* get() const {</span>
 <span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">          37 :                 return _ptr;</span></span>
@@ -241,7 +241,7 @@
 <span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC tlaBgUNC">           0 :                 return _ptr == 0;</span></span>
 <span id="L180"><span class="lineNum">     180</span>              :         } // not required</span>
 <span id="L181"><span class="lineNum">     181</span>              :         bool valid() const {</span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC tlaBgGNC">     5881542 :                 return _ptr != 0;</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC tlaBgGNC">     5881541 :                 return _ptr != 0;</span></span>
 <span id="L183"><span class="lineNum">     183</span>              :         }</span>
 <span id="L184"><span class="lineNum">     184</span>              : </span>
 <span id="L185"><span class="lineNum">     185</span>              :         T* release() {</span>

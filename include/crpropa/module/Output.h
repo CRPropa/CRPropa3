@@ -173,7 +173,7 @@ public:
 	 */
 	size_t size() const;
 
-	void process(Candidate *) const;
+	void process(ref_ptr<Candidate> ) const;
 
 	/**	
 	 * write the indices of not started candidates into the output file. 

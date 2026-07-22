@@ -20,8 +20,7 @@ namespace crpropa {
  @class PhotonField
  @brief Abstract base class for photon fields.
  */
-class PhotonField: public Referenced {
-	
+class PhotonField {
 public:
 	
 	/** Constructor
@@ -37,7 +36,8 @@ public:
 		this->isPositionDependent = false;
 		this->surface = nullptr;
 	}
-	
+	virtual ~PhotonField() = default; 
+
 	/**
 	 returns comoving photon density [1/m^3].
 	 multiply with (1+z^3) for physical number density.

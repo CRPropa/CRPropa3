@@ -4,6 +4,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Referenced.h"
 #include "crpropa/Common.h"
+#include "crpropa/Version.h"
 
 #include <string>
 
@@ -19,7 +20,7 @@ class Candidate;
  if your module should be made usable over the ModuleList::add function
  it needs to be derived from Module
  */
-class Module: public Referenced {
+class Module {
 	std::string description; //< Description of any module, can be overriden by setDescription
 public:
 	/** Constructor
@@ -29,8 +30,7 @@ public:
 	/** Destructor
 	 * Virtual destructor that overrides Referenced::~Referenced, does nothing per default.
 	 */
-	virtual ~Module() override {
-	}
+	virtual ~Module() {}
 	/// Returns description, can be overriden by derived class
 	virtual std::string getDescription() const;
 	/** Sets description, can be used instead of getDescription in derived class
@@ -40,15 +40,9 @@ public:
 	/** Process function
 	 * This is the main function to work with, it is called during every ModuleList::run step.
 	 * Derived functions need to override this overload of process!
-	 * @param candidate  Candidate raw pointer
+	 * @param candidate  Candidate reference pointer
 	 */
-	virtual void process(Candidate *candidate) const = 0;
-	/** Process function
-	 * Overload for process function to explicitly make a conversion from ref_ptr to a raw pointer
-	 */
-	inline void process(ref_ptr<Candidate> candidate) const {
-		process(candidate.get());
-	}
+	virtual void process(ref_ptr<Candidate> candidate) const = 0;
 };
 
 
@@ -76,28 +70,14 @@ protected:
 	 * the rejectAction and makeRejectedInactive variable.
 	 * @param candidate  Candidate raw pointer to reject
 	 */
-	void reject(Candidate *candidate) const;
-	/** Overload for reject(Candidate *candidate)
-	 * This function wraps reject(Candidate *candidate) so a reference pointer
-	 * can be conversed explicitly
-	 */
-	inline void reject(ref_ptr<Candidate> candidate) const {
-		reject(candidate.get());
-	}
-
+	void reject(ref_ptr<Candidate> candidate) const;
+	
 	/** Function to accepts particle
 	 * This function accepts the particle, what that means is determined by
 	 * the acceptAction and makeAcceptedInactive variable.
 	 * @param candidate  Candidate to reject
 	 */
-	void accept(Candidate *candidate) const;
-	/** Overload for accept(Candidate *candidate)
-	 * This function wraps accept(Candidate *candidate) so a reference pointer
-	 * can be conversed explicitly
-	 */
-	inline void accept(ref_ptr<Candidate> candidate) const {
-		accept(candidate.get());
-	}
+	void accept(ref_ptr<Candidate> candidate) const;
 
 public:
 	/** Default constructor
@@ -108,14 +88,16 @@ public:
 	 * @var rejectFlagValue=typeid(*this).name()
 	 */
 	AbstractCondition();
+
 	/** Sets the module that should be invoked on rejection
 	 * @param rejectAction  Module that should be called on rejection
 	 */
-	void onReject(Module *rejectAction);
+	void onReject(ref_ptr<Module> rejectAction);
 	/** Sets the module that should be invoked on acception
 	 * @param rejectAction  Module that should be called on acception
 	 */
-	void onAccept(Module *acceptAction);
+	void onAccept(ref_ptr<Module> acceptAction);
+
 	/** Whether to make Candidate inactive on rejection */
 	void setMakeRejectedInactive(bool makeInactive);
 	/** Whether to make Candidate inactive on acception */
@@ -135,7 +117,6 @@ public:
 
 	// return the reject flag (key & value), delimiter is the "&".
 	std::string getRejectFlag();
-
 	// return the accept flag (key & value), delimiter is the "&"
 	std::string getAcceptFlag();
 };
@@ -146,7 +127,7 @@ public:
 */
 class Deactivation: public AbstractCondition {
 	public: 
-		void process(Candidate *cand) const { reject(cand); }
+		void process(ref_ptr<Candidate> cand) const { reject(cand); }
 };
 
 

@@ -151,7 +151,7 @@ double EMPairProduction::getRate(double E, const Vector3d &position, double z) c
 	return this->interactionRates->getProcessRate(E, position) * pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 }
 
-void EMPairProduction::performInteraction(Candidate *candidate) const {
+void EMPairProduction::performInteraction(ref_ptr<Candidate> candidate) const {
 	
 	// scale particle energy instead of background photon energy
 	double z = candidate->getRedshift();
@@ -221,7 +221,7 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	}
 }
 
-void EMPairProduction::process(Candidate *candidate) const {
+void EMPairProduction::process(ref_ptr<Candidate> candidate) const {
 	
 	// check if photon
 	if (candidate->current.getId() != 22)

@@ -33,7 +33,7 @@ TEST(testFunctionalGroups, gyroradius) {
 	sim->run(c);
 
 	for (ParticleCollector::iterator itr = collector->begin(); itr != collector->end(); ++itr){
-		pos = (*(itr->get())).current.getPosition();
+		pos = (*itr)->current.getPosition();
 		if (max_y < pos.getY())
 			max_y = pos.getY();
 	}

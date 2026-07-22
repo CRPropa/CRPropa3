@@ -23,7 +23,11 @@ class MyModule : public crpropa::Module
 public:
 	/// The parent's constructor need to be called on initialization!
 	MyModule();
-	void process(crpropa::Candidate *candidate) const;
+	#if CRPROPA_VERSION<3003001
+		void process(crpropa::Candidate* candidate) const override;
+	#else
+		void process(crpropa::ref_ptr<crpropa::Candidate> candidate) const override;
+	#endif
 };
 
 }  // end namespace myPlugin

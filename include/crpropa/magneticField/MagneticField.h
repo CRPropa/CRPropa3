@@ -19,7 +19,7 @@ namespace crpropa {
  @class MagneticField
  @brief Abstract base class for magnetic fields.
  */
-class MagneticField: public Referenced {
+class MagneticField {
 public:
 	virtual ~MagneticField() {
 	}
@@ -65,6 +65,7 @@ public:
 	*/
 	PeriodicMagneticField(ref_ptr<MagneticField> field, const Vector3d &extends,
 			const Vector3d &origin, bool reflective);
+	
 	Vector3d &getOrigin();
 	void setOrigin(const Vector3d &origin);
 	Vector3d &getExtends();

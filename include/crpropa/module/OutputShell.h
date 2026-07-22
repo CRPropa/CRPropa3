@@ -2,8 +2,9 @@
 #define CRPROPA_OUTPUTSHELL_H
 
 #include "crpropa/Module.h"
-#include "crpropa/AssocVector.h"
 #include "crpropa/Variant.h"
+
+#include <unordered_map>
 
 namespace crpropa {
 /**
@@ -17,7 +18,7 @@ namespace crpropa {
  */
 class ShellOutput: public Module {
 public:
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 
@@ -27,7 +28,7 @@ public:
  */
 class ShellOutput1D: public Module {
 public:
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 
@@ -37,8 +38,8 @@ public:
  */
 class ShellPropertyOutput: public Module {
 public:
-	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
-	void process(Candidate *candidate) const;
+	typedef std::unordered_map<std::string, Variant> PropertyMap;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 /** @}*/

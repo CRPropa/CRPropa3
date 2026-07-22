@@ -31,7 +31,7 @@ public:
 	 @param size	vector corresponding to the box sizes along each direction
 	 */
 	PeriodicBox(Vector3d origin, Vector3d size);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setOrigin(Vector3d origin);
 	void setSize(Vector3d size);
 	std::string getDescription() const;
@@ -57,7 +57,7 @@ public:
 	ReflectiveShell(Vector3d center, double r);
 	double distance(const Vector3d &point) const;
 	Vector3d normal(const Vector3d &point) const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setCenter(Vector3d center);
 	void setRadius(double r);
 	std::string getDescription() const;
@@ -85,7 +85,7 @@ public:
 	 @param size	vector corresponding to the box sizes along each direction
 	 */
 	ReflectiveBox(Vector3d origin, Vector3d size);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setOrigin(Vector3d origin);
 	void setSize(Vector3d size);
 	std::string getDescription() const;
@@ -115,7 +115,7 @@ public:
 	 @param size	vector corresponding to the box sizes along each direction
 	 */
 	CubicBoundary(Vector3d origin, double size);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setOrigin(Vector3d origin);
 	void setSize(double size);
 	void setMargin(double margin);
@@ -147,7 +147,7 @@ public:
 	 @param radius		radius of the sphere
 	 */
 	SphericalBoundary(Vector3d center, double radius);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setCenter(Vector3d center);
 	void setRadius(double size);
 	void setMargin(double margin);
@@ -183,7 +183,7 @@ public:
 	 */
 	EllipsoidalBoundary(Vector3d focalPoint1, Vector3d focalPoint2,
 			double majorAxis);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setFocalPoints(Vector3d focalPoint1, Vector3d focalPoint2);
 	void setMajorAxis(double size);
 	void setMargin(double margin);
@@ -218,7 +218,7 @@ public:
 	 */
 	CylindricalBoundary(Vector3d origin, double height,
 			double radius);
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	void setOrigin(Vector3d origin);
 	void setHeight(double height);
 	void setRadius(double radius);

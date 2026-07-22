@@ -52,7 +52,7 @@ TEST(ModuleList, runSource) {
 	source.add(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
 	source.add(new SourceParticleType(nucleusId(1, 1)));
 	modules.setShowProgress(true);
-	modules.run(&source, 100, false);
+	modules.run(source, 100, false);
 }
 
 #if _OPENMP
@@ -67,7 +67,7 @@ TEST(ModuleList, runOpenMP) {
 	source.add(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
 	source.add(new SourceParticleType(nucleusId(1, 1)));
 	omp_set_num_threads(2);
-	modules.run(&source, 1000, false);
+	modules.run(source, 1000, false);
 }
 #endif
 

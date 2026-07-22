@@ -1,8 +1,17 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(CRPropa Fortran C CXX)
+project(CRPropa VERSION 3.3.0 LANGUAGES Fortran C CXX)
 set(CRPROPA_RELEASE_VERSION 3.3.0+)  # Update for new release
 set(CRPROPA_DATAFILE_VER "2026-07-08")  # Version of data files
+
+# calculate the version tag for easy in code version check
+math(EXPR CRPROPA_VERSION_TAG "
+  ${CRPropa_VERSION_MAJOR}*1000000 + ${CRPropa_VERSION_MINOR}*1000 + ${CRPropa_VERSION_PATCH}
+")
+# if pre release version add one to CRPROPA_VERSION_TAG
+if(${CRPROPA_RELEASE_VERSION} MATCHES "[\+]$")
+  math(EXPR CRPROPA_VERSION_TAG "${CRPROPA_VERSION_TAG} + 1")
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
@@ -321,7 +330,6 @@ include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 add_library(crpropa SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/base64.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Candidate.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Clock.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Common.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Cosmology.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/EmissionMap.cpp
@@ -530,8 +538,13 @@ if(ENABLE_PYTHON AND Python_FOUND)
     set_target_properties(crpropa-swig PROPERTIES
       BUILD_RPATH "$<TARGET_FILE_DIR:crpropa>"
       INSTALL_RPATH "@loader_path;${CMAKE_INSTALL_FULL_LIBDIR}"
+      LINK_FLAGS "-flat_namespace -undefined suppress"
     )
-    set_property(TARGET crpropa-swig APPEND PROPERTY LINK_FLAGS "-flat_namespace -undefined suppress")
+  else()
+    set_target_properties(crpropa-swig PROPERTIES
+      BUILD_RPATH "$<TARGET_FILE_DIR:crpropa>"
+      INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}"
+    )
   endif(APPLE)
   
 

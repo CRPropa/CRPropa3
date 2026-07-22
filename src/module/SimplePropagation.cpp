@@ -11,7 +11,7 @@ SimplePropagation::SimplePropagation(double minStep, double maxStep) :
 		throw std::runtime_error("SimplePropagation: minStep > maxStep");
 }
 
-void SimplePropagation::process(Candidate *c) const {
+void SimplePropagation::process(ref_ptr<Candidate> c) const {
 	c->previous = c->current;
 
 	double step = clip(c->getNextStep(), minStep, maxStep);

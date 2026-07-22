@@ -1,14 +1,21 @@
 ## CRPropa vNext
 
 ### Bug fixes:
+* Double free error can no be prevented by handing over stack objects as reference to `ref_ptr<T>` instead as pointer
 
 ### New features:
 
 ### Interface changes:
+* `Module::process(Candidate* cand)` removed, now `Module::process(ref_ptr<Candidate> cand)` needs to be overriden instead
+* Stack objects now need to be handed over as reference not as pointer to `ref_ptr<T>`
 
 ### Features that are deprecated and will be removed after this release
 
 ### Removed features
+* `Referenced` class removed, `ref_ptr<T>` now reference counts over `std:shared_ptr<T>`
+* `Module::process(Candidate* cand)` removed, now `Module::process(ref_ptr<Candidate> cand)` needs to be overriden instead. This breaks most plugins, see [Plugin Readme](plugin-template/README.md#compability-with-older-crpropa-versions) for an easy fix.
+* Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)
+* Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 
 ### New plugins and resources linked on the webpages
 

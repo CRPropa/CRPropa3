@@ -1,8 +1,8 @@
 #include "crpropa/module/Tools.h"
-#include "crpropa/Clock.h"
 
 #include <iostream>
 #include <sstream>
+#include <chrono>
 
 using namespace std;
 
@@ -23,21 +23,21 @@ PerformanceModule::~PerformanceModule() {
 	}
 }
 
-void PerformanceModule::add(Module *module) {
+void PerformanceModule::add(ref_ptr<Module> module) {
 	_module_info info;
 	info.module = module;
 	info.time = 0;
 	modules.push_back(info);
 }
 
-void PerformanceModule::process(Candidate *candidate) const {
+void PerformanceModule::process(ref_ptr<Candidate> candidate) const {
 	vector<double> times(modules.size());
 	for (size_t i = 0; i < modules.size(); i++) {
 		_module_info &m = modules[i];
-		double start = Clock::getInstance().getMillisecond();
+		auto start = chrono::high_resolution_clock::now();
 		m.module->process(candidate);
-		double end = Clock::getInstance().getMillisecond();
-		times[i] = end - start;
+		auto end = chrono::high_resolution_clock::now();
+		times[i] = (end - start).count()/1.e3;
 	}
 
 #pragma omp critical(PerformanceModule)
@@ -81,7 +81,7 @@ std::set<int> &ParticleFilter::getIds() {
 	return ids;
 }
 
-void ParticleFilter::process(Candidate* candidate) const {
+void ParticleFilter::process(ref_ptr<Candidate> candidate) const {
 	if (ids.find(candidate->current.getId()) == ids.end())
 		reject(candidate);
 	else
@@ -99,16 +99,16 @@ string ParticleFilter::getDescription() const {
 }
 
 // ----------------------------------------------------------------------------
-EmissionMapFiller::EmissionMapFiller(EmissionMap *emissionMap) : emissionMap(emissionMap) {
+EmissionMapFiller::EmissionMapFiller(ref_ptr<EmissionMap> emissionMap) : emissionMap(emissionMap) {
 
 }
 
-void EmissionMapFiller::setEmissionMap(EmissionMap *emissionMap) {
+void EmissionMapFiller::setEmissionMap(ref_ptr<EmissionMap> emissionMap) {
 	this->emissionMap = emissionMap;
 }
 
-void EmissionMapFiller::process(Candidate* candidate) const {
-	if (emissionMap) {
+void EmissionMapFiller::process(ref_ptr<Candidate> candidate) const {
+	if (emissionMap.valid()) {
 		#pragma omp critical(EmissionMap)
 		{
 			emissionMap->fillMap(candidate->source);

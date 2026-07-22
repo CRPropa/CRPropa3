@@ -11,7 +11,7 @@ namespace crpropa {
  @class Density
  @brief Abstract base class for target densities
  */
-class Density: public Referenced {
+class Density {
 public:
 	virtual ~Density() {
 	}

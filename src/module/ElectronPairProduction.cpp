@@ -103,7 +103,7 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 	return 1. / rate;
 }
 
-void ElectronPairProduction::process(Candidate *c) const {
+void ElectronPairProduction::process(ref_ptr<Candidate> c) const {
 	int id = c->current.getId();
 	if (not (isNucleus(id)))
 		return; // only nuclei

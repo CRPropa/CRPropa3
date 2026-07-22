@@ -12,7 +12,7 @@ ConstantMomentumDiffusion::ConstantMomentumDiffusion(double Dpp, double limit) {
 	setDpp(Dpp);
 }
 
-void ConstantMomentumDiffusion::process(Candidate *c) const {
+void ConstantMomentumDiffusion::process(ref_ptr<Candidate> c) const {
 	double rig = c->current.getRigidity();
 	if (std::isinf(rig)) {
 		return; // Only charged particles

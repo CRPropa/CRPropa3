@@ -20,7 +20,7 @@ namespace crpropa {
 	the deterministic part of the Fokker-Planck equation. The getDivergence()
 	method is used to model the adibatic cooling/heating.
  */
-class AdvectionField: public Referenced {
+class AdvectionField {
 public:
 	virtual ~AdvectionField() {
 	}

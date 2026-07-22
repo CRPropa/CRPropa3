@@ -72,7 +72,7 @@ private:
 
 public:
 	DensityGrid(ref_ptr<Grid1f> grid, bool isForHI = false, bool isForHII = false, bool isForH2 = false);
-	
+
 	/** Get HI density at a given position.
 	 @param position position in Galactic coordinates with Earth at (-8.5 kpc, 0, 0)
 	 @returns Density of HI at given position in particles/m^3, sum up all HI densities from added densities

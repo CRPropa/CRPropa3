@@ -39,7 +39,7 @@ std::string MaximumTrajectoryLength::getDescription() const {
 	return s.str();
 }
 
-void MaximumTrajectoryLength::process(Candidate *c) const {
+void MaximumTrajectoryLength::process(ref_ptr<Candidate> c) const {
 	double length = c->getTrajectoryLength();
 	Vector3d position = c->current.getPosition();
 
@@ -76,7 +76,7 @@ double MinimumEnergy::getMinimumEnergy() const {
 	return minEnergy;
 }
 
-void MinimumEnergy::process(Candidate *c) const {
+void MinimumEnergy::process(ref_ptr<Candidate> c) const {
 	if (c->current.getEnergy() > minEnergy)
 		return;
 	else
@@ -106,7 +106,7 @@ double MinimumRigidity::getMinimumRigidity() const {
 	return minRigidity;
 }
 
-void MinimumRigidity::process(Candidate *c) const {
+void MinimumRigidity::process(ref_ptr<Candidate> c) const {
 	if (c->current.getRigidity() < minRigidity)
 		reject(c);
 }
@@ -134,7 +134,7 @@ double MinimumRedshift::getMinimumRedshift() {
 	return zmin;
 }
 
-void MinimumRedshift::process(Candidate* c) const {
+void MinimumRedshift::process(ref_ptr<Candidate> c) const {
 	if (c->getRedshift() > zmin)
 		return;
 	else
@@ -164,7 +164,7 @@ int MinimumChargeNumber::getMinimumChargeNumber() const {
 	return minChargeNumber;
 }
 
-void MinimumChargeNumber::process(Candidate *c) const {
+void MinimumChargeNumber::process(ref_ptr<Candidate> c) const {
 	if (chargeNumber(c->current.getId()) > minChargeNumber)
 		return;
 	else
@@ -199,7 +199,7 @@ double MinimumEnergyPerParticleId::getMinimumEnergyOthers() const {
 	return minEnergyOthers;
 }
 
-void MinimumEnergyPerParticleId::process(Candidate *c) const {
+void MinimumEnergyPerParticleId::process(ref_ptr<Candidate> c) const {
 	for (int i = 0; i < particleIds.size(); i++) {
 		if (c->current.getId() == particleIds[i]) {
 			if (c->current.getEnergy() < minEnergies[i])
@@ -252,7 +252,7 @@ std::string DetectionLength::getDescription() const {
 	return s.str();
 }
 
-void DetectionLength::process(Candidate *c) const {
+void DetectionLength::process(ref_ptr<Candidate> c) const {
 	double length = c->getTrajectoryLength();
 	double step = c->getCurrentStep();
 

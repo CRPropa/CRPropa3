@@ -39,7 +39,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libmuparser-dev python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
           pip install numpy
-      - name: Set up the build
+      - name: Configure Plugin
         env:
           CXX: ${{ matrix.config.cxx }}
           CC: ${{ matrix.config.cc }}
@@ -48,8 +48,8 @@ jobs:
           cd plugin-template
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=ON 
-      - name: Build CRPropa
+          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=On 
+      - name: Build Plugin
         run: |
           cd plugin-template/build
           make
@@ -62,6 +62,75 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: "test-report_${{matrix.config.os}}"
+          path: plugin-template/build/Testing/Temporary/LastTest.log
+  x64-old-crpropa:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "ubuntu-24"
+            os: ubuntu-24.04
+            cxx: "g++-14"
+            cc: "gcc-14"
+            fc: "gfortran-14"
+            swig_builtin: "On" 
+            py: "/usr/bin/python3" 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: "3.3"
+          repository: "CRPropa/CRPropa3"
+      - name: Preinstall
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmuparser-dev python3-venv python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          python -m venv $GITHUB_WORKSPACE/venv
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install numpy
+      - name: Install CRPropa
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+          make -j
+          make install
+      - name: Configure Plugin
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template
+          mkdir build
+          cd build
+          cmake .. -DCRPropa_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=Off
+      - name: Build Plugin
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template/build
+          make
+      - name: Run tests
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template/build
+          ctest --output-on-failure --repeat until-pass:3
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: "test-report_${{matrix.config.os}}-old-crpropa"
           path: plugin-template/build/Testing/Temporary/LastTest.log
   arm:
     runs-on: ${{ matrix.config.os }}
@@ -85,7 +154,7 @@ jobs:
           sudo apt-get install libmuparser-dev python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
           pip install numpy
           pip show numpy
-      - name: Set up the build
+      - name: Configure Plugin
         env:
           CXX: ${{ matrix.config.cxx }}
           CC: ${{ matrix.config.cc }}
@@ -94,8 +163,8 @@ jobs:
           cd plugin-template
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=ON 
-      - name: Build CRPropa
+          cmake .. -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=On 
+      - name: Build Plugin
         run: |
           cd plugin-template/build
           make
@@ -109,7 +178,76 @@ jobs:
         with:
           name: "test-report_${{matrix.config.os}}"
           path: plugin-template/build/Testing/Temporary/LastTest.log
-
+  arm-old-crpropa:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "ubuntu-24"
+            os: ubuntu-24.04-arm
+            cxx: "g++-14"
+            cc: "gcc-14"
+            fc: "gfortran-14"
+            swig_builtin: "On" 
+            py: "/usr/bin/python3" 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: "3.3"
+          repository: "CRPropa/CRPropa3"
+      - name: Preinstall
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmuparser-dev python3-venv python-dev-is-python3 libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          python -m venv $GITHUB_WORKSPACE/venv
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install numpy
+          pip show numpy
+      - name: Install CRPropa
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+          make -j
+          make install
+      - name: Configure Plugin
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template
+          mkdir build
+          cd build
+          cmake .. -DCRPropa_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv -DENABLE_PYTHON=True -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none" -DUSE_OWN_CRPROPA=Off 
+      - name: Build Plugin
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template/build
+          make
+      - name: Run tests
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GITHUB_WORKSPACE/venv/lib
+          cd plugin-template/build
+          ctest --output-on-failure --repeat until-pass:3
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: "test-report_${{matrix.config.os}}-old-crpropa"
+          path: plugin-template/build/Testing/Temporary/LastTest.log
   mac:
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -130,11 +268,11 @@ jobs:
         run: | 
           brew install hdf5 fftw cfitsio muparser libomp swig 
           python3 -m venv venv
-          source venv/bin/activate
+          source $GITHUB_WORKSPACE/venv/bin/activate
           python -m pip install --upgrade pip
           pip install numpy cmake
           pip show numpy # cross-check numpy version for Python_NumPy_INCLUDE_DIR
-      - name: Set up the build
+      - name: Configure Plugin
         env:
           CXX: ${{ matrix.config.cxx }}
           CC: ${{ matrix.config.cc }}
@@ -152,9 +290,9 @@ jobs:
             -DENABLE_TESTING=On \
             -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
             -DPython_INSTALL_PACKAGE_DIR=$GITHUB_WORKSPACE/venv/lib/python3.14/site-packages \
-            -DUSE_OWN_CRPROPA=ON
+            -DUSE_OWN_CRPROPA=On
 
-      - name: Build CRPropa
+      - name: Build Plugin
         run: |
           cd plugin-template/build
           make
@@ -169,4 +307,87 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: "test-report_${{matrix.config.name}}"
+          path: plugin-template/build/Testing/Temporary/LastTest.log
+  mac-old-crpropa:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "macos-14"
+            os: macos-14 
+            cxx: "clang++"
+            cc: "clang"
+            fc: "gfortran-14"
+            swig_builtin: "On" #uses swig 4.0.2
+            py: "/usr/bin/python3" # python 3.14
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v6
+        with:
+          ref: "3.3"
+          repository: "CRPropa/CRPropa3"
+      - name: Preinstall 
+        run: | 
+          brew install hdf5 fftw cfitsio muparser libomp swig 
+          python -m venv $GITHUB_WORKSPACE/venv
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install numpy cmake
+          pip show numpy # cross-check numpy version for Python_NumPy_INCLUDE_DIR
+      - name: Install CRPropa
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+          CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          mkdir build
+          cd build
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv \
+            -DENABLE_PYTHON=True \
+            -DPython_EXECUTABLE=$GITHUB_WORKSPACE/venv/bin/python \
+            -DENABLE_TESTING=On \
+            -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
+            -DPython_INSTALL_PACKAGE_DIR=$GITHUB_WORKSPACE/venv/lib/python3.14/site-packages
+          make -j
+          make install
+      - name: Configure Plugin
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+          CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          cd plugin-template
+          mkdir build
+          cd build
+
+          cmake .. \
+            -DCRPropa_INSTALL_PREFIX=$GITHUB_WORKSPACE/venv \
+            -DENABLE_PYTHON=True \
+            -DENABLE_TESTING=On \
+            -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
+            -DUSE_OWN_CRPROPA=Off
+
+      - name: Build Plugin
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          cd plugin-template/build
+          make
+      - name: Run tests
+        env:
+          CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/plugin-template/build/data"
+        run: |
+          source $GITHUB_WORKSPACE/venv/bin/activate
+          cd plugin-template/build
+          ctest --output-on-failure --repeat until-pass:3
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: "test-report_${{matrix.config.name}}-old-crpropa"
           path: plugin-template/build/Testing/Temporary/LastTest.log

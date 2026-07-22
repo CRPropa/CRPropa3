@@ -15,7 +15,11 @@ MyModule::MyModule() : crpropa::Module()
 	setDescription("MyPlugin::MyModule");
 }
 
-void MyModule::process(crpropa::Candidate *candidate) const
+#if CRPROPA_VERSION<3003001
+void MyModule::process(crpropa::Candidate* candidate) const
+#else
+void MyModule::process(crpropa::ref_ptr<crpropa::Candidate> candidate) const
+#endif
 {
 	// To enable parallelization, the modules have to be stateless - the
 	// process method should thus not modify internal variables!

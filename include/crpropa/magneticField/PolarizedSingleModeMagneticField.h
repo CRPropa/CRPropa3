@@ -3,7 +3,6 @@
 
 #include "crpropa/magneticField/MagneticField.h"
 
-
 #include <string>
 #include <iostream>
 #include <cmath>

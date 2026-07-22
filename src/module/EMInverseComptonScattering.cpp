@@ -146,7 +146,7 @@ double EMInverseComptonScattering::getRate(double E, const Vector3d &position, d
 	return this->interactionRates->getProcessRate(E, position) * pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 }
 
-void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {
+void EMInverseComptonScattering::performInteraction(ref_ptr<Candidate> candidate) const {
 
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
@@ -189,7 +189,7 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	candidate->current.setEnergy(Enew / (1 + z));
 }
 
-void EMInverseComptonScattering::process(Candidate *candidate) const {
+void EMInverseComptonScattering::process(ref_ptr<Candidate> candidate) const {
 	// check if electron / positron
 	int id = candidate->current.getId();
 	if (abs(id) != 11)

@@ -97,7 +97,7 @@ find_path(CRPropa_SWIG_PATH
 )
 
 # Locate the Python helper relative to this module file.
-set(_findCRPropa "${CMAKE_CURRENT_LIST_DIR}/python/findCRPropa.py")
+set(_findCRPropa "${CMAKE_CURRENT_SOURCE_DIR}/python/findCRPropa.py")
 
 
 # If anything is still missing, ask the installed  CRPropa Python module where it lives (see python/findCRPropa.py).

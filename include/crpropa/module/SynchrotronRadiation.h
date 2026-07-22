@@ -94,7 +94,7 @@ public:
 	std::string getInteractionTag() const;
 
 	void initSpectrum();
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 /** @}*/

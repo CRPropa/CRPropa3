@@ -15,7 +15,7 @@ namespace crpropa {
  */
 class Redshift: public Module {
 public:
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 
@@ -25,7 +25,7 @@ public:
  */
 class FutureRedshift: public Module {
 public:
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 	std::string getDescription() const;
 };
 

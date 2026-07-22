@@ -1,7 +1,7 @@
 /** Unit tests for Output modules of CRPropa
-    Output
-    TextOutput
-    ParticleCollector
+	Output
+	TextOutput
+	ParticleCollector
  */
 
 #include "CRPropa.h"
@@ -19,12 +19,12 @@
 // https://stackoverflow.com/a/10062016/6819103
 template <typename T, size_t size>
 ::testing::AssertionResult ArraysMatch(const T (&expected)[size],
-                                       const T (&actual)[size]) {
+									   const T (&actual)[size]) {
 	for (size_t i(0); i < size; ++i) {
 		if (expected[i] != actual[i]) {
 			return ::testing::AssertionFailure()
-			       << "array[" << i << "] (" << actual[i] << ") != expected["
-			       << i << "] (" << expected[i] << ")";
+				   << "array[" << i << "] (" << actual[i] << ") != expected["
+				   << i << "] (" << expected[i] << ")";
 		}
 	}
 
@@ -37,7 +37,7 @@ namespace crpropa {
 TEST(Output, size) {
 	Candidate c;
 	Output output;
-	for (int it = 0; it < 5; ++it, output.process(&c));
+	for (int it = 0; it < 5; ++it, output.process(c));
 
 	EXPECT_EQ(output.size(), 5);
 }
@@ -48,7 +48,7 @@ TEST(TextOutput, printHeader_Trajectory1D) {
 	TextOutput output(Output::Trajectory1D);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tID\tE\tX");
@@ -59,7 +59,7 @@ TEST(TextOutput, printHeader_Event1D) {
 	TextOutput output(Output::Event1D);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0");
@@ -70,11 +70,11 @@ TEST(TextOutput, printHeader_Trajectory3D) {
 	TextOutput output(Output::Trajectory3D);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz");
+			  "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz");
 }
 
 TEST(TextOutput, printHeader_Event3D) {
@@ -82,12 +82,12 @@ TEST(TextOutput, printHeader_Event3D) {
 	TextOutput output(Output::Event3D);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(
-	    captured.substr(0, captured.find("\n")),
-	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
+		captured.substr(0, captured.find("\n")),
+		"#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -101,11 +101,11 @@ TEST(TextOutput, printHeader_Custom) {
 	output.enable(Output::TimeColumn);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\ttime\tSN\tID\tE\tSN0\tID0\tE0\tSN1\ttag");
+			  "#\ttime\tSN\tID\tE\tSN0\tID0\tE0\tSN1\ttag");
 }
 
 TEST(TextOutput, printProperty) {
@@ -115,7 +115,7 @@ TEST(TextOutput, printProperty) {
 	output.enableProperty("foo", 2.0, "Bar");
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	// name in first line of header
@@ -127,22 +127,22 @@ TEST(TextOutput, printHeader_Version) {
 	TextOutput output(Output::Event1D);
 
 	::testing::internal::CaptureStdout();
-	output.process(&c);
+	output.process(c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	// length of the prefix is 19 chars
 	size_t version_pos = captured.find("# CRPropa version: ") + 19;
 
 	EXPECT_EQ(captured.substr(version_pos,
-	                          captured.find("\n", version_pos) - version_pos),
-	          g_GIT_DESC);
+							  captured.find("\n", version_pos) - version_pos),
+			  g_GIT_DESC);
 }
 
 #ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
 TEST(TextOutput, failOnIllegalOutputFile) {
 	EXPECT_THROW(
-	    TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"),
-	    std::runtime_error);
+		TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"),
+		std::runtime_error);
 }
 #endif
 
@@ -153,7 +153,7 @@ TEST(HDF5Output, failOnIllegalOutputFile) {
 	// disable default error output of HDF5
 	H5Eset_auto2(H5E_DEFAULT, NULL, NULL);
 	EXPECT_THROW(out.open("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.h5"),
-	             std::runtime_error);
+				 std::runtime_error);
 }
 #endif
 #endif
@@ -184,7 +184,7 @@ TEST(ParticleCollector, reprocess) {
 	ParticleCollector output;
 
 	collector.process(c);
-	collector.reprocess(&output);
+	collector.reprocess(output);
 
 	EXPECT_EQ(output[0], c);
 }
@@ -246,8 +246,8 @@ TEST(ParticleCollector, getTrajectory) {
 	int i = 0;
 
 	for (ParticleCollector::iterator itr = trajectory->begin();
-	     itr != trajectory->end(); ++itr) {
-		pos = (*(itr->get())).current.getPosition();
+		 itr != trajectory->end(); ++itr) {
+		pos = (*itr)->current.getPosition();
 		pos_x[i] = pos.getX();
 		++i;
 	}
@@ -271,7 +271,7 @@ TEST(ParticleCollector, runModuleList) {
 
 	modules.setShowProgress(false);
 	auto candidates = collector->getContainer();
-	modules.run(&candidates);
+	modules.run(candidates);
 }
 
 int main(int argc, char **argv) {

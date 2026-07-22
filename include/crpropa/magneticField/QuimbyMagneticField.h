@@ -21,9 +21,6 @@ class QuimbyMagneticField: public MagneticField {
 	quimby::ref_ptr<quimby::MagneticField> field;
 public:
 	QuimbyMagneticField(quimby::ref_ptr<quimby::MagneticField> field) : field(field) {
-
-	}
-	QuimbyMagneticField(quimby::MagneticField *field) : field(field) {
 	}
 	Vector3d getField(const Vector3d &position) const {
 		quimby::Vector3f b, r = quimby::Vector3f(position.x, position.y, position.z);
@@ -45,7 +42,6 @@ class QuimbyMagneticFieldAdapter: public quimby::MagneticField {
 	crpropa::ref_ptr<crpropa::MagneticField> field;
 public:
 	QuimbyMagneticFieldAdapter(crpropa::ref_ptr<crpropa::MagneticField> field) : field(field) {
-
 	}
 
 	bool getField(const quimby::Vector3f &position, quimby::Vector3f &b) const {

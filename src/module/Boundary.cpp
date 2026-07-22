@@ -13,7 +13,7 @@ PeriodicBox::PeriodicBox(Vector3d o, Vector3d s) :
 		origin(o), size(s) {
 }
 
-void PeriodicBox::process(Candidate *c) const {
+void PeriodicBox::process(ref_ptr<Candidate> c) const {
 	Vector3d pos = c->current.getPosition();
 	Vector3d n = ((pos - origin) / size).floor();
 
@@ -55,7 +55,7 @@ Vector3d ReflectiveShell::normal(const Vector3d& point) const {
 	return d.getUnitVector();
 }
 
-void ReflectiveShell::process(Candidate *c) const {
+void ReflectiveShell::process(ref_ptr<Candidate> c) const {
 	double currentDistance = distance(c->current.getPosition());
 	double previousDistance = distance(c->previous.getPosition());
 	// check if cosmic ray crossed boundary in last step
@@ -99,7 +99,7 @@ ReflectiveBox::ReflectiveBox(Vector3d o, Vector3d s) :
 		origin(o), size(s) {
 }
 
-void ReflectiveBox::process(Candidate *c) const {
+void ReflectiveBox::process(ref_ptr<Candidate> c) const {
 	Vector3d cur = (c->current.getPosition() - origin) / size; // current position in cell units
 	Vector3d n = cur.floor();
 
@@ -168,7 +168,7 @@ CubicBoundary::CubicBoundary(Vector3d o, double s) :
 		origin(o), size(s), limitStep(true), margin(0.1 * kpc) {
 }
 
-void CubicBoundary::process(Candidate *c) const {
+void CubicBoundary::process(ref_ptr<Candidate> c) const {
 	Vector3d r = c->current.getPosition() - origin;
 	double lo = r.min();
 	double hi = r.max();
@@ -213,7 +213,7 @@ SphericalBoundary::SphericalBoundary(Vector3d c, double r) :
 		center(c), radius(r), limitStep(true), margin(0.1 * kpc) {
 }
 
-void SphericalBoundary::process(Candidate *c) const {
+void SphericalBoundary::process(ref_ptr<Candidate> c) const {
 	double d = (c->current.getPosition() - center).getR();
 	if (d >= radius) {
 		reject(c);
@@ -256,7 +256,7 @@ EllipsoidalBoundary::EllipsoidalBoundary(Vector3d f1, Vector3d f2, double a) :
 		margin(0.1 * kpc) {
 }
 
-void EllipsoidalBoundary::process(Candidate *c) const {
+void EllipsoidalBoundary::process(ref_ptr<Candidate> c) const {
 	Vector3d pos = c->current.getPosition();
 	double d = pos.getDistanceTo(focalPoint1) + pos.getDistanceTo(focalPoint2);
 	if (d >= majorAxis) {
@@ -300,7 +300,7 @@ CylindricalBoundary::CylindricalBoundary(Vector3d o, double h, double r) :
   origin(o), height(h), radius(r), limitStep(false) , margin(0){
 }
 
-void CylindricalBoundary::process(Candidate *c) const {
+void CylindricalBoundary::process(ref_ptr<Candidate> c) const {
 	Vector3d d = c->current.getPosition() - origin;
 	double R2 = pow(d.x, 2.)+pow(d.y, 2.);
 	double Z = fabs(d.z);

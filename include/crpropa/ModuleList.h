@@ -48,7 +48,7 @@ public:
 	 * During ModuleList::run the Module::process function is called to process the simulated Candidate
 	 * @param module  Module raw pointer
 	 */
-	void add(Module* module);
+	void add(ref_ptr<Module> module);
 	/** Removes module from index i in modules vector
 	 * This function removes the module located at index i in the modules vector.
 	 * The modules are added in order to the back of the modules vector.
@@ -64,30 +64,12 @@ public:
 
 	/** process function
 	 * The process function calls process in order on very module in the modules vector
-	 * with the given Candidate pointer
-	 * @param candidate  The candidate to call modules process on
-	 */
-	void process(Candidate* candidate) const;
-	/** process function
-	 * Wrapps the process(Candidate* candidate) function 
-	 * The process function calls process in order on very module in the modules vector
-	 * with the given Candidate pointer
+	 * with the given Candidate reference pointer
 	 * @param candidate  The candidate to call modules process on
 	 */
 	void process(ref_ptr<Candidate> candidate) const;
 
 	/** Run function
-	 * This run function does the full simulation for a single given candidate
-	 * @param candidate  Candidate to use for the simulation
-	 * @param recursive  Whether to also process possible created secondaries
-	 * @param secondariesFirst  Whether to process the secondaries directly after the
-	 * step where they are created or to only process them after the primary is fully finished
-	 * @param waitForSecondaries  Whether to wait for the secondaries to be fully processed 
-	 * before continuing with the primary candidate if secondariesFirst is set to true
-	 */
-	void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
-	/** Run function
-	 * This function wrapps the ModuleList::run(Candidate* candidate) function
 	 * This run function does the full simulation for a single given candidate
 	 * @param candidate  Candidate to use for the simulation
 	 * @param recursive  Whether to also process possible created secondaries
@@ -108,10 +90,10 @@ public:
 	 * @param waitForSecondaries  Whether to wait for the secondaries to be fully processed 
 	 * before continuing with the primary candidate if secondariesFirst is set to true
 	 */
-	void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
+	void run(ref_ptr<candidate_vector_t> candidates, bool recursive = true, bool secondariesFirst = false, bool waitForSecondaries = true);
 	/** Run function
 	 * This function generates count Candidates over the given source.
-	 * Each generated Candidate is then handed over to ModuleList::run(Candidate*)
+	 * Each generated Candidate is then handed over to ModuleList::run(ref_ptr<Candidate>)
 	 * where it is simulated.
 	 * If OpenMP parallelization is activated (default) the count primary Candidates are
 	 * generated and simulated in parallel. 
@@ -123,7 +105,7 @@ public:
 	 * @param waitForSecondaries  Whether to wait for the secondaries to be fully processed 
 	 * before continuing with the primary candidate if secondariesFirst is set to true
 	 */
-	void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = true, bool waitForSecondaries = true);
+	void run(ref_ptr<SourceInterface> source, size_t count, bool recursive = true, bool secondariesFirst = false, bool waitForSecondaries = true);
 
 	/// @return Returns the description string for all modules
 	std::string getDescription() const;
@@ -142,19 +124,19 @@ public:
 	 * If CRPropa receives an interruption signal (4) the here set Output module is called
 	 * @param action  The Output module to call when CRPropa is interrupted
 	 */
-	void setInterruptAction(Output* action);
+	void setInterruptAction(ref_ptr<Output> action);
 	/** Function to dump Candidates manually
 	 * With this function it is possible to dump the currently still active simulated Candidates
 	 * manually. When called the with ModuleList::setInterruptAction set module is called on
 	 * all still active Candidates.
 	 * @param Candidate  Candidate to dump 
 	 */
-	void dumpCandidate(Candidate* cand) const;
+	void dumpCandidate(ref_ptr<Candidate> cand) const;
 
 private:
 	module_list_t modules; /**< Vector containing reference pointer of all modules added with ModuleList::add */
 	bool showProgress; /**< Whether to show the progess bar or not */
-	Output* interruptAction; /**< The output module to call when CRPropa receives a userinterrupt signal */
+	ref_ptr<Output> interruptAction; /**< The output module to call when CRPropa receives a userinterrupt signal */
 	bool haveInterruptAction = false; /**< Whether a interrupt action is set or not */
 	std::vector<int> notFinished; /**< List with not finished numbers of candidates */
 };
@@ -168,8 +150,8 @@ private:
 	ref_ptr<ModuleList> mlist;
 public:
 
-	ModuleListRunner(ModuleList *mlist);
-	void process(Candidate *candidate) const; ///< call run of wrapped ModuleList
+	ModuleListRunner(ref_ptr<ModuleList> mlist);
+	void process(ref_ptr<Candidate> candidate) const; ///< call run of wrapped ModuleList
 	std::string getDescription() const;
 };
 

@@ -108,8 +108,8 @@ public:
 	 */
 	double getRate(double E, const Vector3d &position = Vector3d(0.), double z = 0) const;
 		
-	void performInteraction(Candidate *candidate) const;
-	void process(Candidate *candidate) const;
+	void performInteraction(ref_ptr<Candidate> candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 } // namespace crpropa

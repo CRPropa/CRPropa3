@@ -30,7 +30,7 @@ void Output::modify() {
 		throw std::runtime_error("Output: cannot change Output parameters after data has been written to file.");
 }
 
-void Output::process(Candidate *c) const {
+void Output::process(ref_ptr<Candidate> c) const {
 	count++;
 }
 

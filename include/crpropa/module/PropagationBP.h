@@ -75,7 +75,7 @@ public:
 
 	/** Propagates the particle. Is called once per iteration.
 	 * @param candidate	 The Candidate is a passive object, that holds the information about the state of the cosmic ray and the simulation itself. */
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 
 	/** Calculates the new position and direction of the particle based on the solution of the Lorentz force
 	 * @param pos	current position of the candidate

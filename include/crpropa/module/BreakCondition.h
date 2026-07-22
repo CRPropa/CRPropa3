@@ -27,7 +27,7 @@ public:
 	void addObserverPosition(const Vector3d &position);
 	const std::vector<Vector3d>& getObserverPositions() const;
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 /**
@@ -44,7 +44,7 @@ public:
 	void setMinimumEnergy(double energy);
 	double getMinimumEnergy() const;
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 
@@ -62,7 +62,7 @@ public:
 	void setMinimumRigidity(double minRigidity);
 	double getMinimumRigidity() const;
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 /**
@@ -79,7 +79,7 @@ public:
 	void setMinimumRedshift(double z);
 	double getMinimumRedshift();
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 /**
@@ -98,7 +98,7 @@ public:
 	void setMinimumChargeNumber(int chargeNumber);
 	int getMinimumChargeNumber() const;
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 /**
@@ -119,7 +119,7 @@ public:
 	double getMinimumEnergyOthers() const;
 	void add(int id, double energy);
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 
 
@@ -136,7 +136,7 @@ public:
 	void setDetectionLength(double length);
 	double getDetectionLength() const;
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> candidate) const;
 };
 /** @}*/
 

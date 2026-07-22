@@ -49,8 +49,10 @@ using KDTree = nanoflann::KDTreeSingleIndexAdaptor<
  @class Interaction Rates
  @brief Abstract base class for photon fields interaction rates.
  */
-class InteractionRates: public Referenced {
+class InteractionRates {
 public:
+	virtual ~InteractionRates(){}
+
 	virtual double getProcessRate(const double E, const Vector3d &position) const = 0;
 	virtual void loadPerformInteractionTabs(
 		const Vector3d &position, 
@@ -245,7 +247,7 @@ class InteractionRatesPositionDependent: public InteractionRates {
 	std::unordered_map<int, Vector3d> photonDict; //!< dictionary to link tables to spatial coordinates
 	
 	PointCloud cloud; //!< point cloud for nanoflann KD-tree
-	KDTree* tree = nullptr; //!< pointer to the KD Tree
+	ref_ptr<KDTree> tree = nullptr; //!< pointer to the KD Tree
 	ref_ptr<Surface> surface;
 	
 };

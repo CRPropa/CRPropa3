@@ -65,11 +65,11 @@ public:
 	void setInteractionTag(std::string tag);
 	std::string getInteractionTag() const;
 
-	void process(Candidate *candidate) const;
-	void performInteraction(Candidate *candidate, int channel) const;
-	void gammaEmission(Candidate *candidate, int channel) const;
-	void betaDecay(Candidate *candidate, bool isBetaPlus) const;
-	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
+	void process(ref_ptr<Candidate> candidate) const;
+	void performInteraction(ref_ptr<Candidate> candidate, int channel) const;
+	void gammaEmission(ref_ptr<Candidate> candidate, int channel) const;
+	void betaDecay(ref_ptr<Candidate> candidate, bool isBetaPlus) const;
+	void nucleonEmission(ref_ptr<Candidate> candidate, int dA, int dZ) const;
 
 	/**
 	 Return the mean free path.

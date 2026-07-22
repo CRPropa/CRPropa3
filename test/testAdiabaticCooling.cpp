@@ -19,7 +19,7 @@ TEST (AdiabaticCooling, UniformField) {
 	c.setCurrentStep(10*kpc);
 	c.setNextStep(10*kpc);
 	double E = c.current.getEnergy();
-	AC.process(&c);
+	AC.process(c);
 
 	// Energy is expected to be conserved
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
@@ -43,7 +43,7 @@ TEST (AdiabaticCooling, ConstantSphericalField) {
 	c.setCurrentStep(c_light);
 	c.setNextStep(c_light);
 	double E = c.current.getEnergy();
-	AC.process(&c);
+	AC.process(c);
 
 	// Check energy loss and step limitation
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E/3.);

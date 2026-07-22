@@ -145,12 +145,12 @@ bool Candidate::hasProperty(const std::string &name) const {
 	return true;
 }
 
-void Candidate::addSecondary(Candidate *c) {
+void Candidate::addSecondary(ref_ptr<Candidate> c) {
 	secondaries.push_back(c);
 }
 
 void Candidate::addSecondary(int id, double energy, double w, std::string tagOrigin) {
-	ref_ptr<Candidate> secondary = new Candidate;
+	ref_ptr<Candidate> secondary(new Candidate());
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
 	secondary->setTime(time);
@@ -170,7 +170,7 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 }
 
 void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin) {
-	ref_ptr<Candidate> secondary = new Candidate;
+	ref_ptr<Candidate> secondary(new Candidate());
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
 	secondary->setTime(time - (current.getPosition() - position).getR() / getVelocity());
@@ -204,7 +204,7 @@ std::string Candidate::getDescription() const {
 }
 
 ref_ptr<Candidate> Candidate::clone(bool recursive) const {
-	ref_ptr<Candidate> cloned = new Candidate;
+	ref_ptr<Candidate> cloned(new Candidate());
 	cloned->source = source;
 	cloned->created = created;
 	cloned->current = current;
@@ -222,7 +222,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 		cloned->secondaries.reserve(secondaries.size());
 		for (size_t i = 0; i < secondaries.size(); i++) {
 			ref_ptr<Candidate> s = secondaries[i]->clone(recursive);
-			s->parent = cloned;
+			s->parent = cloned.get();
 			cloned->secondaries.push_back(s);
 		}
 	}

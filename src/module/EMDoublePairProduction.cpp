@@ -72,7 +72,7 @@ double EMDoublePairProduction::getRate(double E, const Vector3d &position, doubl
 	return this->interactionRates->getProcessRate(E, position) * pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 }
 
-void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
+void EMDoublePairProduction::performInteraction(ref_ptr<Candidate> candidate) const {
 
 	// Use assumption of Lee 96 arXiv:9604098
 	// Energy is equally shared between one e+e- pair, but take mass of second e+e- pair into account.
@@ -102,7 +102,7 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 		}
 }
 
-void EMDoublePairProduction::process(Candidate *candidate) const {
+void EMDoublePairProduction::process(ref_ptr<Candidate> candidate) const {
 	
 	// check if photon
 	if (candidate->current.getId() != 22)

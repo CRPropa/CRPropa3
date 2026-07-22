@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-13 06:03:10</td>
+            <td class="headerValue">2026-07-22 18:24:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -273,18 +273,18 @@
 <span id="L211"><span class="lineNum">     211</span>              :         /// Generate N new values in state</span>
 <span id="L212"><span class="lineNum">     212</span>              :         /// Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)</span>
 <span id="L213"><span class="lineNum">     213</span>              :         void reload();</span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">    28725840 :         uint32_t hiBit( const uint32_t&amp; u ) const {return u &amp; 0x80000000UL;}</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">    28725840 :         uint32_t loBit( const uint32_t&amp; u ) const {return u &amp; 0x00000001UL;}</span></span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">    28725840 :         uint32_t loBits( const uint32_t&amp; u ) const {return u &amp; 0x7fffffffUL;}</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">    28745184 :         uint32_t hiBit( const uint32_t&amp; u ) const {return u &amp; 0x80000000UL;}</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">    28745184 :         uint32_t loBit( const uint32_t&amp; u ) const {return u &amp; 0x00000001UL;}</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">    28745184 :         uint32_t loBits( const uint32_t&amp; u ) const {return u &amp; 0x7fffffffUL;}</span></span>
 <span id="L217"><span class="lineNum">     217</span>              :         uint32_t mixBits( const uint32_t&amp; u, const uint32_t&amp; v ) const</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">    28725840 :         {       return hiBit(u) | loBits(v);}</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">    28745184 :         {       return hiBit(u) | loBits(v);}</span></span>
 <span id="L219"><span class="lineNum">     219</span>              : </span>
 <span id="L220"><span class="lineNum">     220</span>              : #ifdef _MSC_VER</span>
 <span id="L221"><span class="lineNum">     221</span>              : #pragma warning( push )</span>
 <span id="L222"><span class="lineNum">     222</span>              : #pragma warning( disable : 4146 )</span>
 <span id="L223"><span class="lineNum">     223</span>              : #endif</span>
 <span id="L224"><span class="lineNum">     224</span>              :         uint32_t twist( const uint32_t&amp; m, const uint32_t&amp; s0, const uint32_t&amp; s1 ) const</span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">    28679805 :         {       return m ^ (mixBits(s0,s1)&gt;&gt;1) ^ (-loBit(s1) &amp; 0x9908b0dfUL);}</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">    28699118 :         {       return m ^ (mixBits(s0,s1)&gt;&gt;1) ^ (-loBit(s1) &amp; 0x9908b0dfUL);}</span></span>
 <span id="L226"><span class="lineNum">     226</span>              : </span>
 <span id="L227"><span class="lineNum">     227</span>              : #ifdef _MSC_VER</span>
 <span id="L228"><span class="lineNum">     228</span>              : #pragma warning( pop )</span>

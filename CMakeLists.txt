@@ -531,6 +531,11 @@ if(ENABLE_PYTHON AND Python_FOUND)
       INSTALL_RPATH "@loader_path;${CMAKE_INSTALL_FULL_LIBDIR}"
     )
     set_property(TARGET crpropa-swig APPEND PROPERTY LINK_FLAGS "-flat_namespace -undefined suppress")
+  else()
+    set_target_properties(crpropa-swig PROPERTIES
+      BUILD_RPATH "$<TARGET_FILE_DIR:crpropa>"
+      INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}"
+    )
   endif(APPLE)
   
 

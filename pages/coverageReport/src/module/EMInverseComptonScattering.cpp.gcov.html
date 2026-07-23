@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 11:27:30</td>
+            <td class="headerValue">2026-07-23 14:27:28</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">72.2&nbsp;%</td>
@@ -251,11 +251,11 @@
 <span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">           1 :         candidate-&gt;current.setEnergy(Enew / (1 + z));</span></span>
 <span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">           1 : }</span></span>
 <span id="L191"><span class="lineNum">     191</span>              : </span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        4039 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        1135 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
 <span id="L193"><span class="lineNum">     193</span>              :         // check if electron / positron</span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        4039 :         int id = candidate-&gt;current.getId();</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">        4039 :         if (abs(id) != 11)</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        4039 :                 return;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        1135 :         int id = candidate-&gt;current.getId();</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">        1135 :         if (abs(id) != 11)</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        1135 :                 return;</span></span>
 <span id="L197"><span class="lineNum">     197</span>              :         </span>
 <span id="L198"><span class="lineNum">     198</span>              :         // scale the particle energy instead of background photons</span>
 <span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>

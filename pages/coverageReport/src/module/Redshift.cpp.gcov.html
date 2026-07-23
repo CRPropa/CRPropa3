@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 11:27:30</td>
+            <td class="headerValue">2026-07-23 14:27:28</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">25.0&nbsp;%</td>
@@ -68,25 +68,25 @@
 <span id="L6"><span class="lineNum">       6</span>              : </span>
 <span id="L7"><span class="lineNum">       7</span>              : namespace crpropa {</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC tlaBgGNC">        2021 : void Redshift::process(Candidate *c) const {</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">        2021 :         double z = c-&gt;getRedshift();</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC tlaBgGNC">         569 : void Redshift::process(Candidate *c) const {</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">         569 :         double z = c-&gt;getRedshift();</span></span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
 <span id="L12"><span class="lineNum">      12</span>              :         // check if z = 0</span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">        2021 :         if (z &lt;= std::numeric_limits&lt;double&gt;::min())</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">         569 :         if (z &lt;= std::numeric_limits&lt;double&gt;::min())</span></span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC tlaBgUNC">           0 :                 return;</span></span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
 <span id="L16"><span class="lineNum">      16</span>              :         // use small step approximation:  dz = H(z) / c * ds</span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC tlaBgGNC">        2021 :         double dz = hubbleRate(z) / c_light * c-&gt;getCurrentStep();</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC tlaBgGNC">         569 :         double dz = hubbleRate(z) / c_light * c-&gt;getCurrentStep();</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span>              :         // prevent dz &gt; z</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">        2021 :         dz = std::min(dz, z);</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">         569 :         dz = std::min(dz, z);</span></span>
 <span id="L21"><span class="lineNum">      21</span>              : </span>
 <span id="L22"><span class="lineNum">      22</span>              :         // update redshift</span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">        2021 :         c-&gt;setRedshift(z - dz);</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">         569 :         c-&gt;setRedshift(z - dz);</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : </span>
 <span id="L25"><span class="lineNum">      25</span>              :         // adiabatic energy loss: dE / dz = E / (1 + z)</span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">        2021 :         double E = c-&gt;current.getEnergy();</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">        2021 :         c-&gt;current.setEnergy(E * (1 - dz / (1 + z)));</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">         569 :         double E = c-&gt;current.getEnergy();</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">         569 :         c-&gt;current.setEnergy(E * (1 - dz / (1 + z)));</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : }</span>
 <span id="L29"><span class="lineNum">      29</span>              : </span>
 <span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC tlaBgUNC">           0 : std::string Redshift::getDescription() const {</span></span>

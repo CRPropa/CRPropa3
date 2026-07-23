@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 11:27:30</td>
+            <td class="headerValue">2026-07-23 14:27:28</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">34.4&nbsp;%</td>
@@ -102,19 +102,19 @@
 <span id="L40"><span class="lineNum">      40</span>              : }</span>
 <span id="L41"><span class="lineNum">      41</span>              : </span>
 <span id="L42"><span class="lineNum">      42</span>              : // absolute value</span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC tlaBgGNC">   302528873 : int abspid( const int &amp; pid )</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC tlaBgGNC">   302190055 : int abspid( const int &amp; pid )</span></span>
 <span id="L44"><span class="lineNum">      44</span>              : {</span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">   302528873 :   return (pid &lt; 0) ? -pid : pid;</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">   302190055 :   return (pid &lt; 0) ? -pid : pid;</span></span>
 <span id="L46"><span class="lineNum">      46</span>              : }</span>
 <span id="L47"><span class="lineNum">      47</span>              : </span>
 <span id="L48"><span class="lineNum">      48</span>              : // returns everything beyond the 7th digit (e.g. outside the numbering scheme)</span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">    50420220 : int extraBits( const int &amp; pid )</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">    50400747 : int extraBits( const int &amp; pid )</span></span>
 <span id="L50"><span class="lineNum">      50</span>              : {</span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">    50420220 :     return abspid(pid)/10000000;</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">    50400747 :     return abspid(pid)/10000000;</span></span>
 <span id="L52"><span class="lineNum">      52</span>              : }</span>
 <span id="L53"><span class="lineNum">      53</span>              : </span>
 <span id="L54"><span class="lineNum">      54</span>              : //  split the PID into constituent integers</span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">   167057758 : unsigned short digit( location loc, const int &amp; pid )</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">   166923728 : unsigned short digit( location loc, const int &amp; pid )</span></span>
 <span id="L56"><span class="lineNum">      56</span>              : {</span>
 <span id="L57"><span class="lineNum">      57</span>              :     //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj</span>
 <span id="L58"><span class="lineNum">      58</span>              :     //  the location enum provides a convenient index into the PID</span>
@@ -123,18 +123,18 @@
 <span id="L61"><span class="lineNum">      61</span>              :                 //  performance</span>
 <span id="L62"><span class="lineNum">      62</span>              :                 static unsigned int p10[] = { 1, 10, 100, 1000,  10000, 100000, 1000000,</span>
 <span id="L63"><span class="lineNum">      63</span>              :                         10000000, 100000000, 1000000000};</span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">   167057758 :     return (abspid(pid)/ p10[loc-1])%10;</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">   166923728 :     return (abspid(pid)/ p10[loc-1])%10;</span></span>
 <span id="L65"><span class="lineNum">      65</span>              : //    int numerator = (int) std::pow(10.0,(loc-1));</span>
 <span id="L66"><span class="lineNum">      66</span>              : //    return (abspid(pid)/numerator)%10;</span>
 <span id="L67"><span class="lineNum">      67</span>              : }</span>
 <span id="L68"><span class="lineNum">      68</span>              : </span>
 <span id="L69"><span class="lineNum">      69</span>              : //  return the first two digits if this is a &quot;fundamental&quot; particle</span>
 <span id="L70"><span class="lineNum">      70</span>              : //  ID = 100 is a special case (internal generator ID's are 81-100)</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">    20219966 : int fundamentalID( const int &amp; pid )</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">    20212117 : int fundamentalID( const int &amp; pid )</span></span>
 <span id="L72"><span class="lineNum">      72</span>              : {</span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">    20219966 :     if( extraBits(pid) &gt; 0 ) return 0;</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">    20219967 :     if( digit(nq2,pid) == 0 &amp;&amp; digit(nq1,pid) == 0) {</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">    20219958 :         return abspid(pid)%10000;</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">    20212117 :     if( extraBits(pid) &gt; 0 ) return 0;</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">    20212114 :     if( digit(nq2,pid) == 0 &amp;&amp; digit(nq1,pid) == 0) {</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">    20212111 :         return abspid(pid)%10000;</span></span>
 <span id="L76"><span class="lineNum">      76</span> <span class="tlaUNC tlaBgUNC">           0 :     } else if( abspid(pid) &lt;= 100 ) {</span></span>
 <span id="L77"><span class="lineNum">      77</span> <span class="tlaUNC">           0 :         return abspid(pid);</span></span>
 <span id="L78"><span class="lineNum">      78</span>              :     } else {</span>
@@ -143,20 +143,20 @@
 <span id="L81"><span class="lineNum">      81</span>              : }</span>
 <span id="L82"><span class="lineNum">      82</span>              : </span>
 <span id="L83"><span class="lineNum">      83</span>              : // Ion numbers are +/- 10LZZZAAAI. </span>
-<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC tlaBgGNC">      395172 : int Z( const int &amp; pid )</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC tlaBgGNC">      381346 : int Z( const int &amp; pid )</span></span>
 <span id="L85"><span class="lineNum">      85</span>              : {</span>
 <span id="L86"><span class="lineNum">      86</span>              :     // a proton can also be a Hydrogen nucleus</span>
-<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">      395172 :     if( abspid(pid) == 2212 ) { return 1; }</span></span>
-<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">      395172 :     if( isNucleus(pid) ) return (abspid(pid)/10000)%1000;</span></span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">      381346 :     if( abspid(pid) == 2212 ) { return 1; }</span></span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">      381346 :     if( isNucleus(pid) ) return (abspid(pid)/10000)%1000;</span></span>
 <span id="L89"><span class="lineNum">      89</span>              :     return 0;</span>
 <span id="L90"><span class="lineNum">      90</span>              : }</span>
 <span id="L91"><span class="lineNum">      91</span>              : </span>
 <span id="L92"><span class="lineNum">      92</span>              : // Ion numbers are +/- 10LZZZAAAI. </span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">      212452 : int A( const int &amp; pid )</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">      201617 : int A( const int &amp; pid )</span></span>
 <span id="L94"><span class="lineNum">      94</span>              : {</span>
 <span id="L95"><span class="lineNum">      95</span>              :     // a proton can also be a Hydrogen nucleus</span>
-<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">      212452 :     if( abspid(pid) == 2212 ) { return 1; }</span></span>
-<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">      212453 :     if( isNucleus(pid) ) return (abspid(pid)/10)%1000;</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">      201617 :     if( abspid(pid) == 2212 ) { return 1; }</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">      201617 :     if( isNucleus(pid) ) return (abspid(pid)/10)%1000;</span></span>
 <span id="L98"><span class="lineNum">      98</span>              :     return 0;</span>
 <span id="L99"><span class="lineNum">      99</span>              : }</span>
 <span id="L100"><span class="lineNum">     100</span>              : </span>
@@ -301,15 +301,15 @@
 <span id="L239"><span class="lineNum">     239</span>              : // ZZZ is Z - total charge</span>
 <span id="L240"><span class="lineNum">     240</span>              : // L is the total number of strange quarks.</span>
 <span id="L241"><span class="lineNum">     241</span>              : // I is the isomer number, with I=0 corresponding to the ground state.</span>
-<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC tlaBgGNC">    41425941 : bool isNucleus( const int &amp; pid )</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC tlaBgGNC">    41375166 : bool isNucleus( const int &amp; pid )</span></span>
 <span id="L243"><span class="lineNum">     243</span>              : {</span>
 <span id="L244"><span class="lineNum">     244</span>              :      // a proton can also be a Hydrogen nucleus</span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">    41425941 :      if( abspid(pid) == 2212 ) { return true; }</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">    41375166 :      if( abspid(pid) == 2212 ) { return true; }</span></span>
 <span id="L246"><span class="lineNum">     246</span>              :      // new standard: +/- 10LZZZAAAI</span>
-<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">    41425904 :      if( ( digit(n10,pid) == 1 ) &amp;&amp; ( digit(n9,pid) == 0 ) ) {</span></span>
+<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">    41375146 :      if( ( digit(n10,pid) == 1 ) &amp;&amp; ( digit(n9,pid) == 0 ) ) {</span></span>
 <span id="L248"><span class="lineNum">     248</span>              :         // charge should always be less than or equal to baryon number</span>
 <span id="L249"><span class="lineNum">     249</span>              :         // the following line is A &gt;= Z</span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">      985995 :         if( (abspid(pid)/10)%1000 &gt;= (abspid(pid)/10000)%1000 ) { return true; }</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">      950973 :         if( (abspid(pid)/10)%1000 &gt;= (abspid(pid)/10000)%1000 ) { return true; }</span></span>
 <span id="L251"><span class="lineNum">     251</span>              :      }</span>
 <span id="L252"><span class="lineNum">     252</span>              :      return false;</span>
 <span id="L253"><span class="lineNum">     253</span>              : }</span>
@@ -365,7 +365,7 @@
 <span id="L303"><span class="lineNum">     303</span>              : }</span>
 <span id="L304"><span class="lineNum">     304</span>              : </span>
 <span id="L305"><span class="lineNum">     305</span>              : // is this a Dyon (magnetic monopole)?</span>
-<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC tlaBgGNC">     3326789 : bool isDyon( const int &amp; pid )</span></span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC tlaBgGNC">     3325516 : bool isDyon( const int &amp; pid )</span></span>
 <span id="L307"><span class="lineNum">     307</span>              : {</span>
 <span id="L308"><span class="lineNum">     308</span>              :     ///Magnetic monopoles and Dyons are assumed to have one unit of </span>
 <span id="L309"><span class="lineNum">     309</span>              :     ///Dirac monopole charge and a variable integer number xyz units </span>
@@ -376,8 +376,8 @@
 <span id="L314"><span class="lineNum">     314</span>              :     ///with the overall sign of the particle set by the magnetic charge.  </span>
 <span id="L315"><span class="lineNum">     315</span>              :     ///For now no spin information is provided.</span>
 <span id="L316"><span class="lineNum">     316</span>              :     ///</span>
-<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">     3326789 :     if( extraBits(pid) &gt; 0 ) { return false; }</span></span>
-<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">     3326789 :     if( digit(n,pid) != 4 )  { return false; }</span></span>
+<span id="L317"><span class="lineNum">     317</span> <span class="tlaGNC">     3325516 :     if( extraBits(pid) &gt; 0 ) { return false; }</span></span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">     3325516 :     if( digit(n,pid) != 4 )  { return false; }</span></span>
 <span id="L319"><span class="lineNum">     319</span> <span class="tlaUNC tlaBgUNC">           0 :     if( digit(nr,pid) != 1 )  { return false; }</span></span>
 <span id="L320"><span class="lineNum">     320</span> <span class="tlaUNC">           0 :     if( (digit(nl,pid) != 1) &amp;&amp; (digit(nl,pid) != 2) )  { return false; }</span></span>
 <span id="L321"><span class="lineNum">     321</span>              :     // All Dyons have at least 1 core digit</span>
@@ -390,9 +390,9 @@
 <span id="L328"><span class="lineNum">     328</span>              : // Check for QBalls</span>
 <span id="L329"><span class="lineNum">     329</span>              : // Ad-hoc numbering for such particles is 100xxxx0, </span>
 <span id="L330"><span class="lineNum">     330</span>              : // where xxxx is the charge in tenths. </span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC tlaBgGNC">    23546754 : bool isQBall( const int &amp; pid )</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC tlaBgGNC">    23537630 : bool isQBall( const int &amp; pid )</span></span>
 <span id="L332"><span class="lineNum">     332</span>              : {</span>
-<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">    23546754 :     if( extraBits(pid) != 1 ) { return false; }</span></span>
+<span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">    23537630 :     if( extraBits(pid) != 1 ) { return false; }</span></span>
 <span id="L334"><span class="lineNum">     334</span> <span class="tlaUNC tlaBgUNC">           0 :     if( digit(n,pid) != 0 )  { return false; }</span></span>
 <span id="L335"><span class="lineNum">     335</span> <span class="tlaUNC">           0 :     if( digit(nr,pid) != 0 )  { return false; }</span></span>
 <span id="L336"><span class="lineNum">     336</span>              :     // check the core number</span>
@@ -538,7 +538,7 @@
 <span id="L476"><span class="lineNum">     476</span>              : }</span>
 <span id="L477"><span class="lineNum">     477</span>              : </span>
 <span id="L478"><span class="lineNum">     478</span>              : // 3 times the charge</span>
-<span id="L479"><span class="lineNum">     479</span> <span class="tlaGNC tlaBgGNC">    20220003 : int threeCharge( const int &amp; pid )</span></span>
+<span id="L479"><span class="lineNum">     479</span> <span class="tlaGNC tlaBgGNC">    20212123 : int threeCharge( const int &amp; pid )</span></span>
 <span id="L480"><span class="lineNum">     480</span>              : {</span>
 <span id="L481"><span class="lineNum">     481</span>              :     int charge=0;</span>
 <span id="L482"><span class="lineNum">     482</span>              :     int ida, sid;</span>
@@ -553,31 +553,31 @@
 <span id="L491"><span class="lineNum">     491</span>              :                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
 <span id="L492"><span class="lineNum">     492</span>              :                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
 <span id="L493"><span class="lineNum">     493</span>              :                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };</span>
-<span id="L494"><span class="lineNum">     494</span> <span class="tlaGNC">    20220003 :     q1 = digit(nq1,pid);</span></span>
-<span id="L495"><span class="lineNum">     495</span> <span class="tlaGNC">    20219988 :     q2 = digit(nq2,pid);</span></span>
-<span id="L496"><span class="lineNum">     496</span> <span class="tlaGNC">    20219983 :     q3 = digit(nq3,pid);</span></span>
-<span id="L497"><span class="lineNum">     497</span> <span class="tlaGNC">    20219966 :     ql = digit(nl,pid);</span></span>
-<span id="L498"><span class="lineNum">     498</span> <span class="tlaGNC">    20219974 :     ida = abspid(pid);</span></span>
-<span id="L499"><span class="lineNum">     499</span> <span class="tlaGNC">    20219968 :     sid = fundamentalID(pid);</span></span>
-<span id="L500"><span class="lineNum">     500</span> <span class="tlaGNC">    20219959 :     if( ida == 0 ) {      // illegal</span></span>
+<span id="L494"><span class="lineNum">     494</span> <span class="tlaGNC">    20212123 :     q1 = digit(nq1,pid);</span></span>
+<span id="L495"><span class="lineNum">     495</span> <span class="tlaGNC">    20212123 :     q2 = digit(nq2,pid);</span></span>
+<span id="L496"><span class="lineNum">     496</span> <span class="tlaGNC">    20212119 :     q3 = digit(nq3,pid);</span></span>
+<span id="L497"><span class="lineNum">     497</span> <span class="tlaGNC">    20212117 :     ql = digit(nl,pid);</span></span>
+<span id="L498"><span class="lineNum">     498</span> <span class="tlaGNC">    20212116 :     ida = abspid(pid);</span></span>
+<span id="L499"><span class="lineNum">     499</span> <span class="tlaGNC">    20212117 :     sid = fundamentalID(pid);</span></span>
+<span id="L500"><span class="lineNum">     500</span> <span class="tlaGNC">    20212115 :     if( ida == 0 ) {      // illegal</span></span>
 <span id="L501"><span class="lineNum">     501</span>              :         return 0;</span>
-<span id="L502"><span class="lineNum">     502</span> <span class="tlaGNC">     3326790 :     } else if( isQBall(pid) ) {         // QBall</span></span>
+<span id="L502"><span class="lineNum">     502</span> <span class="tlaGNC">     3325517 :     } else if( isQBall(pid) ) {         // QBall</span></span>
 <span id="L503"><span class="lineNum">     503</span> <span class="tlaUNC tlaBgUNC">           0 :        charge = 3*((abspid(pid)/10)%10000);</span></span>
-<span id="L504"><span class="lineNum">     504</span> <span class="tlaGNC tlaBgGNC">     3326790 :     } else if( extraBits(pid) &gt; 0 ) {                // ion</span></span>
+<span id="L504"><span class="lineNum">     504</span> <span class="tlaGNC tlaBgGNC">     3325517 :     } else if( extraBits(pid) &gt; 0 ) {                // ion</span></span>
 <span id="L505"><span class="lineNum">     505</span>              :         return 0;</span>
-<span id="L506"><span class="lineNum">     506</span> <span class="tlaGNC">     3326789 :     } else if( isDyon(pid) ) {          // Dyon</span></span>
+<span id="L506"><span class="lineNum">     506</span> <span class="tlaGNC">     3325516 :     } else if( isDyon(pid) ) {          // Dyon</span></span>
 <span id="L507"><span class="lineNum">     507</span> <span class="tlaUNC tlaBgUNC">           0 :         charge = 3*( (abspid(pid)/10)%1000 );</span></span>
 <span id="L508"><span class="lineNum">     508</span>              :         // this is half right</span>
 <span id="L509"><span class="lineNum">     509</span>              :         // the charge sign will be changed below if pid &lt; 0</span>
 <span id="L510"><span class="lineNum">     510</span> <span class="tlaUNC">           0 :         if( ql == 2 ) {</span></span>
 <span id="L511"><span class="lineNum">     511</span> <span class="tlaUNC">           0 :             charge = -charge; </span></span>
 <span id="L512"><span class="lineNum">     512</span>              :         }</span>
-<span id="L513"><span class="lineNum">     513</span> <span class="tlaGNC tlaBgGNC">     3326789 :     } else if( sid &gt; 0 &amp;&amp; sid &lt;= 100 ) {  // use table</span></span>
-<span id="L514"><span class="lineNum">     514</span> <span class="tlaGNC">     3326789 :         charge = ch100[sid-1];</span></span>
-<span id="L515"><span class="lineNum">     515</span> <span class="tlaGNC">     3326789 :         if(ida==1000017 || ida==1000018) { charge = 0; }</span></span>
-<span id="L516"><span class="lineNum">     516</span> <span class="tlaGNC">     3326789 :         if(ida==1000034 || ida==1000052) { charge = 0; }</span></span>
-<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3326789 :         if(ida==1000053 || ida==1000054) { charge = 0; }</span></span>
-<span id="L518"><span class="lineNum">     518</span> <span class="tlaGNC">     3326789 :         if(ida==5100061 || ida==5100062) { charge = 6; }</span></span>
+<span id="L513"><span class="lineNum">     513</span> <span class="tlaGNC tlaBgGNC">     3325516 :     } else if( sid &gt; 0 &amp;&amp; sid &lt;= 100 ) {  // use table</span></span>
+<span id="L514"><span class="lineNum">     514</span> <span class="tlaGNC">     3325516 :         charge = ch100[sid-1];</span></span>
+<span id="L515"><span class="lineNum">     515</span> <span class="tlaGNC">     3325516 :         if(ida==1000017 || ida==1000018) { charge = 0; }</span></span>
+<span id="L516"><span class="lineNum">     516</span> <span class="tlaGNC">     3325516 :         if(ida==1000034 || ida==1000052) { charge = 0; }</span></span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaGNC">     3325516 :         if(ida==1000053 || ida==1000054) { charge = 0; }</span></span>
+<span id="L518"><span class="lineNum">     518</span> <span class="tlaGNC">     3325516 :         if(ida==5100061 || ida==5100062) { charge = 6; }</span></span>
 <span id="L519"><span class="lineNum">     519</span> <span class="tlaUNC tlaBgUNC">           0 :     } else if( digit(nj,pid) == 0 ) {           // KL, Ks, or undefined</span></span>
 <span id="L520"><span class="lineNum">     520</span>              :         return 0;</span>
 <span id="L521"><span class="lineNum">     521</span> <span class="tlaUNC">           0 :     } else if( isMeson(pid) ) {                 // mesons</span></span>
@@ -605,22 +605,22 @@
 <span id="L543"><span class="lineNum">     543</span>              :     } else {            // unknown</span>
 <span id="L544"><span class="lineNum">     544</span>              :         return 0;</span>
 <span id="L545"><span class="lineNum">     545</span>              :     }</span>
-<span id="L546"><span class="lineNum">     546</span> <span class="tlaGNC tlaBgGNC">     3326789 :     if( charge == 0 ) {</span></span>
-<span id="L547"><span class="lineNum">     547</span> <span class="tlaGNC">     3312916 :         return 0;</span></span>
-<span id="L548"><span class="lineNum">     548</span> <span class="tlaGNC">       13873 :     } else if( pid &lt; 0 ) {</span></span>
-<span id="L549"><span class="lineNum">     549</span> <span class="tlaGNC">        6505 :         charge = -charge; </span></span>
+<span id="L546"><span class="lineNum">     546</span> <span class="tlaGNC tlaBgGNC">     3325516 :     if( charge == 0 ) {</span></span>
+<span id="L547"><span class="lineNum">     547</span> <span class="tlaGNC">     3312232 :         return 0;</span></span>
+<span id="L548"><span class="lineNum">     548</span> <span class="tlaGNC">       13284 :     } else if( pid &lt; 0 ) {</span></span>
+<span id="L549"><span class="lineNum">     549</span> <span class="tlaGNC">        6210 :         charge = -charge; </span></span>
 <span id="L550"><span class="lineNum">     550</span>              :     }</span>
 <span id="L551"><span class="lineNum">     551</span>              :     return charge;</span>
 <span id="L552"><span class="lineNum">     552</span>              : }</span>
 <span id="L553"><span class="lineNum">     553</span>              : </span>
 <span id="L554"><span class="lineNum">     554</span>              : // the actual charge</span>
-<span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">    20220003 : double charge( const int &amp; pid )</span></span>
+<span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">    20212126 : double charge( const int &amp; pid )</span></span>
 <span id="L556"><span class="lineNum">     556</span>              : {</span>
-<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">    20220003 :    int tc = threeCharge(pid);</span></span>
-<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">    20219964 :    if( isQBall(pid) ) {</span></span>
+<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">    20212126 :    int tc = threeCharge(pid);</span></span>
+<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">    20212114 :    if( isQBall(pid) ) {</span></span>
 <span id="L559"><span class="lineNum">     559</span> <span class="tlaUNC tlaBgUNC">           0 :        return double(tc)/30.;</span></span>
 <span id="L560"><span class="lineNum">     560</span>              :    } else {</span>
-<span id="L561"><span class="lineNum">     561</span> <span class="tlaGNC tlaBgGNC">    20220000 :        return double(tc)/3.;</span></span>
+<span id="L561"><span class="lineNum">     561</span> <span class="tlaGNC tlaBgGNC">    20212121 :        return double(tc)/3.;</span></span>
 <span id="L562"><span class="lineNum">     562</span>              :    }</span>
 <span id="L563"><span class="lineNum">     563</span>              : }</span>
 <span id="L564"><span class="lineNum">     564</span>              : </span>

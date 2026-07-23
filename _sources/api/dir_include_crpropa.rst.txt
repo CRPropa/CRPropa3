@@ -24,10 +24,8 @@ Subdirectories
 Files
 -----
 
-- :ref:`file_include_crpropa_AssocVector.h`
 - :ref:`file_include_crpropa_base64.h`
 - :ref:`file_include_crpropa_Candidate.h`
-- :ref:`file_include_crpropa_Clock.h`
 - :ref:`file_include_crpropa_Common.h`
 - :ref:`file_include_crpropa_Cosmology.h`
 - :ref:`file_include_crpropa_EmissionMap.h`

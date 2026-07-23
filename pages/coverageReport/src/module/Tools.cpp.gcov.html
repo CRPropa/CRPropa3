@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 06:27:08</td>
+            <td class="headerValue">2026-07-23 06:39:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">12.5&nbsp;%</td>
@@ -61,10 +61,10 @@
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : #include &quot;crpropa/module/Tools.h&quot;</span>
-<span id="L2"><span class="lineNum">       2</span>              : #include &quot;crpropa/Clock.h&quot;</span>
-<span id="L3"><span class="lineNum">       3</span>              : </span>
-<span id="L4"><span class="lineNum">       4</span>              : #include &lt;iostream&gt;</span>
-<span id="L5"><span class="lineNum">       5</span>              : #include &lt;sstream&gt;</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : #include &lt;iostream&gt;</span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &lt;sstream&gt;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &lt;chrono&gt;</span>
 <span id="L6"><span class="lineNum">       6</span>              : </span>
 <span id="L7"><span class="lineNum">       7</span>              : using namespace std;</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
@@ -96,10 +96,10 @@
 <span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         vector&lt;double&gt; times(modules.size());</span></span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :         for (size_t i = 0; i &lt; modules.size(); i++) {</span></span>
 <span id="L36"><span class="lineNum">      36</span>              :                 _module_info &amp;m = modules[i];</span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :                 double start = Clock::getInstance().getMillisecond();</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :                 auto start = chrono::high_resolution_clock::now();</span></span>
 <span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :                 m.module-&gt;process(candidate);</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :                 double end = Clock::getInstance().getMillisecond();</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :                 times[i] = end - start;</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :                 auto end = chrono::high_resolution_clock::now();</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaUNC">           0 :                 times[i] = (end - start).count()/1.e3;</span></span>
 <span id="L41"><span class="lineNum">      41</span>              :         }</span>
 <span id="L42"><span class="lineNum">      42</span>              : </span>
 <span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 : #pragma omp critical(PerformanceModule)</span></span>

@@ -120,11 +120,6 @@ Files
 .. toctree::
    :maxdepth: 5
 
-   file_include_crpropa_AssocVector.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
    file_src_base64.cpp.rst
 
 .. toctree::
@@ -171,16 +166,6 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_module_CandidateSplitting.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_src_Clock.cpp.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_include_crpropa_Clock.h.rst
 
 .. toctree::
    :maxdepth: 5

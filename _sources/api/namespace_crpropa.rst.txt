@@ -22,8 +22,6 @@ Classes
 -------
 
 
-- :ref:`exhale_struct_structcrpropa_1_1CLOCK__TLS__ITEM`
-
 - :ref:`exhale_struct_structcrpropa_1_1HDF5Output_1_1OutputRow`
 
 - :ref:`exhale_struct_structcrpropa_1_1NuclearDecay_1_1DecayMode`
@@ -65,10 +63,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1Candidate`
 
 - :ref:`exhale_class_classcrpropa_1_1CandidateSplitting`
-
-- :ref:`exhale_class_classcrpropa_1_1Clock`
-
-- :ref:`exhale_class_classcrpropa_1_1Clock_1_1Impl`
 
 - :ref:`exhale_class_classcrpropa_1_1CMB`
 
@@ -791,8 +785,6 @@ Variables
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff`
-
-- :ref:`exhale_variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1`
 
 - :ref:`exhale_variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1`
 

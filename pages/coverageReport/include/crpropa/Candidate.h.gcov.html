@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 06:27:08</td>
+            <td class="headerValue">2026-07-23 06:39:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -65,13 +65,13 @@
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : #include &quot;crpropa/ParticleState.h&quot;</span>
 <span id="L5"><span class="lineNum">       5</span>              : #include &quot;crpropa/Referenced.h&quot;</span>
-<span id="L6"><span class="lineNum">       6</span>              : #include &quot;crpropa/AssocVector.h&quot;</span>
-<span id="L7"><span class="lineNum">       7</span>              : #include &quot;crpropa/Variant.h&quot;</span>
-<span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span>              : #include &lt;vector&gt;</span>
-<span id="L10"><span class="lineNum">      10</span>              : #include &lt;map&gt;</span>
-<span id="L11"><span class="lineNum">      11</span>              : #include &lt;sstream&gt;</span>
-<span id="L12"><span class="lineNum">      12</span>              : #include &lt;stdint.h&gt;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;crpropa/Variant.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;vector&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &lt;map&gt;</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;sstream&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : #include &lt;stdint.h&gt;</span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &lt;unordered_map&gt;</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
 <span id="L14"><span class="lineNum">      14</span>              : namespace crpropa {</span>
 <span id="L15"><span class="lineNum">      15</span>              : /**</span>
@@ -95,7 +95,7 @@
 <span id="L33"><span class="lineNum">      33</span>              : </span>
 <span id="L34"><span class="lineNum">      34</span>              :         std::vector&lt;ref_ptr&lt;Candidate&gt; &gt; secondaries; /**&lt; Secondary particles from interactions */</span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
-<span id="L36"><span class="lineNum">      36</span>              :         typedef Loki::AssocVector&lt;std::string, Variant&gt; PropertyMap;</span>
+<span id="L36"><span class="lineNum">      36</span>              :         typedef std::unordered_map&lt;std::string, Variant&gt; PropertyMap;</span>
 <span id="L37"><span class="lineNum">      37</span>              :         PropertyMap properties; /**&lt; Map of property names and their values. */</span>
 <span id="L38"><span class="lineNum">      38</span>              : </span>
 <span id="L39"><span class="lineNum">      39</span>              :         /** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */</span>

@@ -742,7 +742,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Tools.html">Tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa5ClockE"><code class="docutils literal notranslate"><span class="pre">crpropa::Clock</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17PerformanceModuleE"><code class="docutils literal notranslate"><span class="pre">crpropa::PerformanceModule</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa14ParticleFilterE"><code class="docutils literal notranslate"><span class="pre">crpropa::ParticleFilter</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17EmissionMapFillerE"><code class="docutils literal notranslate"><span class="pre">crpropa::EmissionMapFiller</span></code></a></li>
@@ -838,7 +837,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1CLOCK__TLS__ITEM.html">Struct CLOCK_TLS_ITEM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1HDF5Output_1_1OutputRow.html">Struct HDF5Output::OutputRow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearDecay_1_1DecayMode.html">Struct NuclearDecay::DecayMode</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearMassTable.html">Struct NuclearMassTable</a></li>
@@ -860,8 +858,6 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1BlackbodyPhotonField.html">Class BlackbodyPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Candidate.html">Class Candidate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CandidateSplitting.html">Class CandidateSplitting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock.html">Class Clock</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMB.html">Class CMB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
@@ -1235,7 +1231,6 @@
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943.html">Variable crpropa::mass_neutron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff.html">Variable crpropa::mass_proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.html">Variable crpropa::MAX_THREAD</a></li>
-<li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.html">Variable crpropa::MAX_THREAD</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
@@ -1372,8 +1367,9 @@
 <span class="cp">#define CRPROPA_OUTPUTSHELL_H</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Module.h&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/AssocVector.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Variant.h&quot;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_map&gt;</span>
 
 <span class="k">namespace</span><span class="w"> </span><span class="nn">crpropa</span><span class="w"> </span><span class="p">{</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ShellOutput</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Module</span><span class="w"> </span><span class="p">{</span>
@@ -1390,7 +1386,7 @@
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ShellPropertyOutput</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Module</span><span class="w"> </span><span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
-<span class="w">        </span><span class="k">typedef</span><span class="w"> </span><span class="n">Loki</span><span class="o">::</span><span class="n">AssocVector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">Variant</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PropertyMap</span><span class="p">;</span>
+<span class="w">        </span><span class="k">typedef</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">Variant</span><span class="o">&gt;</span><span class="w"> </span><span class="n">PropertyMap</span><span class="p">;</span>
 <span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 <span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 <span class="p">};</span>

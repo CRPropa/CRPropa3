@@ -15,13 +15,13 @@ Program Listing for File Candidate.h
    
    #include "crpropa/ParticleState.h"
    #include "crpropa/Referenced.h"
-   #include "crpropa/AssocVector.h"
    #include "crpropa/Variant.h"
    
    #include <vector>
    #include <map>
    #include <sstream>
    #include <stdint.h>
+   #include <unordered_map>
    
    namespace crpropa {
    class Candidate: public Referenced {
@@ -31,7 +31,7 @@ Program Listing for File Candidate.h
            ParticleState current; 
            ParticleState previous; 
            std::vector<ref_ptr<Candidate> > secondaries; 
-           typedef Loki::AssocVector<std::string, Variant> PropertyMap;
+           typedef std::unordered_map<std::string, Variant> PropertyMap;
            PropertyMap properties; 
            Candidate *parent;
    

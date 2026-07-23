@@ -742,7 +742,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Tools.html">Tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa5ClockE"><code class="docutils literal notranslate"><span class="pre">crpropa::Clock</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17PerformanceModuleE"><code class="docutils literal notranslate"><span class="pre">crpropa::PerformanceModule</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa14ParticleFilterE"><code class="docutils literal notranslate"><span class="pre">crpropa::ParticleFilter</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17EmissionMapFillerE"><code class="docutils literal notranslate"><span class="pre">crpropa::EmissionMapFiller</span></code></a></li>
@@ -838,7 +837,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1CLOCK__TLS__ITEM.html">Struct CLOCK_TLS_ITEM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1HDF5Output_1_1OutputRow.html">Struct HDF5Output::OutputRow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearDecay_1_1DecayMode.html">Struct NuclearDecay::DecayMode</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearMassTable.html">Struct NuclearMassTable</a></li>
@@ -860,8 +858,6 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1BlackbodyPhotonField.html">Class BlackbodyPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Candidate.html">Class Candidate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CandidateSplitting.html">Class CandidateSplitting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock.html">Class Clock</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMB.html">Class CMB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
@@ -1235,7 +1231,6 @@
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943.html">Variable crpropa::mass_neutron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff.html">Variable crpropa::mass_proton</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.html">Variable crpropa::MAX_THREAD</a></li>
-<li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.html">Variable crpropa::MAX_THREAD</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.html">Variable crpropa::mec2</a></li>
@@ -1369,10 +1364,10 @@
 <span id="program-listing-file-src-module-tools-cpp"></span><h1>Program Listing for File Tools.cpp<a class="headerlink" href="#program-listing-for-file-tools-cpp" title="Link to this heading"></a></h1>
 <p>↰ <a class="reference internal" href="file_src_module_Tools.cpp.html#file-src-module-tools-cpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">src/module/Tools.cpp</span></code>)</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/module/Tools.h&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Clock.h&quot;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span>
 
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
 
@@ -1404,10 +1399,10 @@
 <span class="w">        </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">times</span><span class="p">(</span><span class="n">modules</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">modules</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_module_info</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modules</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-<span class="w">                </span><span class="kt">double</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="o">::</span><span class="n">getInstance</span><span class="p">().</span><span class="n">getMillisecond</span><span class="p">();</span>
+<span class="w">                </span><span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
 <span class="w">                </span><span class="n">m</span><span class="p">.</span><span class="k">module</span><span class="o">-&gt;</span><span class="n">process</span><span class="p">(</span><span class="n">candidate</span><span class="p">);</span>
-<span class="w">                </span><span class="kt">double</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="o">::</span><span class="n">getInstance</span><span class="p">().</span><span class="n">getMillisecond</span><span class="p">();</span>
-<span class="w">                </span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<span class="w">                </span><span class="k">auto</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+<span class="w">                </span><span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">).</span><span class="n">count</span><span class="p">()</span><span class="o">/</span><span class="mf">1.</span><span class="n">e3</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 
 <span class="cp">#pragma omp critical(PerformanceModule)</span>

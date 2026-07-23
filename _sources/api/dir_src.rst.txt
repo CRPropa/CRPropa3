@@ -21,7 +21,6 @@ Files
 
 - :ref:`file_src_base64.cpp`
 - :ref:`file_src_Candidate.cpp`
-- :ref:`file_src_Clock.cpp`
 - :ref:`file_src_Common.cpp`
 - :ref:`file_src_Cosmology.cpp`
 - :ref:`file_src_EmissionMap.cpp`

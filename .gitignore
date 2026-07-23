@@ -12,6 +12,7 @@ install/
 lib/
 share/
 doc/api/
+.vscode/
 
 !final_doc/
 !conda-bld/build.sh

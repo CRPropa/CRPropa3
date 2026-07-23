@@ -10,6 +10,8 @@
 ### Features that are deprecated and will be removed after this release
 
 ### Removed features
+* Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)
+* Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 
 ### New plugins and resources linked on the webpages
 

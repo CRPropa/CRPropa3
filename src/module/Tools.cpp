@@ -1,8 +1,8 @@
 #include "crpropa/module/Tools.h"
-#include "crpropa/Clock.h"
 
 #include <iostream>
 #include <sstream>
+#include <chrono>
 
 using namespace std;
 
@@ -34,10 +34,10 @@ void PerformanceModule::process(Candidate *candidate) const {
 	vector<double> times(modules.size());
 	for (size_t i = 0; i < modules.size(); i++) {
 		_module_info &m = modules[i];
-		double start = Clock::getInstance().getMillisecond();
+		auto start = chrono::high_resolution_clock::now();
 		m.module->process(candidate);
-		double end = Clock::getInstance().getMillisecond();
-		times[i] = end - start;
+		auto end = chrono::high_resolution_clock::now();
+		times[i] = (end - start).count()/1.e3;
 	}
 
 #pragma omp critical(PerformanceModule)

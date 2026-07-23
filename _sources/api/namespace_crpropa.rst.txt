@@ -302,10 +302,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1Redshift`
 
-- :ref:`exhale_class_classcrpropa_1_1ref__ptr`
-
-- :ref:`exhale_class_classcrpropa_1_1Referenced`
-
 - :ref:`exhale_class_classcrpropa_1_1ReflectiveBox`
 
 - :ref:`exhale_class_classcrpropa_1_1ReflectiveShell`
@@ -476,8 +472,6 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga6b99c0bb658088bde4bf14117561577d`
 
-- :ref:`exhale_function_group__Core_1ga52a539c7a57211c642322a856318476d`
-
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8`
 
 - :ref:`exhale_function_group__Core_1gaf5f68d073df1782bc298f18280f2bc16`
@@ -490,15 +484,11 @@ Functions
 
 - :ref:`exhale_function_group__Core_1ga6cb9f94136149267fbf1bf22d2eca017`
 
-- :ref:`exhale_function_group__Core_1gabca9d02bd2a8f973f092ee559a125357`
-
 - :ref:`exhale_function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b`
 
 - :ref:`exhale_function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a`
 
 - :ref:`exhale_function_namespacecrpropa_1abf925e082b8decd1775a3e7a6a909eb3`
-
-- :ref:`exhale_function_group__Core_1ga33ef98c1197a14c930d29da10837a95b`
 
 - :ref:`exhale_function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad`
 
@@ -529,10 +519,6 @@ Functions
 - :ref:`exhale_function_group__Core_1ga6428041c6b8b7f6ecd9f738073713e95`
 
 - :ref:`exhale_function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea`
-
-- :ref:`exhale_function_group__Core_1ga2ee2db5c71181d341be5ae51b59e75cd`
-
-- :ref:`exhale_function_group__Core_1gab2de154e222710e2a60bb8f4adbd6ff4`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga214fcca71a19e93127c731aef7d5ac1c`
 
@@ -623,10 +609,6 @@ Functions
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4`
 
 - :ref:`exhale_function_group__Core_1gaeeb018a8bcfd3cc323064ab988c8fe20`
-
-- :ref:`exhale_function_group__Core_1gae44b5188591bc2089166211850c8921d`
-
-- :ref:`exhale_function_group__Core_1ga1ec4ae56abd6a1326775869fd3fa8e7e`
 
 - :ref:`exhale_function_group__MagneticFields_1ga14fa5d89e4bdf4323533f33c69720a67`
 

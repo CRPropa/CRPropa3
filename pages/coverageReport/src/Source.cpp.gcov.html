@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 06:39:09</td>
+            <td class="headerValue">2026-07-23 11:27:30</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">55.5&nbsp;%</td>
@@ -445,19 +445,19 @@
 <span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">      100001 :         Random &amp;random = Random::instance();</span></span>
 <span id="L384"><span class="lineNum">     384</span>              :         double RPos;</span>
 <span id="L385"><span class="lineNum">     385</span>              :         while (true) {</span>
-<span id="L386"><span class="lineNum">     386</span> <span class="tlaGNC">      192537 :                 RPos = random.rand() * rMax;</span></span>
-<span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">      192537 :                 double fTest = random.rand() * frMax;</span></span>
-<span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">      192537 :                 double fR = fr(RPos);</span></span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">      192537 :                 if (fTest &lt;= fR) {</span></span>
+<span id="L386"><span class="lineNum">     386</span> <span class="tlaGNC">      192965 :                 RPos = random.rand() * rMax;</span></span>
+<span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">      192965 :                 double fTest = random.rand() * frMax;</span></span>
+<span id="L388"><span class="lineNum">     388</span> <span class="tlaGNC">      192965 :                 double fR = fr(RPos);</span></span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">      192965 :                 if (fTest &lt;= fR) {</span></span>
 <span id="L390"><span class="lineNum">     390</span>              :                         break;</span>
 <span id="L391"><span class="lineNum">     391</span>              :                 }</span>
 <span id="L392"><span class="lineNum">     392</span>              :         }</span>
 <span id="L393"><span class="lineNum">     393</span>              :         double ZPos;</span>
 <span id="L394"><span class="lineNum">     394</span>              :         while (true) {</span>
-<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">     1670567 :                 ZPos = (random.rand() - 0.5) * 2 * zMax;</span></span>
-<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">     1670567 :                 double fTest = random.rand() * fzMax;</span></span>
-<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">     1670567 :                 double fZ=fz(ZPos);</span></span>
-<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">     1670567 :                 if (fTest&lt;=fZ) {</span></span>
+<span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">     1665665 :                 ZPos = (random.rand() - 0.5) * 2 * zMax;</span></span>
+<span id="L396"><span class="lineNum">     396</span> <span class="tlaGNC">     1665665 :                 double fTest = random.rand() * fzMax;</span></span>
+<span id="L397"><span class="lineNum">     397</span> <span class="tlaGNC">     1665665 :                 double fZ=fz(ZPos);</span></span>
+<span id="L398"><span class="lineNum">     398</span> <span class="tlaGNC">     1665665 :                 if (fTest&lt;=fZ) {</span></span>
 <span id="L399"><span class="lineNum">     399</span>              :                         break;</span>
 <span id="L400"><span class="lineNum">     400</span>              :                 }</span>
 <span id="L401"><span class="lineNum">     401</span>              :         }</span>
@@ -466,15 +466,15 @@
 <span id="L404"><span class="lineNum">     404</span> <span class="tlaGNC">      100001 :         particle.setPosition(pos);</span></span>
 <span id="L405"><span class="lineNum">     405</span> <span class="tlaGNC">      100001 : }</span></span>
 <span id="L406"><span class="lineNum">     406</span>              : </span>
-<span id="L407"><span class="lineNum">     407</span> <span class="tlaGNC">      192537 : double SourceSNRDistribution::fr(double r) const {</span></span>
-<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">      192537 :         return pow(r / rEarth, alpha) * exp(- beta * (r - rEarth) / rEarth);</span></span>
+<span id="L407"><span class="lineNum">     407</span> <span class="tlaGNC">      192965 : double SourceSNRDistribution::fr(double r) const {</span></span>
+<span id="L408"><span class="lineNum">     408</span> <span class="tlaGNC">      192965 :         return pow(r / rEarth, alpha) * exp(- beta * (r - rEarth) / rEarth);</span></span>
 <span id="L409"><span class="lineNum">     409</span>              : }</span>
 <span id="L410"><span class="lineNum">     410</span>              : </span>
-<span id="L411"><span class="lineNum">     411</span> <span class="tlaGNC">     1670567 : double SourceSNRDistribution::fz(double z) const{</span></span>
+<span id="L411"><span class="lineNum">     411</span> <span class="tlaGNC">     1665665 : double SourceSNRDistribution::fz(double z) const{</span></span>
 <span id="L412"><span class="lineNum">     412</span>              :         double Az = 1.;</span>
-<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">     1670567 :         double f = 1. / zg * exp(- fabs(z) / zg);</span></span>
+<span id="L413"><span class="lineNum">     413</span> <span class="tlaGNC">     1665665 :         double f = 1. / zg * exp(- fabs(z) / zg);</span></span>
 <span id="L414"><span class="lineNum">     414</span>              :         double fz = Az * f;</span>
-<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">     1670567 :         return fz;</span></span>
+<span id="L415"><span class="lineNum">     415</span> <span class="tlaGNC">     1665665 :         return fz;</span></span>
 <span id="L416"><span class="lineNum">     416</span>              : }</span>
 <span id="L417"><span class="lineNum">     417</span>              : </span>
 <span id="L418"><span class="lineNum">     418</span> <span class="tlaUNC tlaBgUNC">           0 : double SourceSNRDistribution::getAlpha() const {</span></span>

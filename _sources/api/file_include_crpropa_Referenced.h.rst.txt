@@ -30,19 +30,3 @@ Definition (``include/crpropa/Referenced.h``)
 
 
 
-
-Namespaces
-----------
-
-
-- :ref:`namespace_crpropa`
-
-
-Classes
--------
-
-
-- :ref:`exhale_class_classcrpropa_1_1ref__ptr`
-
-- :ref:`exhale_class_classcrpropa_1_1Referenced`
-

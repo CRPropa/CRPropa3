@@ -263,8 +263,10 @@ if(ENABLE_PYTHON)
 		)
 
 		if(APPLE)
-			set_target_properties(${pluginName}-swig PROPERTIES INSTALL_RPATH "@loader_path;${CMAKE_INSTALL_PREFIX}/lib")
+			set_target_properties(${pluginName}-swig PROPERTIES INSTALL_RPATH "@loader_path;${CMAKE_INSTALL_FULL_LIBDIR}")
 			set_property(TARGET ${pluginName}-swig APPEND PROPERTY LINK_FLAGS "-flat_namespace -undefined suppress")
+		else()
+			set_target_properties(${pluginName}-swig PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}")
 		endif(APPLE)
 
 	endif(Python_FOUND)

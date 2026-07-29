@@ -52,6 +52,9 @@
 %ignore operator crpropa::Grid< float >*;
 %ignore operator crpropa::Grid< double >*;
 %ignore crpropa::TextOutput::load;
+%ignore crpropa::addReferenceIf;
+%ignore crpropa::removeReferenceIf;
+%ignore crpropa::removeReferenceNoDeleteIf;
 
 %feature("ref")   crpropa::Referenced "$this->addReference();"
 %feature("unref") crpropa::Referenced "$this->removeReference();"

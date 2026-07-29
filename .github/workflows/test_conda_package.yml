@@ -46,7 +46,7 @@ jobs:
           cd conda-bld
           export CRPROPA_VERSION=$(echo ${GITHUB_REF_NAME,,} | sed 's/[\/]//g')
           conda build -m conda_build_config.yaml -c conda-forge . -k | tee build.log
-          if [ $(find ~/miniconda3/conda-bld/linux-aarch64 -name "crpropa*" | wc -l) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find ~/miniconda3/conda-bld/linux-aarch64 -name "crpropa*" | wc -l) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -82,7 +82,7 @@ jobs:
           cd conda-bld
           export CRPROPA_VERSION=$(echo ${GITHUB_REF_NAME,,} | sed 's/[\/]//g')
           conda build -m conda_build_config.yaml -c conda-forge . -k | tee build.log
-          if [ $(find /usr/share/miniconda/conda-bld/linux-64 -name "crpropa*" | wc -l) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find /usr/share/miniconda/conda-bld/linux-64 -name "crpropa*" | wc -l) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -124,7 +124,7 @@ jobs:
           cd conda-bld
           export CRPROPA_VERSION=$(echo "$GITHUB_REF_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[\/]//g')
           conda build -m conda_build_config.yaml -c conda-forge . -k | tee build.log
-          if [ $(find ~/miniconda3/conda-bld/osx-arm64 -name "crpropa*" | wc -l ) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find ~/miniconda3/conda-bld/osx-arm64 -name "crpropa*" | wc -l ) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -135,5 +135,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: "Anaconda_x64_Packages"
+          name: "Anaconda_macos_Packages"
           path: ~/miniconda3/conda-bld/osx-arm64/crpropa*

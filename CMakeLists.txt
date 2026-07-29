@@ -321,7 +321,6 @@ include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 add_library(crpropa SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/base64.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Candidate.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Clock.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Common.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Cosmology.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/EmissionMap.cpp
@@ -532,6 +531,11 @@ if(ENABLE_PYTHON AND Python_FOUND)
       INSTALL_RPATH "@loader_path;${CMAKE_INSTALL_FULL_LIBDIR}"
     )
     set_property(TARGET crpropa-swig APPEND PROPERTY LINK_FLAGS "-flat_namespace -undefined suppress")
+  else()
+    set_target_properties(crpropa-swig PROPERTIES
+      BUILD_RPATH "$<TARGET_FILE_DIR:crpropa>"
+      INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}"
+    )
   endif(APPLE)
   
 

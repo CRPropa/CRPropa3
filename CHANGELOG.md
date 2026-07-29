@@ -1,6 +1,8 @@
 ## CRPropa vNext
 
 ### Bug fixes:
+* Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
+* Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
 
 ### New features:
 * Velocities can now be smaller then light speed
@@ -17,6 +19,8 @@
 * Propagation constructors will only accept minimum and maximum times instead of length and will take them in the the same order it takes length steps now
 
 ### Removed features
+* Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)
+* Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 
 ### New plugins and resources linked on the webpages
 

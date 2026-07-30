@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-07-23 14:27:28</td>
+            <td class="headerValue">2026-07-30 13:07:59</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">54.5&nbsp;%</td>
@@ -90,8 +90,8 @@
 <span id="L28"><span class="lineNum">      28</span>              : class Referenced {</span>
 <span id="L29"><span class="lineNum">      29</span>              :         public:</span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">     3378330 :         constexpr Referenced() noexcept :</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">     3378310 :                         _referenceCount(0) {</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">     3377708 :         constexpr Referenced() noexcept :</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">     3377688 :                         _referenceCount(0) {</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :         }</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
 <span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC tlaBgUNC">           0 :         constexpr Referenced(const Referenced&amp;) noexcept :</span></span>
@@ -108,12 +108,12 @@
 <span id="L46"><span class="lineNum">      46</span>              :                         #pragma omp atomic capture</span>
 <span id="L47"><span class="lineNum">      47</span>              :                         {newRef = _referenceCount++;}</span>
 <span id="L48"><span class="lineNum">      48</span>              :                 #elif defined(__GNUC__)</span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC tlaBgGNC">    10946877 :                         newRef = __sync_add_and_fetch(&amp;_referenceCount, 1);</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC tlaBgGNC">    10945715 :                         newRef = __sync_add_and_fetch(&amp;_referenceCount, 1);</span></span>
 <span id="L50"><span class="lineNum">      50</span>              :                 #else</span>
 <span id="L51"><span class="lineNum">      51</span>              :                         #pragma omp critical(newRef)</span>
 <span id="L52"><span class="lineNum">      52</span>              :                         {newRef = _referenceCount++;}</span>
 <span id="L53"><span class="lineNum">      53</span>              :                 #endif</span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">     7571172 :                 return newRef;</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">     7570701 :                 return newRef;</span></span>
 <span id="L55"><span class="lineNum">      55</span>              :         }</span>
 <span id="L56"><span class="lineNum">      56</span>              : </span>
 <span id="L57"><span class="lineNum">      57</span>              :         #ifdef DEBUG</span>
@@ -123,23 +123,23 @@
 <span id="L61"><span class="lineNum">      61</span>              :                                         &lt;&lt; &quot;WARNING: Remove reference from Object with NO references: &quot;</span>
 <span id="L62"><span class="lineNum">      62</span>              :                                         &lt;&lt; typeid(*this).name() &lt;&lt; std::endl;</span>
 <span id="L63"><span class="lineNum">      63</span>              :         #else</span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">    10948476 :         inline size_t removeReference() const noexcept {</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">    10947383 :         inline size_t removeReference() const noexcept {</span></span>
 <span id="L65"><span class="lineNum">      65</span>              :         #endif</span>
 <span id="L66"><span class="lineNum">      66</span>              :                 int newRef;</span>
 <span id="L67"><span class="lineNum">      67</span>              :                 #if defined(OPENMP_3_1)</span>
 <span id="L68"><span class="lineNum">      68</span>              :                         #pragma omp atomic capture</span>
 <span id="L69"><span class="lineNum">      69</span>              :                         {newRef = _referenceCount--;}</span>
 <span id="L70"><span class="lineNum">      70</span>              :                 #elif defined(__GNUC__)</span>
-<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">    10948476 :                         newRef = __sync_sub_and_fetch(&amp;_referenceCount, 1);</span></span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">    10947383 :                         newRef = __sync_sub_and_fetch(&amp;_referenceCount, 1);</span></span>
 <span id="L72"><span class="lineNum">      72</span>              :                 #else</span>
 <span id="L73"><span class="lineNum">      73</span>              :                         #pragma omp critical(newRef)</span>
 <span id="L74"><span class="lineNum">      74</span>              :                         {newRef = _referenceCount--;}</span>
 <span id="L75"><span class="lineNum">      75</span>              :                 #endif</span>
 <span id="L76"><span class="lineNum">      76</span>              : </span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">    10948476 :                 if (newRef == 0) {</span></span>
-<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">     3376278 :                         delete this;</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">    10947383 :                 if (newRef == 0) {</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">     3375656 :                         delete this;</span></span>
 <span id="L79"><span class="lineNum">      79</span>              :                 }</span>
-<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">    10948476 :                 return newRef;</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">    10947383 :                 return newRef;</span></span>
 <span id="L81"><span class="lineNum">      81</span>              :         }</span>
 <span id="L82"><span class="lineNum">      82</span>              : </span>
 <span id="L83"><span class="lineNum">      83</span>              :         inline int removeReferenceNoDelete() const noexcept {</span>
@@ -174,7 +174,7 @@
 <span id="L112"><span class="lineNum">     112</span>              : template&lt;class T&gt;</span>
 <span id="L113"><span class="lineNum">     113</span>              : typename std::enable_if_t&lt;std::is_base_of&lt;Referenced, T&gt;::value&gt;</span>
 <span id="L114"><span class="lineNum">     114</span>              : inline addReferenceIf(T* ptr) noexcept {</span>
-<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC tlaBgGNC">     7571192 :         if (ptr) ptr-&gt;addReference();</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC tlaBgGNC">     7570721 :         if (ptr) ptr-&gt;addReference();</span></span>
 <span id="L116"><span class="lineNum">     116</span>              : }</span>
 <span id="L117"><span class="lineNum">     117</span>              : template&lt;class T&gt;</span>
 <span id="L118"><span class="lineNum">     118</span>              : typename std::enable_if_t&lt;!std::is_base_of&lt;Referenced, T&gt;::value&gt;</span>
@@ -183,7 +183,7 @@
 <span id="L121"><span class="lineNum">     121</span>              : template&lt;class T&gt;</span>
 <span id="L122"><span class="lineNum">     122</span>              : typename std::enable_if_t&lt;std::is_base_of&lt;Referenced, T&gt;::value&gt;</span>
 <span id="L123"><span class="lineNum">     123</span>              : inline removeReferenceIf(T* ptr) noexcept {</span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">    10906166 :         if (ptr) ptr-&gt;removeReference();</span></span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">    10905073 :         if (ptr) ptr-&gt;removeReference();</span></span>
 <span id="L125"><span class="lineNum">     125</span>              : }</span>
 <span id="L126"><span class="lineNum">     126</span>              : template&lt;class T&gt;</span>
 <span id="L127"><span class="lineNum">     127</span>              : typename std::enable_if_t&lt;!std::is_base_of&lt;Referenced, T&gt;::value&gt;</span>
@@ -224,11 +224,11 @@
 <span id="L162"><span class="lineNum">     162</span>              :          * Should not be used with stack pointer,</span>
 <span id="L163"><span class="lineNum">     163</span>              :          * so every pointer not created with a new operator.</span>
 <span id="L164"><span class="lineNum">     164</span>              :          */</span>
-<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">     3339183 :         inline ref_ptr(T* ptr) noexcept : _ptr(ptr) {</span></span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaGNC">     3338561 :         inline ref_ptr(T* ptr) noexcept : _ptr(ptr) {</span></span>
 <span id="L166"><span class="lineNum">     166</span>              :                 addReferenceIf(_ptr);</span>
 <span id="L167"><span class="lineNum">     167</span>              :         }</span>
 <span id="L168"><span class="lineNum">     168</span>              :         /** Constructor from ref_ptr with same template type */</span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">     7566505 :         inline ref_ptr(const ref_ptr&amp; rp) noexcept : _ptr(rp._ptr) {</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">     7566034 :         inline ref_ptr(const ref_ptr&amp; rp) noexcept : _ptr(rp._ptr) {</span></span>
 <span id="L170"><span class="lineNum">     170</span>              :                 addReferenceIf(_ptr);</span>
 <span id="L171"><span class="lineNum">     171</span> <span class="tlaGNC">           2 :         }</span></span>
 <span id="L172"><span class="lineNum">     172</span>              :         /** Constructor from ref_ptr with other template type, must be convertable */</span>
@@ -238,9 +238,9 @@
 <span id="L176"><span class="lineNum">     176</span>              : </span>
 <span id="L177"><span class="lineNum">     177</span>              :         /** destructor */</span>
 <span id="L178"><span class="lineNum">     178</span>              :         inline ~ref_ptr() noexcept {</span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">     7570951 :                 removeReferenceIf(_ptr);</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">     7570480 :                 removeReferenceIf(_ptr);</span></span>
 <span id="L180"><span class="lineNum">     180</span>              :                 _ptr = 0;</span>
-<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">     6675534 :         }</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">     6674290 :         }</span></span>
 <span id="L182"><span class="lineNum">     182</span>              : </span>
 <span id="L183"><span class="lineNum">     183</span>              :         /** Assign operator for ref_ptr with same template type */</span>
 <span id="L184"><span class="lineNum">     184</span>              :         inline ref_ptr&amp; operator =(const ref_ptr&amp; rp) noexcept {</span>
@@ -276,10 +276,10 @@
 <span id="L214"><span class="lineNum">     214</span>              :         }</span>
 <span id="L215"><span class="lineNum">     215</span>              : </span>
 <span id="L216"><span class="lineNum">     216</span>              :         inline T&amp; operator*() const noexcept {</span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">        6494 :                 return *_ptr;</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">        6484 :                 return *_ptr;</span></span>
 <span id="L218"><span class="lineNum">     218</span>              :         }</span>
 <span id="L219"><span class="lineNum">     219</span>              :         inline T* operator-&gt;() const noexcept {</span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">     6164373 :                 return _ptr;</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">     6174249 :                 return _ptr;</span></span>
 <span id="L221"><span class="lineNum">     221</span>              :         }</span>
 <span id="L222"><span class="lineNum">     222</span>              :         inline T* get() const {</span>
 <span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">          37 :                 return _ptr;</span></span>

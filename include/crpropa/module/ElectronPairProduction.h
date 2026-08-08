@@ -15,10 +15,36 @@ namespace crpropa {
  @class ElectronPairProduction
  @brief Electron-pair production of charged nuclei with background photons.
 
- This module simulates electron-pair production as a continuous energy loss.\n
- Several photon fields can be selected.\n
- The production of secondary e+/e- pairs and photons can by activated.\n
- By default, the module limits the step size to 10% of the energy loss length of the particle.
+ This module simulates electron-pair production (known in the literature as
+ the Bethe-Heitler process), in which a charged nucleus interacts with a
+ background photon and part of its energy is converted into an
+ electron-positron pair. Unlike photo-pion production, the nucleus itself
+ is never reassigned a new particle ID -- only its energy is reduced -- and
+ the fractional energy loss per interaction is small, so this module treats
+ the process as a continuous, deterministic energy loss applied every step,
+ rather than a discrete, randomly-sampled interaction.
+
+ Energy loss rates are precomputed as a function of nucleus Lorentz factor
+ for a given background photon field and loaded from a tabulated data file;
+ above the tabulated range the rate is extrapolated using a power law,
+ while below it no interaction is assumed. The tabulated rate (computed for
+ protons) is rescaled for general nuclei using the nuclear charge and mass
+ number, since the interaction depends on the square of the nuclear charge
+ relative to its mass; the rate is further scaled with redshift to account
+ for the evolving photon background. By default (limit = 0.1), the module
+ limits each propagation step to 10% of the local energy-loss length,
+ keeping the continuous-loss approximation accurate as conditions change
+ along the trajectory.
+
+ When secondary electron/positron pairs are activated, individual pairs are
+ stochastically sampled from a tabulated electron energy spectrum (binned
+ by nucleus Lorentz factor) until the sampled pair energies account for the
+ total energy lost in that step, with the final pair accepted
+ probabilistically if it would otherwise overshoot the remaining energy
+ budget -- ensuring the discrete secondaries remain consistent, on average,
+ with the continuous energy loss applied to the primary.
+
+ @see PhotoPionProduction, NuclearDecay, Redshift
  */
 class ElectronPairProduction: public Module {
 private:

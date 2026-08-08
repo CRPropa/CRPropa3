@@ -32,6 +32,13 @@ public:
 /**
  @class SourceInterface
  @brief Abstract base class for sources
+
+ A SourceInterface represents an astrophysical source population as a
+ generator of initial particle states. Every call to getCandidate()
+ produces exactly one new particle, with its physical properties
+ determined by whatever concrete source model is used, which is then
+ propagated through the simulation. Source and SourceList are the two
+ concrete implementations of this interface.
  */
 class SourceInterface : public Referenced {
 public:
@@ -44,9 +51,19 @@ public:
  @class Source
  @brief General source of particles
 
- This class is a container for source features.
- The source prepares a new candidate by passing it to all its source features
- to be modified accordingly.
+ The Source class assembles a concrete source model by composition rather
+ than inheritance: it is a container of independent SourceFeature objects,
+ each responsible for setting one physical property of the emitted
+ particle -- for example SourcePosition or SourceUniformSphere for spatial
+ emission geometry, SourceEnergy or SourcePowerLawSpectrum for the
+ injected energy, SourceComposition for nuclear species, and
+ SourceIsotropicEmission or SourceDirectedEmission for the emission
+ direction. Features are registered with add(); when getCandidate() is
+ later called, a new candidate is created and passed through every
+ registered feature in turn, so the resulting particle carries the
+ combined effect of all the features that were attached -- letting a wide
+ range of source scenarios be built from a small set of reusable building
+ blocks rather than requiring a dedicated class per scenario.
  */
 class Source: public SourceInterface {
 	std::vector<ref_ptr<SourceFeature> > features;

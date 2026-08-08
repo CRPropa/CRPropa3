@@ -15,11 +15,22 @@ namespace crpropa {
  @class NuclearDecay
  @brief Nuclear decay of unstable nuclei.
 
- This module simulates the nuclear decay of unstable nuclei using data from NuDat2.
- All decay modes are considered: alpha, beta+- and gamma decay, as well as proton- and neutron dripping.
- The resulting non-hadronic secondary particles (e+, e-, neutrinos, gamma) can optionally be created.
+ Ultra-high-energy nuclei that survive photodisintegration and photo-pion
+ losses may still be radioactively unstable in their own rest frame. Because
+ decay is a clock-like process, a nucleus with Lorentz factor gamma decays
+ gamma times more slowly in the lab frame than in its rest frame, so the
+ lab-frame decay length scales as lambda = gamma * c * tau, where tau is the
+ nucleus' rest-frame lifetime -- meaning higher-energy nuclei can travel
+ proportionally farther before decaying. All decay modes are considered:
+ alpha, beta+/- and gamma decay, as well as proton- and neutron-dripping; a
+ single tabulated decay channel may bundle several of these modes together
+ (e.g. a beta-minus decay accompanied by an alpha decay). The resulting
+ non-hadronic secondary particles (e+, e-, neutrinos, gamma) can optionally
+ be created.
 
- For details on the preprocessing of the NuDat2 data refer to "CRPropa3-data/calc_decay.py".
+ Decay rates and gamma-line data are taken from the NuDat2 nuclear structure
+ database; for details on the preprocessing refer to
+ "CRPropa3-data/calc_decay.py".
  */
 class NuclearDecay: public Module {
 private:
@@ -33,7 +44,7 @@ private:
 		std::vector<double> energy; // photon energies of ensuing gamma decays
 		std::vector<double> intensity; // probabilities of ensuing gamma decays
 	};
-	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
+	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * NUCLEAR_NSTRIDE + N] = vector<DecayMode>
 	std::string interactionTag = "ND";
 
 public:

@@ -40,6 +40,47 @@ public:
 /**
  @class Observer
  @brief General particle observer
+
+ In a UHECR propagation simulation, particles are stepped forward through a
+ (potentially enormous) simulated volume, but only a small fraction of that
+ trajectory is of physical interest -- for instance, the moment a particle
+ crosses a boundary representing an observer's position, or enters a
+ specific region of interest. The Observer class implements this selection:
+ attached to the simulation, it checks at every propagation step whether
+ the current particle satisfies one or more detection conditions, similar
+ in spirit to a detector in a physical experiment recording only the
+ particles that actually reach it.
+
+ Multiple ObserverFeature conditions can be attached to one Observer, each
+ independently classifying a particle as DETECTED, VETO, or having no
+ opinion (NOTHING) -- for example, ObserverSurface for a bounding geometry,
+ or veto-type features that suppress detection under certain conditions
+ (e.g. an inactive candidate, or a specific particle type). A single VETO
+ from any feature overrides a DETECTED result from any other, regardless
+ of the order in which features are checked, so vetoes act as a safeguard
+ against reporting particles that satisfy a detection condition but
+ shouldn't actually count as observed. Only when the combined result is
+ DETECTED are any attached actions triggered: each feature's own
+ onDetection() hook runs, an optional user-supplied output module can
+ process the candidate (optionally on a cloned copy, leaving the original
+ still propagating), a property flag can be set on the candidate, and --
+ if configured via setDeactivateOnDetection() -- the candidate can be
+ deactivated so it is no longer propagated further, the standard way of
+ stopping a particle's simulation once it has effectively "arrived" at the
+ observer.
+
+ Because a DETECTED result from a single feature is enough to trigger the
+ observer's actions -- provided no other feature returns VETO -- different
+ ObserverFeature types are often combined on one Observer to express a
+ compound condition (e.g. a detection surface plus a veto that excludes
+ certain particle types). For genuinely independent observation goals,
+ separate Observer instances are typically used instead -- for example,
+ one Observer using ObserverTracking to record a particle's full
+ trajectory through a region, alongside a separate Observer using
+ ObserverSurface to stop propagation once the particle exits the
+ simulated volume.
+
+ @see ObserverFeature, ObserverSurface, ObserverTracking, Source
  */
 class Observer: public Module {
 	std::string flagKey;

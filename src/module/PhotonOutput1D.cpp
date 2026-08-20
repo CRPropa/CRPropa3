@@ -10,7 +10,7 @@
 #include "kiss/logger.h"
 
 #ifdef CRPROPA_HAVE_ZLIB
-#include <ozstream.hpp>
+#include "zlib/ozstream.hpp"
 #endif
 
 using namespace std;

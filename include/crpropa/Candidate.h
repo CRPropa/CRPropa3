@@ -3,13 +3,13 @@
 
 #include "crpropa/ParticleState.h"
 #include "crpropa/Referenced.h"
-#include "crpropa/AssocVector.h"
 #include "crpropa/Variant.h"
 
 #include <vector>
 #include <map>
 #include <sstream>
 #include <stdint.h>
+#include <unordered_map>
 
 namespace crpropa {
 /**
@@ -33,7 +33,7 @@ public:
 
 	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles from interactions */
 
-	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
+	typedef std::unordered_map<std::string, Variant> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
 	/** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */

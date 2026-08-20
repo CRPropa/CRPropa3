@@ -6,7 +6,7 @@
 #include "crpropa/Vector3.h"
 #include "crpropa/Geometry.h"
 
-#include <nanoflann.hpp>
+#include "nanoflann/nanoflann.hpp"
 
 #include <vector>
 #include <string>

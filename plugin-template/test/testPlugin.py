@@ -13,7 +13,7 @@ try:
     import numpy as np
 except:
     print("***********************************************************")
-    print("* WARNING!! Couldn't import numpy framework! *")
+    print("* WARNING!! Couldn't import numpy framework!              *")
     print("* No python tests have been executed                      *")
     print("***********************************************************")
     sys.exit(-1)
@@ -36,8 +36,8 @@ class myPluginTests(unittest.TestCase):
 	def testSimpleSimulation(self):
 		ml = crpropa.ModuleList()
 
-		ml.add(crpropa.SimplePropagation(1*crpropa.parsec, 100*crpropa.parsec))
-		ml.add(crpropa.MaximumTrajectoryLength(1000*crpropa.parsec))
+		ml.add(crpropa.SimplePropagation(1 * crpropa.parsec, 100 * crpropa.parsec))
+		ml.add(crpropa.MaximumTrajectoryLength(1000 * crpropa.parsec))
 		ml.add(myPlugin.MyModule())
 
 		# Preparing source

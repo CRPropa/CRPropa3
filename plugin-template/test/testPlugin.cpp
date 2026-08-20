@@ -3,31 +3,33 @@
 
 #include "gtest/gtest.h"
 
-// with this expression we do not need to write crpropa:: 
-// for everything out of the crpropa namespace
+
+
+// With this expression we do not need to write `crpropa::` for everything out of the crpropa namespace
 using namespace crpropa;
 
 // create a test over TEST(ModuleToTest, WhatToTest){}
-TEST(MyModule, SimpleTest){
+TEST(MyModule, SimpleTest) {
 
-	ModuleList SIM;
+	ModuleList sim;
+	sim.add(new SimplePropagation(1 * pc, 1 * pc));
+	sim.add(new MaximumTrajectoryLength(1000 * pc));
+	sim.add(new myPlugin::MyModule());
 
-	SIM.add(new SimplePropagation(1*pc, 1*pc));
-	SIM.add(new MaximumTrajectoryLength(1000*pc));
-	SIM.add(new myPlugin::MyModule());
-
-	// define source to test this module and get candidate with correct
-	// flag out of there
+	// define source to test this module and get candidate with correct flag out of there
 	Source source;
-	// AddMyProperty is added in plugin.h but under the crpropa namespace:
-	source.add(new AddMyProperty());
-	ref_ptr<Candidate> Cand = source.getCandidate();
-	EXPECT_EQ(Cand->getProperty("counter"), uint32_t(0));
 
-	SIM.run(Cand);
+	// `AddMyProperty` is added in plugin.h but under the crpropa namespace:
+	source.add(new AddMyProperty());
+	
+	// check if the candidate has the correct property set by the source
+	ref_ptr<Candidate> cand = source.getCandidate();
+	EXPECT_EQ(cand->getProperty("counter"), uint32_t(0));
+
+	sim.run(cand);
 
 	// in a test you can test your values like this:
-	EXPECT_EQ(Cand->getProperty("counter"), uint32_t(1000));
+	EXPECT_EQ(cand->getProperty("counter"), uint32_t(1000));
 	// but there are many more such EXPECT expressions
 }
 

@@ -26,7 +26,9 @@ cmake .. -G Ninja \
 	-DENABLE_TESTING=ON \
 	-DFAST_WAVES="${FAST_WAVES}" \
 	-DOMP_SCHEDULE=dynamic \
-	-DSIMD_EXTENSIONS="${SIMD_EXTENSIONS}"
+	-DSIMD_EXTENSIONS="${SIMD_EXTENSIONS}" \
+	-DUSE_ABSOLUTE_RPATH=ON \
+	-DCRPROPA_TESTS_PATH="${PREFIX}/share/crpropa/test/"
 cmake --build .
 cmake --install .
 $PREFIX/bin/pybind11-stubgen -o ${SP_DIR} crpropa

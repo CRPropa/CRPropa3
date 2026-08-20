@@ -58,7 +58,7 @@ jobs:
             --user $accountName \
             --token $token \
             | tee build.log
-          if [ $(find ~/miniconda3/conda-bld/linux-aarch64 -name "crpropa*" | wc -l) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find ~/miniconda3/conda-bld/linux-aarch64 -name "crpropa*" | wc -l) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -95,7 +95,7 @@ jobs:
             --user $accountName \
             --token $token \
             | tee build.log
-          if [ $(find /usr/share/miniconda/conda-bld/linux-64 -name "crpropa*" | wc -l) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find /usr/share/miniconda/conda-bld/linux-64 -name "crpropa*" | wc -l) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -138,7 +138,7 @@ jobs:
             --user $accountName \
             --token $token \
             | tee build.log
-          if [ $(find ~/miniconda3/conda-bld/osx-arm64 -name "crpropa*" | wc -l ) = 5 ]; then echo Success! ; else exit 1; fi
+          if [ $(find ~/miniconda3/conda-bld/osx-arm64 -name "crpropa*" | wc -l ) = 10 ]; then echo Success! ; else exit 1; fi
       - name: Archive Build Logs
         if: always()
         uses: actions/upload-artifact@v7

@@ -22,6 +22,8 @@ struct NuclearMassTable {
 	}
 
 	void init() {
+		if(initialized)
+			return;
 		std::string filename = getDataPath("nuclear_mass.txt");
 		std::ifstream infile(filename.c_str());
 

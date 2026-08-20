@@ -4,7 +4,7 @@ mkdir -p  $PREFIX/share/crpropa &> /dev/null  # eliminate possible warning outpu
 cd $PREFIX/share/crpropa
 #define CRPROPA_DATA_VERSION "2024-04-30"
 CRPROPA_DATAFILE_VER=$(cat $PREFIX/include/crpropa/Version.h | grep --extended-regexp "#define +CRPROPA_DATA_VERSION +.+" | sed -E "s/#define +CRPROPA_DATA_VERSION +\"//g" | sed -E "s/\"//g")
-USERPWD=3juW9sntQX2IWBS
+USERPWD=Nag8KQLoCjpG5es
 
 # download data
 curl -u $USERPWD:$USERPWD -O https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM

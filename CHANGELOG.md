@@ -1,15 +1,37 @@
 ## CRPropa vNext
 
 ### Bug fixes:
-* Fixed the secondariesFirst parameter not actually allowing secondary particles to be propagated before the primary
-* threshold calculation in PhotoPionProduction
+* Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
+* Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
+
+### New features:
+
+### Interface changes:
+
+### Features that are deprecated and will be removed after this release
+
+### Removed features
+* Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)
+* Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
+
+### New plugins and resources linked on the webpages
+
+
+## CRPropa 3.3
+
+### Bug fixes:
+* Fixed the secondariesFirst parameter not actually allowing secondary particles to be propagated before the primary 
+* Threshold calculation in PhotoPionProduction
+* Bug fixed when generating python binding for variants with some specific compilers (e.g., clang-llvm 21).
 
 ### New features:
 
 * Improved plugin-template and added test to ensure the template is working
 * Added position-dependent photon fields
 * Secondaries are now distributed over multiple threads if OpenMP parallelisation is enabled
+* Advanced CMake finder for CRPropa, to be used with plugins.
 * Exposed `getRate` function for electromagnetic interactions
+
 
 ### Interface changes:
 

@@ -7,16 +7,18 @@
 
 #include "kiss/string.h"
 
+#ifdef CRPROPA_HAVE_ZLIB
+#include "zlib/izstream.hpp"
+#include "zlib/ozstream.hpp"
+#endif
+
 #include <sstream>
 #include <cstdio>
 #include <cinttypes>
 #include <stdexcept>
 #include <iostream>
 
-#ifdef CRPROPA_HAVE_ZLIB
-#include <izstream.hpp>
-#include <ozstream.hpp>
-#endif
+
 
 namespace crpropa {
 

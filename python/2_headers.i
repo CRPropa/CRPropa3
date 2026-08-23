@@ -394,6 +394,7 @@
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"
 %include "crpropa/module/PhotoPionProduction.h"
+%include "crpropa/module/PhotoPionProductionEmpirical.h"
 %include "crpropa/module/PhotoDisintegration.h"
 %include "crpropa/module/ElasticScattering.h"
 %include "crpropa/module/Redshift.h"

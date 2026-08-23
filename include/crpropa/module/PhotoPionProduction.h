@@ -115,8 +115,10 @@ public:
 		double limit = 0.1,
 		bool haveRedshiftDependence = false);
 
+	virtual ~PhotoPionProduction() override = default;
+
 	// set the target photon field
-	void setPhotonField(ref_ptr<PhotonField> photonField);
+	virtual void setPhotonField(ref_ptr<PhotonField> photonField);
 
 	// decide if secondary photons are added to the simulation
 	void setHavePhotons(bool b);
@@ -158,9 +160,9 @@ public:
 	 * @param A		mass number of the nucleus
 	 * @param X 	charge number of the nucleus
 	 */
-	double nucleiModification(int A, int X) const;
-	void process(Candidate *candidate) const;
-	void performInteraction(Candidate *candidate, bool onProton) const;
+	virtual double nucleiModification(int A, int X) const;
+	virtual void process(Candidate *candidate) const;
+	virtual void performInteraction(Candidate *candidate, bool onProton) const;
 
 	/**
 	 Calculates the loss length E dx/dE in [m].
@@ -169,7 +171,7 @@ public:
 	 @param gamma	Lorentz factor of particle
 	 @param z		redshift
 	 */
-	double lossLength(int id, double gamma, double z = 0);
+	virtual double lossLength(int id, double gamma, double z = 0);
 
 	/**
 	 Direct SOPHIA interface.

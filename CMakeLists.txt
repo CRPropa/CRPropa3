@@ -479,6 +479,11 @@ if(ENABLE_PYTHON AND Python_FOUND)
     endif(BUILD_DOC AND DOXYGEN_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
+  if(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+    # Use -nogil to tell compiler we do not need builtin threadsafety
+    list(APPEND CRPROPA_SWIG_DEFINES -nogil)
+  endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+
   if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
     # with swig 4.5 we can generate stub files directly with swig
     list(APPEND CRPROPA_SWIG_DEFINES -pyi)
@@ -510,7 +515,7 @@ if(ENABLE_PYTHON AND Python_FOUND)
     PROPERTIES
     CPLUSPLUS ON
     SWIG_MODULE_NAME "crpropa"
-    SWIG_FLAGS "${CRPROPA_SWIG_DEFINES};-dirprot;-nogil;-threads;${CMAKE_SWIG_FLAGS}"
+    SWIG_FLAGS "${CRPROPA_SWIG_DEFINES};-dirprot;-threads;${CMAKE_SWIG_FLAGS}"
     DEPENDS "${CRPROPA_SWIG_INPUTS};${CRPROPA_INCLUDES}"
     OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}
   )

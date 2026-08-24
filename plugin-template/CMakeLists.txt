@@ -226,6 +226,11 @@ if(ENABLE_PYTHON)
 			set(BUILTIN "")
 		endif(ENABLE_SWIG_BUILTIN)
 
+		if(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+			# Use -nogil to tell compiler we do not need builtin threadsafety
+    		list(APPEND ${pluginName}_SWIG_DEFINES -nogil)
+		endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+
 		if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
 			# with swig 4.5 we can generate stub files directly with swig
 			list(APPEND ${pluginName}_SWIG_DEFINES -pyi)
@@ -242,7 +247,7 @@ if(ENABLE_PYTHON)
 			PROPERTIES
 			CPLUSPLUS ON
 			SWIG_MODULE_NAME "${pluginName}"
-			SWIG_FLAGS "${${pluginName}_SWIG_DEFINES};-dirprot;-nogil;-threads;${CMAKE_SWIG_FLAGS}"
+			SWIG_FLAGS "${${pluginName}_SWIG_DEFINES};-dirprot;-threads;${CMAKE_SWIG_FLAGS}"
 			OUTPUT_DIR "${${pluginName}_PYTHON_PACKAGE_DIR}"
 			INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include;${CRPropa_SWIG_INTERFACE_FILES};${${pluginName}_EXTRA_INCLUDES};"
 		)

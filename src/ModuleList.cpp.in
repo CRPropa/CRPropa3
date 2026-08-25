@@ -79,7 +79,7 @@ void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst
 			}
 
 			// increase counter of already tasked secondaries
-			taskedSecondaries += candidate->secondaries.size();
+			taskedSecondaries = candidate->secondaries.size();
 			
 			// wait for completion of tasked secondaries or continue with primary
 			if (waitForSecondaries) {

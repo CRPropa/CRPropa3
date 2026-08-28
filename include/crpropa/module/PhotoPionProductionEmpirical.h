@@ -65,10 +65,25 @@ public:
 	enum DecayMode {
 		/** at the interaction vertex, as the SOPHIA-based module does */
 		PromptDecay = 0,
-		/** offset by beta*gamma*c*tau along the parent direction.  Purely
-		 geometric: CRPropa does not propagate mesons, so there is no energy loss,
-		 magnetic deflection or cooling during the flight.  Negligible for
-		 extragalactic propagation, relevant for compact source geometries. */
+		/** Offset by beta*gamma*c*tau along the parent direction. Purely
+		 geometric so there is NO energy loss, nor magnetic deflection or 
+		 cooling during the flight.
+
+		 Whether that is acceptable follows from two numbers: The displacement is
+		 gamma*c*tau, with c*tau = 7.80 m (pi+-), 3.71 m (K+-) and 658.6 m (mu+-),
+		 so per GeV of secondary energy the flight is 55.9 m, 7.5 m and 6234 m
+		 respectively (the muon dominates the chain).  A 1 EeV muon travels
+		 2e-10 Mpc, which is negligible for extragalactic propagation.
+
+		 However, it may be geometrically relevant in compact sources. Synchrotron 
+		 cooling overtakes decay above E_crit ~ 5.9 EeV / B[G] for muons and 
+		 ~110 EeV / B[G] for charged pions (E_crit scales as 1/B).  So for B >~ 1 G
+		 the mesons this mode carries at fixed energy should in reality have cooled 
+		 before decaying, and the resulting neutrinos come out too hard. 
+		 Modelling this properly requires mesons to be propagated candidates.
+
+		 Rule of thumb: safe wherever it is also pointless; use it for vertex
+		 geometry, not to make source neutrino spectra more realistic. */
 		DisplacedDecay = 1
 	};
 

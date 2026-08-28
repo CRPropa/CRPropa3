@@ -7,6 +7,7 @@
 #include "crpropa/module/PhotoDisintegration.h"
 #include "crpropa/module/ElasticScattering.h"
 #include "crpropa/module/PhotoPionProduction.h"
+#include "crpropa/module/PhotoPionProductionEmpirical.h"
 #include "crpropa/module/Redshift.h"
 #include "crpropa/module/EMPairProduction.h"
 #include "crpropa/module/EMDoublePairProduction.h"
@@ -16,6 +17,7 @@
 #include "gtest/gtest.h"
 #include "kiss/path.h"
 
+#include <cmath>
 #include <fstream>
 
 namespace crpropa {
@@ -928,6 +930,297 @@ TEST(PhotoPionProduction, interactionTag) {
 	// test custom interactionTag
 	ppp.setInteractionTag("myTag");
 	EXPECT_TRUE(ppp.getInteractionTag() == "myTag");
+}
+
+// PhotoPionProductionEmpirical -----------------------------------------------
+// The empirical photomeson model of Morejon et al. (2019). 
+// For A = 1 it should reproduce SOPHIA's full kinematics. 
+// The tests below cover the most important aspects of the implementation.
+
+static void sumFinalState(const Candidate &c, int &A, int &Z, double &E) {
+	// Sum of A, Z and E over the residual and all secondaries.
+	A = massNumber(c.current.getId());
+	Z = chargeNumber(c.current.getId());
+	E = c.current.getEnergy();
+	for (size_t i = 0; i < c.secondaries.size(); i++) {
+		int id = c.secondaries[i]->current.getId();
+		E += c.secondaries[i]->current.getEnergy();
+		if (isNucleus(id)) {
+			A += massNumber(id);
+			Z += chargeNumber(id);
+		} else if (abs(id) == 11) {
+			Z += (id > 0) ? -1 : 1;  // e- carries -1
+		}
+	}
+}
+
+TEST(PhotoPionProductionEmpirical, allBackgrounds) {
+	// This integrates the field itself on runtime. So this check 
+	// verifies that this integration works for multiple fields.
+	std::vector<ref_ptr<PhotonField> > fields;
+	fields.push_back(new CMB());
+	fields.push_back(new IRB_Kneiske04());
+	fields.push_back(new IRB_Gilmore12());
+	fields.push_back(new URB_Protheroe96());
+	fields.push_back(new BlackbodyPhotonField("notShipped", 3.0));
+
+	PhotoPionProductionEmpirical m(fields[0]);
+	// log10(gamma) = 13.9 is high enough, so every field here 
+	// gives a nonzero rate
+	const double gamma = pow(10, 13.9);
+
+	std::vector<double> rates;
+	for (size_t i = 0; i < fields.size(); i++) {
+		m.setPhotonField(fields[i]);
+		double rate = m.getRate(1, 1, gamma, 0);
+		EXPECT_TRUE(std::isfinite(rate));
+		EXPECT_GT(rate, 0.);
+		rates.push_back(rate);
+	}
+
+	// verify the rates don't just reuse the first one
+	for (size_t i = 1; i < rates.size(); i++)
+		EXPECT_NE(rates[0], rates[i]);
+
+	// and it has to be deterministic: going back to a field reproduces its rate
+	m.setPhotonField(fields[0]);
+	EXPECT_DOUBLE_EQ(m.getRate(1, 1, gamma, 0), rates[0]);
+}
+
+TEST(PhotoPionProductionEmpirical, nucleonRateMatchesSophia) {
+	// The empirical model's nucleon cross section should match 
+	// SOPHIA's, so it is compared to the rate built at construction
+	// must reproduce CRPropa's rate table for SOPHIA.
+	ref_ptr<PhotonField> cmb = new CMB();
+	PhotoPionProductionEmpirical m(cmb);
+	PhotoPionProduction ppp(cmb);
+	for (double lg = 11.0; lg <= 13.5; lg += 0.5) {
+		double gamma = pow(10, lg);
+		double empirical = m.getRate(1, 1, gamma, 0);
+		double sophia = 1. / ppp.nucleonMFP(gamma, 0, true);
+		EXPECT_NEAR(empirical / sophia, 1., 0.05)
+			<< "log10(gamma) = " << lg << ", deviation "
+			<< 100 * (empirical / sophia - 1) << "% (typically +0.4 to +3.9%, from the"
+				" two codes discretising the same eps_r integral differently)";
+	}
+}
+
+TEST(PhotoPionProductionEmpirical, protonMatchesSophia) {
+	// For A = 1 the empirical model should match SOPHIA results, including the final state after interactions, the spectra in
+	// energy fraction x and the implemented pi/K/mu decay chain.
+	// This test compares to SOPHIA's full kinematics.
+	ref_ptr<PhotonField> cmb = new CMB();
+	PhotoPionProductionEmpirical m(cmb, true, true, true);
+	PhotoPionProduction ppp(cmb, true, true, true);
+	const double E0 = 1e11 * GeV;
+	const int n = 4000;
+	double lead[2] = {0, 0}, nNu[2] = {0, 0}, eNu[2] = {0, 0};
+	for (int which = 0; which < 2; which++) {
+		for (int i = 0; i < n; i++) {
+			Candidate c(nucleusId(1, 1), E0);
+			if (which == 0) m.performInteraction(&c, true);
+			else ppp.performInteraction(&c, true);
+			lead[which] += c.current.getEnergy() / E0;
+			for (size_t j = 0; j < c.secondaries.size(); j++) {
+				int id = abs(c.secondaries[j]->current.getId());
+				if (id == 12 || id == 14) {
+					nNu[which] += 1;
+					eNu[which] += c.secondaries[j]->current.getEnergy() / E0;
+				}
+			}
+		}
+	}
+	EXPECT_NEAR(lead[0] / lead[1], 1., 0.03);
+	EXPECT_NEAR(nNu[0] / nNu[1], 1., 0.05);
+	EXPECT_NEAR(eNu[0] / eNu[1], 1., 0.08);
+}
+
+TEST(PhotoPionProductionEmpirical, ironNonelasticScaling) {
+	// Above 1.2 GeV the empirical cross section is (Z * sp + N * sn) A^(alpha-1)
+	// and alpha saturates at 0.66, so iron is shadowed by 56^-0.34 relative
+	// to a superposition of free nucleons.
+	PhotoPionProductionEmpirical m(new CMB());
+	double eps = m.getEnergyBin(140);  // eps_r = 2.8e4 GeV, where alpha = 0.66
+	double iron = m.crossection(eps, 56, 26);
+	double superposition = 26 * m.crossection(eps, 1, 1) + 30 * m.crossection(eps, 1, 0);
+	EXPECT_NEAR(iron / superposition, pow(56., -0.34), 1e-3);
+}
+
+TEST(PhotoPionProductionEmpirical, ironPionSuppressionAndEnhancement) {
+	// In the Empirical model, the pion yield scales with a different
+	// exponent than the total cross section: suppressed near threshold,
+	// enhanced at high energy.
+	PhotoPionProductionEmpirical m(new CMB());
+	double lowE = m.pionScaling(m.getEnergyBin(20), 56, 26);
+	double highE = m.pionScaling(m.getEnergyBin(140), 56, 26);
+	EXPECT_LT(lowE, 0.6);           // ~56^(alpha_pi - 1) with the fade
+	EXPECT_NEAR(highE, 1., 1e-3);   // alpha_pi -> 1
+	// a free nucleon is never scaled, at any energy
+	EXPECT_DOUBLE_EQ(m.pionScaling(m.getEnergyBin(20), 1, 1), 1.);
+	EXPECT_DOUBLE_EQ(m.pionScaling(m.getEnergyBin(140), 1, 1), 1.);
+}
+
+TEST(PhotoPionProductionEmpirical, meanMassLoss) {
+	// The Empirical model includes fragmentation effects, leading to
+	// <dA> ~ 5.8 for Fe-56, while <dA> = 1 for the superposition
+	// treatment of PhotoPionProduction. 
+	// Checked twice: the value the fragmentation table carries, and 
+	// the value obtained from sampled events, which would diverge if
+	// channel selection was weighted wrongly.
+	PhotoPionProductionEmpirical m(new CMB(), true, true, true);
+	double dA = 0, dZ = 0;
+	m.getMeanFragmentBudget(56, 26, dA, dZ);
+	EXPECT_NEAR(dA, 5.815, 0.2);
+	EXPECT_GT(dZ, 0.);
+	EXPECT_LT(dZ, dA);
+
+	const int n = 1000;
+	double sampled = 0;
+	for (int i = 0; i < n; i++) {
+		Candidate c(nucleusId(56, 26), 200 * EeV);
+		m.performInteraction(&c, true);
+		int lost = 56 - massNumber(c.current.getId());
+		EXPECT_GT(lost, 0) << "the nucleus was not broken up at all";
+		sampled += lost;
+	}
+	// standard deviation sd(dA) ~ 5.5, so the standard error at 
+	// n = 1000 is ~0.17; 0.6 is ~3 sigma
+	EXPECT_NEAR(sampled / n, dA, 0.6) << "sampled <dA> disagrees with the table";
+
+	// also checking lead, when the loaded table reaches it
+	m.getMeanFragmentBudget(208, 82, dA, dZ);
+	if (dA > 0) {
+		EXPECT_GT(dA, 1.);
+		EXPECT_LT(dA, 104.);
+	}
+}
+
+TEST(PhotoPionProductionEmpirical, conservation) {
+	// Mass and charge are balanced by the fragmentation channel,
+	// energy is balanced by giving the residual the released energy
+	// from the struck nucleons not taken by the mesons.
+	// All three must hold event by event, for every mass the loaded
+	// fragmentation table covers. Here tested: a free nucleon (which
+	// takes its own branch), a light nucleus, iron, and lead if the
+	// table reaches that mass.
+	PhotoPionProductionEmpirical m(new CMB(), true, true, true);
+	const int nuclei[4][2] = {{1, 1}, {16, 8}, {56, 26}, {208, 82}};
+	const double gamma = 4e11;
+	for (size_t k = 0; k < 4; k++) {
+		const int Ain = nuclei[k][0], Zin = nuclei[k][1];
+		double dA = 0, dZ = 0;
+		m.getMeanFragmentBudget(Ain, Zin, dA, dZ);
+		if (Ain > 1 and dA <= 0)
+			continue;   // table does not cover this mother
+		for (int i = 0; i < 800; i++) {
+			Candidate c(nucleusId(Ain, Zin), gamma * Ain * mass_proton * c_squared);
+			c.previous.setPosition(Vector3d(0, 0, 0));
+			c.current.setPosition(Vector3d(1 * Mpc, 0, 0));
+			double eIn = c.current.getEnergy();
+			m.performInteraction(&c, true);
+			int A, Z; double eOut;
+			sumFinalState(c, A, Z, eOut);
+			EXPECT_EQ(A, Ain) << "mass not conserved for A = " << Ain;
+			EXPECT_EQ(Z, Zin) << "charge not conserved for A = " << Ain;
+			EXPECT_NEAR(eOut / eIn, 1., 1e-9) << "energy not conserved for A = " << Ain;
+		}
+	}
+	EXPECT_EQ(m.getChargeViolationCount(), 0u);
+}
+
+TEST(PhotoPionProductionEmpirical, deltaResonanceSingleMeson) {
+	// Near the Delta peak the mean pion yield is below one and the
+	// kinematics allow a single pion. FloorBernoulli sampling must
+	// never produce two; unlike Poisson sampling.
+	PhotoPionProductionEmpirical m(new CMB(), true, false, false);
+	double eps = m.getEnergyBin(20);   // ~0.34 GeV
+	for (int i = 0; i < 1000; i++) {
+		Candidate c(nucleusId(1, 1), 100 * EeV);
+		m.performInteraction(&c, eps);
+		int photons = 0;
+		for (size_t j = 0; j < c.secondaries.size(); j++)
+			if (c.secondaries[j]->current.getId() == 22)
+				photons++;
+		EXPECT_LE(photons, 2);   // at most one pi0 -> 2 gamma
+	}
+}
+
+TEST(PhotoPionProductionEmpirical, secondaries) {
+	PhotoPionProductionEmpirical m(new CMB(), true, true, true);
+	bool photon = false, neutrino = false, electron = false;
+	for (int i = 0; i < 200; i++) {
+		Candidate c(nucleusId(56, 26), 500 * EeV);
+		m.performInteraction(&c, true);
+		for (size_t j = 0; j < c.secondaries.size(); j++) {
+			int id = abs(c.secondaries[j]->current.getId());
+			if (id == 22) photon = true;
+			if (id == 12 || id == 14) neutrino = true;
+			if (id == 11) electron = true;
+		}
+	}
+	EXPECT_TRUE(photon);
+	EXPECT_TRUE(neutrino);
+	EXPECT_TRUE(electron);
+
+	// with the flags off only nuclei come out
+	PhotoPionProductionEmpirical quiet(new CMB());
+	for (int i = 0; i < 200; i++) {
+		Candidate c(nucleusId(56, 26), 500 * EeV);
+		quiet.performInteraction(&c, true);
+		for (size_t j = 0; j < c.secondaries.size(); j++)
+			EXPECT_TRUE(isNucleus(c.secondaries[j]->current.getId()));
+	}
+}
+
+TEST(PhotoPionProductionEmpirical, decayMode) {
+	// DisplacedDecay offsets the decay products along the parent direction;
+	// PromptDecay puts everything at the interaction vertex. The offset is
+	// geometric only, see the DecayMode enum for the scaling and for when the
+	// omitted meson cooling makes the flag inappropriate.
+	PhotoPionProductionEmpirical m(new CMB(), true, true, true);
+	m.setDecayMode(PhotoPionProductionEmpirical::DisplacedDecay);
+	EXPECT_EQ(m.getDecayMode(), PhotoPionProductionEmpirical::DisplacedDecay);
+	bool displaced = false;
+	for (int i = 0; i < 200 && !displaced; i++) {
+		Candidate c(nucleusId(1, 1), 1000 * EeV);
+		c.previous.setPosition(Vector3d(0, 0, 0));
+		c.current.setPosition(Vector3d(0, 0, 0));
+		c.current.setDirection(Vector3d(1, 0, 0));
+		m.performInteraction(&c, true);
+		for (size_t j = 0; j < c.secondaries.size(); j++)
+			if (c.secondaries[j]->current.getPosition().getR() > 0)
+				displaced = true;
+	}
+	EXPECT_TRUE(displaced);
+}
+
+TEST(PhotoPionProductionEmpirical, thisIsNotNucleonic) {
+	PhotoPionProductionEmpirical m(new CMB());
+	Candidate c(11, 100 * EeV);
+	c.setCurrentStep(100 * Mpc);
+	m.process(&c);
+	EXPECT_EQ(11, c.current.getId());
+	EXPECT_DOUBLE_EQ(100 * EeV, c.current.getEnergy());
+	EXPECT_EQ(0u, c.secondaries.size());
+}
+
+TEST(PhotoPionProductionEmpirical, limitNextStep) {
+	PhotoPionProductionEmpirical m(new CMB());
+	Candidate c(nucleusId(1, 1), 200 * EeV);
+	c.setNextStep(std::numeric_limits<double>::max());
+	m.process(&c);
+	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(PhotoPionProductionEmpirical, interactionTag) {
+	PhotoPionProductionEmpirical m(new CMB(), true, true, true);
+	EXPECT_TRUE(m.getInteractionTag() == "PPPE");
+	Candidate c(nucleusId(56, 26), 200 * EeV);
+	m.performInteraction(&c, true);
+	ASSERT_GT(c.secondaries.size(), 0u);
+	EXPECT_TRUE(c.secondaries[0]->getTagOrigin() == "PPPE");
+	m.setInteractionTag("myTag");
+	EXPECT_TRUE(m.getInteractionTag() == "myTag");
 }
 
 // Redshift -------------------------------------------------------------------

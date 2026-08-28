@@ -17,7 +17,7 @@ to verify the exposed functions work correctly through the bindings.
 
 The data tables are produced by the CRPropa3-data repository. When they are 
 missing the module raises a RuntimeError pointing at 
-doc/photomesonEmpirical/README.md, which documents where they come from and
+doc/pages/PhotoPionProductionEmpirical.md, which documents where they come from and
 how to point CRPROPA_DATA_PATH at them; every test here turns that into a skip,
 so a checkout without the tables reports skipped rather than failed.
 """
@@ -87,6 +87,15 @@ class TestPhysics(unittest.TestCase):
         superposition = 26 * m.crossection(eps, 1, 1) + 30 * m.crossection(eps, 1, 0)
         self.assertAlmostEqual(m.crossection(eps, 56, 26) / superposition,
                                56 ** -0.34, delta=1e-3)
+
+    def test_iron_mean_mass_loss(self):
+        m = _module()
+        dA, dZ = m.getMeanFragmentBudget(56, 26)
+        self.assertAlmostEqual(dA, 5.815, delta=0.2)
+        self.assertGreater(dZ, 0.0)
+        self.assertLess(dZ, dA)
+        # a free nucleon has no fragmentation table entry
+        self.assertEqual(m.getMeanFragmentBudget(1, 1), [0.0, 0.0])
 
     def test_iron_pion_scaling(self):
         m = _module()

@@ -479,6 +479,18 @@ if(ENABLE_PYTHON AND Python_FOUND)
     endif(BUILD_DOC AND DOXYGEN_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
+  if(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+    # Use -nogil to tell compiler we do not need builtin threadsafety
+    list(APPEND CRPROPA_SWIG_DEFINES -nogil)
+  endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+
+  if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+    # with swig 4.5 we can generate stub files directly with swig
+    list(APPEND CRPROPA_SWIG_DEFINES -pyi)
+    # with swig 4.5 we can explicitly enable typhints:
+    list(APPEND CRPROPA_SWIG_DEFINES -typehints)
+  endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
   option(ENABLE_SWIG_BUILTIN "Use SWIG builtin option" On)
 
@@ -503,7 +515,7 @@ if(ENABLE_PYTHON AND Python_FOUND)
     PROPERTIES
     CPLUSPLUS ON
     SWIG_MODULE_NAME "crpropa"
-    SWIG_FLAGS "${CRPROPA_SWIG_DEFINES};-dirprot;${CMAKE_SWIG_FLAGS}"
+    SWIG_FLAGS "${CRPROPA_SWIG_DEFINES};-dirprot;-threads;${CMAKE_SWIG_FLAGS}"
     DEPENDS "${CRPROPA_SWIG_INPUTS};${CRPROPA_INCLUDES}"
     OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}
   )
@@ -545,6 +557,9 @@ if(ENABLE_PYTHON AND Python_FOUND)
 
   install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/python/crpropa" DESTINATION "${Python_INSTALL_PACKAGE_DIR}")
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")
+  if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.pyi" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")
+  endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
   install(TARGETS crpropa-swig LIBRARY DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")
   install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/crpropa/swig_interface)
 
@@ -571,17 +586,19 @@ foreach(CRPROPA_BUNDLED_INCLUDE_DIR IN LISTS CRPROPA_BUNDLED_INCLUDE_DIRS)
 	install(DIRECTORY ${CRPROPA_BUNDLED_INCLUDE_DIR}/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include FILES_MATCHING PATTERN "*.h" PATTERN "*.hh" PATTERN "*.hpp" PATTERN "*.hxx")
 endforeach()
 
-option(ENABLE_PYBIND11_STUBGEN "Generate Pybind11 stubs" On)
-if(ENABLE_PYBIND11_STUBGEN)
-  if(ENABLE_PYTHON AND Python_FOUND)
-    find_program(PYBIND11_STUBGEN_EXECUTABLE NAMES "pybind11-stubgen")
-    if(PYBIND11_STUBGEN_EXECUTABLE)
-      message(STATUS "Found pybind11-stubgen at ${PYBIND11_STUBGEN_EXECUTABLE}")
-      install(CODE "execute_process(COMMAND ${PYBIND11_STUBGEN_EXECUTABLE} --ignore-all-errors -o ${Python_SITELIB} crpropa)")
-      install(CODE "execute_process(COMMAND echo -- Generated python stubs over pybind11-stubgen for crpropa)")
-    endif(PYBIND11_STUBGEN_EXECUTABLE)
-  endif(ENABLE_PYTHON AND Python_FOUND)
-endif(ENABLE_PYBIND11_STUBGEN)
+if(SWIG_VERSION VERSION_LESS 4.5)
+  option(ENABLE_PYBIND11_STUBGEN "Generate Pybind11 stubs" On)
+  if(ENABLE_PYBIND11_STUBGEN)
+    if(ENABLE_PYTHON AND Python_FOUND)
+      find_program(PYBIND11_STUBGEN_EXECUTABLE NAMES "pybind11-stubgen")
+      if(PYBIND11_STUBGEN_EXECUTABLE)
+        message(STATUS "Found pybind11-stubgen at ${PYBIND11_STUBGEN_EXECUTABLE}")
+        install(CODE "execute_process(COMMAND ${PYBIND11_STUBGEN_EXECUTABLE} --ignore-all-errors -o ${Python_SITELIB} crpropa)")
+        install(CODE "execute_process(COMMAND echo -- Generated python stubs over pybind11-stubgen for crpropa)")
+      endif(PYBIND11_STUBGEN_EXECUTABLE)
+    endif(ENABLE_PYTHON AND Python_FOUND)
+  endif(ENABLE_PYBIND11_STUBGEN)
+endif(SWIG_VERSION VERSION_LESS 4.5)
 
 
 

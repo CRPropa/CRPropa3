@@ -62,8 +62,9 @@ option(ENABLE_PYTHON "Create Python bindings with SWIG" On)
 option(USE_OWN_CRPROPA "Use builtin CRPropa instead of in CRPROPA_PATH installed CRPropa" Off)
 option(ENABLE_TESTING "Build tests and enable test target" On)
 option(ENABLE_COVERAGE "Add code for coverage analysis." Off)
-option(ENABLE_PYBIND11_STUBGEN "Generate Pybind11 stubs" Off)
-
+if(SWIG_VERSION VERSION_LESS 4.5)
+	option(ENABLE_PYBIND11_STUBGEN "Generate Pybind11 stubs" Off)
+endif(SWIG_VERSION VERSION_LESS 4.5)
 
 # This token means "relative to the loaded binary" on each platform.
 # It should work for unix-based platforms (Linux, MacOS).
@@ -225,6 +226,18 @@ if(ENABLE_PYTHON)
 			set(BUILTIN "")
 		endif(ENABLE_SWIG_BUILTIN)
 
+		if(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+			# Use -nogil to tell compiler we do not need builtin threadsafety
+    		list(APPEND ${pluginName}_SWIG_DEFINES -nogil)
+		endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.4.0)
+
+		if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+			# with swig 4.5 we can generate stub files directly with swig
+			list(APPEND ${pluginName}_SWIG_DEFINES -pyi)
+			# with swig 4.5 we can explicitly enable typhints:
+			list(APPEND ${pluginName}_SWIG_DEFINES -typehints)
+		endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+
 		file(GLOB_RECURSE ${pluginName}_SWIG_INPUTS ${CMAKE_CURRENT_SOURCE_DIR}/python/*.i)
 		set(${pluginName}_PYTHON_PACKAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/${pluginName}")
 		file(MAKE_DIRECTORY "${${pluginName}_PYTHON_PACKAGE_DIR}")
@@ -234,7 +247,7 @@ if(ENABLE_PYTHON)
 			PROPERTIES
 			CPLUSPLUS ON
 			SWIG_MODULE_NAME "${pluginName}"
-			SWIG_FLAGS "${${pluginName}_SWIG_DEFINES};-dirprot;${CMAKE_SWIG_FLAGS}"
+			SWIG_FLAGS "${${pluginName}_SWIG_DEFINES};-dirprot;-threads;${CMAKE_SWIG_FLAGS}"
 			OUTPUT_DIR "${${pluginName}_PYTHON_PACKAGE_DIR}"
 			INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include;${CRPropa_SWIG_INTERFACE_FILES};${${pluginName}_EXTRA_INCLUDES};"
 		)
@@ -402,16 +415,20 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/" DESTINATION "${CMAKE_IN
 if(ENABLE_PYTHON AND Python_FOUND)
 	install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/python/${pluginName}" DESTINATION "${Python_INSTALL_PACKAGE_DIR}")
 	install(FILES "${${pluginName}_PYTHON_PACKAGE_DIR}/${pluginName}.py" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/${pluginName}")
+	if(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
+		install(FILES "${${pluginName}_PYTHON_PACKAGE_DIR}/${pluginName}.pyi" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/${pluginName}")
+	endif(SWIG_VERSION VERSION_GREATER_EQUAL 4.5)
 	install(TARGETS ${pluginName}-swig LIBRARY DESTINATION "${Python_INSTALL_PACKAGE_DIR}/${pluginName}")
 	install(FILES ${${pluginName}_SWIG_INPUTS} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${pluginName}/swig_interface)
 endif(ENABLE_PYTHON AND Python_FOUND)
 
-
-if(ENABLE_PYBIND11_STUBGEN AND ENABLE_PYTHON AND Python_FOUND)
-	find_program(PYBIND11_STUBGEN_EXECUTABLE NAMES "pybind11-stubgen")
-	if(PYBIND11_STUBGEN_EXECUTABLE)
-		message(STATUS "Found pybind11-stubgen at ${PYBIND11_STUBGEN_EXECUTABLE}")
-		install(CODE "execute_process(COMMAND ${PYBIND11_STUBGEN_EXECUTABLE} --ignore-all-errors -o ${Python_SITELIB} ${pluginName})")
-		install(CODE "execute_process(COMMAND echo -- Generated python stubs over pybind11-stubgen for ${pluginName})")
-	endif(PYBIND11_STUBGEN_EXECUTABLE)
-endif(ENABLE_PYBIND11_STUBGEN AND ENABLE_PYTHON AND Python_FOUND)
+if(SWIG_VERSION VERSION_LESS 4.5)
+	if(ENABLE_PYBIND11_STUBGEN AND ENABLE_PYTHON AND Python_FOUND)
+		find_program(PYBIND11_STUBGEN_EXECUTABLE NAMES "pybind11-stubgen")
+		if(PYBIND11_STUBGEN_EXECUTABLE)
+			message(STATUS "Found pybind11-stubgen at ${PYBIND11_STUBGEN_EXECUTABLE}")
+			install(CODE "execute_process(COMMAND ${PYBIND11_STUBGEN_EXECUTABLE} --ignore-all-errors -o ${Python_SITELIB} ${pluginName})")
+			install(CODE "execute_process(COMMAND echo -- Generated python stubs over pybind11-stubgen for ${pluginName})")
+		endif(PYBIND11_STUBGEN_EXECUTABLE)
+	endif(ENABLE_PYBIND11_STUBGEN AND ENABLE_PYTHON AND Python_FOUND)
+endif(SWIG_VERSION VERSION_LESS 4.5)

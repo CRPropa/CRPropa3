@@ -34,6 +34,11 @@ Multi-resolution implementation of magnetic fields using Quimby
 Magnetic lenses
   Astropart. Phys. 54 (2014) 110; `arXiv:1302.3761 <https://arxiv.org/abs/1302.3761>`_.
 
+Empirical photomeson model (PhotoPionProductionEmpirical)
+  JCAP 11 (2019) 007; `doi:10.1088/1475-7516/2019/11/007 <https://doi.org/10.1088/1475-7516/2019/11/007>`_;
+  `arXiv:1904.07999 <https://arxiv.org/abs/1904.07999>`_ and
+  the AstroPhoMes code, `DOI:10.5281/zenodo.2600177 <https://doi.org/10.5281/zenodo.2600177>`_.
+
 
 External Models
 ---------------

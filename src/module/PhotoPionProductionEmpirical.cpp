@@ -83,7 +83,7 @@ void PhotoPionProductionEmpirical::initBasis(std::string filename) {
 	if (not infile.good())
 		throw std::runtime_error("PhotoPionProductionEmpirical: could not open " + filename
 			+ "\nThe empirical model tables are not part of the CRPropa data tarball. "
-			  "See doc/photomesonEmpirical/README.md.");
+			  "See doc/pages/PhotoPionProductionEmpirical.md.");
 
 	tabEpsR.clear(); tabEpsRGeV.clear(); tabSigmaUniv.clear();
 	tabSigmaProton.clear(); tabSigmaNeutron.clear();
@@ -228,7 +228,7 @@ void PhotoPionProductionEmpirical::initRedistribution(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (not infile.good())
 		throw std::runtime_error("PhotoPionProductionEmpirical: could not open " + filename
-			+ "\nSee doc/photomesonEmpirical/README.md.");
+			+ "\nSee doc/pages/PhotoPionProductionEmpirical.md.");
 
 	const size_t nE = tabEpsR.size();
 	for (size_t s = 0; s < 2; s++)
@@ -273,7 +273,7 @@ void PhotoPionProductionEmpirical::initFragments(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (not infile.good())
 		throw std::runtime_error("PhotoPionProductionEmpirical: could not open " + filename
-			+ "\nSee doc/photomesonEmpirical/README.md.");
+			+ "\nSee doc/pages/PhotoPionProductionEmpirical.md.");
 
 	tabFragments.clear();
 	tabFragments.resize((NUCLEAR_ZMAX + 1) * NUCLEAR_NSTRIDE);

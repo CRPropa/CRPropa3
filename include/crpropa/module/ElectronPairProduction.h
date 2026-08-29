@@ -17,7 +17,7 @@ namespace crpropa {
 
  This module simulates electron-pair production (known in the literature as
  the Bethe-Heitler process), in which a charged nucleus interacts with a
- background photon and part of its energy is converted into an
+ background photon, and part of its energy is converted into an
  electron-positron pair. Unlike photo-pion production, the nucleus itself
  is never reassigned a new particle ID -- only its energy is reduced -- and
  the fractional energy loss per interaction is small, so this module treats
@@ -26,8 +26,8 @@ namespace crpropa {
 
  Energy loss rates are precomputed as a function of nucleus Lorentz factor
  for a given background photon field and loaded from a tabulated data file;
- above the tabulated range the rate is extrapolated using a power law,
- while below it no interaction is assumed. The tabulated rate (computed for
+ above the tabulated range, the rate is extrapolated using a power law,
+ while below it, no interaction is assumed. The tabulated rate (computed for
  protons) is rescaled for general nuclei using the nuclear charge and mass
  number, since the interaction depends on the square of the nuclear charge
  relative to its mass; the rate is further scaled with redshift to account

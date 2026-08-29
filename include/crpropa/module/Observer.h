@@ -55,7 +55,7 @@ public:
  independently classifying a particle as DETECTED, VETO, or having no
  opinion (NOTHING) -- for example, ObserverSurface for a bounding geometry,
  or veto-type features that suppress detection under certain conditions
- (e.g. an inactive candidate, or a specific particle type). A single VETO
+ (e.g. an inactive candidate or a specific particle type). A single VETO
  from any feature overrides a DETECTED result from any other, regardless
  of the order in which features are checked, so vetoes act as a safeguard
  against reporting particles that satisfy a detection condition but

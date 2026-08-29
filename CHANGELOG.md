@@ -3,10 +3,21 @@
 ### Bug fixes:
 * Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
 * Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
+* Fixed missing bounds check in `NuclearDecay`: `process()`, `gammaEmission()`, and `meanFreePath()` could access out-of-bounds table entries for any nucleus with Z > 26 or N > 30. Guards are now in place for all three methods.
 
 ### New features:
 
+* Added `PhotoPionProductionEmpirical`, an alternative photomeson module implementing the empirical model of Morejón et al., JCAP 11 (2019) 007 [arXiv:1904.07999], as published in AstroPhoMes. It replaces the superposition treatment of `PhotoPionProduction` on three axes: a nonelastic cross section using a universal photoabsorption function below 1.2 GeV and an `A^alpha(eps_r)` shadowing exponent above (1.0 → 0.66); an empirical fragmentation table giving a mean mass loss of 5.8 for Fe-56 instead of 1; and a separate pion mass-scaling exponent `alpha_pi`, which suppresses the meson yield below ~20 GeV and enhances it above; the factors grow with mass, reaching 3.6x suppression and 3.9x enhancement for Fe-56 and 5.6x and 6.1x for Pb-208. SOPHIA is not called on runtime, secondary spectra sampled from SOPHIA make up redistribution tables and the pi/K/mu decay chain is implemented in the module. For A = 1 the model agrees with the legacy implementation: on the proton final state to better than 1% (2% on the electron energy). Nuclear coverage follows the generated fragmentation table, which extends to Pb; the module itself is coverage-agnostic and limits applicability with `NUCLEAR_ZMAX`/`NUCLEAR_NMAX`. The module requires new field-independent data tables (`basis.txt`, `redistribution.txt`, `fragments.txt`) produced by CRPropa3-data; until these are part of a data release, point `CRPROPA_DATA_PATH` at a checkout where the generator has been run. See `doc/pages/PhotoPionProductionEmpirical.md`.
+* `PhotoPionProductionEmpirical` builds its interaction rate at construction from the photon field itself, rather than from a tabulated `rate_<field>.txt`. It therefore needs no per-photon-field data and works with any field, including any defined by the user.
+* Extended nuclear coverage in `PhotoDisintegration` and `NuclearDecay` from Fe-56 (Z≤26, N≤30) to Pb-214 (Z≤82, N≤132). Table sizes grow from 837 to 11'039 slots; all array indices and bounds guards updated accordingly.
+* Added named constants `NUCLEAR_ZMAX` (82), `NUCLEAR_NMAX` (132), and `NUCLEAR_NSTRIDE` (133) to `Common.h`, replacing the hardcoded numbers scattered across `PhotoDisintegration`, `NuclearDecay`, and `ParticleMass`.
+* `PhotoDisintegration` can now load superheavy-nucleus rate and branching tables (covering A≥56 up to Pb) via a new `superheavy` flag. When `true`, the files `rate_<field>_superheavy.txt` and `branching_<field>_superheavy.txt` are loaded instead of the standard ones.
+
 ### Interface changes:
+
+* Four `PhotoPionProduction` methods are now `virtual`, so the class can be subclassed: `setPhotonField()`, `performInteraction()`, `nucleiModification()` and `lossLength()`. The destructor and `process()` now carry the keyword explicitly as well, but were already virtual through `Module`. No behaviour changes.
+* `PhotoDisintegration` constructor gains an optional fourth argument: `bool superheavy = false`.
+* `PhotoDisintegration::setPhotonField()` gains an optional second argument: `bool superheavy = false`.
 
 ### Features that are deprecated and will be removed after this release
 

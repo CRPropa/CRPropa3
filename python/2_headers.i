@@ -151,8 +151,8 @@
 
     if (PyUnicode_Check(name)) {
       input = PyUnicode_AsUTF8(name);
-    } else if (PyString_Check(name)){
-      input = PyString_AsString(name);
+    } else if (PyBytes_Check(name)){
+      input = PyBytes_AsString(name);
     } else {
       PyErr_SetString(PyExc_TypeError, "The argument of getProperty() must be a string/unicode object!");
       return NULL;
@@ -220,9 +220,6 @@
       } else {
         $self->setProperty(input, false);
       }
-      Py_RETURN_TRUE;
-    } else if (PyInt_Check(value)) {
-      $self->setProperty(input, crpropa::Variant::fromInt32(PyInt_AsLong(value)));
       Py_RETURN_TRUE;
     } else if (PyLong_Check(value)) {
       $self->setProperty(input, crpropa::Variant::fromUInt64(PyLong_AsLong(value)));
@@ -362,9 +359,6 @@
       } else {
         $self->enableProperty(name, false, comment);
       }
-      Py_RETURN_TRUE;
-    } else if (PyInt_Check(defaultValue)) {
-      $self->enableProperty(name, crpropa::Variant::fromInt32(PyInt_AsLong(defaultValue)), comment);
       Py_RETURN_TRUE;
     } else if (PyLong_Check(defaultValue)) {
       $self->enableProperty(name, crpropa::Variant::fromInt64(PyLong_AsLong(defaultValue)), comment);

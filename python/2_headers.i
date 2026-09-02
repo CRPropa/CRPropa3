@@ -388,6 +388,14 @@
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"
 %include "crpropa/module/PhotoPionProduction.h"
+/* getMeanFragmentBudget reports <dA> and <dZ> through reference parameters;
+   with this wrapper around PhotoPionProductionEmpirical.h the call returns 
+   the pair, but without it, it demands four arguments and is unusable from python.
+    */
+%include "typemaps.i"
+%apply double &OUTPUT { double &dA, double &dZ };
+%include "crpropa/module/PhotoPionProductionEmpirical.h"
+%clear double &dA, double &dZ;
 %include "crpropa/module/PhotoDisintegration.h"
 %include "crpropa/module/ElasticScattering.h"
 %include "crpropa/module/Redshift.h"

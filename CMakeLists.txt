@@ -357,6 +357,7 @@ add_library(crpropa SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/ParticleCollector.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PhotoDisintegration.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PhotoPionProduction.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PhotoPionProductionEmpirical.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PhotonOutput1D.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PropagationBP.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/module/PropagationCK.cpp
@@ -675,6 +676,7 @@ if(ENABLE_TESTING)
     addTestPy(testDiffusionSDE)
     addTestPy(testMomentumDiffusion)
     addTestPy(testPythonExtension)
+    addTestPy(testPhotoMesonEmpirical)
 
   endif(ENABLE_PYTHON AND Python_FOUND)
 

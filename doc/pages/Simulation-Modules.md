@@ -20,6 +20,7 @@ Interactions of protons, neutrons, and nuclei (Z = 1 - 82, N = 1 - 132)
 
 * **ElectronPairProduction** - Electron pair production (Bethe-Heitler) for charged nuclei using the continuous energy loss approximation, optional secondaries: electrons/positrons
 * **PhotoPionProduction** - photo-meson production for protons, neutrinos and nuclei, uses SOPHIA as event generator, secondaries: protons/neutrons, optional secondaries: antiprotons/antineutrons, photons, electrons/positrons and neutrinos
+* **PhotoPionProductionEmpirical** - photo-meson production using the empirical model of Morejón et al. (2019), an alternative to the superposition treatment of **PhotoPionProduction**: nuclei get a universal photoabsorption cross section with `A^alpha(eps_r)` shadowing, an empirical fragmentation table (mean mass loss 5.8 for Fe-56 instead of 1) and a separate pion mass scaling. Does not use SOPHIA and needs no per-photon-field rate table. Secondaries: residual nucleus, nucleons and light fragments, optional secondaries: photons, electrons/positrons and neutrinos. See :doc:`PhotoPionProductionEmpirical` for usage, runtime options and the required data tables
 * **PhotoDisintegration** - photodisintegration using TALYS cross sections (alternatively, PSB and Kossov models are available), secondaries: protons, neutrons, deuterons, tritons, alpha-3, alpha-4, optional secondaries: photons
 * **NuclearDecay** - decay of neutrons and nuclei up to lead, optional secondaries: photons, electrons/positrons and neutrinos
 
@@ -36,6 +37,11 @@ General interactions/processes
 * **FutureRedshift** - same as Redshift, but allows for negative redshifts (for symmetric window around observer)
 * **SynchrotronRadiation** - synchrotron radiation of charged particles in magnetic fields, optional secondaries: photons
 * **AdiabaticCooling** - takes adiabatic cooling (or heating) of the particles due to expansion (or compression) of the plasma into account
+
+.. toctree::
+   :hidden:
+
+   PhotoPionProductionEmpirical
 
 ### Conditional modules
 Conditional modules implement certain conditions for stopping propagation.

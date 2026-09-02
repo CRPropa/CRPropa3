@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-08-28 16:20:18</td>
+            <td class="headerValue">2026-09-02 10:15:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">60.0&nbsp;%</td>
@@ -227,71 +227,71 @@
 <span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :         }</span></span>
 <span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC tlaBgGNC">           9 : }</span></span>
 <span id="L167"><span class="lineNum">     167</span>              : </span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">          19 : void TextOutput::process(Candidate *c) const {</span></span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">          19 :         if (fields.none() &amp;&amp; properties.empty())</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">          20 : void TextOutput::process(Candidate *c) const {</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">          20 :         if (fields.none() &amp;&amp; properties.empty())</span></span>
 <span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC tlaBgUNC">           0 :                 return;</span></span>
 <span id="L171"><span class="lineNum">     171</span>              : </span>
 <span id="L172"><span class="lineNum">     172</span>              :         size_t buffersize = 2048;</span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC tlaBgGNC">          19 :         char buffer[buffersize];</span></span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC tlaBgGNC">          20 :         char buffer[buffersize];</span></span>
 <span id="L174"><span class="lineNum">     174</span>              :         size_t p = 0;</span>
 <span id="L175"><span class="lineNum">     175</span>              : </span>
-<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">          19 :         std::locale old_locale = std::locale::global(std::locale::classic());</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">          20 :         std::locale old_locale = std::locale::global(std::locale::classic());</span></span>
 <span id="L177"><span class="lineNum">     177</span>              : </span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">          19 :         if (fields.test(TrajectoryLengthColumn))</span></span>
-<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">          16 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">          16 :                                 c-&gt;getTrajectoryLength() / lengthScale);</span></span>
-<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">          19 :         if (fields.test(TimeColumn))</span></span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">          13 :                                 c-&gt;getTime() / timeScale);</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">          20 :         if (fields.test(TrajectoryLengthColumn))</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">          17 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">          17 :                                 c-&gt;getTrajectoryLength() / lengthScale);</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">          20 :         if (fields.test(TimeColumn))</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaGNC">          14 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaGNC">          14 :                                 c-&gt;getTime() / timeScale);</span></span>
 <span id="L184"><span class="lineNum">     184</span>              : </span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">          19 :         if (fields.test(RedshiftColumn))</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">          12 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%1.5E\t&quot;, c-&gt;getRedshift());</span></span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaGNC">          20 :         if (fields.test(RedshiftColumn))</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%1.5E\t&quot;, c-&gt;getRedshift());</span></span>
 <span id="L187"><span class="lineNum">     187</span>              : </span>
-<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          19 :         if (fields.test(SerialNumberColumn))</span></span>
-<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;,</span></span>
+<span id="L188"><span class="lineNum">     188</span> <span class="tlaGNC">          20 :         if (fields.test(SerialNumberColumn))</span></span>
+<span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">          14 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;,</span></span>
 <span id="L190"><span class="lineNum">     190</span>              :                                 c-&gt;getSerialNumber());</span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">          19 :         if (fields.test(CurrentIdColumn))</span></span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">          18 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;current.getId());</span></span>
-<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">          19 :         if (fields.test(CurrentEnergyColumn))</span></span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">          18 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">          18 :                                 c-&gt;current.getEnergy() / energyScale);</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">          19 :         if (fields.test(CurrentPositionColumn)) {</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">          15 :                 if (oneDimensional) {</span></span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">           2 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           2 :                                         c-&gt;current.getPosition().x / lengthScale);</span></span>
+<span id="L191"><span class="lineNum">     191</span> <span class="tlaGNC">          20 :         if (fields.test(CurrentIdColumn))</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">          19 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;current.getId());</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">          20 :         if (fields.test(CurrentEnergyColumn))</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">          19 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">          19 :                                 c-&gt;current.getEnergy() / energyScale);</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">          20 :         if (fields.test(CurrentPositionColumn)) {</span></span>
+<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">          16 :                 if (oneDimensional) {</span></span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaGNC">           3 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           3 :                                         c-&gt;current.getPosition().x / lengthScale);</span></span>
 <span id="L200"><span class="lineNum">     200</span>              :                 } else {</span>
 <span id="L201"><span class="lineNum">     201</span> <span class="tlaGNC">          13 :                         const Vector3d pos = c-&gt;current.getPosition() / lengthScale;</span></span>
 <span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">          13 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L203"><span class="lineNum">     203</span>              :                                         pos.z);</span>
 <span id="L204"><span class="lineNum">     204</span>              :                 }</span>
 <span id="L205"><span class="lineNum">     205</span>              :         }</span>
-<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">          19 :         if (fields.test(CurrentDirectionColumn)) {</span></span>
-<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">          14 :                 if (not oneDimensional) {</span></span>
+<span id="L206"><span class="lineNum">     206</span> <span class="tlaGNC">          20 :         if (fields.test(CurrentDirectionColumn)) {</span></span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaGNC">          15 :                 if (not oneDimensional) {</span></span>
 <span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">          13 :                         const Vector3d pos = c-&gt;current.getDirection();</span></span>
 <span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">          13 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L210"><span class="lineNum">     210</span>              :                                         pos.z);</span>
 <span id="L211"><span class="lineNum">     211</span>              :                 }</span>
 <span id="L212"><span class="lineNum">     212</span>              :         }</span>
 <span id="L213"><span class="lineNum">     213</span>              : </span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">          19 :         if (fields.test(SerialNumberColumn))</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;, c-&gt;getSourceSerialNumber());</span></span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">          19 :         if (fields.test(SourceIdColumn))</span></span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">          16 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;source.getId());</span></span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">          19 :         if (fields.test(SourceEnergyColumn))</span></span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">          16 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          16 :                                 c-&gt;source.getEnergy() / energyScale);</span></span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          19 :         if (fields.test(SourcePositionColumn)) {</span></span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          13 :                 if (oneDimensional) {</span></span>
-<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">           1 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">           1 :                                         c-&gt;source.getPosition().x / lengthScale);</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">          20 :         if (fields.test(SerialNumberColumn))</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">          14 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;, c-&gt;getSourceSerialNumber());</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">          20 :         if (fields.test(SourceIdColumn))</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">          17 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;source.getId());</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">          20 :         if (fields.test(SourceEnergyColumn))</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">          17 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">          17 :                                 c-&gt;source.getEnergy() / energyScale);</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC">          20 :         if (fields.test(SourcePositionColumn)) {</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">          14 :                 if (oneDimensional) {</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaGNC">           2 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaGNC">           2 :                                         c-&gt;source.getPosition().x / lengthScale);</span></span>
 <span id="L225"><span class="lineNum">     225</span>              :                 } else {</span>
 <span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">          12 :                         const Vector3d pos = c-&gt;source.getPosition() / lengthScale;</span></span>
 <span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">          12 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L228"><span class="lineNum">     228</span>              :                                         pos.z);</span>
 <span id="L229"><span class="lineNum">     229</span>              :                 }</span>
 <span id="L230"><span class="lineNum">     230</span>              :         }</span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">          19 :         if (fields.test(SourceDirectionColumn)) {</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          13 :                 if (not oneDimensional) {</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">          20 :         if (fields.test(SourceDirectionColumn)) {</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          14 :                 if (not oneDimensional) {</span></span>
 <span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">          12 :                         const Vector3d pos = c-&gt;source.getDirection();</span></span>
 <span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          12 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L235"><span class="lineNum">     235</span>              :                                         pos.z);</span>
@@ -299,40 +299,40 @@
 <span id="L237"><span class="lineNum">     237</span>              : </span>
 <span id="L238"><span class="lineNum">     238</span>              :         }</span>
 <span id="L239"><span class="lineNum">     239</span>              : </span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          19 :         if (fields.test(SerialNumberColumn))</span></span>
-<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;,</span></span>
+<span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">          20 :         if (fields.test(SerialNumberColumn))</span></span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">          14 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10&quot; PRIu64 &quot;\t&quot;,</span></span>
 <span id="L242"><span class="lineNum">     242</span>              :                                 c-&gt;getCreatedSerialNumber());</span>
-<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          19 :         if (fields.test(CreatedIdColumn))</span></span>
-<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">          12 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;created.getId());</span></span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">          19 :         if (fields.test(CreatedEnergyColumn))</span></span>
-<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">          12 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">          12 :                                 c-&gt;created.getEnergy() / energyScale);</span></span>
-<span id="L248"><span class="lineNum">     248</span> <span class="tlaGNC">          19 :         if (fields.test(CreatedPositionColumn)) {</span></span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">          12 :                 if (oneDimensional) {</span></span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">           1 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">           1 :                                         c-&gt;created.getPosition().x / lengthScale);</span></span>
+<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">          20 :         if (fields.test(CreatedIdColumn))</span></span>
+<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%10i\t&quot;, c-&gt;created.getId());</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">          20 :         if (fields.test(CreatedEnergyColumn))</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">          13 :                                 c-&gt;created.getEnergy() / energyScale);</span></span>
+<span id="L248"><span class="lineNum">     248</span> <span class="tlaGNC">          20 :         if (fields.test(CreatedPositionColumn)) {</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">          13 :                 if (oneDimensional) {</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">           2 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;,</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">           2 :                                         c-&gt;created.getPosition().x / lengthScale);</span></span>
 <span id="L252"><span class="lineNum">     252</span>              :                 } else {</span>
 <span id="L253"><span class="lineNum">     253</span> <span class="tlaGNC">          11 :                         const Vector3d pos = c-&gt;created.getPosition() / lengthScale;</span></span>
 <span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC">          11 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L255"><span class="lineNum">     255</span>              :                                         pos.z);</span>
 <span id="L256"><span class="lineNum">     256</span>              :                 }</span>
 <span id="L257"><span class="lineNum">     257</span>              :         }</span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">          19 :         if (fields.test(CreatedDirectionColumn)) {</span></span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">          12 :                 if (not oneDimensional) {</span></span>
+<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">          20 :         if (fields.test(CreatedDirectionColumn)) {</span></span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">          13 :                 if (not oneDimensional) {</span></span>
 <span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">          11 :                         const Vector3d pos = c-&gt;created.getDirection();</span></span>
 <span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">          11 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t%8.5E\t%8.5E\t&quot;, pos.x, pos.y,</span></span>
 <span id="L262"><span class="lineNum">     262</span>              :                                         pos.z);</span>
 <span id="L263"><span class="lineNum">     263</span>              :                 }</span>
 <span id="L264"><span class="lineNum">     264</span>              :         }</span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">          19 :         if (fields.test(WeightColumn)) {</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">          12 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;, c-&gt;getWeight());</span></span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">          20 :         if (fields.test(WeightColumn)) {</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%8.5E\t&quot;, c-&gt;getWeight());</span></span>
 <span id="L267"><span class="lineNum">     267</span>              :         }</span>
-<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">          19 :         if (fields.test(CandidateTagColumn)) {</span></span>
-<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          13 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%s\t&quot;, c-&gt;getTagOrigin().c_str());</span></span>
+<span id="L268"><span class="lineNum">     268</span> <span class="tlaGNC">          20 :         if (fields.test(CandidateTagColumn)) {</span></span>
+<span id="L269"><span class="lineNum">     269</span> <span class="tlaGNC">          14 :                 p += std::snprintf(buffer + p, buffersize - p, &quot;%s\t&quot;, c-&gt;getTagOrigin().c_str());</span></span>
 <span id="L270"><span class="lineNum">     270</span>              :         }</span>
 <span id="L271"><span class="lineNum">     271</span>              : </span>
-<span id="L272"><span class="lineNum">     272</span> <span class="tlaGNC">          19 :         for(std::vector&lt;Output::Property&gt;::const_iterator iter = properties.begin();</span></span>
-<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">          20 :                         iter != properties.end(); ++iter) {</span></span>
+<span id="L272"><span class="lineNum">     272</span> <span class="tlaGNC">          20 :         for(std::vector&lt;Output::Property&gt;::const_iterator iter = properties.begin();</span></span>
+<span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">          21 :                         iter != properties.end(); ++iter) {</span></span>
 <span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           1 :                   Variant v;</span></span>
 <span id="L275"><span class="lineNum">     275</span> <span class="tlaGNC">           1 :                         if (c-&gt;hasProperty((*iter).name)) {</span></span>
 <span id="L276"><span class="lineNum">     276</span> <span class="tlaUNC tlaBgUNC">           0 :                                 v = c-&gt;getProperty((*iter).name);</span></span>
@@ -342,19 +342,19 @@
 <span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">           1 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;%s&quot;, v.toString(&quot;\t&quot;).c_str());</span></span>
 <span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">           1 :                         p += std::snprintf(buffer + p, buffersize - p, &quot;\t&quot;);</span></span>
 <span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           1 :         }</span></span>
-<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">          19 :         buffer[p - 1] = '\n';</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">          20 :         buffer[p - 1] = '\n';</span></span>
 <span id="L284"><span class="lineNum">     284</span>              : </span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">          19 :         std::locale::global(old_locale);</span></span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">          20 :         std::locale::global(old_locale);</span></span>
 <span id="L286"><span class="lineNum">     286</span>              : </span>
-<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">          38 : #pragma omp critical(FileOutput)</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">          40 : #pragma omp critical(FileOutput)</span></span>
 <span id="L288"><span class="lineNum">     288</span>              :         {</span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">          19 :                 if (count == 0)</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">          20 :                 if (count == 0)</span></span>
 <span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           9 :                         printHeader();</span></span>
-<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">          19 :                 Output::process(c);</span></span>
-<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">          19 :                 out-&gt;write(buffer, p);</span></span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">          20 :                 Output::process(c);</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">          20 :                 out-&gt;write(buffer, p);</span></span>
 <span id="L293"><span class="lineNum">     293</span>              :         }</span>
 <span id="L294"><span class="lineNum">     294</span>              : </span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">          38 : }</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">          40 : }</span></span>
 <span id="L296"><span class="lineNum">     296</span>              : </span>
 <span id="L297"><span class="lineNum">     297</span> <span class="tlaGNC">           1 : void TextOutput::load(const std::string &amp;filename, ParticleCollector *collector){</span></span>
 <span id="L298"><span class="lineNum">     298</span>              : </span>

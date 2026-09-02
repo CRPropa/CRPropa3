@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-08-28 16:20:18</td>
+            <td class="headerValue">2026-09-02 10:15:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">95.8&nbsp;%</td>
@@ -87,9 +87,9 @@
 <span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">       10001 :         for (int i = 0; i &lt; 10000; i++) {</span></span>
 <span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">       10000 :                 source.prepareParticle(ps);</span></span>
 <span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">       10000 :                 if (ps.getPosition().x == 1)</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">        2455 :                         n1++;</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">        7545 :                 else if (ps.getPosition().x == 2)</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">        7545 :                         n2++;</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">        2475 :                         n1++;</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">        7525 :                 else if (ps.getPosition().x == 2)</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">        7525 :                         n2++;</span></span>
 <span id="L31"><span class="lineNum">      31</span>              :         }</span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(n1, 2500, 5 * sqrt(2500));</span></span>
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           1 :         EXPECT_NEAR(n2, 7500, 5 * sqrt(7500));</span></span>
@@ -361,14 +361,14 @@
 <span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">      100001 :         for (size_t i = 0; i &lt; n; i++) {</span></span>
 <span id="L300"><span class="lineNum">     300</span> <span class="tlaGNC">      100000 :                 source.prepareParticle(p);</span></span>
 <span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">      100000 :                 if (p.getId() == id1)</span></span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">        9107 :                         id1Count++;</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">        9086 :                         id1Count++;</span></span>
 <span id="L303"><span class="lineNum">     303</span> <span class="tlaGNC">      100000 :                 if (p.getId() == id2)</span></span>
-<span id="L304"><span class="lineNum">     304</span> <span class="tlaGNC">       90893 :                         id2Count++;</span></span>
+<span id="L304"><span class="lineNum">     304</span> <span class="tlaGNC">       90914 :                         id2Count++;</span></span>
 <span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">      100000 :                 double e = p.getEnergy();</span></span>
 <span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">      100000 :                 if ( (e &gt;= Emin) &amp;&amp; (e &lt; 20))</span></span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">       55526 :                         ElowCount++;</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">       55679 :                         ElowCount++;</span></span>
 <span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">      100000 :                 if ( (e &gt;= 20) &amp;&amp; (e &lt;= Emax))</span></span>
-<span id="L309"><span class="lineNum">     309</span> <span class="tlaGNC">       44474 :                         EhighCount++;</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaGNC">       44321 :                         EhighCount++;</span></span>
 <span id="L310"><span class="lineNum">     310</span>              : </span>
 <span id="L311"><span class="lineNum">     311</span>              :         }</span>
 <span id="L312"><span class="lineNum">     312</span> <span class="tlaGNC">           1 :         EXPECT_EQ(n, id1Count + id2Count);</span></span>

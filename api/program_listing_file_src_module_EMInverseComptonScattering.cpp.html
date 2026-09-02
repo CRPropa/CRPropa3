@@ -1552,8 +1552,6 @@
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rate</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">                </span><span class="k">return</span><span class="p">;</span>
 
-<span class="w">        </span><span class="n">rate</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">pow_integer</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">photonField</span><span class="o">-&gt;</span><span class="n">getRedshiftScaling</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
-
 <span class="w">        </span><span class="c1">// run this loop at least once to limit the step size</span>
 <span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">candidate</span><span class="o">-&gt;</span><span class="n">getCurrentStep</span><span class="p">();</span>
 <span class="w">        </span><span class="n">Random</span><span class="w"> </span><span class="o">&amp;</span><span class="n">random</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Random</span><span class="o">::</span><span class="n">instance</span><span class="p">();</span>

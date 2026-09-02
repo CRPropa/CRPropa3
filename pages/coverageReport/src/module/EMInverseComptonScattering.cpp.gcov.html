@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info.cleaned</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryMed">85.4&nbsp;%</td>
-            <td class="headerCovTableEntry">130</td>
-            <td class="headerCovTableEntry">111</td>
+            <td class="headerCovTableEntryMed">85.3&nbsp;%</td>
+            <td class="headerCovTableEntry">129</td>
+            <td class="headerCovTableEntry">110</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-08-28 16:20:18</td>
+            <td class="headerValue">2026-09-02 10:15:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">72.2&nbsp;%</td>
@@ -251,11 +251,11 @@
 <span id="L189"><span class="lineNum">     189</span> <span class="tlaGNC">           1 :         candidate-&gt;current.setEnergy(Enew / (1 + z));</span></span>
 <span id="L190"><span class="lineNum">     190</span> <span class="tlaGNC">           1 : }</span></span>
 <span id="L191"><span class="lineNum">     191</span>              : </span>
-<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">         885 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaGNC">        1769 : void EMInverseComptonScattering::process(Candidate *candidate) const {</span></span>
 <span id="L193"><span class="lineNum">     193</span>              :         // check if electron / positron</span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">         885 :         int id = candidate-&gt;current.getId();</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">         885 :         if (abs(id) != 11)</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">         885 :                 return;</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">        1769 :         int id = candidate-&gt;current.getId();</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">        1769 :         if (abs(id) != 11)</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">        1769 :                 return;</span></span>
 <span id="L197"><span class="lineNum">     197</span>              :         </span>
 <span id="L198"><span class="lineNum">     198</span>              :         // scale the particle energy instead of background photons</span>
 <span id="L199"><span class="lineNum">     199</span> <span class="tlaGNC">           1 :         double z = candidate-&gt;getRedshift();</span></span>
@@ -267,35 +267,33 @@
 <span id="L205"><span class="lineNum">     205</span> <span class="tlaGNC">           1 :         if (rate &lt; 0)</span></span>
 <span id="L206"><span class="lineNum">     206</span>              :                 return;</span>
 <span id="L207"><span class="lineNum">     207</span>              :         </span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">           1 :         rate *= pow_integer&lt;2&gt;(1 + z) * photonField-&gt;getRedshiftScaling(z);</span></span>
-<span id="L209"><span class="lineNum">     209</span>              :         </span>
-<span id="L210"><span class="lineNum">     210</span>              :         // run this loop at least once to limit the step size</span>
-<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           1 :         double step = candidate-&gt;getCurrentStep();</span></span>
-<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
-<span id="L213"><span class="lineNum">     213</span>              :         do {</span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">           1 :                 double randDistance = -log(random.rand()) / rate;</span></span>
-<span id="L215"><span class="lineNum">     215</span>              :                 </span>
-<span id="L216"><span class="lineNum">     216</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">           1 :                 if (step &lt; randDistance) {</span></span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           1 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">           1 :                         return;</span></span>
-<span id="L220"><span class="lineNum">     220</span>              :                 }</span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC tlaBgUNC">           0 :                 performInteraction(candidate);</span></span>
-<span id="L222"><span class="lineNum">     222</span>              :                 </span>
-<span id="L223"><span class="lineNum">     223</span>              :                 // repeat with remaining step</span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :                 step -= randDistance;</span></span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :         } while (step &gt; 0);</span></span>
-<span id="L226"><span class="lineNum">     226</span>              : }</span>
-<span id="L227"><span class="lineNum">     227</span>              : </span>
-<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC tlaBgGNC">           1 : void EMInverseComptonScattering::setInteractionTag(std::string tag) {</span></span>
-<span id="L229"><span class="lineNum">     229</span> <span class="tlaGNC">           1 :         interactionTag = tag;</span></span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           1 : }</span></span>
-<span id="L231"><span class="lineNum">     231</span>              : </span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">           2 : std::string EMInverseComptonScattering::getInteractionTag() const {</span></span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">           2 :         return interactionTag;</span></span>
-<span id="L234"><span class="lineNum">     234</span>              : }</span>
-<span id="L235"><span class="lineNum">     235</span>              : </span>
-<span id="L236"><span class="lineNum">     236</span>              : } // namespace crpropa</span>
+<span id="L208"><span class="lineNum">     208</span>              :         // run this loop at least once to limit the step size</span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           1 :         double step = candidate-&gt;getCurrentStep();</span></span>
+<span id="L210"><span class="lineNum">     210</span> <span class="tlaGNC">           1 :         Random &amp;random = Random::instance();</span></span>
+<span id="L211"><span class="lineNum">     211</span>              :         do {</span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaGNC">           1 :                 double randDistance = -log(random.rand()) / rate;</span></span>
+<span id="L213"><span class="lineNum">     213</span>              :                 </span>
+<span id="L214"><span class="lineNum">     214</span>              :                 // check for interaction; if it doesn't ocurr, limit next step</span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">           1 :                 if (step &lt; randDistance) {</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">           1 :                         candidate-&gt;limitNextStep(limit / rate);</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">           1 :                         return;</span></span>
+<span id="L218"><span class="lineNum">     218</span>              :                 }</span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC tlaBgUNC">           0 :                 performInteraction(candidate);</span></span>
+<span id="L220"><span class="lineNum">     220</span>              :                 </span>
+<span id="L221"><span class="lineNum">     221</span>              :                 // repeat with remaining step</span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC">           0 :                 step -= randDistance;</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :         } while (step &gt; 0);</span></span>
+<span id="L224"><span class="lineNum">     224</span>              : }</span>
+<span id="L225"><span class="lineNum">     225</span>              : </span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC tlaBgGNC">           1 : void EMInverseComptonScattering::setInteractionTag(std::string tag) {</span></span>
+<span id="L227"><span class="lineNum">     227</span> <span class="tlaGNC">           1 :         interactionTag = tag;</span></span>
+<span id="L228"><span class="lineNum">     228</span> <span class="tlaGNC">           1 : }</span></span>
+<span id="L229"><span class="lineNum">     229</span>              : </span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           2 : std::string EMInverseComptonScattering::getInteractionTag() const {</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           2 :         return interactionTag;</span></span>
+<span id="L232"><span class="lineNum">     232</span>              : }</span>
+<span id="L233"><span class="lineNum">     233</span>              : </span>
+<span id="L234"><span class="lineNum">     234</span>              : } // namespace crpropa</span>
         </pre>
               </td>
             </tr>

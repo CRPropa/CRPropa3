@@ -7,6 +7,7 @@
 #include "HepPID/ParticleIDMethods.hh"
 
 #include <cstdlib>
+#include <cmath>
 #include <sstream>
 
 namespace crpropa {
@@ -23,28 +24,12 @@ void ParticleState::setPosition(const Vector3d &pos) {
 	position = pos;
 }
 
-const Vector3d &ParticleState::getPosition() const {
-	return position;
-}
-
 void ParticleState::setDirection(const Vector3d &dir) {
-	direction = dir / dir.getR();
-}
-
-const Vector3d &ParticleState::getDirection() const {
-	return direction;
+	direction = dir.getUnitVector();
 }
 
 void ParticleState::setEnergy(double newEnergy) {
-	energy = std::max(0., newEnergy); // prevent negative energies
-}
-
-double ParticleState::getEnergy() const {
-	return energy;
-}
-
-double ParticleState::getRigidity() const {
-	return fabs(energy / charge);
+	energy = std::max(0., newEnergy);
 }
 
 void ParticleState::setId(int newId) {
@@ -59,33 +44,40 @@ void ParticleState::setId(int newId) {
 	}
 }
 
-int ParticleState::getId() const {
-	return id;
-}
-
-double ParticleState::getMass() const {
-	return pmass;
-}
-
-double ParticleState::getCharge() const {
-	return charge;
-}
-
 double ParticleState::getLorentzFactor() const {
-	return energy / (pmass * c_squared);
+	if (pmass==0)
+		return INFINITY;
+	return energy/pmass/c_squared + 1;  // should never be inf as long as the energy is representable
 }
 
 void ParticleState::setLorentzFactor(double lf) {
 	lf = std::max(0., lf); // prevent negative Lorentz factors
-	energy = lf * pmass * c_squared;
+	setEnergy((lf-1) * pmass * c_squared);
+}
+
+double ParticleState::getBeta() const {
+	return getVelocity().getR2()/c_squared;
 }
 
 Vector3d ParticleState::getVelocity() const {
-	return direction * c_light;
+	Vector3d velocity;
+	if (pmass==0) 
+		velocity = direction*c_light;
+	else if (getLorentzFactor()<1.001)  // can happen if if gamma-1 < numericalPrecission
+		velocity = direction * sqrt(energy*2/pmass);  // non relativistic case
+	else
+		velocity = direction * c_light*sqrt(1-1/pow(getLorentzFactor(), 2));
+
+	return velocity;
 }
 
 Vector3d ParticleState::getMomentum() const {
-	return direction * (energy / c_light);
+	if (pmass==0)
+		return direction*energy/c_light;
+	else if (getLorentzFactor()<1.001)
+		return pmass*getVelocity();
+	else
+		return getLorentzFactor()*pmass*getVelocity();
 }
 
 std::string ParticleState::getDescription() const {
@@ -93,7 +85,9 @@ std::string ParticleState::getDescription() const {
 	ss << "Particle " << id << ", ";
 	ss << "E = " << energy / EeV << " EeV, ";
 	ss << "x = " << position / Mpc << " Mpc, ";
-	ss << "p = " << direction;
+	ss << "dir = " << direction << ", ";
+	ss << "p = " << getMomentum() << " kg*m/s, ";
+	ss << "v = " << getVelocity() << " m/s, " ;
 	return ss.str();
 }
 

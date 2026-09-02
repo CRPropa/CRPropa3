@@ -48,7 +48,7 @@ TEST(ElectronPairProduction, allBackgrounds) {
 TEST(ElectronPairProduction, energyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV.
 	Candidate c;
-	c.setCurrentStep(2 * Mpc);
+	c.setCurrentStep(2 * Mpc/c.getVelocity());
 	c.current.setId(nucleusId(1, 1)); // proton
 
 	ref_ptr<PhotonField> cmb = new CMB();
@@ -107,7 +107,7 @@ TEST(ElectronPairProduction, valuesCMB) {
 	infile.close();
 
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
+	c.setCurrentStep(1 * Mpc/c.getVelocity());
 	c.current.setId(nucleusId(1, 1)); // proton
 	ref_ptr<PhotonField> cmb = new CMB();
 
@@ -135,7 +135,7 @@ TEST(ElectronPairProduction, interactionTag) {
 
 	// test the tag of produced secondaries
 	Candidate c;
-	c.setCurrentStep(1 * Gpc);
+	c.setCurrentStep(1 * Gpc/c.getVelocity());
 	c.current.setId(nucleusId(1,1));
 	c.current.setEnergy(100 * EeV);
 	epp.setHaveElectrons(true);
@@ -164,7 +164,7 @@ TEST(ElectronPairProduction, valuesIRB) {
 	infile.close();
 
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
+	c.setCurrentStep(1 * Mpc/c.getVelocity());
 	c.current.setId(nucleusId(1, 1)); // proton
 	ref_ptr<PhotonField> irb = new IRB_Kneiske04();
 
@@ -184,7 +184,7 @@ TEST(NuclearDecay, scandium44) {
 	// This test can stochastically fail.
 	NuclearDecay d(true, true);
 	Candidate c(nucleusId(44, 21), 1E18 * eV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(100 * Mpc/c.getVelocity());
 	double gamma = c.current.getLorentzFactor();
 	d.process(&c);
 	
@@ -203,7 +203,7 @@ TEST(NuclearDecay, lithium4) {
 	// This test can stochastically fail
 	NuclearDecay d;
 	Candidate c(nucleusId(4, 3), 4 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(100 * Mpc/c.getVelocity());
 	d.process(&c);
 	
 	// expected decay product: He-3
@@ -221,7 +221,7 @@ TEST(NuclearDecay, helium5) {
 	// This test can stochastically fail.
 	NuclearDecay d;
 	Candidate c(nucleusId(5, 2), 5 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(100 * Mpc/c.getVelocity());
 	d.process(&c);
 
 	// expected primary: He-4
@@ -238,9 +238,9 @@ TEST(NuclearDecay, limitNextStep) {
 	// Test if next step is limited in case of a neutron.
 	NuclearDecay decay;
 	Candidate c(nucleusId(1, 0), 10 * EeV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	decay.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(NuclearDecay, allChannelsWorking) {
@@ -300,7 +300,7 @@ TEST(NuclearDecay, thisIsNotNucleonic) {
 	// Test if nothing happens to an electron
 	NuclearDecay decay;
 	Candidate c(11, 10 * EeV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	decay.process(&c);
 	EXPECT_EQ(11, c.current.getId());
 	EXPECT_EQ(10 * EeV, c.current.getEnergy());
@@ -416,7 +416,7 @@ TEST(PhotoDisintegration, carbon) {
 	int id = nucleusId(12, 6);
 	c.current.setId(id);
 	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(1000 * Mpc);
+	c.setCurrentStep(1000 * Mpc/c.getVelocity());
 	pd.process(&c);
 
 	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV);
@@ -452,7 +452,7 @@ TEST(PhotoDisintegration, iron) {
 	int id = nucleusId(56, 26);
 	c.current.setId(id);
 	c.current.setEnergy(200 * EeV);
-	c.setCurrentStep(1000 * Mpc);
+	c.setCurrentStep(1000 * Mpc/c.getVelocity());
 	pd.process(&c);
 
 	// expect energy loss
@@ -488,7 +488,7 @@ TEST(PhotoDisintegration, thisIsNotNucleonic) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	PhotoDisintegration pd(cmb);
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
+	c.setCurrentStep(1 * Mpc/c.getVelocity());
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
 	pd.process(&c);
@@ -501,11 +501,11 @@ TEST(PhotoDisintegration, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	PhotoDisintegration pd(cmb);
 	Candidate c;
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(200 * EeV);
 	pd.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(PhotoDisintegration, allIsotopes) {
@@ -515,7 +515,7 @@ TEST(PhotoDisintegration, allIsotopes) {
 	ref_ptr<PhotonField> irb = new IRB_Kneiske04();
 	PhotoDisintegration pd2(irb);
 	Candidate c;
-	c.setCurrentStep(10 * Mpc);
+	c.setCurrentStep(10 * Mpc/c.getVelocity());
 
 	for (int Z = 1; Z <= 26; Z++) {
 		for (int N = 1; N <= 30; N++) {
@@ -555,7 +555,7 @@ TEST(PhotoDisintegration, interactionTag) {
 	// test secondary tag
 	pd.setHavePhotons(true);
 	Candidate c(nucleusId(56,26), 500 * EeV);
-	c.setCurrentStep(1 * Gpc);
+	c.setCurrentStep(1 * Gpc/c.getVelocity());
 	pd.process(&c);
 	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "PD");
 
@@ -783,7 +783,7 @@ TEST(ElasticScattering, secondaries) {
 	int id = nucleusId(12, 6);
 	c.current.setId(id);
 	c.current.setEnergy(200 * EeV);
-	c.setCurrentStep(400 * Mpc);
+	c.setCurrentStep(400 * Mpc/c.getVelocity());
 	scattering.process(&c);
 
 	EXPECT_GT(c.secondaries.size(), 0);
@@ -832,7 +832,7 @@ TEST(PhotoPionProduction, proton) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	PhotoPionProduction ppp(cmb);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
-	c.setCurrentStep(1000 * Mpc);
+	c.setCurrentStep(1000 * Mpc/c.getVelocity());
 	ppp.process(&c);
 
 	// expect energy loss
@@ -853,7 +853,7 @@ TEST(PhotoPionProduction, helium) {
 	Candidate c;
 	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(400. * EeV);
-	c.setCurrentStep(1000 * Mpc);
+	c.setCurrentStep(1000 * Mpc/c.getVelocity());
 	ppp.process(&c);
 	EXPECT_LT(c.current.getEnergy(), 400. * EeV);
 	int id = c.current.getId();
@@ -868,7 +868,7 @@ TEST(PhotoPionProduction, thisIsNotNucleonic) {
 	Candidate c;
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(100 * Mpc/c.getVelocity());
 	ppp.process(&c);
 	EXPECT_EQ(11, c.current.getId());
 	EXPECT_EQ(10 * EeV, c.current.getEnergy());
@@ -879,9 +879,9 @@ TEST(PhotoPionProduction, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	PhotoPionProduction ppp(cmb);
 	Candidate c(nucleusId(1, 1), 200 * EeV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	ppp.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(PhotoPionProduction, secondaries) {
@@ -890,7 +890,7 @@ TEST(PhotoPionProduction, secondaries) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	PhotoPionProduction ppp(cmb, true, true, true);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
-	c.setCurrentStep(1000 * Mpc);
+	c.setCurrentStep(1000 * Mpc/c.getVelocity());
 	ppp.process(&c);
 	// there should be secondaries
 	EXPECT_GT(c.secondaries.size(), 1);
@@ -938,7 +938,7 @@ TEST(Redshift, simpleTest) {
 	Candidate c;
 	c.setRedshift(0.024);
 	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(1 * Mpc);
+	c.setCurrentStep(1 * Mpc/c.getVelocity());
 
 	redshift.process(&c);
 	EXPECT_GT(0.024, c.getRedshift()); // expect redshift decrease
@@ -951,7 +951,7 @@ TEST(Redshift, limitRedshiftDecrease) {
 
 	Candidate c;
 	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
-	c.setCurrentStep(150 * Mpc);
+	c.setCurrentStep(150 * Mpc/c.getVelocity());
 
 	redshift.process(&c);
 	EXPECT_DOUBLE_EQ(0, c.getRedshift());
@@ -994,9 +994,9 @@ TEST(EMPairProduction, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	EMPairProduction m(cmb);
 	Candidate c(22, 1E17 * eV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	m.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(EMPairProduction, secondaries) {
@@ -1019,7 +1019,8 @@ TEST(EMPairProduction, secondaries) {
 		for (int i = 0; i < 140; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
-			c.setCurrentStep(1e4 * Mpc);
+			c.setCurrentStep(1e4 * Mpc/c.getVelocity());
+
 			m.process(&c);
 
 			// pass if no interaction has ocurred (no tabulated rates)
@@ -1040,7 +1041,7 @@ TEST(EMPairProduction, secondaries) {
 			}
 
 			// test energy conservation 
-		EXPECT_DOUBLE_EQ(Ep, Etot);
+			EXPECT_DOUBLE_EQ(Ep, Etot);
 		}
 	}
 }
@@ -1099,9 +1100,9 @@ TEST(EMDoublePairProduction, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	EMDoublePairProduction m(cmb);
 	Candidate c(22, 1E17 * eV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	m.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(EMDoublePairProduction, secondaries) {
@@ -1126,7 +1127,7 @@ TEST(EMDoublePairProduction, secondaries) {
 		for (int i = 0; i < 140; i++) {
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
-			c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
+			c.setCurrentStep(1e4 * Mpc/c.getVelocity()); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -1206,9 +1207,9 @@ TEST(EMTripletPairProduction, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	EMTripletPairProduction m(cmb);
 	Candidate c(11, 1E17 * eV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	m.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(EMTripletPairProduction, secondaries) {
@@ -1234,7 +1235,7 @@ TEST(EMTripletPairProduction, secondaries) {
 
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(11, Ep);
-			c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
+			c.setCurrentStep(1e4 * Mpc/c.getVelocity()); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -1314,9 +1315,9 @@ TEST(EMInverseComptonScattering, limitNextStep) {
 	ref_ptr<PhotonField> cmb = new CMB();
 	EMInverseComptonScattering m(cmb);
 	Candidate c(11, 1E17 * eV);
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setNextStep(std::numeric_limits<double>::max()/c.getVelocity());
 	m.process(&c);
-	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+	EXPECT_LT(c.getNextStep()*c.getVelocity(), std::numeric_limits<double>::max());
 }
 
 TEST(EMInverseComptonScattering, secondaries) {
@@ -1341,7 +1342,7 @@ TEST(EMInverseComptonScattering, secondaries) {
 		for (int i = 0; i < 140; i++) {
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(11, Ep);
-			c.setCurrentStep(1e3 * Mpc); // use lower value so that the test can run faster
+			c.setCurrentStep(1e3 * Mpc/c.getVelocity()); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -1394,7 +1395,7 @@ TEST(SynchrotronRadiation, interactionTag) {
 
 	// test secondary tag
 	Candidate c(11, 10 * PeV);
-	c.setCurrentStep(1 * pc);
+	c.setCurrentStep(1 * pc/c.getVelocity());
 	s.process(&c);
 	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "SYN");
 
@@ -1505,12 +1506,12 @@ TEST(SynchrotronRadiation, energyLoss) {
 
 	double dE, lf, Rg, dEdx;
 	Candidate c(11); 
-	c.setCurrentStep(step);
-	c.setNextStep(step);
 	double charge = eplus;
 
 	// 1 GeV 
 	c.current.setEnergy(1 * GeV);
+	c.setCurrentStep(step/c.getVelocity());
+	c.setNextStep(step/c.getVelocity());
 	lf = c.current.getLorentzFactor();
 	Rg = 1 * GeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
 	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
@@ -1520,6 +1521,8 @@ TEST(SynchrotronRadiation, energyLoss) {
 
 	// 100 GeV
 	c.current.setEnergy(100 * GeV);
+	c.setCurrentStep(step/c.getVelocity());
+	c.setNextStep(step/c.getVelocity());
 	lf = c.current.getLorentzFactor();
 	Rg = 100 * GeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
 	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
@@ -1529,6 +1532,8 @@ TEST(SynchrotronRadiation, energyLoss) {
 
 	// 10 TeV
 	c.current.setEnergy(10 * TeV);
+	c.setCurrentStep(step/c.getVelocity());
+	c.setNextStep(step/c.getVelocity());
 	lf = c.current.getLorentzFactor();
 	Rg = 10 * TeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
 	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
@@ -1538,6 +1543,8 @@ TEST(SynchrotronRadiation, energyLoss) {
 
 	// 1 PeV
 	c.current.setEnergy(1 * PeV);
+	c.setCurrentStep(step/c.getVelocity());
+	c.setNextStep(step/c.getVelocity());
 	lf = c.current.getLorentzFactor();
 	Rg = 1 * PeV / charge / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction.  
 	dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
@@ -1556,7 +1563,7 @@ TEST(SynchrotronRadiation, PhotonEnergy) {
 	Candidate c(11, E);
 	c.setCurrentStep(10 * pc); 
 	c.setNextStep(10 * pc);
-	
+
 	double lf = c.current.getLorentzFactor();
 	double Rg = E / eplus / c_light / (brms * sqrt(2. / 3) ); // factor 2/3 for avg magnetic field direction. 
 	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;

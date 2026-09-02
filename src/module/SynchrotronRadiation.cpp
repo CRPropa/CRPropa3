@@ -130,13 +130,13 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	// calculate energy loss
 	double lf = candidate->current.getLorentzFactor();
 	double dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
-	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
+	double step = candidate->getCurrentStep()*candidate->getVelocity() / (1 + z); // step size in local frame
 	double dE = step * dEdx;
 
 	// apply energy loss and limit next step
 	double E = candidate->current.getEnergy();
 	candidate->current.setEnergy(E - dE);
-	candidate->limitNextStep(limit * E / dEdx);
+	candidate->limitNextStep(limit * E / dEdx / candidate->getVelocity());
 
 	// optionally add secondary photons
 	if (not(havePhotons))

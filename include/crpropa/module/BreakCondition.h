@@ -31,6 +31,27 @@ public:
 };
 
 /**
+ * @class MaximumTime
+ * @brief Deactivates the candidate beyond a maximum time
+ * 
+ * This module deactivates the candidate at a given maximum time.
+ * In that case the property ("Deactivated", module::description) is set.
+ * It also limits the candidates next step size to ensure the maximum time is not exceeded.
+ */
+class MaximumTime : public AbstractCondition {
+	private:
+		double maxTime;
+	public:
+		MaximumTime(double time = 0);
+
+		void process(Candidate *candidate) const;
+
+		void setMaximumTime(double time);
+		inline double getMaximumTime() const { return maxTime; }
+		std::string getDescription() const;
+};
+
+/**
  @class MinimumEnergy
  @brief Deactivates the candidate below a minimum energy
 

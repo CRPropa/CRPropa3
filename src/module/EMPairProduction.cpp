@@ -195,7 +195,10 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	
 	// sample electron / positron energy
 	static PPSecondariesEnergyDistribution interpolation;
-	double Ee = interpolation.sample(E, s);
+	// The two particles must exist after the interaction, if we want to sample the
+	// kinetic energy for the EMPair we first must substract the particle masses
+	// and then add it again to converve energy
+	double Ee = interpolation.sample(E-2*mec2, s) + mec2;
 	double Ep = E - Ee;
 	double f = Ep / E;
 	
@@ -236,14 +239,14 @@ void EMPairProduction::process(Candidate *candidate) const {
 	if (rate < 0)
 		return;
 	
-	// run this loop at least once to limit the step size
-	double step = candidate->getCurrentStep();
+	// run this loop at least once to limit the step size 
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	Random &random = Random::instance();
 	do {
 		double randDistance = -log(random.rand()) / rate;
-		// check for interaction; if it doesn't occur, limit next step
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) { 
+			candidate->limitNextStep(limit / rate / candidate->getVelocity());
 		} else {
 			performInteraction(candidate);
 			return;

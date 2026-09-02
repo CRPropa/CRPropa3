@@ -125,6 +125,20 @@ TEST(MaximumTrajectoryLength, observer) {
 	EXPECT_FALSE(c.isActive());
 }
 
+TEST(MaximumTime, test) {
+	MaximumTime maxTime(10);
+	Candidate c;
+
+	c.setTime(9.9);
+	maxTime.process(&c);
+	EXPECT_TRUE(c.isActive());
+
+	c.setTime(10.1);
+	maxTime.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Rejected"));
+}
+
 TEST(MinimumRedshift, test) {
 	MinimumRedshift minZ; // default minimum redshift of 0
 	Candidate c;
@@ -149,7 +163,7 @@ TEST(DetectionLength, test) {
         detL.process(&c);
         EXPECT_TRUE(c.isActive());
 	
-        c.setCurrentStep(10);
+        c.setCurrentStep(10/c.getVelocity());
 	c.setTrajectoryLength(12);
         detL.process(&c);
         EXPECT_TRUE(c.isActive());
@@ -162,7 +176,7 @@ TEST(ObserverFeature, SmallSphere) {
 	Observer obs;
 	obs.add(new ObserverSurface(new Sphere (Vector3d(0, 0, 0), 1)));
 	Candidate c;
-	c.setNextStep(10);
+	c.setNextStep(10/c.getVelocity());
 
 	// no detection: particle was inside already
 	c.current.setPosition(Vector3d(0.9, 0, 0));
@@ -171,7 +185,7 @@ TEST(ObserverFeature, SmallSphere) {
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
-	EXPECT_NEAR(c.getNextStep(), 0.1, 0.001);
+	EXPECT_NEAR(c.getNextStep()*c.getVelocity(), 0.1, 0.001);
 
 	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));
@@ -185,7 +199,7 @@ TEST(ObserverFeature, LargeSphere) {
 	Observer obs;
 	obs.add(new ObserverSurface(new Sphere (Vector3d(0, 0, 0), 10)));
 	Candidate c;
-	c.setNextStep(10);
+	c.setNextStep(10/c.getVelocity());
 
 	// no detection: particle was outside already
 	c.current.setPosition(Vector3d(11, 0, 0));
@@ -194,7 +208,7 @@ TEST(ObserverFeature, LargeSphere) {
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
+	EXPECT_DOUBLE_EQ(c.getNextStep()*c.getVelocity(), 1);
 
 	// detection: particle just left
 	c.current.setPosition(Vector3d(11, 0, 0));
@@ -207,7 +221,7 @@ TEST(ObserverFeature, Point) {
 	Observer obs;
 	obs.add(new Observer1D());
 	Candidate c;
-	c.setNextStep(10);
+	c.setNextStep(10/c.getVelocity());
 
 	// no detection, limit step
 	c.current.setPosition(Vector3d(5, 0, 0));
@@ -215,7 +229,7 @@ TEST(ObserverFeature, Point) {
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
-	EXPECT_DOUBLE_EQ(5, c.getNextStep());
+	EXPECT_DOUBLE_EQ(5, c.getNextStep()*c.getVelocity());
 
 	// detection
 	c.current.setPosition(Vector3d(0, 0, 0));
@@ -240,7 +254,7 @@ TEST(ObserverFeature, TimeEvolution) {
   obs.add(new ObserverTimeEvolution(5, 5, 2));
   Candidate c;
   c.setNextStep(10);
-  c.setTrajectoryLength(3);
+  c.setTime(3);
   
   // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
@@ -252,20 +266,20 @@ TEST(ObserverFeature, TimeEvolution) {
   
   // detection one
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(5);
+  c.setTime(5);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
   obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
-  c.setTrajectoryLength(8);
+  c.setTime(8);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
 
   // detection two
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(10.05);
+  c.setTime(10.05);
   obs.process(&c);
   EXPECT_FALSE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
@@ -282,7 +296,7 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
   c.setNextStep(10);
   // set length before next detection
-  c.setTrajectoryLength(3);
+  c.setTime(3);
 
   // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
   // no detection, limit next step
@@ -294,21 +308,21 @@ TEST(ObserverFeature, TimeEvolutionLog) {
 
   // detection one
   c.setCurrentStep(0.1);  // set small to be barely over first detection length
-  c.setTrajectoryLength(10);  // set to first detection length
+  c.setTime(10);  // set to first detection length
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
 
   // no detection expected
   obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
-  c.setTrajectoryLength(80);  // set to something between 10 and 100 (first and second detection)
+  c.setTime(80);  // set to something between 10 and 100 (first and second detection)
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   obs.setDeactivateOnDetection(false); // reset to false again for future detection
 
   // detection two
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(100);
+  c.setTime(100);
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
   EXPECT_TRUE(c.hasProperty("Detected"));
@@ -316,7 +330,7 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   // detection two
   obs.setDeactivateOnDetection(true);  // deactivate here since it is the last detection
   c.setCurrentStep(0.1);
-  c.setTrajectoryLength(1000.05);
+  c.setTime(1000.05);
   obs.process(&c);
   EXPECT_FALSE(c.isActive());  // not active anymore
   EXPECT_TRUE(c.hasProperty("Detected"));
@@ -358,6 +372,146 @@ TEST(ObserverFeature, TimeEvolutionArray) {
 
   // now check if constructDetListIfEmpty is working properly:
   ObserverTimeEvolution obs2(5, 10, 6, false);
+  times = {5, 6, 7, 8, 9, 10};
+  
+  // check if no array is created while calling getTimes
+  EXPECT_TRUE(obs2.empty());
+  EXPECT_TRUE(times == obs2.getTimes());
+  EXPECT_TRUE(obs2.empty());
+
+  // check if array is created when calling addTime without array
+  times.push_back(11);
+  obs2.addTime(11);
+  EXPECT_FALSE(obs2.empty());
+  EXPECT_TRUE(times == obs2.getTimes());
+}
+
+TEST(ObserverFeature, SpacialEvolution) {
+  Observer obs;
+  obs.setDeactivateOnDetection(false);
+  obs.setFlag("Detected", "Detected");
+  //min = 5, max = min + (numb-1)*dist = 5 + 1*5 = 10, detection can happen at [5, 10]
+  obs.add(new ObserverSpacialEvolution(5, 5, 2));
+  Candidate c;
+  c.setNextStep(10/c.getVelocity());
+  c.setTrajectoryLength(3);
+  
+  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // no detection, limit next step
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+
+  // limit step
+  EXPECT_DOUBLE_EQ(2, c.getNextStep()*c.getVelocity());
+  
+  // detection one
+  c.setCurrentStep(0.1/c.getVelocity());
+  c.setTrajectoryLength(5);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // no detection expected
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
+  c.setTrajectoryLength(8);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+
+  // detection two
+  c.setCurrentStep(0.1/c.getVelocity());
+  c.setTrajectoryLength(10.05);
+  obs.process(&c);
+  EXPECT_FALSE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+}
+
+TEST(ObserverFeature, SpacialEvolutionLog) {
+  Observer obs;
+  obs.setDeactivateOnDetection(false);
+  obs.setFlag("Detected", "Detected");
+  // usage of a log scaling for the observer
+  bool log = true;
+  obs.add(new ObserverSpacialEvolution(10, 1000, 3, log));
+  Candidate c;
+  // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
+  c.setNextStep(10/c.getVelocity());
+  // set length before next detection
+  c.setTrajectoryLength(3);
+
+  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // no detection, limit next step
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+
+  // limit step (should be 10-3=7)
+  EXPECT_DOUBLE_EQ(7, c.getNextStep()*c.getVelocity());
+
+  // detection one
+  c.setCurrentStep(0.1/c.getVelocity());  // set small to be barely over first detection length
+  c.setTrajectoryLength(10);  // set to first detection length
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // no detection expected
+  obs.setDeactivateOnDetection(true); // set this to true, so it deactivates if a detection happens (not expected)
+  c.setTrajectoryLength(80);  // set to something between 10 and 100 (first and second detection)
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  obs.setDeactivateOnDetection(false); // reset to false again for future detection
+
+  // detection two
+  c.setCurrentStep(0.1/c.getVelocity());
+  c.setTrajectoryLength(100);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // detection two
+  obs.setDeactivateOnDetection(true);  // deactivate here since it is the last detection
+  c.setCurrentStep(0.1/c.getVelocity());
+  c.setTrajectoryLength(1000.05);
+  obs.process(&c);
+  EXPECT_FALSE(c.isActive());  // not active anymore
+  EXPECT_TRUE(c.hasProperty("Detected"));
+}
+
+TEST(ObserverFeature, SpacialEvolutionArray) {
+  // here it should be tested if the observer can be constructed with an array
+  std::vector<double> times = {1, 2, 3}; 
+  ObserverSpacialEvolution obs(times);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());  // element wise comparison
+
+  times.push_back(4);
+  obs.addTime(4);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());
+
+  // test clear:
+  obs.clear();
+  EXPECT_TRUE(obs.empty());
+
+  // test addTimeRange for linear ranges
+  times = {5, 6, 7, 8, 9, 10};
+  obs.clear();  // empty detList
+  EXPECT_TRUE(obs.empty());
+  obs.addTimeRange(5, 10, 6, false);
+  EXPECT_FALSE(obs.empty());
+  EXPECT_TRUE(times == obs.getTimes());
+
+  // test addTimeRange for logarithmic ranges
+  times = {1, 10, 100, 1000};
+  obs.clear();  // empty detList
+  EXPECT_TRUE(obs.empty());
+  obs.addTimeRange(1, 1000, 4, true);
+  EXPECT_FALSE(obs.empty());
+  // should be equal to above times array, but isnt, even though the values are the same
+  for (int i=0; i<times.size(); i++)
+    EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
+
+  // now check if constructDetListIfEmpty is working properly:
+  ObserverSpacialEvolution obs2(5, 10, 6, false);
   times = {5, 6, 7, 8, 9, 10};
   
   // check if no array is created while calling getTimes
@@ -420,11 +574,11 @@ TEST(ReflectiveShell, inside) {
 	ReflectiveShell shell(center, radius);
 
 	Candidate c;
-	c.setCurrentStep(20);
+	c.setCurrentStep(20/c.getVelocity());
 	c.previous.setPosition(Vector3d(80, 20, 30));
 	c.previous.setDirection(Vector3d(10, -1, -1));
 	// un-reflected new position (outside shell) after full step
-	Vector3d currentPosition = c.previous.getPosition() + c.previous.getDirection() * c.getCurrentStep() / c.previous.getDirection().getR();
+	Vector3d currentPosition = c.previous.getPosition() + c.previous.getDirection() * c.getCurrentStep() * c.getVelocity() / c.previous.getDirection().getR();
 	c.current.setPosition(currentPosition);
 	c.current.setDirection(Vector3d(10, -1, -1));
 	// process reflection
@@ -512,9 +666,9 @@ TEST(CubicBoundary, limitStepLower) {
 	cube.setMargin(1);
 	Candidate c;
 	c.current.setPosition(Vector3d(15, 15, 10.5));
-	c.setNextStep(100);
+	c.setNextStep(100/c.getVelocity());
 	cube.process(&c);
-	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
+	EXPECT_DOUBLE_EQ(1.5, c.getNextStep()*c.getVelocity());
 }
 
 TEST(CubicBoundary, limitStepUpper) {
@@ -523,9 +677,9 @@ TEST(CubicBoundary, limitStepUpper) {
 	cube.setMargin(1);
 	Candidate c;
 	c.current.setPosition(Vector3d(-5, -5, -0.5));
-	c.setNextStep(100);
+	c.setNextStep(100/c.getVelocity());
 	cube.process(&c);
-	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
+	EXPECT_DOUBLE_EQ(1.5, c.getNextStep()*c.getVelocity());
 }
 
 TEST(SphericalBoundary, inside) {
@@ -552,10 +706,10 @@ TEST(SphericalBoundary, limitStep) {
 	sphere.setLimitStep(true);
 	sphere.setMargin(1);
 	Candidate c;
-	c.setNextStep(100);
+	c.setNextStep(100/c.getVelocity());
 	c.current.setPosition(Vector3d(0, 0, 9.5));
 	sphere.process(&c);
-	EXPECT_DOUBLE_EQ(1.5, c.getNextStep());
+	EXPECT_DOUBLE_EQ(1.5, c.getNextStep()*c.getVelocity());
 }
 
 TEST(EllipsoidalBoundary, inside) {
@@ -581,10 +735,10 @@ TEST(EllipsoidalBoundary, limitStep) {
 	ellipsoid.setLimitStep(true);
 	ellipsoid.setMargin(0.5);
 	Candidate c;
-	c.setNextStep(2);
+	c.setNextStep(2/c.getVelocity());
 	c.current.setPosition(Vector3d(7, 0, 0));
 	ellipsoid.process(&c);
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
+	EXPECT_DOUBLE_EQ(c.getNextStep()*c.getVelocity(), 1.5);
 }
 
 TEST(CylindricalBoundary, inside) {
@@ -610,10 +764,10 @@ TEST(CylindricalBoundary, limitStep) {
 	cylinder.setLimitStep(true);
 	cylinder.setMargin(0.5);
 	Candidate c;
-	c.setNextStep(2);
+	c.setNextStep(2/c.getVelocity());
 	c.current.setPosition(Vector3d(7, 0, 0));
 	cylinder.process(&c);
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
+	EXPECT_DOUBLE_EQ(c.getNextStep()*c.getVelocity(), 1.5);
 }
 
 TEST(RestrictToRegion, RestrictToRegion) {

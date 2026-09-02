@@ -44,8 +44,8 @@ private:
 	double weight; /**< Weight of the candidate */
 	double redshift; /**< Current simulation time-point in terms of redshift z */
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
-	double currentStep; /**< Size of the currently performed step in [m] comoving units */
-	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
+	double currentStep; /**< Length of the currently performed step in [s] */
+	double nextStep; /**< Proposed length of the next propagation step in [s] */
 	std::string tagOrigin; /**< Name of interaction/source process which created this candidate*/
 	double time; /**< Time [s] that has passed in the laboratory frame of reference */
 
@@ -98,7 +98,7 @@ public:
 	 * @param length  Trajectory length in meter
 	 */
 	void setTrajectoryLength(double length);
-	/** Returns current trajectory length */
+	/** Returns current trajectory length, this is tracked alongsite time by multiplying the velocity */
 	double getTrajectoryLength() const;
 	
 	/** Returns absolute of current velocity
@@ -123,19 +123,19 @@ public:
 	/**
 	 Sets the current step and increases the trajectory length and time accordingly.
 	 Only the propagation module should use this.
-	 @param step  Current step in meter
+	 @param step  Current step in [s]
 	 */
 	void setCurrentStep(double step);
-	/** @return Current stepsize in meter */
+	/** @return Current stepsize in [s] */
 	double getCurrentStep() const;
 
 	/**
 	 Sets the proposed next step.
 	 Only the propagation module should use this.
-	 @param step  Proposed next stepsize in meter
+	 @param step  Proposed next stepsize in [s]
 	 */
 	void setNextStep(double step);
-	/** @return  Proposed next stepsize in meter */
+	/** @return  Proposed next stepsize in [s] */
 	double getNextStep() const;
 
 	/**
@@ -152,13 +152,12 @@ public:
 	 */
 	void setTime(double t);
 	/** Returns the time of the candidate.
-	 * The time is tracked alongside TrajectoryLength by dividing the current TrajecoryLength by c
 	 * @return Current time in seconds
 	 */
 	double getTime() const;
 
 	/**
-	 Make a bid for the next step size: the lowest wins.
+	 Make a bid for the next step size [s]: the lowest wins.
 	 @param step  The bid in meter
 	 */
 	void limitNextStep(double step);

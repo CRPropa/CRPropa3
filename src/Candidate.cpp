@@ -89,10 +89,10 @@ void Candidate::updateWeight(double w) {
 	weight *= w;
 }
 
-void Candidate::setCurrentStep(double lstep) {
-	currentStep = lstep;
-	trajectoryLength += lstep;
-	time += lstep / getVelocity();
+void Candidate::setCurrentStep(double tstep) {
+	currentStep = tstep;
+	time += tstep;
+	trajectoryLength += tstep * getVelocity();
 }
 
 void Candidate::setNextStep(double step) {

@@ -98,6 +98,30 @@ std::string ObserverDetectAll::getDescription() const {
 	return description;
 }
 
+
+// ObserverSurface--------------------------------------------------------------
+ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
+
+DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
+{
+		double currentDistance = surface->distance(candidate->current.getPosition());
+		double previousDistance = surface->distance(candidate->previous.getPosition());
+		candidate->limitNextStep(fabs(currentDistance)/candidate->getVelocity());
+
+		if (currentDistance * previousDistance > 0)
+			return NOTHING;
+		else if (previousDistance == 0)
+			return NOTHING;
+		else
+			return DETECTED;
+}
+
+std::string ObserverSurface::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverSurface: << " << surface->getDescription();
+	return ss.str();
+}
+
 // ObserverTracking --------------------------------------------------------
 ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSize) :
 		center(center), radius(radius), stepSize(stepSize) {
@@ -113,12 +137,12 @@ DetectionState ObserverTracking::checkDetection(Candidate *candidate) const {
 	// no detection if outside of observer sphere
 	if (d > radius) {
 		// conservatively limit next step to prevent overshooting
-		candidate->limitNextStep(fabs(d - radius));
+		candidate->limitNextStep(fabs(d - radius) / candidate->getVelocity());
 
 		return NOTHING;
 	} else {
 		// limit next step
-		candidate->limitNextStep(stepSize);
+		candidate->limitNextStep(stepSize / candidate->getVelocity());
 
 		return DETECTED;
 	}
@@ -138,7 +162,7 @@ DetectionState Observer1D::checkDetection(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
 		// Limits the next step size to prevent candidates from overshooting in case of non-detection
-		candidate->limitNextStep(x);
+		candidate->limitNextStep(x/candidate->getVelocity());
 		return NOTHING;
 	}
 	// Detects particles when reaching x = 0
@@ -266,7 +290,7 @@ ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
 	if (nIntervals) {
-		double length = c->getTrajectoryLength();
+		double time = c->getTime();
 		size_t index;
 		const std::string DI = "DetectionIndex";
 
@@ -284,7 +308,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		}
 
 		// Calculate the distance to next detection
-		double distance = length - getTime(index);
+		double distance = time - getTime(index);
 
 		// Limit next step and detect candidate.
 		// Increase the index by one in case of detection
@@ -295,7 +319,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		else {
 
 			if (index < nIntervals-2) {
-				c->limitNextStep(getTime(index+1)-length);
+				c->limitNextStep(getTime(index+1)-time);
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
 
@@ -388,28 +412,49 @@ std::string ObserverTimeEvolution::getDescription() const {
 	return s.str();
 }
 
-// ObserverSurface--------------------------------------------------------------
-ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
 
-DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
-{
-		double currentDistance = surface->distance(candidate->current.getPosition());
-		double previousDistance = surface->distance(candidate->previous.getPosition());
-		candidate->limitNextStep(fabs(currentDistance));
+// ObserverSpacialEvolution --------------------------------------------------------
 
-		if (currentDistance * previousDistance > 0)
+DetectionState ObserverSpacialEvolution::checkDetection(Candidate *c) const {
+
+	if (nIntervals) {
+		double length = c->getTrajectoryLength();
+		size_t index;
+		const std::string DI = "DetectionIndex";
+
+		// Load the last detection index
+		if (c->hasProperty(DI)) {
+			index = c->getProperty(DI).asUInt64();
+		}
+		else {
+			index = 0;
+		}
+
+		// Break if the particle has been detected once for all possible times.
+		if (index >= nIntervals) {
 			return NOTHING;
-		else if (previousDistance == 0)
+		}
+
+		// Calculate the distance to next detection
+		double distance = length - getTime(index);
+
+		// Limit next step and detect candidate.
+		// Increase the index by one in case of detection
+		if (distance < 0.) {
+			c->limitNextStep(-distance/c->getVelocity());
 			return NOTHING;
-		else
+		}
+		else {
+
+			if (index < nIntervals-2) {
+				c->limitNextStep((getTime(index+1)-length)/c->getVelocity());
+			}
+			c->setProperty(DI, Variant::fromUInt64(index+1));
+
 			return DETECTED;
+		}
+	}
+	return NOTHING;
 }
-
-std::string ObserverSurface::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverSurface: << " << surface->getDescription();
-	return ss.str();
-}
-
 
 } // namespace crpropa

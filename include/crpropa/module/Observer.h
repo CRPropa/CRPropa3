@@ -305,7 +305,7 @@ public:
 	 Checks whether to make a detection at the current step of candidate or not.
 	 This function is called in Observer.process with the simulated Candidate.
 	 */
-	DetectionState checkDetection(Candidate *candidate) const;
+	virtual DetectionState checkDetection(Candidate *candidate) const;
 	/** Function
 	 @param enableConstruction	if true, constructs detList from range of min, max, numb
 	 when calling addTime
@@ -366,6 +366,58 @@ public:
 	 This function does not create a detList.
 	 */
 	std::string getDescription() const;
+};
+
+
+/**
+ @class ObserverSpacialEvolution
+ @brief Observes the spacial evolution of the candidates (phase-space elements)
+
+ This observer is very useful if the spacial evolution of the particle density is needed. 
+ It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and 
+ limits the nextStep of candidates to prevent overshooting of detection intervals.
+ */
+class ObserverSpacialEvolution: public ObserverTimeEvolution{
+	public:
+	/** Default constructor
+	 */
+	ObserverSpacialEvolution() : ObserverTimeEvolution() {}
+	/** Constructor
+	 @param min		minimum length
+	 @param dist	length interval for detection
+	 @param numb	number of length intervals
+
+	 This constructor calculates the maximum from max = min + (numb - 1) * dist
+	 */
+	ObserverSpacialEvolution(double min, double dist, double numb)
+		: ObserverTimeEvolution(min, dist, numb) {}
+	/** Constructor
+	 @param min		minimum length
+	 @param max	    maximum length
+	 @param numb	number of length intervals
+	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
+	 
+	 This constructor sets the maximum directly and gets numb automatically.
+	 You need to set the log parameter, since an overload for the first three doubles exist.
+	 */
+	ObserverSpacialEvolution(double min, double max, double numb, bool log)
+		: ObserverTimeEvolution(min, max, numb, log) {}
+	/** Constructor
+	 @param detList	user defined vector<double> with lengths to check
+
+	 This constructor uses a predefined vector containing the lengths that should be observed.
+	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
+	 */
+	ObserverSpacialEvolution(const std::vector<double> &detList)
+		: ObserverTimeEvolution(detList) {}
+
+	/** Function
+	 @param candidate	Candidate usally given by a module list
+
+	 Checks whether to make a detection at the current step of candidate or not.
+	 This function is called in Observer.process with the simulated Candidate.
+	 */
+	DetectionState checkDetection(Candidate *candidate) const;
 };
 
 /** @} */

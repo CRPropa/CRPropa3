@@ -149,7 +149,7 @@ void PhotoDisintegration::initPhotonEmission(std::string filename) {
 
 void PhotoDisintegration::process(Candidate *candidate) const {
 	// execute the loop at least once for limiting the next step
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
@@ -181,7 +181,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		Random &random = Random::instance();
 		double randDist = -log(random.rand()) / rate;
 		if (step < randDist) {
-			candidate->limitNextStep(limit / rate);
+			candidate->limitNextStep(limit / rate / candidate->getVelocity());
 			return;
 		}
 

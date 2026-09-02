@@ -180,21 +180,21 @@ TEST(Candidate, currentStep) {
 	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 0);
 	EXPECT_DOUBLE_EQ(candidate.getTime(), 0);
 
-	candidate.setCurrentStep(1 * Mpc);
+	candidate.setCurrentStep(1 * Mpc/candidate.getVelocity());
 
-	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getCurrentStep()*candidate.getVelocity(), 1 * Mpc);
 	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 1 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / c_light);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / candidate.getVelocity());
 }
 
 TEST(Candidate, limitNextStep) {
 	Candidate candidate;
-	candidate.setNextStep(5 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 5 * Mpc);
-	candidate.limitNextStep(2 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 2 * Mpc);
-	candidate.limitNextStep(3 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 2 * Mpc);
+	candidate.setNextStep(5 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 5 * Mpc);
+	candidate.limitNextStep(2 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 2 * Mpc);
+	candidate.limitNextStep(3 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 2 * Mpc);
 }
 
 TEST(Candidate, isActive) {

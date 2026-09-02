@@ -3,6 +3,7 @@
 ### Bug fixes:
 * Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
 * Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
+* Fixed taskedSecondary parameter growing larger than number of scheduled secondaries
 
 ### New features:
 

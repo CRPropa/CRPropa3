@@ -266,28 +266,28 @@ std::string ObserverParticleIdVeto::getDescription() const {
 }
 
 
-// ObserverTimeEvolution --------------------------------------------------------
-ObserverTimeEvolution::ObserverTimeEvolution() {}
+// ObserverTimeSnapshot --------------------------------------------------------
+ObserverTimeSnapshot::ObserverTimeSnapshot() {}
 
-ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
+ObserverTimeSnapshot::ObserverTimeSnapshot(double min, double dist, double numb) {
 	setIsLogarithmicScaling(false);
 	setMaximum(min + (numb - 1) * dist);
 	setMinimum(min);
 	setNIntervals(numb);
 }
 
-ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
+ObserverTimeSnapshot::ObserverTimeSnapshot(double min, double max, double numb, bool log) {
 	setIsLogarithmicScaling(log);
 	setMinimum(min);
 	setMaximum(max);
 	setNIntervals(numb);
 }
 
-ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
+ObserverTimeSnapshot::ObserverTimeSnapshot(const std::vector<double> &detList){
 	setTimes(detList);
 }
 
-DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
+DetectionState ObserverTimeSnapshot::checkDetection(Candidate *c) const {
 
 	if (nIntervals) {
 		double time = c->getTime();
@@ -329,14 +329,14 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
-void ObserverTimeEvolution::clear(){
+void ObserverTimeSnapshot::clear(){
 	doDetListConstruction = false;
 	detList.clear();
 	detList.resize(0);
 	setNIntervals(0);
 }
 
-void ObserverTimeEvolution::constructDetListIfEmpty(){
+void ObserverTimeSnapshot::constructDetListIfEmpty(){
 	if (detList.empty() && doDetListConstruction) {
 		std::vector<double> detListTemp;
 		size_t counter = 0;
@@ -348,18 +348,18 @@ void ObserverTimeEvolution::constructDetListIfEmpty(){
 	}
 }
 
-void ObserverTimeEvolution::addTime(const double &time){
+void ObserverTimeSnapshot::addTime(const double &time){
 	constructDetListIfEmpty();
 	detList.push_back(time);
 	setNIntervals(nIntervals + 1);  // increase number of entries by one
 }
 
-void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
+void ObserverTimeSnapshot::addTimeRange(double min, double max, double numb, bool log) {
 	for (size_t i = 0; i < numb; i++) {
 		if (log) {
 			if ( min <= 0 ){
-				std::cout << "min can not be <= 0 if log=true" << std::endl;
-				throw new std::runtime_error("min can not be <= 0 if log=true");
+				KISS_LOG_ERROR << "min can not be <= 0 if log=true\n";
+				throw std::runtime_error("min can not be <= 0 if log=true");
 			}
 			addTime(min * pow(max / min, i / (numb - 1.0)));
 		} else {
@@ -370,7 +370,7 @@ void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bo
 	setNIntervals(detList.size());
 }
 
-void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
+void ObserverTimeSnapshot::setTimes(const std::vector<double> &detList){
 	this->detList.assign(detList.begin(), detList.end());
 	setNIntervals(detList.size());
 	setMinimum(detList.front());
@@ -378,15 +378,15 @@ void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
 	doDetListConstruction = false;
 }
 
-void ObserverTimeEvolution::setMinimum(double min){
+void ObserverTimeSnapshot::setMinimum(double min){
 	if ( (min <= 0) && isLogarithmicScaling){
-		std::cout << "minimum can not be <= 0 if isLogarithmicScaling=true" << std::endl;
-		throw new std::runtime_error("minimum can not be <= 0 if isLogarithmicScaling=true");
+		KISS_LOG_ERROR << "minimum can not be <= 0 if isLogarithmicScaling=true\n";
+		throw std::runtime_error("minimum can not be <= 0 if isLogarithmicScaling=true");
 	}
 	this->minimum = min;
 }
 
-double ObserverTimeEvolution::getTime(size_t index) const {
+double ObserverTimeSnapshot::getTime(size_t index) const {
 	if (!detList.empty()) {
 		return detList.at(index);
 	} else if (isLogarithmicScaling) {
@@ -396,7 +396,7 @@ double ObserverTimeEvolution::getTime(size_t index) const {
 	}
 }
 
-const std::vector<double>& ObserverTimeEvolution::getTimes() const {
+const std::vector<double>& ObserverTimeSnapshot::getTimes() const {
 	tempDetList.resize(nIntervals);
 	for (size_t i = 0; i < nIntervals; i++){
 		tempDetList[i] = getTime(i);
@@ -404,18 +404,18 @@ const std::vector<double>& ObserverTimeEvolution::getTimes() const {
 	return tempDetList;
 }
 
-std::string ObserverTimeEvolution::getDescription() const {
+std::string ObserverTimeSnapshot::getDescription() const {
 	std::stringstream s;
-	s << "List of Detection lengths in kpc";
+	s << "List of Detection times in kiloyears";
 	for (size_t i = 0; i < nIntervals; i++)
-	  s << "  - " << getTime(i) / kpc;
+	  s << "  - " << getTime(i) / kiloyear;
 	return s.str();
 }
 
 
 // ObserverSpacialEvolution --------------------------------------------------------
 
-DetectionState ObserverSpacialEvolution::checkDetection(Candidate *c) const {
+DetectionState ObserverSpacialSnapshot::checkDetection(Candidate *c) const {
 
 	if (nIntervals) {
 		double length = c->getTrajectoryLength();
@@ -455,6 +455,39 @@ DetectionState ObserverSpacialEvolution::checkDetection(Candidate *c) const {
 		}
 	}
 	return NOTHING;
+}
+
+std::string ObserverSpacialSnapshot::getDescription() const {
+	std::stringstream s;
+	s << "List of Detection lengths in kpc";
+	for (size_t i = 0; i < nIntervals; i++)
+	  s << "  - " << getTime(i) / kpc;
+	return s.str();
+}
+
+// ObserverTimeEvolution (deprecated) --------------------------------------------------------
+
+void ObserverTimeEvolution::throwWarning(){
+	KISS_LOG_WARNING << "WARNING: ObserverTimeEvolution is deprecated, use ObserverSpacialSnapshot or ObserverTimeSnapshot instead\n";
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution() : ObserverSpacialSnapshot() {
+	throwWarning();
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb)
+	: ObserverSpacialSnapshot(min, dist, numb) {
+	throwWarning();
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log)
+	: ObserverSpacialSnapshot(min, max, numb, log) {
+	throwWarning();
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
+	: ObserverSpacialSnapshot(detList) {
+	throwWarning();
 }
 
 } // namespace crpropa

@@ -251,12 +251,12 @@ TEST(ObserverFeature, TimeEvolution) {
   obs.setDeactivateOnDetection(false);
   obs.setFlag("Detected", "Detected");
   //min = 5, max = min + (numb-1)*dist = 5 + 1*5 = 10, detection can happen at [5, 10]
-  obs.add(new ObserverTimeEvolution(5, 5, 2));
+  obs.add(new ObserverTimeSnapshot(5, 5, 2));
   Candidate c;
   c.setNextStep(10);
   c.setTime(3);
   
-  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // Simulate simple detections to guarantee ObserverTimeSnapshot.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -291,14 +291,14 @@ TEST(ObserverFeature, TimeEvolutionLog) {
   obs.setFlag("Detected", "Detected");
   // usage of a log scaling for the observer
   bool log = true;
-  obs.add(new ObserverTimeEvolution(10, 1000, 3, log));
+  obs.add(new ObserverTimeSnapshot(10, 1000, 3, log));
   Candidate c;
   // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
   c.setNextStep(10);
   // set length before next detection
   c.setTime(3);
 
-  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // Simulate simple detections to guarantee ObserverTimeSnapshot.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -339,7 +339,7 @@ TEST(ObserverFeature, TimeEvolutionLog) {
 TEST(ObserverFeature, TimeEvolutionArray) {
   // here it should be tested if the observer can be constructed with an array
   std::vector<double> times = {1, 2, 3}; 
-  ObserverTimeEvolution obs(times);
+  ObserverTimeSnapshot obs(times);
   EXPECT_FALSE(obs.empty());
   EXPECT_TRUE(times == obs.getTimes());  // element wise comparison
 
@@ -371,7 +371,7 @@ TEST(ObserverFeature, TimeEvolutionArray) {
     EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
 
   // now check if constructDetListIfEmpty is working properly:
-  ObserverTimeEvolution obs2(5, 10, 6, false);
+  ObserverTimeSnapshot obs2(5, 10, 6, false);
   times = {5, 6, 7, 8, 9, 10};
   
   // check if no array is created while calling getTimes
@@ -391,12 +391,12 @@ TEST(ObserverFeature, SpacialEvolution) {
   obs.setDeactivateOnDetection(false);
   obs.setFlag("Detected", "Detected");
   //min = 5, max = min + (numb-1)*dist = 5 + 1*5 = 10, detection can happen at [5, 10]
-  obs.add(new ObserverSpacialEvolution(5, 5, 2));
+  obs.add(new ObserverSpacialSnapshot(5, 5, 2));
   Candidate c;
   c.setNextStep(10/c.getVelocity());
   c.setTrajectoryLength(3);
   
-  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // Simulate simple detections to guarantee ObserverTimeSnapshot.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -431,14 +431,14 @@ TEST(ObserverFeature, SpacialEvolutionLog) {
   obs.setFlag("Detected", "Detected");
   // usage of a log scaling for the observer
   bool log = true;
-  obs.add(new ObserverSpacialEvolution(10, 1000, 3, log));
+  obs.add(new ObserverSpacialSnapshot(10, 1000, 3, log));
   Candidate c;
   // choose a stepsize that is larger then distance to next detection at 10 to check step limitation
   c.setNextStep(10/c.getVelocity());
   // set length before next detection
   c.setTrajectoryLength(3);
 
-  // Simulate simple detections to guarantee ObserverTimeEvolution.checkDetection is working:
+  // Simulate simple detections to guarantee ObserverTimeSnapshot.checkDetection is working:
   // no detection, limit next step
   obs.process(&c);
   EXPECT_TRUE(c.isActive());
@@ -479,7 +479,7 @@ TEST(ObserverFeature, SpacialEvolutionLog) {
 TEST(ObserverFeature, SpacialEvolutionArray) {
   // here it should be tested if the observer can be constructed with an array
   std::vector<double> times = {1, 2, 3}; 
-  ObserverSpacialEvolution obs(times);
+  ObserverSpacialSnapshot obs(times);
   EXPECT_FALSE(obs.empty());
   EXPECT_TRUE(times == obs.getTimes());  // element wise comparison
 
@@ -511,7 +511,7 @@ TEST(ObserverFeature, SpacialEvolutionArray) {
     EXPECT_NEAR(times[i], obs.getTimes()[i], 0.01);
 
   // now check if constructDetListIfEmpty is working properly:
-  ObserverSpacialEvolution obs2(5, 10, 6, false);
+  ObserverSpacialSnapshot obs2(5, 10, 6, false);
   times = {5, 6, 7, 8, 9, 10};
   
   // check if no array is created while calling getTimes

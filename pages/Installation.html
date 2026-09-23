@@ -1419,7 +1419,7 @@
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">BUILD_DOC</span> <span class="pre">=</span> <span class="pre">OFF</span></code> : This enables the building of a <code class="docutils literal notranslate"><span class="pre">doxygen</span></code> version of the documentation, this will look very bare bone. To build a better documentation additionally install <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> and use <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">/path/to/your/buildfolder</span> <span class="pre">--target</span> <span class="pre">doc</span></code> while this options is set to <code class="docutils literal notranslate"><span class="pre">ON</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span> <span class="pre">=</span> <span class="pre">/usr/local</span></code> : The installation prefix, a standard variable in every <code class="docutils literal notranslate"><span class="pre">cmake</span></code> build, this specifies where <code class="docutils literal notranslate"><span class="pre">cmake</span></code> should install the project. You should ensure you are actually allowed to write to that location.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">DOWNLOAD_DATA</span> <span class="pre">=</span> <span class="pre">ON</span></code> : Whether to download the <a class="reference external" href="https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz">data</a>. You might want to disable this if you already have data downloaded or generated over <a class="reference external" href="https://github.com/CRPropa/CRPropa3-data/tree/master">CRPrpa3-data</a> and do not want to override the existing data, or downloading and extracting is a problem for you.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DOWNLOAD_DATA</span> <span class="pre">=</span> <span class="pre">ON</span></code> : Whether to download the <a class="reference external" href="https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-$%7BCRPROPA_DATAFILE_VER%7D.tar.gz">data</a>. You might want to disable this if you already have data downloaded or generated over <a class="reference external" href="https://github.com/CRPropa/CRPropa3-data/tree/master">CRPrpa3-data</a> and do not want to override the existing data, or downloading and extracting is a problem for you.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ENABLE_COVERAGE</span> <span class="pre">=</span> <span class="pre">OFF</span></code> : Whether to enable <a class="reference external" href="https://github.com/linux-test-project/lcov">coverage (lcov)</a> support. To build the coverage support you can use <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">/path/to/your/buildfolder</span> <span class="pre">--target</span> <span class="pre">coverage</span></code> after doing <code class="docutils literal notranslate"><span class="pre">ctest</span></code>. You will also need <code class="docutils literal notranslate"><span class="pre">genhtml</span></code> and <code class="docutils literal notranslate"><span class="pre">lcov</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ENABLE_GIT</span> <span class="pre">=</span> <span class="pre">ON</span></code> : This just includes the corresponding CRPropa version correctly in the project</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ENABLE_HDF5</span> <span class="pre">=</span> <span class="pre">ON</span></code> : This enables the generation of HDF5 binary output, this does not replace the normal output.</p></li>
@@ -1561,30 +1561,31 @@ cmake<span class="w"> </span>--install<span class="w"> </span>.
 </section>
 <section id="id9">
 <h2>Notes<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
-<ul>
-<li><p>Sometimes CMake has difficulties finding the correct <code class="docutils literal notranslate"><span class="pre">python</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy</span></code> header and executables, to help CMake finding those define the following environment variables before using <code class="docutils literal notranslate"><span class="pre">cmake</span></code>:
-.. code-block:: sh</p>
-<blockquote>
-<div><p>export PYTHON_EXECUTABLE=$(which python)
-export PYTHON_INCLUDE_DIR=$(${PYTHON_EXECUTABLE} -c “import sysconfig; print(sysconfig.get_paths()[‘include’])”)
-export NUMPY_INCLUDE_DIR=$(${PYTHON_EXECUTABLE} -c “import numpy; print(numpy.get_include())”)
-export PYTHON_INSTALL_PACKAGE_DIR=$(${PYTHON_EXECUTABLE} -c “import sysconfig; print(sysconfig.get_paths()[‘purelib’])”)</p>
-</div></blockquote>
-<p>And hand them over to <code class="docutils literal notranslate"><span class="pre">cmake</span></code> as CMake-Variables so <code class="docutils literal notranslate"><span class="pre">find_python</span></code> can recognize them:
-.. code-block:: sh</p>
-<blockquote>
-<div><p>cmake .. -DPython_EXECUTABLE=${PYTHON_EXECUTABLE} -DPython_INCLUDE_DIRS=${PYTHON_INCLUDE_DIR} -DPython_NumPy_INCLUDE_DIRS=${NUMPY_INCLUDE_DIR} -DPython_INSTALL_PACKAGE_DIR=${PYTHON_INSTALL_PACKAGE_DIR}</p>
-</div></blockquote>
-</li>
+<ul class="simple">
+<li><p>Sometimes CMake has difficulties finding the correct <code class="docutils literal notranslate"><span class="pre">python</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy</span></code> header and executables, to help CMake finding those define the following environment variables before using <code class="docutils literal notranslate"><span class="pre">cmake</span></code>:</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHON_EXECUTABLE</span><span class="o">=</span><span class="k">$(</span>which<span class="w"> </span>python<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHON_INCLUDE_DIR</span><span class="o">=</span><span class="k">$(</span><span class="si">${</span><span class="nv">PYTHON_EXECUTABLE</span><span class="si">}</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sysconfig; print(sysconfig.get_paths()[&#39;include&#39;])&quot;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NUMPY_INCLUDE_DIR</span><span class="o">=</span><span class="k">$(</span><span class="si">${</span><span class="nv">PYTHON_EXECUTABLE</span><span class="si">}</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import numpy; print(numpy.get_include())&quot;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHON_INSTALL_PACKAGE_DIR</span><span class="o">=</span><span class="k">$(</span><span class="si">${</span><span class="nv">PYTHON_EXECUTABLE</span><span class="si">}</span><span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sysconfig; print(sysconfig.get_paths()[&#39;purelib&#39;])&quot;</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>And hand them over to <code class="docutils literal notranslate"><span class="pre">cmake</span></code> as CMake-Variables so <code class="docutils literal notranslate"><span class="pre">find_python</span></code> can recognize them:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>..<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DPython_EXECUTABLE<span class="o">=</span><span class="si">${</span><span class="nv">PYTHON_EXECUTABLE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DPython_INCLUDE_DIRS<span class="o">=</span><span class="si">${</span><span class="nv">PYTHON_INCLUDE_DIR</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DPython_NumPy_INCLUDE_DIRS<span class="o">=</span><span class="si">${</span><span class="nv">NUMPY_INCLUDE_DIR</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DPython_INSTALL_PACKAGE_DIR<span class="o">=</span><span class="si">${</span><span class="nv">PYTHON_INSTALL_PACKAGE_DIR</span><span class="si">}</span>
+</pre></div>
+</div>
+<ul class="simple">
 <li><p>To do the coverage report first install <code class="docutils literal notranslate"><span class="pre">lcov</span></code> and <code class="docutils literal notranslate"><span class="pre">genhtml</span></code>, then do the tests with <code class="docutils literal notranslate"><span class="pre">ctest</span></code> and built the coverage target with <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">/path/to/your/buildfolder</span> <span class="pre">--target</span> <span class="pre">coverage</span></code>.</p></li>
 <li><p>It is generally advised to use <code class="docutils literal notranslate"><span class="pre">ninja</span></code> instead of the default <code class="docutils literal notranslate"><span class="pre">make</span></code>, use it with the <code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">Ninja</span></code> flag for <code class="docutils literal notranslate"><span class="pre">cmake</span></code>, you can install it over <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code> or your package manager</p></li>
-<li><p>You might want to generate some python stubs to get code recommendation from tools like <code class="docutils literal notranslate"><span class="pre">pylance</span></code>, for that install <code class="docutils literal notranslate"><span class="pre">pybind11-stubgen</span></code> over <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code> or your package manager and then do:
-.. code-block:: sh</p>
-<blockquote>
-<div><p>pybind11-stubgen -o $(python -c “import sysconfig; print(sysconfig.get_paths()[‘purelib’])”) crpropa</p>
-</div></blockquote>
-</li>
+<li><p>You might want to generate some python stubs to get code recommendation from tools like <code class="docutils literal notranslate"><span class="pre">pylance</span></code>, for that install <code class="docutils literal notranslate"><span class="pre">pybind11-stubgen</span></code> over <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code> or your package manager and then do:</p></li>
 </ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pybind11-stubgen<span class="w"> </span>-o<span class="w"> </span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sysconfig; print(sysconfig.get_paths()[&#39;purelib&#39;])&quot;</span><span class="k">)</span><span class="w"> </span>crpropa
+</pre></div>
+</div>
 </section>
 </section>
 <section id="known-issues">

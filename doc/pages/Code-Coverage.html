@@ -1345,24 +1345,25 @@
   <section id="code-coverage">
 <h1>Code Coverage<a class="headerlink" href="#code-coverage" title="Link to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">lcov</span></code> is needed for this feature.</p>
-<ul>
-<li><p>compile crpropa with coverage support</p>
+<ul class="simple">
+<li><p>compile crpropa with coverage support</p></li>
+</ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span><span class="w"> </span><span class="o">-</span><span class="n">DENABLE_COVERAGE</span><span class="o">=</span><span class="n">TRUE</span><span class="w"> </span><span class="p">..</span>
 </pre></div>
 </div>
-</li>
-<li><p>Execute tests</p>
+<ul class="simple">
+<li><p>Execute tests</p></li>
+</ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">make</span><span class="w"> </span><span class="n">test</span>
 </pre></div>
 </div>
-</li>
-<li><p>Create coverage report</p>
+<ul class="simple">
+<li><p>Create coverage report</p></li>
+</ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">make</span><span class="w"> </span><span class="n">coverage</span>
 </pre></div>
 </div>
 <p>The final report is in <code class="docutils literal notranslate"><span class="pre">~/build/coverageReport/index.html</span></code></p>
-</li>
-</ul>
 <section id="coverage-report-of-the-current-master-branch">
 <h2>Coverage report of the current master branch<a class="headerlink" href="#coverage-report-of-the-current-master-branch" title="Link to this heading"></a></h2>
 <p>The coverage report of the current master branch can be accesed <a class="reference external" href="coverageReport/index.html">by clicking here</a> now.</p>

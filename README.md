@@ -1,7 +1,7 @@
 CRPropa
 ========
 
-![stable release](https://img.shields.io/badge/stable\_release-3.2.2-darkblue)
+[![stable release](https://img.shields.io/badge/stable\_release-3.3.1-darkblue)](https://github.com/CRPropa/CRPropa3/releases/tag/3.3.1)
 
 [![Build: ubuntu24](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu24.yml)
 [![Build: ubuntu22](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml)

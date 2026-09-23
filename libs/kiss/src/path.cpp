@@ -27,6 +27,7 @@
 
 #include <stdexcept>
 #include <cstdio>
+#include <stdlib.h>
 
 bool create_directory(const std::string &path, size_t user_permission,
 		size_t group_permission, size_t other_permission) {

@@ -239,7 +239,7 @@ public:
  @brief Observes the time evolution of the candidates (phase-space elements)
  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
-class ObserverTimeEvolution: public ObserverFeature {
+class ObserverTimeSnapshot: public ObserverFeature {
 protected:
 	int nIntervals;  // number of time invervals
 	bool isLogarithmicScaling = false;  // enables or disables logarithmic scaling for the intervals
@@ -261,7 +261,7 @@ protected:
 public:
 	/** Default constructor
 	 */
-	ObserverTimeEvolution();
+	ObserverTimeSnapshot();
 	/** Constructor
 	 @param min		minimum time
 	 @param dist	time interval for detection
@@ -269,7 +269,7 @@ public:
 
 	 This constructor calculates the maximum from max = min + (numb - 1) * dist
 	 */
-	ObserverTimeEvolution(double min, double dist, double numb);
+	ObserverTimeSnapshot(double min, double dist, double numb);
 	/** Constructor
 	 @param min		minimum time
 	 @param max	    maximum time
@@ -279,17 +279,17 @@ public:
 	 This constructor sets the maximum directly and gets numb automatically.
 	 You need to set the log parameter, since an overload for the first three doubles exist.
 	 */
-	ObserverTimeEvolution(double min, double max, double numb, bool log);
+	ObserverTimeSnapshot(double min, double max, double numb, bool log);
 	/** Constructor
 	 @param detList	user defined vector<double> with times to check
 
 	 This constructor uses a predefined vector containing the times that should be observed.
 	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
 	 */
-	ObserverTimeEvolution(const std::vector<double> &detList);
+	ObserverTimeSnapshot(const std::vector<double> &detList);
 	/** Destructor
 	 */
-	~ObserverTimeEvolution(){}
+	~ObserverTimeSnapshot(){}
 
 	/** Function
 	 Generates the detList if it is empty when for example the 
@@ -370,18 +370,19 @@ public:
 
 
 /**
- @class ObserverSpacialEvolution
+ @class ObserverSpacialSnapshot
  @brief Observes the spacial evolution of the candidates (phase-space elements)
 
  This observer is very useful if the spacial evolution of the particle density is needed. 
  It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and 
  limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
-class ObserverSpacialEvolution: public ObserverTimeEvolution{
+class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
 	public:
+	// Redefine Constructor instead of using `using ObserverTimeSnapshot::ObserverTimeSnapshot` for SWIG<4.5.0
 	/** Default constructor
 	 */
-	ObserverSpacialEvolution() : ObserverTimeEvolution() {}
+	ObserverSpacialSnapshot() : ObserverTimeSnapshot() {}
 	/** Constructor
 	 @param min		minimum length
 	 @param dist	length interval for detection
@@ -389,8 +390,8 @@ class ObserverSpacialEvolution: public ObserverTimeEvolution{
 
 	 This constructor calculates the maximum from max = min + (numb - 1) * dist
 	 */
-	ObserverSpacialEvolution(double min, double dist, double numb)
-		: ObserverTimeEvolution(min, dist, numb) {}
+	ObserverSpacialSnapshot(double min, double dist, double numb)
+		: ObserverTimeSnapshot(min, dist, numb) {}
 	/** Constructor
 	 @param min		minimum length
 	 @param max	    maximum length
@@ -400,16 +401,16 @@ class ObserverSpacialEvolution: public ObserverTimeEvolution{
 	 This constructor sets the maximum directly and gets numb automatically.
 	 You need to set the log parameter, since an overload for the first three doubles exist.
 	 */
-	ObserverSpacialEvolution(double min, double max, double numb, bool log)
-		: ObserverTimeEvolution(min, max, numb, log) {}
+	ObserverSpacialSnapshot(double min, double max, double numb, bool log)
+		: ObserverTimeSnapshot(min, max, numb, log) {}
 	/** Constructor
 	 @param detList	user defined vector<double> with lengths to check
 
 	 This constructor uses a predefined vector containing the lengths that should be observed.
 	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
 	 */
-	ObserverSpacialEvolution(const std::vector<double> &detList)
-		: ObserverTimeEvolution(detList) {}
+	ObserverSpacialSnapshot(const std::vector<double> &detList)
+		: ObserverTimeSnapshot(detList) {}
 
 	/** Function
 	 @param candidate	Candidate usally given by a module list
@@ -418,6 +419,54 @@ class ObserverSpacialEvolution: public ObserverTimeEvolution{
 	 This function is called in Observer.process with the simulated Candidate.
 	 */
 	DetectionState checkDetection(Candidate *candidate) const;
+
+	/** Function
+	 Returns a string containing a representation of all lengths.
+	 This function does not create a detList.
+	 */
+	std::string getDescription() const;
+
+};
+
+/**
+ @class ObserverTimeEvolution
+ @brief (Deprecated!) Observes the time evolution of the candidates (phase-space elements)
+ This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
+ */
+class ObserverTimeEvolution : public ObserverSpacialSnapshot {
+	private:
+	void throwWarning();
+	public:
+	// Redefine Constructor instead of using `using ObserverTimeSnapshot::ObserverTimeSnapshot` for SWIG<4.5.0
+	/** Default constructor
+	 */
+	ObserverTimeEvolution();
+	/** Constructor
+	 @param min		minimum length
+	 @param dist	length interval for detection
+	 @param numb	number of length intervals
+
+	 This constructor calculates the maximum from max = min + (numb - 1) * dist
+	 */
+	ObserverTimeEvolution(double min, double dist, double numb);
+	/** Constructor
+	 @param min		minimum length
+	 @param max	    maximum length
+	 @param numb	number of length intervals
+	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
+	 
+	 This constructor sets the maximum directly and gets numb automatically.
+	 You need to set the log parameter, since an overload for the first three doubles exist.
+	 */
+	ObserverTimeEvolution(double min, double max, double numb, bool log);
+	/** Constructor
+	 @param detList	user defined vector<double> with lengths to check
+
+	 This constructor uses a predefined vector containing the lengths that should be observed.
+	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
+	 */
+	ObserverTimeEvolution(const std::vector<double> &detList);
+
 };
 
 /** @} */

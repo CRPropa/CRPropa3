@@ -3,6 +3,7 @@
 ### Bug fixes:
 * Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
 * Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
+* Fixed taskedSecondary parameter growing larger than number of scheduled secondaries
 
 ### New features:
 * Velocities can now be smaller then light speed
@@ -11,12 +12,14 @@
 
 ### Interface changes:
 * CRPropa now uses explicit time as steps instead of length steps
-* `ObserverTimeEvolution` now assumes explicit times instead of length (for old behaviour see `ObserverSpacialEvolution`)
+* Added `ObserverTimeSnapshot` which takes explicit times instead of lengths like the now deprecated `ObserverTimeEvolution`
+* Added `ObserverSpacialEvolution` which behaves the same as old now deprecated `ObserverTimeEvolution`
 * Added overloads to propagators that take time steps instead of length steps
 * Length steps in propagator constructors are now directly converted to times by dividing by `c_light` to preserve old behaviour
 
 ### Features that are deprecated and will be removed after this release
 * Propagation constructors will only accept minimum and maximum times instead of length and will take them in the the same order it takes length steps now
+* `ObserverTimeEvolution` will be removed, use `ObserverSpacialEvolution` for the same behaviour
 
 ### Removed features
 * Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)

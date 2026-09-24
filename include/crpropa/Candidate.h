@@ -104,7 +104,7 @@ public:
 	/** Returns absolute of current velocity
 	 * To get the current velocity vector you can use Candidate.current.getVelocity()
 	 */
-	double getVelocity() const;
+	inline double getVelocity() const {return current.getSpeed();}
 
 	void setRedshift(double z);
 	double getRedshift() const;

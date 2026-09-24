@@ -18,7 +18,7 @@ namespace crpropa {
 	PropagationBP::Y PropagationBP::dY(Vector3d pos, Vector3d dir, double dt, 
 		double z, ParticleState &current) const {
 
-		Vector3d vel = dir*current.getVelocity().getR();
+		Vector3d vel = dir*current.getSpeed();
 			
 		// do nothing if velocity is zero to avoid dividing by zero in getUnitVector
 		if (vel==Vector3(0))

@@ -59,20 +59,17 @@ void ParticleState::setLorentzFactor(double lf) {
 	setEnergy((lf-1) * pmass * c_squared);
 }
 
-double ParticleState::getBeta() const {
-	return getVelocity().getR2()/c_squared;
+double ParticleState::getSpeed() const {
+	if (pmass==0) 
+		return c_light;
+	else if (getLorentzFactor()<RelativisticLimit)  // can happen if if gamma-1 < numericalPrecission
+		return sqrt(energy*2/pmass);  // non relativistic case
+	else
+		return c_light*sqrt(1-1/pow(getLorentzFactor(), 2));
 }
 
 Vector3d ParticleState::getVelocity() const {
-	Vector3d velocity;
-	if (pmass==0) 
-		velocity = direction*c_light;
-	else if (getLorentzFactor()<RelativisticLimit)  // can happen if if gamma-1 < numericalPrecission
-		velocity = direction * sqrt(energy*2/pmass);  // non relativistic case
-	else
-		velocity = direction * c_light*sqrt(1-1/pow(getLorentzFactor(), 2));
-
-	return velocity;
+	return direction*getSpeed();
 }
 
 Vector3d ParticleState::getMomentum() const {

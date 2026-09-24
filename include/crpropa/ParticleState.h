@@ -9,6 +9,17 @@ namespace crpropa {
  * @{
  */
 
+/** If the Lorentz Factor is smaller then RelativisticLimit the velocity is calculated non relativistically
+ * Can be set with crpropa.cvar.RelativisticLimit or crpropa.setRelativisticLimit in python
+ */
+inline double RelativisticLimit = 1.001;
+
+/** Function to set RelativisticLimit variable
+ * This funciton sets the RelativisticLimit variable, the variable determines when to use the non relativistic limit
+ * by comparing the current Lorentz Factor with it, if the Lorentz Factor is smaller, the non relativistic limit is used.
+ */
+void setRelativisticLimit(double limit);
+
 /**
  @class ParticleState
  @brief State of the particle: ID, energy, position, direction

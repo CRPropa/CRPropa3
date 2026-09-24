@@ -12,6 +12,10 @@
 
 namespace crpropa {
 
+void setRelativisticLimit(double limit){
+	RelativisticLimit = limit;
+}
+
 ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir): id(0), energy(0.), position(0.), direction(0.), pmass(0.), charge(0.)
 {
 	setId(id);
@@ -63,7 +67,7 @@ Vector3d ParticleState::getVelocity() const {
 	Vector3d velocity;
 	if (pmass==0) 
 		velocity = direction*c_light;
-	else if (getLorentzFactor()<1.001)  // can happen if if gamma-1 < numericalPrecission
+	else if (getLorentzFactor()<RelativisticLimit)  // can happen if if gamma-1 < numericalPrecission
 		velocity = direction * sqrt(energy*2/pmass);  // non relativistic case
 	else
 		velocity = direction * c_light*sqrt(1-1/pow(getLorentzFactor(), 2));
@@ -74,7 +78,7 @@ Vector3d ParticleState::getVelocity() const {
 Vector3d ParticleState::getMomentum() const {
 	if (pmass==0)
 		return direction*energy/c_light;
-	else if (getLorentzFactor()<1.001)
+	else if (getLorentzFactor()<RelativisticLimit)
 		return pmass*getVelocity();
 	else
 		return getLorentzFactor()*pmass*getVelocity();

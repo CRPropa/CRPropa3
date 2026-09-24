@@ -7,6 +7,8 @@
 
 ### New features:
 * Velocities can now be smaller then light speed
+* Added `getSpeed` function to `ParticleState` to get the scalar value of `getVelocity` directly
+* Added `RelativisticLimit` and `setRelativisticLimit` so the limit at which particles should be handled non-relativistically can be set by the user
 * Added `ObserverSpacialEvolution` that observes the Candidate at different lengths instead of times
 * Added `MaximumTime` break condition that rejects the Candidate when a given time is reached
 

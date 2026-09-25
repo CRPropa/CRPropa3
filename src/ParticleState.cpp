@@ -23,28 +23,12 @@ void ParticleState::setPosition(const Vector3d &pos) {
 	position = pos;
 }
 
-const Vector3d &ParticleState::getPosition() const {
-	return position;
-}
-
 void ParticleState::setDirection(const Vector3d &dir) {
 	direction = dir / dir.getR();
 }
 
-const Vector3d &ParticleState::getDirection() const {
-	return direction;
-}
-
 void ParticleState::setEnergy(double newEnergy) {
 	energy = std::max(0., newEnergy); // prevent negative energies
-}
-
-double ParticleState::getEnergy() const {
-	return energy;
-}
-
-double ParticleState::getRigidity() const {
-	return fabs(energy / charge);
 }
 
 void ParticleState::setId(int newId) {
@@ -57,18 +41,6 @@ void ParticleState::setId(int newId) {
 	} else {
 		charge = HepPID::charge(id) * eplus;
 	}
-}
-
-int ParticleState::getId() const {
-	return id;
-}
-
-double ParticleState::getMass() const {
-	return pmass;
-}
-
-double ParticleState::getCharge() const {
-	return charge;
 }
 
 double ParticleState::getLorentzFactor() const {

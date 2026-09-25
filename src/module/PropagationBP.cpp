@@ -6,56 +6,72 @@
 
 namespace crpropa {
 	void PropagationBP::tryStep(const Y &y, Y &out, Y &error, double h,
-			ParticleState &particle, double z, double q, double m) const {
-		out = dY(y.x, y.u, h, z, q, m);  // 1 step with h
+			ParticleState &particle, double z) const {
+		Y outHelp = dY(y.x, y.u, h/2, z, particle);  // 2 steps with h/2
+		Y outCompare = dY(outHelp.x, outHelp.u, h/2, z, particle);
 
-		Y outHelp = dY(y.x, y.u, h/2, z, q, m);  // 2 steps with h/2
-		Y outCompare = dY(outHelp.x, outHelp.u, h/2, z, q, m);
+		out = dY(y.x, y.u, h, z, particle);  // 1 step with h
 
-		error = errorEstimation(out.x , outCompare.x , h);
+		error = errorEstimation(out.x , outCompare.x , h*particle.getVelocity().getR());
 	}
 
+	PropagationBP::Y PropagationBP::dY(Vector3d pos, Vector3d dir, double dt, 
+		double z, ParticleState &current) const {
 
-	PropagationBP::Y PropagationBP::dY(Vector3d pos, Vector3d dir, double step,
-			double z, double q, double m) const {
-		// half leap frog step in the position
-		pos += dir * step / 2.;
-
-		// get B field at particle position
+		// get some variables that are always needed
 		Vector3d B = getFieldAtPosition(pos, z);
+		Vector3d vel = dir*current.getVelocity().getR();
+		double q = current.getCharge();
+		// lorentz factor is between 1 and infinity (but never actually infinity)
+		double gamma = current.getLorentzFactor();
+		double m = gamma*current.getMass();
 
-		// Boris help vectors
-		Vector3d t = B * q / 2 / m * step / c_light;
-		Vector3d s = t * 2 / (1 + t.dot(t));
-		Vector3d v_help;
+		// do a half leapfrog step
+		pos += vel * dt / 2.;
 
-		// Boris push
-		v_help = dir + dir.cross(t);
-		dir = dir + v_help.cross(s);
+		// Boris help vectors:
+		Vector3d t = B * q / 2. / m * dt;
+		Vector3d s = t * 2. / (1. + t.dot(t));
 
-		// the other half leap frog step in the position
-		pos += dir * step / 2.;
-		return Y(pos, dir);
+		Vector3d v_prime = vel + vel.cross(t);
+		vel = vel + v_prime.cross(s);  // final velocity
+
+		// the other half leapfrog step (only happens if vel!=0)
+		pos += vel * dt / 2.;
+
+		return Y(pos, vel.getUnitVector());
 	}
 
-
-	// with a fixed step size
-	PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double fixedStep) :
-			minStep(0) {
-		setField(field);
+	PropagationBP::PropagationBP(ref_ptr<MagneticField> BField, double fixedStep) :
+		minStep(0) {
+		setField(BField);
 		setTolerance(0.42);
-		setMaximumStep(fixedStep);
-		setMinimumStep(fixedStep);
+		setMaximumTimeStep(fixedStep/c_light);
+		setMinimumTimeStep(fixedStep/c_light);
 	}
 
-
-	// with adaptive step size
-	PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep) :
-			minStep(0) {
-		setField(field);
+	PropagationBP::PropagationBP(ref_ptr<MagneticField> BField, double tolerance, double minStep, double maxStep) :
+		minStep(0) {
+		setField(BField);
 		setTolerance(tolerance);
-		setMaximumStep(maxStep);
-		setMinimumStep(minStep);
+		setMaximumTimeStep(maxStep/c_light);
+		setMinimumTimeStep(minStep/c_light);
+	}
+
+	PropagationBP::PropagationBP(double fixedTimeStep, ref_ptr<MagneticField> BField) :
+		minStep(0) {
+		setField(BField);
+		setTolerance(0.42);
+		setMaximumTimeStep(fixedTimeStep);
+		setMinimumTimeStep(fixedTimeStep);
+	}
+
+	PropagationBP::PropagationBP(double tolerance, double minTimeStep, double maxTimeStep, ref_ptr<MagneticField> BField) :
+		minStep(0) {
+		setField(BField);
+		setTolerance(tolerance);
+		setMaximumTimeStep(maxTimeStep);
+		setMinimumTimeStep(minTimeStep);
 	}
 
 
@@ -67,13 +83,12 @@ namespace crpropa {
 		Y yIn(current.getPosition(), current.getDirection());
 
 		// calculate charge of particle
-		double q = current.getCharge();
 		double step = maxStep;
 
 		// rectilinear propagation for neutral particles
-		if (q == 0) {
+		if (current.getCharge() == 0) {
 			step = clip(candidate->getNextStep(), minStep, maxStep);
-			current.setPosition(yIn.x + yIn.u * step);
+			current.setPosition(yIn.x + yIn.u * candidate->getVelocity() * step);
 			candidate->setCurrentStep(step);
 			candidate->setNextStep(maxStep);
 			return;
@@ -82,12 +97,11 @@ namespace crpropa {
 		Y yOut, yErr;
 		double newStep = step;
 		double z = candidate->getRedshift();
-		double m = current.getEnergy()/(c_light * c_light);
 
 		// if minStep is the same as maxStep the adaptive algorithm with its error
 		// estimation is not needed and the computation time can be saved:
 		if (minStep == maxStep){
-			yOut = dY(yIn.x, yIn.u, step, z, q, m);
+			yOut = dY(yIn.x, yIn.u, step, z, current);
 		} else {
 			step = clip(candidate->getNextStep(), minStep, maxStep);
 			newStep = step;
@@ -95,7 +109,7 @@ namespace crpropa {
 
 			// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
 			while (true) {
-				tryStep(yIn, yOut, yErr, step, current, z, q, m);
+				tryStep(yIn, yOut, yErr, step, current, z);
 				r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
 				if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
 					if (step == minStep)  // already minimum step size
@@ -118,7 +132,7 @@ namespace crpropa {
 		}
 
 		current.setPosition(yOut.x);
-		current.setDirection(yOut.u.getUnitVector());
+		current.setDirection(yOut.u);
 		candidate->setCurrentStep(step);
 		candidate->setNextStep(newStep);
 	}
@@ -151,13 +165,9 @@ namespace crpropa {
 
 	double PropagationBP::errorEstimation(const Vector3d x1, const Vector3d x2, double step) const {
 		// compare the position after one step with the position after two steps with step/2.
-		Vector3d diff = (x1 - x2);
-
-		double S = diff.getR() / (step * (1 - 1/4.) );	// 1/4 = (1/2)²  number of steps for x1 divided by number of steps for x2 to the power of p (order)
-
-		return S;
+		// 1/4 = (1/2)²  number of steps for x1 divided by number of steps for x2 to the power of p (order)
+		return (x1 - x2).getR() / (step * (1 - 1/4.) );
 	}
-
 
 	void PropagationBP::setTolerance(double tol) {
 		if ((tol > 1) or (tol < 0))
@@ -166,8 +176,21 @@ namespace crpropa {
 		tolerance = tol;
 	}
 
-
 	void PropagationBP::setMinimumStep(double min) {
+		if (min < 0)
+			throw std::runtime_error("PropagationBP: minStep < 0 ");
+		if (min/c_light > maxStep)
+			throw std::runtime_error("PropagationBP: minStep > maxStep");
+		minStep = min/c_light;
+	}
+
+	void PropagationBP::setMaximumStep(double max) {
+		if (max/c_light < minStep)
+			throw std::runtime_error("PropagationBP: maxStep < minStep");
+		maxStep = max/c_light;
+	}
+
+	void PropagationBP::setMinimumTimeStep(double min) {
 		if (min < 0)
 			throw std::runtime_error("PropagationBP: minStep < 0 ");
 		if (min > maxStep)
@@ -175,35 +198,18 @@ namespace crpropa {
 		minStep = min;
 	}
 
-
-	void PropagationBP::setMaximumStep(double max) {
+	void PropagationBP::setMaximumTimeStep(double max) {
 		if (max < minStep)
 			throw std::runtime_error("PropagationBP: maxStep < minStep");
 		maxStep = max;
 	}
 
-
-	double PropagationBP::getTolerance() const {
-		return tolerance;
-	}
-
-
-	double PropagationBP::getMinimumStep() const {
-		return minStep;
-	}
-
-
-	double PropagationBP::getMaximumStep() const {
-		return maxStep;
-	}
-
-
 	std::string PropagationBP::getDescription() const {
 		std::stringstream s;
 		s << "Propagation in magnetic fields using the adaptive Boris push method.";
 		s << " Target error: " << tolerance;
-		s << ", Minimum Step: " << minStep / kpc << " kpc";
-		s << ", Maximum Step: " << maxStep / kpc << " kpc";
+		s << ", Minimum Step: " << minStep / kiloyear << " kiloyear";
+		s << ", Maximum Step: " << maxStep / kiloyear << " kiloyear";
 		return s.str();
 	}
 } // namespace crpropa

@@ -152,7 +152,7 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 }
 
 void PhotoPionProduction::process(Candidate *candidate) const {
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	double z = candidate->getRedshift();
 	// the loop is processed at least once for limiting the next step
 	do {
@@ -193,7 +193,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		// check if interaction does not happen
 		if (step < randDistance) {
 			if (totalRate > 0.)
-				candidate->limitNextStep(limit / totalRate);
+				candidate->limitNextStep(limit / totalRate / candidate->getVelocity());
 			return;
 		}
 

@@ -342,6 +342,7 @@
 
 %feature("director") crpropa::Observer;
 %feature("director") crpropa::ObserverFeature;
+%feature("director") crpropa::ObserverTimeEvolution;
 %include "crpropa/module/Observer.h"
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/PropagationCK.h"

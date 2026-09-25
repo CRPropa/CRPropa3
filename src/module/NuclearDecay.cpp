@@ -71,7 +71,7 @@ void NuclearDecay::setLimit(double l) {
 
 void NuclearDecay::process(Candidate *candidate) const {
 	// the loop should be processed at least once for limiting the next step
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	double z = candidate->getRedshift();
 	do {
 		// check if nucleus
@@ -111,7 +111,7 @@ void NuclearDecay::process(Candidate *candidate) const {
 		// check if interaction doesn't happen
 		if (step < randDistance) {
 			// limit next step to a fraction of the mean free path
-			candidate->limitNextStep(limit / totalRate);
+			candidate->limitNextStep(limit / totalRate / candidate->getVelocity());
 			return;
 		}
 

@@ -69,7 +69,7 @@ The names of ObserverFeatures all start with "Observer" so you can discover the 
 * **ObserverElectronVeto** - Veto for electrons/positrons
 * **ObserverNeutrinoVeto** - Veto for neutrinos
 * **ObserverNucleusVeto** - Veto for protons/neutrons and nuclei
-* **ObserverTimeEvolution** - Records all candidates along their trajectory using linear or logarithmic steps
+* **ObserverTimeSnapshot** - Records all candidates along their trajectory using linear or logarithmic steps
 
 ### Output modules
 Main output modules

@@ -236,14 +236,14 @@ void EMPairProduction::process(Candidate *candidate) const {
 	if (rate < 0)
 		return;
 	
-	// run this loop at least once to limit the step size
-	double step = candidate->getCurrentStep();
+	// run this loop at least once to limit the step size 
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	Random &random = Random::instance();
 	do {
 		double randDistance = -log(random.rand()) / rate;
-		// check for interaction; if it doesn't occur, limit next step
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) { 
+			candidate->limitNextStep(limit / rate / candidate->getVelocity());
 		} else {
 			performInteraction(candidate);
 			return;

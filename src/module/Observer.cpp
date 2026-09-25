@@ -98,6 +98,30 @@ std::string ObserverDetectAll::getDescription() const {
 	return description;
 }
 
+
+// ObserverSurface--------------------------------------------------------------
+ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
+
+DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
+{
+		double currentDistance = surface->distance(candidate->current.getPosition());
+		double previousDistance = surface->distance(candidate->previous.getPosition());
+		candidate->limitNextStep(fabs(currentDistance)/candidate->getVelocity());
+
+		if (currentDistance * previousDistance > 0)
+			return NOTHING;
+		else if (previousDistance == 0)
+			return NOTHING;
+		else
+			return DETECTED;
+}
+
+std::string ObserverSurface::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverSurface: << " << surface->getDescription();
+	return ss.str();
+}
+
 // ObserverTracking --------------------------------------------------------
 ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSize) :
 		center(center), radius(radius), stepSize(stepSize) {
@@ -113,12 +137,12 @@ DetectionState ObserverTracking::checkDetection(Candidate *candidate) const {
 	// no detection if outside of observer sphere
 	if (d > radius) {
 		// conservatively limit next step to prevent overshooting
-		candidate->limitNextStep(fabs(d - radius));
+		candidate->limitNextStep(fabs(d - radius) / candidate->getVelocity());
 
 		return NOTHING;
 	} else {
 		// limit next step
-		candidate->limitNextStep(stepSize);
+		candidate->limitNextStep(stepSize / candidate->getVelocity());
 
 		return DETECTED;
 	}
@@ -138,7 +162,7 @@ DetectionState Observer1D::checkDetection(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
 		// Limits the next step size to prevent candidates from overshooting in case of non-detection
-		candidate->limitNextStep(x);
+		candidate->limitNextStep(x/candidate->getVelocity());
 		return NOTHING;
 	}
 	// Detects particles when reaching x = 0
@@ -242,28 +266,156 @@ std::string ObserverParticleIdVeto::getDescription() const {
 }
 
 
-// ObserverTimeEvolution --------------------------------------------------------
-ObserverTimeEvolution::ObserverTimeEvolution() {}
+// ObserverTimeSnapshot --------------------------------------------------------
+ObserverTimeSnapshot::ObserverTimeSnapshot() {}
 
-ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
+ObserverTimeSnapshot::ObserverTimeSnapshot(double min, double dist, double numb) {
 	setIsLogarithmicScaling(false);
 	setMaximum(min + (numb - 1) * dist);
 	setMinimum(min);
 	setNIntervals(numb);
 }
 
-ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
+ObserverTimeSnapshot::ObserverTimeSnapshot(double min, double max, double numb, bool log) {
 	setIsLogarithmicScaling(log);
 	setMinimum(min);
 	setMaximum(max);
 	setNIntervals(numb);
 }
 
-ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList){
+ObserverTimeSnapshot::ObserverTimeSnapshot(const std::vector<double> &detList){
 	setTimes(detList);
 }
 
-DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
+DetectionState ObserverTimeSnapshot::checkDetection(Candidate *c) const {
+
+	if (nIntervals) {
+		double time = c->getTime();
+		size_t index;
+		const std::string DI = "DetectionIndex";
+
+		// Load the last detection index
+		if (c->hasProperty(DI)) {
+			index = c->getProperty(DI).asUInt64();
+		}
+		else {
+			index = 0;
+		}
+
+		// Break if the particle has been detected once for all possible times.
+		if (index >= nIntervals) {
+			return NOTHING;
+		}
+
+		// Calculate the distance to next detection
+		double distance = time - getTime(index);
+
+		// Limit next step and detect candidate.
+		// Increase the index by one in case of detection
+		if (distance < 0.) {
+			c->limitNextStep(-distance);
+			return NOTHING;
+		}
+		else {
+
+			if (index < nIntervals-2) {
+				c->limitNextStep(getTime(index+1)-time);
+			}
+			c->setProperty(DI, Variant::fromUInt64(index+1));
+
+			return DETECTED;
+		}
+	}
+	return NOTHING;
+}
+
+void ObserverTimeSnapshot::clear(){
+	doDetListConstruction = false;
+	detList.clear();
+	detList.resize(0);
+	setNIntervals(0);
+}
+
+void ObserverTimeSnapshot::constructDetListIfEmpty(){
+	if (detList.empty() && doDetListConstruction) {
+		std::vector<double> detListTemp;
+		size_t counter = 0;
+		while (getTime(counter)<=maximum) {
+			detListTemp.push_back(getTime(counter));
+			counter++;
+		}
+		detList.assign(detListTemp.begin(), detListTemp.end());
+	}
+}
+
+void ObserverTimeSnapshot::addTime(const double &time){
+	constructDetListIfEmpty();
+	detList.push_back(time);
+	setNIntervals(nIntervals + 1);  // increase number of entries by one
+}
+
+void ObserverTimeSnapshot::addTimeRange(double min, double max, double numb, bool log) {
+	for (size_t i = 0; i < numb; i++) {
+		if (log) {
+			if ( min <= 0 ){
+				KISS_LOG_ERROR << "min can not be <= 0 if log=true\n";
+				throw std::runtime_error("min can not be <= 0 if log=true");
+			}
+			addTime(min * pow(max / min, i / (numb - 1.0)));
+		} else {
+			addTime(min + i * (max - min) / (numb - 1.0));
+		}
+	}
+	// allready corrected by addTime, just here to be safe
+	setNIntervals(detList.size());
+}
+
+void ObserverTimeSnapshot::setTimes(const std::vector<double> &detList){
+	this->detList.assign(detList.begin(), detList.end());
+	setNIntervals(detList.size());
+	setMinimum(detList.front());
+	setMaximum(detList.back());
+	doDetListConstruction = false;
+}
+
+void ObserverTimeSnapshot::setMinimum(double min){
+	if ( (min <= 0) && isLogarithmicScaling){
+		KISS_LOG_ERROR << "minimum can not be <= 0 if isLogarithmicScaling=true\n";
+		throw std::runtime_error("minimum can not be <= 0 if isLogarithmicScaling=true");
+	}
+	this->minimum = min;
+}
+
+double ObserverTimeSnapshot::getTime(size_t index) const {
+	if (!detList.empty()) {
+		return detList.at(index);
+	} else if (isLogarithmicScaling) {
+		return minimum * pow(maximum / minimum, index / (nIntervals - 1.0));
+	} else {
+		return minimum + index * (maximum - minimum) / (nIntervals - 1.0);
+	}
+}
+
+const std::vector<double>& ObserverTimeSnapshot::getTimes() const {
+	tempDetList.resize(nIntervals);
+	for (size_t i = 0; i < nIntervals; i++){
+		tempDetList[i] = getTime(i);
+	}
+	return tempDetList;
+}
+
+std::string ObserverTimeSnapshot::getDescription() const {
+	std::stringstream s;
+	s << "List of Detection times in kiloyears";
+	for (size_t i = 0; i < nIntervals; i++)
+	  s << "  - " << getTime(i) / kiloyear;
+	return s.str();
+}
+
+
+// ObserverSpacialEvolution --------------------------------------------------------
+
+DetectionState ObserverSpacialSnapshot::checkDetection(Candidate *c) const {
 
 	if (nIntervals) {
 		double length = c->getTrajectoryLength();
@@ -289,13 +441,13 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		// Limit next step and detect candidate.
 		// Increase the index by one in case of detection
 		if (distance < 0.) {
-			c->limitNextStep(-distance);
+			c->limitNextStep(-distance/c->getVelocity());
 			return NOTHING;
 		}
 		else {
 
 			if (index < nIntervals-2) {
-				c->limitNextStep(getTime(index+1)-length);
+				c->limitNextStep((getTime(index+1)-length)/c->getVelocity());
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
 
@@ -305,82 +457,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
-void ObserverTimeEvolution::clear(){
-	doDetListConstruction = false;
-	detList.clear();
-	detList.resize(0);
-	setNIntervals(0);
-}
-
-void ObserverTimeEvolution::constructDetListIfEmpty(){
-	if (detList.empty() && doDetListConstruction) {
-		std::vector<double> detListTemp;
-		size_t counter = 0;
-		while (getTime(counter)<=maximum) {
-			detListTemp.push_back(getTime(counter));
-			counter++;
-		}
-		detList.assign(detListTemp.begin(), detListTemp.end());
-	}
-}
-
-void ObserverTimeEvolution::addTime(const double &time){
-	constructDetListIfEmpty();
-	detList.push_back(time);
-	setNIntervals(nIntervals + 1);  // increase number of entries by one
-}
-
-void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
-	for (size_t i = 0; i < numb; i++) {
-		if (log) {
-			if ( min <= 0 ){
-				std::cout << "min can not be <= 0 if log=true" << std::endl;
-				throw new std::runtime_error("min can not be <= 0 if log=true");
-			}
-			addTime(min * pow(max / min, i / (numb - 1.0)));
-		} else {
-			addTime(min + i * (max - min) / (numb - 1.0));
-		}
-	}
-	// allready corrected by addTime, just here to be safe
-	setNIntervals(detList.size());
-}
-
-void ObserverTimeEvolution::setTimes(const std::vector<double> &detList){
-	this->detList.assign(detList.begin(), detList.end());
-	setNIntervals(detList.size());
-	setMinimum(detList.front());
-	setMaximum(detList.back());
-	doDetListConstruction = false;
-}
-
-void ObserverTimeEvolution::setMinimum(double min){
-	if ( (min <= 0) && isLogarithmicScaling){
-		std::cout << "minimum can not be <= 0 if isLogarithmicScaling=true" << std::endl;
-		throw new std::runtime_error("minimum can not be <= 0 if isLogarithmicScaling=true");
-	}
-	this->minimum = min;
-}
-
-double ObserverTimeEvolution::getTime(size_t index) const {
-	if (!detList.empty()) {
-		return detList.at(index);
-	} else if (isLogarithmicScaling) {
-		return minimum * pow(maximum / minimum, index / (nIntervals - 1.0));
-	} else {
-		return minimum + index * (maximum - minimum) / (nIntervals - 1.0);
-	}
-}
-
-const std::vector<double>& ObserverTimeEvolution::getTimes() const {
-	tempDetList.resize(nIntervals);
-	for (size_t i = 0; i < nIntervals; i++){
-		tempDetList[i] = getTime(i);
-	}
-	return tempDetList;
-}
-
-std::string ObserverTimeEvolution::getDescription() const {
+std::string ObserverSpacialSnapshot::getDescription() const {
 	std::stringstream s;
 	s << "List of Detection lengths in kpc";
 	for (size_t i = 0; i < nIntervals; i++)
@@ -388,28 +465,29 @@ std::string ObserverTimeEvolution::getDescription() const {
 	return s.str();
 }
 
-// ObserverSurface--------------------------------------------------------------
-ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
+// ObserverTimeEvolution (deprecated) --------------------------------------------------------
 
-DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
-{
-		double currentDistance = surface->distance(candidate->current.getPosition());
-		double previousDistance = surface->distance(candidate->previous.getPosition());
-		candidate->limitNextStep(fabs(currentDistance));
-
-		if (currentDistance * previousDistance > 0)
-			return NOTHING;
-		else if (previousDistance == 0)
-			return NOTHING;
-		else
-			return DETECTED;
+void ObserverTimeEvolution::throwWarning(){
+	KISS_LOG_WARNING << "WARNING: ObserverTimeEvolution is deprecated, use ObserverSpacialSnapshot or ObserverTimeSnapshot instead\n";
 }
 
-std::string ObserverSurface::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverSurface: << " << surface->getDescription();
-	return ss.str();
+ObserverTimeEvolution::ObserverTimeEvolution() : ObserverSpacialSnapshot() {
+	throwWarning();
 }
 
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb)
+	: ObserverSpacialSnapshot(min, dist, numb) {
+	throwWarning();
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log)
+	: ObserverSpacialSnapshot(min, max, numb, log) {
+	throwWarning();
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
+	: ObserverSpacialSnapshot(detList) {
+	throwWarning();
+}
 
 } // namespace crpropa

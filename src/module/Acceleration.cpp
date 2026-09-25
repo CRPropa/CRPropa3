@@ -48,12 +48,12 @@ void AbstractAccelerationModule::process(crpropa::Candidate *candidate) const {
 		currentStepLength = m->modify(currentStepLength, candidate);
 	}
 
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	while (step > 0) {
 		double randDistance = -1. * log(crpropa::Random::instance().rand()) * currentStepLength;
 
 		if (step < randDistance) {
-			candidate->limitNextStep(0.1 * currentStepLength);
+			candidate->limitNextStep(0.1 * currentStepLength/candidate->getVelocity());
 			return;
 		}
 		scatter(candidate, scatterCenterVelocity(candidate));

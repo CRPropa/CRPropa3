@@ -9,6 +9,17 @@ namespace crpropa {
  * @{
  */
 
+/** If the Lorentz Factor is smaller then RelativisticLimit the velocity is calculated non relativistically
+ * Can be set with crpropa.cvar.RelativisticLimit or crpropa.setRelativisticLimit in python
+ */
+inline double RelativisticLimit = 1.001;
+
+/** Function to set RelativisticLimit variable
+ * This funciton sets the RelativisticLimit variable, the variable determines when to use the non relativistic limit
+ * by comparing the current Lorentz Factor with it, if the Lorentz Factor is smaller, the non relativistic limit is used.
+ */
+void setRelativisticLimit(double limit);
+
 /**
  @class ParticleState
  @brief State of the particle: ID, energy, position, direction
@@ -47,7 +58,7 @@ public:
 	/** Get position of particle.
 	 @returns Position vector of particle. If cosmological effects are included, the coordinates are comoving.
 	 */
-	const Vector3d &getPosition() const;
+	inline const Vector3d &getPosition() const { return position; }
 
 	/** Set direction unit vector, non unit-vectors are normalized
 	 @param dir	vector containing the direction of motion of the particle
@@ -56,20 +67,20 @@ public:
 	/** Get direction unit vector
 	 @returns Normalized vector containing direction of motion of particle.
 	 */
-	const Vector3d &getDirection() const;
+	inline const Vector3d &getDirection() const { return direction; }
 
-	/** Set energy of particle.
+	/** Set kinetic energy of particle.
 	 @param newEnergy	energy to be assigned to particle [in Joules]
 	 */
 	void setEnergy(double newEnergy);
-	/** Get energy of particle.
+	/** Get kinetic energy of particle.
 	 @returns Energy of particle [in Joules]
 	 */
-	double getEnergy() const;
+	inline double getEnergy() const { return energy; }
 	/** Get rigidity of particle, defined as E/(Z*e).
 	 @returns Rigidity of the particle [in Volts]
 	 */
-	double getRigidity() const;
+	inline double getRigidity() const { return fabs(energy / charge); }
 
 	/** Set particle ID.
 	 This follows the PDG numbering scheme:
@@ -80,7 +91,7 @@ public:
 	/** Get particle ID
 	 @returns Particle ID (in PDG format).
 	 */
-	int getId() const;
+	inline int getId() const { return id; }
 
 	std::string getDescription() const;
 
@@ -89,13 +100,14 @@ public:
 	/** Get electrical charge of the particle.
 	 @returns Charge of the particle [in Coulombs]
 	 */
-	double getCharge() const;
+	inline double getCharge() const { return charge; }
 	/** Get mass of the particle.
 	 @returns Mass of the particle [kg]
 	 */
-	double getMass() const;
+	inline double getMass() const { return pmass; }
 
-	/** Set Lorentz factor and modify the particle's energy accordingly.
+	/** Set Lorentz factor and modify the particle's kinetic energy accordingly.
+	 * Watch out to not choose gamma smaller then the numerical precission
 	 @param gamma		Lorentz factor
 	 */
 	void setLorentzFactor(double gamma);
@@ -103,6 +115,11 @@ public:
 	 @returns Lorentz factor of particle
 	 */
 	double getLorentzFactor() const;
+
+	/** Returns the scalar value of the velocity 
+	 @returns Scalar velocity of paricle [m/s]
+	*/
+	double getSpeed() const;
 
 	/** Get velocity: direction times the speed of light.
 	 @returns Velocity of particle [m/s]

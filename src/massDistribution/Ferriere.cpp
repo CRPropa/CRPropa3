@@ -161,8 +161,8 @@ double Ferriere::getH2Density(const Vector3d &position) const{
 		double y = pos.y/pc;
 		double z = pos.z/pc;
 
-		double A = sqrt(x*x+pow(2.5*y,2));  // ellipticity
-		double nCMZ = exp(-pow((A-125.)/137.,4))*exp(-pow(z/18.,2));
+		double A = sqrt(x*x+pow_integer<2>(2.5*y));  // ellipticity
+		double nCMZ = exp(-pow_integer<4>((A-125.)/137.))*exp(-pow_integer<2>(z/18.));
 		nCMZ *= 150/ccm;  // rescaling
 
 		// density in disk

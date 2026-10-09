@@ -1,4 +1,5 @@
 #include "crpropa/magneticField/KST24Field.h"
+#include "crpropa/Common.h"
 
 /* 
 The C++ implementation of the GMF model KST24 (A.Korochkin, D.Semikoz, P.Tinyakov 2024)
@@ -200,7 +201,7 @@ Vector3d KST24Field::get_toroidal(const Vector3d pos_kpc, const double tor_B_gau
 		return vals_gauss;
 	
 	double cR, theta;
-	cR = sqrt(pow(pos_kpc.x, 2) + pow(pos_kpc.y, 2));
+	cR = sqrt(pow_integer<2>(pos_kpc.x) + pow_integer<2>(pos_kpc.y));
 	if ((tor_rmin_kpc <= cR) and (cR <= tor_rmax_kpc))
 	{
 		theta = atan2(pos_kpc.y, pos_kpc.x);
@@ -265,7 +266,7 @@ Vector3d KST24Field::get_LB(const Vector3d pos_kpc, const double LB_B_gauss,
 
 	// magnetic field amplification factor
 	double ampl, ampl_elec;
-	ampl = (1 + pow(LB_rmin_kpc, 2)/(2*LB_rmin_kpc*LB_dr_kpc + LB_dr_kpc*LB_dr_kpc));
+	ampl = (1 + pow_integer<2>(LB_rmin_kpc)/(2*LB_rmin_kpc*LB_dr_kpc + LB_dr_kpc*LB_dr_kpc));
 
 	vals_gauss.x = LB_B_gauss*ampl*fdir_x;
 	vals_gauss.y = LB_B_gauss*ampl*fdir_y;
@@ -344,7 +345,7 @@ Vector3d KST24Field::get_logspiral(const Vector3d pos_kpc, const double B_gauss,
 
 
 	double d1, L1, d_at_L1;
-	d1 = sqrt(pow((xi - pos_v[0]), 2) + pow((yi - pos_v[1]), 2));
+	d1 = sqrt(pow_integer<2>((xi - pos_v[0])) + pow_integer<2>((yi - pos_v[1])));
 	L1 = r1/sin_pitch;
 
 	double r_scale = 5;

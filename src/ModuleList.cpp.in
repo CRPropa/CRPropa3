@@ -111,13 +111,13 @@ void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondar
 void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool secondariesFirst, bool waitForSecondaries) {
 	size_t count = candidates->size();
 
-#if _OPENMP
-	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
-#endif
-
+	
 	ProgressBar progressbar(count);
-
+	
 	if (showProgress) {
+		#if _OPENMP
+		std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+		#endif
 		progressbar.start("Run ModuleList");
 	}
 
@@ -166,12 +166,13 @@ void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool 
 
 void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool secondariesFirst, bool waitForSecondaries) {
 
-#if _OPENMP
-	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
-#endif
+	
 	ProgressBar progressbar(count);
-
+	
 	if (showProgress) {
+		#if _OPENMP
+		std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+		#endif
 		progressbar.start("Run ModuleList");
 	}
 

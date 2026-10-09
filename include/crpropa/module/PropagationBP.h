@@ -53,25 +53,55 @@ public:
 	};
 
 private:
-	ref_ptr<MagneticField> field;
+	ref_ptr<MagneticField> field = NULL;
 	double tolerance; /** target relative error of the numerical integration */
 	double minStep; /** minimum step size of the propagation */
 	double maxStep; /** maximum step size of the propagation */
 
 public:
 	/** Default constructor for the Boris push. It is constructed with a fixed step size.
-	 * @param field
-	 * @param fixedStep 
+	 * @param field		Magnetic field
+	 * @param fixedStep Fixed stepsize in [m], is converted to time with 1/c_light
 	 */
-	PropagationBP(ref_ptr<MagneticField> field = NULL, double fixedStep = 1. * kpc);
+	PropagationBP(
+		ref_ptr<MagneticField> field = NULL, 
+		double fixedStep = 1 * kiloparsec
+	);
 
 	/** Constructor for the adaptive Boris push.
-	 * @param field
+	 * @param field		Magnetic field
 	 * @param tolerance	 tolerance is criterion for step adjustment. Step adjustment takes place only if minStep < maxStep
-	 * @param minStep	   minStep/c_light is the minimum integration time step
-	 * @param maxStep	   maxStep/c_light is the maximum integration time step. 
+	 * @param minStep	   minStep is the minimum length step and is converted to time with 1/c_light
+	 * @param maxStep	   maxStep is the maximum length step and is converted to time with 1/c_light. 
 	 */
-    PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep);
+    PropagationBP(
+		ref_ptr<MagneticField> field, 
+		double tolerance, 
+		double minStep, 
+		double maxStep
+	);
+
+	/** Default constructor for the Boris push. It is constructed with a fixed timestep.
+	 * @param fixedTimeStep Fixed timestep in [s]
+	 * @param field		Magnetic field
+	 */
+	PropagationBP(
+		double fixedTimeStep,
+		ref_ptr<MagneticField> field
+	);
+
+	/** Constructor for the adaptive Boris push.
+	 * @param tolerance	 tolerance is criterion for step adjustment. Step adjustment takes place only if minStep < maxStep
+	 * @param minTimeStep	   minTimeStep is the minimum time step
+	 * @param maxTimeStep	   maxTimeStep is the maximum time step
+	 * @param field		Magnetic field
+	 */
+    PropagationBP(
+		double tolerance, 
+		double minTimeStep, 
+		double maxTimeStep,
+		ref_ptr<MagneticField> field
+	);
 
 	/** Propagates the particle. Is called once per iteration.
 	 * @param candidate	 The Candidate is a passive object, that holds the information about the state of the cosmic ray and the simulation itself. */
@@ -80,18 +110,17 @@ public:
 	/** Calculates the new position and direction of the particle based on the solution of the Lorentz force
 	 * @param pos	current position of the candidate
 	 * @param dir	current direction of the candidate
-	 * @param step	current step size of the candidate
+	 * @param dt	current timestep size of the candidate in [s]
 	 * @param z		current redshift is needed to calculate the magnetic field
-	 * @param q		current charge of the candidate
-	 * @param m		current mass of the candidate
+	 * @param current current particle state
 	 * @return	  return the new calculated position and direction of the candidate 
 	 */
-	Y dY(Vector3d  pos, Vector3d  dir, double step, double z, double q, double m) const;
+	Y dY(Vector3d  pos, Vector3d  dir, double dt, double z, ParticleState &current) const;
 
 	/** comparison of the position after one step with the position after two steps with step/2.
 	 * @param x1	position after one step of size step
 	 * @param x2	position after two steps of size step/2
-	 * @param step	current step size
+	 * @param step	current step size in m
 	 * @return	  measurement of the error of the step 
 	 */
 	double errorEstimation(const Vector3d x1, const Vector3d x2, double step) const;
@@ -107,13 +136,11 @@ public:
 	 * @param y		 current position and direction of candidate
 	 * @param out	   position and direction of candidate after the step
 	 * @param error	 error for the current step
-	 * @param h		 current step size
+	 * @param h		 current step size in [s]
 	 * @param p		 current particle state
 	 * @param z		 current red shift
-	 * @param q		 current charge of the candidate 
-	 * @param m		 current mass of the candidate
 	 */
-	void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double q, double m) const;
+	void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z) const;
 
 	/** Set functions for the parameters of the class PropagationBP */
 
@@ -126,20 +153,35 @@ public:
 	 */
 	void setTolerance(double tolerance);
 	/** Set the minimum step for the Boris push
-	 * @param minStep	   minStep/c_light is the minimum integration time step 
+	 * @param minStep	   minStep is the minimum integration step [m], is converted to time with 1/c_light
 	 */
 	void setMinimumStep(double minStep);
 	/** Set the maximum step for the Boris push
-	 * @param maxStep	   maxStep/c_light is the maximum integration time step 
+	 * @param maxStep	   maxStep is the maximum integration step [m], is converted to time with 1/c_light
 	 */
 	void setMaximumStep(double maxStep);
+	/** Set the minimum time step for the Boris push
+	 * @param minStep	   minStep is the minimum integration time step 
+	 */
+	void setMinimumTimeStep(double minStep);
+	/** Set the maximum time step for the Boris push
+	 * @param maxStep	   maxStep is the maximum integration time step 
+	 */
+	void setMaximumTimeStep(double maxStep);
 
 	/** Get functions for the parameters of the class PropagationBP, similar to the set functions */
 
 	ref_ptr<MagneticField> getField() const;
-	double getTolerance() const;
-	double getMinimumStep() const;
-	double getMaximumStep() const;
+	/// Returns the current tolerance of the stepsize corrector
+	inline double getTolerance() const {return tolerance;}
+	/// Returns the minimum stepsize
+	inline double getMinimumStep() const {return minStep*c_light;}
+	/// Returns the maximum stepsize
+	inline double getMaximumStep() const {return maxStep*c_light;}
+	/// Returns the minimum timestep
+	inline double getMinimumTimeStep() const {return minStep;}
+	/// Returns the maximum timestep
+	inline double getMaximumTimeStep() const {return maxStep;}
 	std::string getDescription() const;
 };
 /** @}*/

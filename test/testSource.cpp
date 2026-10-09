@@ -1,6 +1,7 @@
 #include "crpropa/Source.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
+#include "crpropa/Common.h"
 
 #include "gtest/gtest.h"
 #include <stdexcept>
@@ -105,7 +106,7 @@ TEST(SourceSNRDistribution, simpleTest) {
 	for (size_t i=0; i<100000; i++) {
 		snr.prepareParticle(ps);
 		Vector3d pos = ps.getPosition();
-		R2_mean += pow(pos.x/kpc, 2.)+pow(pos.y/kpc, 2.);
+		R2_mean += pow_integer<2>(pos.x/kpc)+pow_integer<2>(pos.y/kpc);
 		Z_mean += pos.z/kpc;
 	}
 	R2_mean/=100000.;

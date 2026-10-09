@@ -1,5 +1,6 @@
 #include "crpropa/magneticField/PT11Field.h"
 #include "crpropa/Units.h"
+#include "crpropa/Common.h"
 
 #include <algorithm>
 
@@ -116,7 +117,7 @@ Vector3d PT11Field::getField(const Vector3d& pos) const {
 	if (useHalo) {
 		double bMag = (pos.z > 0 ? B0_Hn : - B0_Hs);
 		double z1 = (fabs(pos.z) < z0_H ? z11_H : z12_H);
-		bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow((fabs(pos.z) - z0_H) / z1, 2.));
+		bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow_integer<2>((fabs(pos.z) - z0_H) / z1));
 		// equation (8) in paper: theta uses now the conventional azimuth definition in contrast to equation (3)
 		// cos(phi) = pos.x / r (phi going counter-clockwise)
 		// sin(phi) = pos.y / r

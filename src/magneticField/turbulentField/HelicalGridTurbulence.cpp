@@ -3,6 +3,7 @@
 #include "crpropa/Random.h"
 
 #ifdef CRPROPA_HAVE_FFTW3F
+#include "crpropa/Common.h"
 #include "fftw3.h"
 
 namespace crpropa {
@@ -84,7 +85,7 @@ void HelicalGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 				e2 /= e2.getR();
 
 
-				double Bkprefactor = mu0 / (4 * M_PI * pow(k, 3));
+				double Bkprefactor = mu0 / (4 * M_PI * pow_integer<3>(k));
 				Bktot = fabs(random.randNorm() * pow(k, alpha / 2));
 				Bkplus = Bkprefactor * sqrt((1 + H) / 2) * Bktot;
 				Bkminus = Bkprefactor * sqrt((1 - H) / 2) * Bktot;

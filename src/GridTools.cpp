@@ -1,5 +1,6 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Common.h"
 
 #include <fstream>
 #include <sstream>
@@ -76,7 +77,7 @@ double rmsFieldStrength(ref_ptr<Grid1f> grid) {
 	for (int ix = 0; ix < Nx; ix++)
 		for (int iy = 0; iy < Ny; iy++)
 			for (int iz = 0; iz < Nz; iz++)
-				sumV2 += pow(grid->get(ix, iy, iz), 2);
+				sumV2 += pow_integer<2>(grid->get(ix, iy, iz));
 	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
@@ -90,9 +91,9 @@ std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid) {
     for (int ix = 0; ix < Nx; ix++)
         for (int iy = 0; iy < Ny; iy++)
             for (int iz = 0; iz < Nz; iz++) {
-                sumV2_x += pow(grid->get(ix, iy, iz).x, 2);
-                sumV2_y += pow(grid->get(ix, iy, iz).y, 2);
-                sumV2_z += pow(grid->get(ix, iy, iz).z, 2);
+                sumV2_x += pow_integer<2>(grid->get(ix, iy, iz).x);
+                sumV2_y += pow_integer<2>(grid->get(ix, iy, iz).y);
+                sumV2_z += pow_integer<2>(grid->get(ix, iy, iz).z);
             }
     return {
         std::sqrt(sumV2_x / Nx / Ny / Nz),

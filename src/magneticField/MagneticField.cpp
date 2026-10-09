@@ -1,4 +1,5 @@
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Common.h"
 
 namespace crpropa {
 
@@ -85,7 +86,7 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		if (r.getR() == 0) { // singularity
 			return moment * 2 * mu0 / 3;
 		}
-		return (unit_r * (unit_r.dot(moment)) * 3 - moment) / pow(r.getR() / radius, 3) * mu0 / (4*M_PI);
+		return (unit_r * (unit_r.dot(moment)) * 3 - moment) / pow_integer<3>(r.getR() / radius) * mu0 / (4*M_PI);
 }
 
 #ifdef CRPROPA_HAVE_MUPARSER

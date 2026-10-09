@@ -57,10 +57,6 @@ double Candidate::getTrajectoryLength() const {
 	return trajectoryLength;
 }
 
-double Candidate::getVelocity() const {
-	return c_light;
-}
-
 double Candidate::getWeight() const {
 	return weight;
 }
@@ -89,10 +85,10 @@ void Candidate::updateWeight(double w) {
 	weight *= w;
 }
 
-void Candidate::setCurrentStep(double lstep) {
-	currentStep = lstep;
-	trajectoryLength += lstep;
-	time += lstep / getVelocity();
+void Candidate::setCurrentStep(double tstep) {
+	currentStep = tstep;
+	time += tstep;
+	trajectoryLength += tstep * getVelocity();
 }
 
 void Candidate::setNextStep(double step) {

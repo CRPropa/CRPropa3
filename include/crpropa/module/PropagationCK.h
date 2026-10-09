@@ -64,8 +64,25 @@ public:
 	 * @param minStep	   minStep/c_light is the minimum integration time step
 	 * @param maxStep	   maxStep/c_light is the maximum integration time step. 
 	 */
-    PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
-			double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+    PropagationCK(
+		ref_ptr<MagneticField> field = NULL, 
+		double tolerance = 1e-4,
+		double minStep = (1 * kpc), 
+		double maxStep = (1 * Gpc)
+	);
+
+	/** Constructor for the adaptive Kash Carp.
+	 * @param tolerance	 tolerance is criterion for step adjustment. Step adjustment takes place only if minStep < maxStep
+	 * @param minStep	   minStep is the minimum integration time step
+	 * @param maxStep	   maxStep is the maximum integration time step. 
+	 * @param field
+	 */
+    PropagationCK(
+		double tolerance,
+		double minStep, 
+		double maxStep, 
+		ref_ptr<MagneticField> field
+	);
 
 	void process(Candidate *candidate) const;
 
@@ -80,6 +97,8 @@ public:
 	void setTolerance(double tolerance);
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);
+	void setMinimumTimeStep(double minStep);
+	void setMaximumTimeStep(double maxStep);
 
 	 /** get functions for the parameters of the class PropagationCK, similar to the set functions */
 	ref_ptr<MagneticField> getField() const;
@@ -90,9 +109,11 @@ public:
 	 * @return	  magnetic field vector at the position pos */
 	Vector3d getFieldAtPosition(Vector3d pos, double z) const;
 
-	double getTolerance() const;
-	double getMinimumStep() const;
-	double getMaximumStep() const;
+	inline double getTolerance() const {return tolerance;}
+	inline double getMinimumStep() const {return minStep*c_light;}
+	inline double getMaximumStep() const {return maxStep*c_light;}
+	inline double getMinimumTimeStep() const {return minStep;}
+	inline double getMaximumTimeStep() const {return maxStep;}
 	std::string getDescription() const;
 };
 /** @}*/

@@ -2,6 +2,7 @@
 #include "crpropa/Units.h"
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 #include "crpropa/Random.h"
+#include "crpropa/Common.h"
 
 namespace crpropa {
 
@@ -275,7 +276,7 @@ Vector3d JF12Field::getXField(const double& r, const double& z, const double& si
 		if (r < rc) {
 			// varying elevation region
 			rp = r * rXc / rc;
-			bMagX = bX * exp(-1 * rp / rX) * pow(rXc / rc, 2.);
+			bMagX = bX * exp(-1 * rp / rX) * pow_integer<2>(rXc / rc);
 			double thetaX = atan2(fabs(z), (r - rp));
 			if (z == 0)
 				thetaX = M_PI / 2.;
@@ -326,14 +327,14 @@ double JF12Field::getTurbulentStrength(const Vector3d& pos) const {
 
 		bDisk *= (5 * kpc) / r;
 	}
-	bDisk *= exp(-0.5 * pow(pos.z / zDiskTurb, 2));
+	bDisk *= exp(-0.5 * pow_integer<2>(pos.z / zDiskTurb));
 
 	// halo
 	double bHalo = bHaloTurb * exp(-r / rHaloTurb)
-			* exp(-0.5 * pow(pos.z / zHaloTurb, 2));
+			* exp(-0.5 * pow_integer<2>(pos.z / zHaloTurb));
 
 	// modulate turbulent field
-	return sqrt(pow(bDisk, 2) + pow(bHalo, 2));
+	return sqrt(pow_integer<2>(bDisk) + pow_integer<2>(bHalo));
 }
 
 Vector3d JF12Field::getTurbulentField(const Vector3d& pos) const {

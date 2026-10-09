@@ -30,14 +30,14 @@ void AdiabaticCooling::process(Candidate *c) const {
 	double dEdt = -E / 3. * Div; 	// cooling due to advection -p/3 * div(V_wind)
 					// (see e.g. Kopp et al. Computer Physics Communication 183
 					// (2012) 530-542)
-	double dt = c->getCurrentStep() / c_light;
+	double dt = c->getCurrentStep();
 	double dE = dEdt * dt;
 	
 	c->current.setEnergy(E + dE);
 	if (dEdt==0) {
 		return;
 	}	
-	c->limitNextStep(limit * E / fabs(dEdt) *c_light);
+	c->limitNextStep(limit * E / fabs(dEdt));
 }
 
 void AdiabaticCooling::setLimit(double l) {

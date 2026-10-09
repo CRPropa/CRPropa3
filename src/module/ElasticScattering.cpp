@@ -94,7 +94,7 @@ void ElasticScattering::process(Candidate *candidate) const {
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	while (step > 0) {
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax, tabRate);

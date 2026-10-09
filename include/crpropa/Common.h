@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
+
 /**
  @file
  @brief Common helper functions
@@ -36,6 +38,11 @@ inline int digit(const int& value, const int& d) {
 template <typename T>
 T clip(const T& x, const T& lower, const T& upper) {
 	return std::max(lower, std::min(x, upper));
+}
+
+// checks if the given variables are close (same implementation as numpy.isclose)
+inline bool isclose(double a, double b, double rtol=1.e-3, double atol=1.e-8){
+	return fabs(a - b)<=(atol + rtol*fabs(b));
 }
 
 // Perform linear interpolation on a set of n tabulated data points X[0 .. n-1] -> Y[0 .. n-1]

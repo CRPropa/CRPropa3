@@ -12,7 +12,7 @@ namespace crpropa {
 TEST(testCandidateSplitting, SimpleTest) {
 	int nSplit = 2;
 	int nBins = 4;
-	double minWeight = pow(1. / nSplit, 2);
+	double minWeight = pow_integer<2>(1. / nSplit);
 	double Emin = 1; // dimensionless for testing
 	double Emax = 10; 	
 
@@ -42,7 +42,7 @@ TEST(testCandidateSplitting, CheckSplits) {
 	int nBins = 3;
 	double Emin = 1; // dimensionless for testing
 	double Emax = 10;
-	double minWeight = pow(1. / nSplit, 4);
+	double minWeight = pow_integer<4>(1. / nSplit);
 
 	CandidateSplitting splitting(nSplit, Emin, Emax, nBins, minWeight);
 	Candidate c(nucleusId(1,1),0.5);

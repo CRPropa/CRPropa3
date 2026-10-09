@@ -38,7 +38,7 @@ TEST(testFunctionalGroups, gyroradius) {
 			max_y = pos.getY();
 	}
 
-	EXPECT_NEAR(max_y/2.0, energy/(field * c_light * eplus), 0.01*Mpc);
+	EXPECT_NEAR(max_y/2.0, energy/(field * c->getVelocity() * eplus), 0.01*Mpc);
 
 }
 

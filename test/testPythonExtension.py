@@ -358,27 +358,27 @@ class testGrid(unittest.TestCase):
 		grid = crp.Grid1f(gp)
 		self.assertEqual(grid.getNx(), 32)
 
-if hasattr(crp, 'GridTurbulence'):
-	class testTurbulentField(unittest.TestCase):
-	#check problems brought up in https://github.com/CRPropa/CRPropa3/issues/322
-		def testTurbulenceSpectrum(self):
-			spectrum = crp.TurbulenceSpectrum(1., 1., 10.)
-			self.assertEqual(spectrum.getBrms(), 1.)
-			self.assertEqual(spectrum.getLmin(), 1.)
-			self.assertEqual(spectrum.getLmax(), 10.)
-			self.assertEqual(spectrum.getLbendover(), 1.)
-			self.assertEqual(spectrum.getSindex(), 5./3.)
-			self.assertEqual(spectrum.getQindex(), 4.)
+	if hasattr(crp, 'GridTurbulence'):
+		class testTurbulentField(unittest.TestCase):
+			#check problems brought up in https://github.com/CRPropa/CRPropa3/issues/322
+			def testTurbulenceSpectrum(self):
+				spectrum = crp.TurbulenceSpectrum(1., 1., 10.)
+				self.assertEqual(spectrum.getBrms(), 1.)
+				self.assertEqual(spectrum.getLmin(), 1.)
+				self.assertEqual(spectrum.getLmax(), 10.)
+				self.assertEqual(spectrum.getLbendover(), 1.)
+				self.assertEqual(spectrum.getSindex(), 5./3.)
+				self.assertEqual(spectrum.getQindex(), 4.)
 
-		def testGridTurbulence(self):
-			N = 64
-			boxSize = 1*crp.Mpc
-			l_bo = boxSize/8
-			spacing = boxSize / N
-			tf = crp.GridTurbulence(
-				crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
-				crp.GridProperties(crp.Vector3d(0), N, spacing)
-			)
+			def testGridTurbulence(self):
+				N = 64
+				boxSize = 1*crp.Mpc
+				l_bo = boxSize/8
+				spacing = boxSize / N
+				tf = crp.GridTurbulence(
+					crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
+					crp.GridProperties(crp.Vector3d(0), N, spacing)
+				)
 
 if __name__ == '__main__':
 	unittest.main()

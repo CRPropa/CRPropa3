@@ -43,6 +43,10 @@ protected:
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
 	double functs(double s, bool onProton) const;
 
+	double proposal_pdf(double eps, double epsMin, double epsMax) const;
+
+	double proposal_inv_cdf(double prob, double epsMin, double epsMax) const;
+
 	// called by: sampleEps, gaussInt
 	// - input: photon energy eps [eV], Ein [GeV]
 	// - output: probability to encounter photon of energy eps

@@ -70,6 +70,10 @@ ParticleFilter::ParticleFilter() {
 ParticleFilter::ParticleFilter(const std::set<int> &ids) : ids(ids) {
 
 }
+ParticleFilter::ParticleFilter(const std::vector<int> &ids){
+	for (int entry : ids)
+		this->ids.insert(entry);
+}
 void ParticleFilter::addId(int id) {
 	ids.insert(id);
 }

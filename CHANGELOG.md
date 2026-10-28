@@ -16,6 +16,7 @@
 * Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 
 ### New plugins and resources linked on the webpages
+* Pybind11 python bindings as an alternative to the default swig bindings
 
 
 ## CRPropa 3.3

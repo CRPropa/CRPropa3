@@ -46,6 +46,7 @@ class ParticleFilter: public AbstractCondition {
 public:
 	ParticleFilter();
 	ParticleFilter(const std::set<int> &ids);
+	ParticleFilter(const std::vector<int> &ids);
 	void addId(int id);
 	void removeId(int remove);
 	std::set<int> &getIds();

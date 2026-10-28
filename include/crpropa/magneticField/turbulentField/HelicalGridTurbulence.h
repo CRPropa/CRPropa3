@@ -53,7 +53,7 @@ class HelicalGridTurbulence : public SimpleGridTurbulence {
  @param seed	Random seed
  @param H		Helicity
 */
-void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
+void inline initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                            double lMax, double alpha = -11 / 3., int seed = 0,
                            double H = 0) {
 	KISS_LOG_WARNING

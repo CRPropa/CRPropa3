@@ -88,8 +88,6 @@ class Referenced {
 		return _referenceCount;
 	}
 
-	protected:
-
 	virtual inline ~Referenced() {
 		#ifdef DEBUG
 		if (_referenceCount)
@@ -97,6 +95,8 @@ class Referenced {
 					<< typeid(*this).name() << std::endl;
 		#endif
 	}
+
+	protected:
 
 	mutable size_t _referenceCount;
 };

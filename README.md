@@ -109,3 +109,4 @@ Make sure to correctly cite the plugins when using them.
 | monopole | Magnetic Monopole Studies | https://github.com/chchristie/monopole/tree/main |
 | ROOTOutputPlugin | Output into root file format | https://github.com/CRPropa/ROOTOutputPlugin |
 | Hadronic Interactions | Proton + Proton interactions | https://gitlab.ruhr-uni-bochum.de/doernjkj/hadronic-interaction-in-crpropa |
+| CRPropa_Pybind11_Bindings | Pybind11 Python Bindings | https://github.com/JanNiklasB/CRPropa_Pybind11_Bindings |

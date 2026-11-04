@@ -41,11 +41,11 @@ TEST(testTurbulenceSpectrum, correlationLength) {
 
 #ifdef CRPROPA_HAVE_FFTW3F
 
-TEST(testSimpleGridTurbulence, oldFunctionForCrrelationLength) { //TODO: remove in future
+TEST(testSimpleGridTurbulence, FunctionForCorrelationLength) {
 	double lMin = 1*kpc;
 	double lMax = 1*Gpc;
-	double alpha = -11/3.;
-	auto Lc = turbulentCorrelationLength(lMin, lMax, alpha);
+	double alpha = 5./3.;
+	auto Lc = SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax, alpha);
     EXPECT_NEAR(Lc, lMax/5, 1*Mpc);
 }
 
@@ -100,15 +100,15 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0, 0, 0), n, spacing);
 
 	// should be fine
-	EXPECT_NO_THROW(initTurbulence(grid, brms, 2 * spacing, 8 * spacing));
+	EXPECT_NO_THROW(SimpleGridTurbulence::initTurbulence(grid, brms, 2 * spacing, 8 * spacing, -11 / 3., 0));
 	// lMin too small
-	EXPECT_THROW(initTurbulence(grid, brms, 1.5 * spacing, 8 * spacing),
+	EXPECT_THROW(SimpleGridTurbulence::initTurbulence(grid, brms, 1.5 * spacing, 8 * spacing, -11 / 3., 0),
 			std::runtime_error);
 	// lMin > lMax
-	EXPECT_THROW(initTurbulence(grid, brms, 8.1 * spacing, 8 * spacing),
+	EXPECT_THROW(SimpleGridTurbulence::initTurbulence(grid, brms, 8.1 * spacing, 8 * spacing, -11 / 3., 0),
 			std::runtime_error);
 	// lMax too large
-	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 65 * spacing),
+	EXPECT_THROW(SimpleGridTurbulence::initTurbulence(grid, brms, 2 * spacing, 65 * spacing, -11 / 3., 0),
 			std::runtime_error);
 }
 #endif

@@ -384,7 +384,6 @@
 %include "crpropa/module/TextOutput.h"
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
-%include "crpropa/module/PhotonOutput1D.h"
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"
 %include "crpropa/module/PhotoPionProduction.h"

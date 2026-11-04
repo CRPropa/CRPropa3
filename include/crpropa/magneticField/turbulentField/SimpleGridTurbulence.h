@@ -76,38 +76,6 @@ class SimpleGridTurbulence : public GridTurbulence {
 	                           double lMax, double alpha, int seed);
 };
 
-// Compatibility with old functions from GridTurbulence:
-
-/** Analytically calculate the correlation length of the simple model turbulent
- * field */
-inline double turbulentCorrelationLength(double lMin, double lMax,
-                                         double alpha = -11 / 3.) {
-	KISS_LOG_WARNING
-	    << "turbulentCorrelationLength is deprecated and will be "
-	       "removed in the future. Replace it with a more appropriate "
-	       "turbulent field model and call getCorrelationLength().";
-	return SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax,
-	                                                            -alpha - 2);
-}
-
-/**
- Create a random initialization of a turbulent field.
- @param grid	grid on which the turbulence is calculated
- @param lMin	Minimum wavelength of the turbulence
- @param lMax	Maximum wavelength of the turbulence
- @param alpha	Power law index of <B^2(k)> ~ k^alpha (alpha = -11/3 corresponds
- to a Kolmogorov spectrum)
- @param Brms	RMS field strength
- @param seed	Random seed
- */
-inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
-                           double lMax, double alpha = -11 / 3., int seed = 0) {
-	KISS_LOG_WARNING
-	    << "initTurbulence is deprecated and will be removed in the future. "
-	       "Replace it with a more appropriate turbulent field model instance.";
-	SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
-}
-
 /** @}*/
 } // namespace crpropa
 

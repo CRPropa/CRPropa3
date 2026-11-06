@@ -1,6 +1,11 @@
 #include "crpropa/magneticField/UF26Field.h"
-#include "crpropa/magneticField/turbulentField/TurbulentField.h"
+#include "crpropa/GridTools.h"
 #include "crpropa/Units.h"
+#ifdef CRPROPA_HAVE_FFTW3F
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#endif
+
+#include "kiss/logger.h"
 
 #include <cmath>
 #include <stdexcept>
@@ -56,35 +61,41 @@ UF26Field::UF26Field(const ModelType mt) : fModelType(mt) {
 		std::sqrt(uf26::kSunRadius * uf26::kSunRadius + fDiskRc * fDiskRc);
 }
 
-UF26Field::UF26Field(const ModelType mt, ref_ptr<MagneticField> turbulence) :
-	UF26Field(mt) {
-	setTurbulentField(turbulence);
+#ifdef CRPROPA_HAVE_FFTW3F
+void UF26Field::randomTurbulent(int seed) {
+	// Kolmogorov spectrum with B_rms = 1 (scaled by b(x)) between 4 and
+	// 136 pc, i.e. Lc = 30 pc, on a periodic grid of 256^3 points with
+	// 2 pc spacing
+	const double lMin = 4 * parsec;
+	const double lMax = 136 * parsec;
+	const double Brms = 1;
+	const double spacing = 2 * parsec;
+	const size_t gridN = 256;
+
+	auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);
+	auto gp = GridProperties(Vector3d(0.), gridN, spacing);
+	auto tf = SimpleGridTurbulence(spectrum, gp, seed);
+	setTurbulentGrid(tf.getGrid());
+}
+#endif
+
+void UF26Field::setTurbulentGrid(ref_ptr<Grid3f> grid) {
+	if (!grid.valid())
+		throw std::runtime_error("UF26Field::setTurbulentGrid: invalid grid");
+	const double rms = rmsFieldStrength(grid);
+	if (std::fabs(rms - 1) > 0.01) {
+		KISS_LOG_WARNING << "UF26Field: turbulent grid has Brms = " << rms
+			<< ", expected 1.";
+	}
+	turbulentGrid = grid;
 }
 
-void UF26Field::setTurbulentField(ref_ptr<MagneticField> turbulence) {
-	const TurbulentField* tf = dynamic_cast<const TurbulentField*>(turbulence.get());
-	if (!tf)
-		throw std::runtime_error("UF26Field::setTurbulentField: field is not a "
-			"TurbulentField, use setTurbulentField(field, brms)");
-	// read Brms now: TurbulentField only holds a reference to its spectrum
-	setTurbulentField(turbulence, tf->getBrms());
+ref_ptr<Grid3f> UF26Field::getTurbulentGrid() {
+	return turbulentGrid;
 }
 
-void UF26Field::setTurbulentField(ref_ptr<MagneticField> field, double brms) {
-	if (!field.valid())
-		throw std::runtime_error("UF26Field::setTurbulentField: invalid field");
-	if (!(brms > 0))
-		throw std::runtime_error("UF26Field::setTurbulentField: brms must be > 0");
-	fTurbulence = field;
-	fTurbulenceBrms = brms;
-}
-
-ref_ptr<MagneticField> UF26Field::getTurbulentField() const {
-	return fTurbulence;
-}
-
-bool UF26Field::hasTurbulentField() const {
-	return fTurbulence.valid();
+bool UF26Field::isUsingTurbulentField() const {
+	return turbulentGrid.valid();
 }
 
 UF26Field::ModelType UF26Field::getModelType() const {
@@ -96,28 +107,24 @@ std::string UF26Field::getModelName() const {
 }
 
 Vector3d UF26Field::getField(const Vector3d &pos) const {
-	if (!fTurbulence.valid())
-		throw std::runtime_error("UF26Field::getField: no turbulent field set, "
-			"see setTurbulentField()");
-	const double b = getRmsField(pos);
-	// skip the (possibly expensive) turbulence where the model vanishes
-	if (b == 0)
-		return Vector3d(0.);
-	return fTurbulence->getField(pos) * (b / fTurbulenceBrms);
+	return getTurbulentField(pos);
 }
 
-double UF26Field::getRmsField(const Vector3d &pos) const {
+Vector3d UF26Field::getTurbulentField(const Vector3d &pos) const {
+	if (!turbulentGrid.valid())
+		throw std::runtime_error("UF26Field: no turbulent grid set, "
+			"run e.g. randomTurbulent()");
+	const double b = getTurbulentStrength(pos);
+	// skip the grid interpolation where the model vanishes
+	if (b == 0)
+		return Vector3d(0.);
+	return Vector3d(turbulentGrid->interpolate(pos)) * b;
+}
+
+double UF26Field::getTurbulentStrength(const Vector3d &pos) const {
 	const Vector3d p = pos / kpc * uf26::kpc;
 	// rms strengths of independent components add in quadrature
 	return std::hypot(rmsDisk(p), rmsAnnulus(p)) / uf26::microgauss * microgauss;
-}
-
-double UF26Field::getDiskRmsField(const Vector3d &pos) const {
-	return rmsDisk(pos / kpc * uf26::kpc) / uf26::microgauss * microgauss;
-}
-
-double UF26Field::getAnnularRmsField(const Vector3d &pos) const {
-	return rmsAnnulus(pos / kpc * uf26::kpc) / uf26::microgauss * microgauss;
 }
 
 double UF26Field::rmsDisk(const Vector3d &pos) const {

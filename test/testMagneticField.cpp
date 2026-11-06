@@ -1,3 +1,4 @@
+#include <random>
 #include <stdexcept>
 
 #include "crpropa/magneticField/MagneticFieldGrid.h"
@@ -5,6 +6,8 @@
 #include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 #include "crpropa/magneticField/GalacticMagneticField.h"
 #include "crpropa/magneticField/UF23Field.h"
+#include "crpropa/magneticField/UF26Field.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 #include "crpropa/Grid.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
@@ -333,6 +336,163 @@ TEST(testUF23Field, SimpleTest) {
       EXPECT_NEAR(val.z, refVal.z, precision);
     }
   }
+}
+
+// UF26 reference values: position [kpc], total and annular rms [microgauss],
+// from the reference implementation (github.com/MichaelUnger/
+// GalacticRandomFieldUF26), which agrees with the fit code of the paper
+struct UF26Reference {
+  Vector3d pos;
+  double rms;
+  double annularRms;
+};
+
+std::vector<UF26Reference>
+getUF26ReferenceValues(const UF26Field::ModelType model)
+{
+  using V = Vector3d;
+  if (model == UF26Field::expDisk)
+    return {
+      {V{0, 0, 0}, 7.128318163405055e+00, 0},
+      {V{0.5, 0, 0}, 7.072198162981271e+00, 0},
+      {V{-1, 0.5, 0.2}, 6.531810644723041e+00, 0},
+      {V{3, -2, -0.5}, 4.351914806509084e+00, 0},
+      {V{-4.5, 0, 0}, 5.597818960261063e+00, 0},
+      {V{0, 4.5, 1.5}, 9.253711963375890e-01, 0},
+      {V{-8.178, 0, 0}, 4.367830406974372e+00, 0},
+      {V{-8.178, 0, 0.5}, 3.203388506911807e+00, 0},
+      {V{-8.178, 0, -1}, 1.606835009249366e+00, 0},
+      {V{-8.178, 0, 3}, 6.050690735646062e-02, 0},
+      {V{7, 7, -0.7}, 2.202297259449225e+00, 0},
+      {V{-15, 0, 0}, 2.286980428317770e+00, 0},
+      {V{-18, 0, 0}, 1.145530430751145e+00, 0},
+      {V{-25, 0, 0.1}, 4.156246368336015e-02, 0},
+      {V{0, 0, 5}, 3.588396517861880e-03, 0}
+    };
+  else
+    return {
+      {V{0, 0, 0}, 4.813329539898824e-01, 3.261939857447335e-01},
+      {V{0.5, 0, 0}, 8.165538808349778e-01, 5.548746612701120e-01},
+      {V{-1, 0.5, 0.2}, 1.383176073116148e+00, 9.706346710869208e-01},
+      {V{3, -2, -0.5}, 4.370112567627426e+00, 3.461597130737668e+00},
+      {V{-4.5, 0, 0}, 5.904308946317718e+00, 4.100000000000000e+00},
+      {V{0, 4.5, 1.5}, 2.262389638697930e+00, 2.198374614349943e+00},
+      {V{-8.178, 0, 0}, 4.139605409475944e+00, 7.558037501203675e-01},
+      {V{-8.178, 0, 0.5}, 2.885249145738572e+00, 7.052340088124266e-01},
+      {V{-8.178, 0, -1}, 1.383270065025899e+00, 5.729356704536893e-01},
+      {V{-8.178, 0, 3}, 7.039627639347064e-02, 6.247128183152959e-02},
+      {V{7, 7, -0.7}, 2.030779342985523e+00, 9.356814406405668e-02},
+      {V{-15, 0, 0}, 3.131003924348262e+00, 4.242902265548438e-06},
+      {V{-18, 0, 0}, 1.858221399015499e+00, 5.236157373502617e-10},
+      {V{-25, 0, 0.1}, 9.987396917041315e-02, 6.274062236521122e-23},
+      {V{0, 0, 5}, 3.283084981288793e-04, 3.205504824308638e-04}
+    };
+}
+
+TEST(testUF26Field, ReferenceValues) {
+  const double relPrecision = 1e-12;
+  for (const auto model : {UF26Field::expDisk, UF26Field::ringDisk}) {
+    const UF26Field uf26Field(model);
+    for (const auto& ref : getUF26ReferenceValues(model)) {
+      const Vector3d pos = ref.pos * kpc;
+      const double rms = uf26Field.getRmsField(pos) / microgauss;
+      const double ann = uf26Field.getAnnularRmsField(pos) / microgauss;
+      EXPECT_NEAR(rms, ref.rms, relPrecision * ref.rms)
+        << uf26Field.getModelName() << " at " << ref.pos;
+      EXPECT_NEAR(ann, ref.annularRms, relPrecision * ref.annularRms)
+        << uf26Field.getModelName() << " at " << ref.pos;
+    }
+  }
+}
+
+TEST(testUF26Field, Symmetries) {
+  for (const auto model : {UF26Field::expDisk, UF26Field::ringDisk}) {
+    const UF26Field f(model);
+    for (const double r : {0.3, 4.5, 8.178, 17.}) {
+      for (const double z : {0., 0.4, 2.}) {
+        const Vector3d p0 = Vector3d(-r, 0, z) * kpc;
+        const double b0 = f.getRmsField(p0);
+        // axisymmetric
+        for (const double phi : {0.3, 2., 4.}) {
+          const Vector3d p(r * cos(phi), r * sin(phi), z);
+          EXPECT_NEAR(f.getRmsField(p * kpc), b0, 1e-13 * b0);
+        }
+        // north-south symmetric
+        EXPECT_NEAR(f.getRmsField(Vector3d(-r, 0, -z) * kpc), b0, 1e-13 * b0);
+        // disk and annulus add in quadrature
+        const double bd = f.getDiskRmsField(p0);
+        const double ba = f.getAnnularRmsField(p0);
+        EXPECT_NEAR(b0 * b0, bd * bd + ba * ba, 1e-13 * b0 * b0);
+      }
+    }
+  }
+}
+
+TEST(testUF26Field, ModelInfo) {
+  const UF26Field e(UF26Field::expDisk), r(UF26Field::ringDisk);
+  EXPECT_EQ(e.getModelName(), "expDisk");
+  EXPECT_EQ(r.getModelName(), "ringDisk");
+  EXPECT_EQ(e.getModelType(), UF26Field::expDisk);
+  EXPECT_EQ(r.getModelType(), UF26Field::ringDisk);
+}
+
+TEST(testUF26Field, Exceptions) {
+  UF26Field f(UF26Field::expDisk);
+  EXPECT_FALSE(f.hasTurbulentField());
+  // a realization needs a turbulent field ...
+  EXPECT_THROW(f.getField(Vector3d(-8.178, 0, 0) * kpc), std::runtime_error);
+  // ... whose rms is either known from its spectrum or given explicitly
+  ref_ptr<MagneticField> uniform = new UniformMagneticField(Vector3d(1, 0, 0));
+  EXPECT_THROW(f.setTurbulentField(uniform), std::runtime_error);
+  EXPECT_THROW(f.setTurbulentField(uniform, 0), std::runtime_error);
+  EXPECT_THROW(f.setTurbulentField(ref_ptr<MagneticField>(), 1), std::runtime_error);
+  EXPECT_FALSE(f.hasTurbulentField());
+  // the rms profile does not need one
+  EXPECT_NO_THROW(f.getRmsField(Vector3d(1, 2, 3) * kpc));
+}
+
+TEST(testUF26Field, Scaling) {
+  // B = b(pos)/brms * B_turb(pos); with a uniform stand-in for B_turb the
+  // direction is fixed and the magnitude follows the rms profile
+  const Vector3d b0 = Vector3d(1, -2, 2) * microgauss;  // |b0| = 3 muG
+  ref_ptr<MagneticField> uniform = new UniformMagneticField(b0);
+  for (const auto model : {UF26Field::expDisk, UF26Field::ringDisk}) {
+    const UF26Field f(model);
+    UF26Field g(model);
+    g.setTurbulentField(uniform, b0.getR());
+    EXPECT_TRUE(g.hasTurbulentField());
+    for (const auto& ref : getUF26ReferenceValues(model)) {
+      const Vector3d pos = ref.pos * kpc;
+      const Vector3d expected = b0 / b0.getR() * f.getRmsField(pos);
+      const Vector3d val = g.getField(pos);
+      EXPECT_NEAR(val.x, expected.x, 1e-13 * expected.getR());
+      EXPECT_NEAR(val.y, expected.y, 1e-13 * expected.getR());
+      EXPECT_NEAR(val.z, expected.z, 1e-13 * expected.getR());
+    }
+  }
+}
+
+TEST(testUF26Field, PlaneWaveTurbulence) {
+  // spatial average of |B|^2 / b^2 must be 1, independent of the Brms of
+  // the template field (here 3 muG, scales 10-200 pc)
+  const double brms = 3 * microgauss;
+  const TurbulenceSpectrum spectrum(brms, 10 * parsec, 200 * parsec);
+  ref_ptr<MagneticField> turbulence =
+    new PlaneWaveTurbulence(spectrum, 128, 4711);
+  const UF26Field f(UF26Field::ringDisk, turbulence);
+  EXPECT_TRUE(f.hasTurbulentField());
+
+  std::mt19937 rng(42);
+  std::uniform_real_distribution<double> uxy(-20, 20), uz(-3, 3);
+  const unsigned int n = 20000;
+  double sum = 0;
+  for (unsigned int i = 0; i < n; ++i) {
+    const Vector3d pos = Vector3d(uxy(rng), uxy(rng), uz(rng)) * kpc;
+    const double b = f.getRmsField(pos);
+    sum += f.getField(pos).getR2() / (b * b);
+  }
+  // statistical uncertainty of the mean ~ sqrt(2/3/n) = 0.006
+  EXPECT_NEAR(sum / n, 1, 0.03);
 }
 
 TEST(testPolarizedSingleModeMagneticField, SimpleTest) {

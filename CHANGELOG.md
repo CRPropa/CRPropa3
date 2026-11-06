@@ -6,6 +6,7 @@
 * Fixed taskedSecondary parameter growing larger than number of scheduled secondaries
 
 ### New features:
+* Added `UF26Field`, the random Galactic magnetic field models expDisk and ringDisk of Unger & Farrar (arXiv:2608.21293), scaling a user-supplied turbulent field to the model's rms strength
 
 ### Interface changes:
 

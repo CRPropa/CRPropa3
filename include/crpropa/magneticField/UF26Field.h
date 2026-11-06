@@ -42,6 +42,22 @@ namespace crpropa {
 
  The rms strength is available without a turbulent field via getRmsField().
 
+ Usage together with the coherent UF23 field, e.g. for backtracking or
+ lens production (Python):
+
+ \code{.py}
+ B = MagneticFieldList()
+ B.addField(UF23Field(UF23Field.base))
+ spectrum = SimpleTurbulenceSpectrum(1, 4 * parsec, 136 * parsec)  # Kolmogorov, Lc = 30 pc
+ grid = GridProperties(Vector3d(0), 256, 2 * parsec)  # periodic 512 pc box, 200 MB
+ B.addField(UF26Field(UF26Field.expDisk, SimpleGridTurbulence(spectrum, grid, seed)))
+ \endcode
+
+ This corresponds to JF12Field with randomTurbulent(). SimpleGridTurbulence
+ needs FFTW. PlaneWaveTurbulence works without it but is much slower per
+ field evaluation. Note that UF23 and UF26 use R_sun = 8.178 kpc and extend
+ beyond 20 kpc (UF23 to 30 kpc, UF26 has b > 0.05 muG out to ~25 kpc).
+
  Assumes a galactocentric coordinate system with the Galactic center
  at the origin, the x-axis pointing in the opposite direction of the
  Sun, and the z-axis pointing towards Galactic North. The Sun is at

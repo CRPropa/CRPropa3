@@ -474,9 +474,12 @@ TEST(testUF26Field, Scaling) {
 
 TEST(testUF26Field, PlaneWaveTurbulence) {
   // spatial average of |B|^2 / b^2 must be 1, independent of the Brms of
-  // the template field (here 3 muG, scales 10-200 pc)
+  // the template field (here 3 muG). Kolmogorov spectrum between 4 and
+  // 136 pc (Lc = 30 pc), defined as in SimpleTurbulenceSpectrum, which is
+  // only available with FFTW
   const double brms = 3 * microgauss;
-  const TurbulenceSpectrum spectrum(brms, 10 * parsec, 200 * parsec);
+  const double lMin = 4 * parsec, lMax = 136 * parsec;
+  const TurbulenceSpectrum spectrum(brms, lMin, lMax, 1000 * lMax, 5. / 3, 0);
   ref_ptr<MagneticField> turbulence =
     new PlaneWaveTurbulence(spectrum, 128, 4711);
   const UF26Field f(UF26Field::ringDisk, turbulence);

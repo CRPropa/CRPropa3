@@ -4,6 +4,7 @@
 #include <string>
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Grid.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 /**
@@ -28,8 +29,9 @@ namespace crpropa {
  obtained by scaling a turbulent grid with B_rms = 1 to the local rms
  strength, B(x) = b(x) * B_grid(x). The grid is created with
  randomTurbulent() or set with setTurbulentGrid(). The paper does not
- determine the coherence length; randomTurbulent() uses Lc = 30 pc, the value
- used for the deflection estimates in the paper. The scaling breaks
+ determine the coherence length; randomTurbulent() uses Lc = 30 pc by
+ default, the value used for the deflection estimates in the paper. The
+ scaling breaks
  div B = 0 at the level of Lc divided by the scale of variation of b
  (>~ 1 kpc).
 
@@ -40,7 +42,7 @@ namespace crpropa {
  B = MagneticFieldList()
  B.addField(UF23Field(UF23Field.base))
  B26 = UF26Field(UF26Field.expDisk)
- B26.randomTurbulent(seed)
+ B26.randomTurbulent(seed)  # or randomTurbulent(seed, Lc), default Lc = 30 pc
  B.addField(B26)
  \endcode
 
@@ -76,10 +78,15 @@ public:
 	/**
 	 @brief create and set a random realization of the turbulent grid
 
-	 Kolmogorov spectrum between 4 and 136 pc (Lc = 30 pc) with B_rms = 1 on
-	 a periodic grid of 256^3 points with 2 pc spacing (512 pc, 200 MB).
+	 Kolmogorov spectrum with B_rms = 1 and lMax/lMin = 34 on a periodic grid
+	 of 256^3 points (200 MB) with a spacing of lMin/2. The length scales
+	 follow from the coherence length: for Lc = 30 pc, lMin = 4.0 pc,
+	 lMax = 136 pc and the box size is 512 pc. Lc = 60 pc corresponds to
+	 the grid of JF12Field::randomTurbulent().
+	 @param seed random seed, 0: random realization
+	 @param lc   coherence length of the turbulence
 	 */
-	void randomTurbulent(int seed = 0);
+	void randomTurbulent(int seed = 0, double lc = 30 * parsec);
 #endif
 
 	/**

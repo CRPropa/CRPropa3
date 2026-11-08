@@ -62,14 +62,19 @@ UF26Field::UF26Field(const ModelType mt) : fModelType(mt) {
 }
 
 #ifdef CRPROPA_HAVE_FFTW3F
-void UF26Field::randomTurbulent(int seed) {
-	// Kolmogorov spectrum with B_rms = 1 (scaled by b(x)) between 4 and
-	// 136 pc, i.e. Lc = 30 pc, on a periodic grid of 256^3 points with
-	// 2 pc spacing
-	const double lMin = 4 * parsec;
-	const double lMax = 136 * parsec;
+void UF26Field::randomTurbulent(int seed, double lc) {
+	if (!(lc > 0))
+		throw std::runtime_error("UF26Field::randomTurbulent: lc must be > 0");
+	// Kolmogorov spectrum with B_rms = 1 (scaled by b(x)) and fixed dynamic
+	// range lMax/lMin = 34 on 256^3 grid points with lMin = 2 spacings.
+	// All length scales are proportional to Lc, i.e. Lc(lMin, lMax) =
+	// lMax * Lc(r, 1) with r = lMin/lMax.
+	const double s = 5. / 3;
+	const double r = 1. / 34;
+	const double lMax = lc / SimpleTurbulenceSpectrum::turbulentCorrelationLength(r, 1, s);
+	const double lMin = r * lMax;
 	const double Brms = 1;
-	const double spacing = 2 * parsec;
+	const double spacing = lMin / 2;
 	const size_t gridN = 256;
 
 	auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);

@@ -52,10 +52,8 @@ namespace crpropa {
  Assumes a galactocentric coordinate system with the Galactic center
  at the origin, the x-axis pointing in the opposite direction of the
  Sun, and the z-axis pointing towards Galactic North. The Sun is at
- a distance of 8.178 kpc from the Galactic center. UF23 and UF26 extend
- beyond 20 kpc (UF23 to 30 kpc, UF26 has b > 0.05 muG out to ~25 kpc).
+ a distance of 8.178 kpc from the Galactic center.
 
- Reference implementation: github.com/MichaelUnger/GalacticRandomFieldUF26
  */
 class UF26Field : public MagneticField {
 public:

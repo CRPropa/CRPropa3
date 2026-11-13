@@ -67,20 +67,20 @@
 <li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#arch">Arch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#conda">Conda</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#virtual-environment">Virtual Environment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#id4">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#building">Building</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#building-on-macos">Building on MacOS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#brew">Brew</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#macports">MacPorts</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#id7">Conda</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#id8">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#id5">Conda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/Installation.html#id6">Building</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#building-on-windows">Building on Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#id9">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#id7">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Installation.html#known-issues">Known Issues</a></li>
@@ -649,6 +649,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa18TurbulenceSpectrumE"><code class="docutils literal notranslate"><span class="pre">crpropa::TurbulenceSpectrum</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa14TurbulentFieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::TurbulentField</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF23FieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::UF23Field</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF26FieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::UF26Field</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Observers.html">Observer</a><ul>
@@ -827,6 +828,7 @@
 <li class="toctree-l4"><a class="reference internal" href="namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_std.html">Namespace std</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_uf23.html">Namespace uf23</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_uf26.html">Namespace uf26</a></li>
 </ul>
 </li>
 <li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
@@ -1031,6 +1033,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UF23Field.html">Class UF23Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UF26Field.html">Class UF26Field</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UniformMagneticField.html">Class UniformMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1URB__Fixsen11.html">Class URB_Fixsen11</a></li>
@@ -1149,6 +1152,7 @@
 <li class="toctree-l4"><a class="reference internal" href="function_UF23Field_8cpp_1a5830e8a14c73cddf009d6214fc1aca12.html">Template Function uf23::CylToCart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_UF23Field_8cpp_1aea4e26c00bff6a3e4f14b14bba09374f.html">Function uf23::DeltaPhi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_UF23Field_8cpp_1ae4e1de806484fd0412f1d01b24a25540.html">Function uf23::Sigmoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_UF26Field_8cpp_1ac239f7b8c5603442688509d56c001b5f.html">Function uf26::gauss</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a><ul>
@@ -1288,6 +1292,10 @@
 <li class="toctree-l4"><a class="reference internal" href="variable_UF23Field_8cpp_1ab70342abf0832b9dd265964c21681319.html">Variable uf23::microgauss</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_UF23Field_8cpp_1a2884cd030c4c825754349a525a1d06ce.html">Variable uf23::pc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_UF23Field_8cpp_1a4e6001382c137dd906faab8f49a0a219.html">Variable uf23::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_UF26Field_8cpp_1a17419d6e5d4e0cf2a24c16124b4b2f9b.html">Variable uf26::kArcoshE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_UF26Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184.html">Variable uf26::kpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_UF26Field_8cpp_1a7be7dc1cf90a039a8b9620868f076fbf.html">Variable uf26::kSunRadius</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_UF26Field_8cpp_1ab70342abf0832b9dd265964c21681319.html">Variable uf26::microgauss</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a><ul>

@@ -1,0 +1,14 @@
+.. _exhale_variable_UF26Field_8cpp_1a7be7dc1cf90a039a8b9620868f076fbf:
+
+Variable uf26::kSunRadius
+=========================
+
+- Defined in :ref:`file_src_magneticField_UF26Field.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: uf26::kSunRadius
+   :project: CRPropa3

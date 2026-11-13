@@ -37,6 +37,7 @@ Derived Types
 - ``public ToroidalHaloField`` (:ref:`exhale_class_classcrpropa_1_1ToroidalHaloField`)
 - ``public TurbulentField`` (:ref:`exhale_class_classcrpropa_1_1TurbulentField`)
 - ``public UF23Field`` (:ref:`exhale_class_classcrpropa_1_1UF23Field`)
+- ``public UF26Field`` (:ref:`exhale_class_classcrpropa_1_1UF26Field`)
 - ``public UniformMagneticField`` (:ref:`exhale_class_classcrpropa_1_1UniformMagneticField`)
 
 

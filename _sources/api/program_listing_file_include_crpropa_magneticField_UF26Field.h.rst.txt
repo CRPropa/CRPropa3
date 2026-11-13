@@ -1,0 +1,80 @@
+
+.. _program_listing_file_include_crpropa_magneticField_UF26Field.h:
+
+Program Listing for File UF26Field.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_UF26Field.h>` (``include/crpropa/magneticField/UF26Field.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_UF26FIELD_H
+   #define CRPROPA_UF26FIELD_H
+   
+   #include <string>
+   #include "crpropa/magneticField/MagneticField.h"
+   #include "crpropa/Grid.h"
+   #include "crpropa/Units.h"
+   
+   namespace crpropa {
+   class UF26Field : public MagneticField {
+   public:
+           enum ModelType {
+                   expDisk,
+                   ringDisk
+           };
+   
+           UF26Field(const ModelType mt);
+   
+           UF26Field() = delete;
+   
+   #ifdef CRPROPA_HAVE_FFTW3F
+           void randomTurbulent(int seed = 0, double lc = 30 * parsec);
+   #endif
+   
+           void setTurbulentGrid(ref_ptr<Grid3f> grid);
+           ref_ptr<Grid3f> getTurbulentGrid();
+           bool isUsingTurbulentField() const;
+   
+           double getTurbulentStrength(const Vector3d &pos) const;
+   
+           Vector3d getTurbulentField(const Vector3d &pos) const;
+   
+           Vector3d getField(const Vector3d &pos) const;
+   
+           ModelType getModelType() const;
+           std::string getModelName() const;
+   
+   private:
+           // rms strengths in microgauss for positions in kpc
+           double rmsDisk(const Vector3d &posInKpc) const;
+           double rmsAnnulus(const Vector3d &posInKpc) const;
+   
+           const ModelType fModelType;
+   
+           // disk, Eqs. (12)-(14) [kpc, microgauss]
+           double fDiskB = 0;     
+           double fDiskZ = 0;     
+           double fDiskL = 0;     
+           double fDiskRc = 0;    
+           double fDiskRmax = 0;  
+           double fDiskWmax = 0;  
+           // annulus, Eq. (15) [kpc, microgauss]
+           double fAnnulusB = 0;  
+           double fAnnulusR = 0;  
+           double fAnnulusW = 0;  
+           double fAnnulusZ = 0;  
+           bool fHasAnnulus = false;
+   
+           // pre-calculated: sqrt(R_sun^2 + r_c^2)
+           double fSunRadiusSmoothed = 0;
+   
+           // turbulent grid with B_rms = 1
+           ref_ptr<Grid3f> turbulentGrid;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_UF26FIELD_H

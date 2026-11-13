@@ -64,20 +64,20 @@
 <li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#arch">Arch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#conda">Conda</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#virtual-environment">Virtual Environment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#id4">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#building">Building</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pages/Installation.html#building-on-macos">Building on MacOS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#brew">Brew</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#macports">MacPorts</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#id7">Conda</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#id8">Building</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#id5">Conda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pages/Installation.html#id6">Building</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pages/Installation.html#building-on-windows">Building on Windows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pages/Installation.html#id9">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pages/Installation.html#id7">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pages/Installation.html#known-issues">Known Issues</a></li>
@@ -646,6 +646,7 @@
 <li class="toctree-l3"><a class="reference internal" href="buildingblocks/MagneticFields.html#_CPPv4N7crpropa18TurbulenceSpectrumE"><code class="docutils literal notranslate"><span class="pre">crpropa::TurbulenceSpectrum</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="buildingblocks/MagneticFields.html#_CPPv4N7crpropa14TurbulentFieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::TurbulentField</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF23FieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::UF23Field</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF26FieldE"><code class="docutils literal notranslate"><span class="pre">crpropa::UF26Field</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="buildingblocks/Observers.html">Observer</a><ul>
@@ -824,6 +825,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/namespace_std.html">Namespace std</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/namespace_uf23.html">Namespace uf23</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/namespace_uf26.html">Namespace uf26</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/library_root.html#classes-and-structs">Classes and Structs</a><ul>
@@ -1028,6 +1030,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1UF23Field.html">Class UF23Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1UF26Field.html">Class UF26Field</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1UniformMagneticField.html">Class UniformMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/classcrpropa_1_1URB__Fixsen11.html">Class URB_Fixsen11</a></li>
@@ -1146,6 +1149,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/function_UF23Field_8cpp_1a5830e8a14c73cddf009d6214fc1aca12.html">Template Function uf23::CylToCart</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/function_UF23Field_8cpp_1aea4e26c00bff6a3e4f14b14bba09374f.html">Function uf23::DeltaPhi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/function_UF23Field_8cpp_1ae4e1de806484fd0412f1d01b24a25540.html">Function uf23::Sigmoid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/function_UF26Field_8cpp_1ac239f7b8c5603442688509d56c001b5f.html">Function uf26::gauss</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/library_root.html#variables">Variables</a><ul>
@@ -1285,6 +1289,10 @@
 <li class="toctree-l4"><a class="reference internal" href="api/variable_UF23Field_8cpp_1ab70342abf0832b9dd265964c21681319.html">Variable uf23::microgauss</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/variable_UF23Field_8cpp_1a2884cd030c4c825754349a525a1d06ce.html">Variable uf23::pc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/variable_UF23Field_8cpp_1a4e6001382c137dd906faab8f49a0a219.html">Variable uf23::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/variable_UF26Field_8cpp_1a17419d6e5d4e0cf2a24c16124b4b2f9b.html">Variable uf26::kArcoshE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/variable_UF26Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184.html">Variable uf26::kpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/variable_UF26Field_8cpp_1a7be7dc1cf90a039a8b9620868f076fbf.html">Variable uf26::kSunRadius</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/variable_UF26Field_8cpp_1ab70342abf0832b9dd265964c21681319.html">Variable uf26::microgauss</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/library_root.html#typedefs">Typedefs</a><ul>
@@ -3982,8 +3990,6 @@
 </li>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution7maximumE">crpropa::ObserverTimeEvolution::maximum (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution7minimumE">crpropa::ObserverTimeEvolution::minimum (C++ member)</a>
 </li>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution10nIntervalsE">crpropa::ObserverTimeEvolution::nIntervals (C++ member)</a>
@@ -3998,6 +4004,8 @@
 </li>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution10setMinimumEd">crpropa::ObserverTimeEvolution::setMinimum (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution13setNIntervalsEi">crpropa::ObserverTimeEvolution::setNIntervals (C++ function)</a>
 </li>
       <li><a href="api/classcrpropa_1_1ObserverTimeEvolution.html#_CPPv4N7crpropa21ObserverTimeEvolution8setTimesERKNSt6vectorIdEE">crpropa::ObserverTimeEvolution::setTimes (C++ function)</a>
@@ -6264,6 +6272,34 @@
 </li>
       <li><a href="api/classcrpropa_1_1UF23Field.html#_CPPv4N7crpropa9UF23Field9UF23FieldEK9ModelType">crpropa::UF23Field::UF23Field (C++ function)</a>, <a href="api/classcrpropa_1_1UF23Field.html#_CPPv4N7crpropa9UF23Field9UF23FieldEv">[1]</a>
 </li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26FieldE">crpropa::UF26Field (C++ class)</a>, <a href="buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF26FieldE">[1]</a>, <a href="doc/buildingblocks/MagneticFields.html#_CPPv4N7crpropa9UF26FieldE">[2]</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field8getFieldERK8Vector3d">crpropa::UF26Field::getField (C++ function)</a>, <a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field8getFieldERK8Vector3dd">[1]</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field12getModelNameEv">crpropa::UF26Field::getModelName (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field12getModelTypeEv">crpropa::UF26Field::getModelType (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field17getTurbulentFieldERK8Vector3d">crpropa::UF26Field::getTurbulentField (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field16getTurbulentGridEv">crpropa::UF26Field::getTurbulentGrid (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field20getTurbulentStrengthERK8Vector3d">crpropa::UF26Field::getTurbulentStrength (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4NK7crpropa9UF26Field21isUsingTurbulentFieldEv">crpropa::UF26Field::isUsingTurbulentField (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field9ModelTypeE">crpropa::UF26Field::ModelType (C++ enum)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field9ModelType7expDiskE">crpropa::UF26Field::ModelType::expDisk (C++ enumerator)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field9ModelType8ringDiskE">crpropa::UF26Field::ModelType::ringDisk (C++ enumerator)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field15randomTurbulentEid">crpropa::UF26Field::randomTurbulent (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field16setTurbulentGridE7ref_ptrI6Grid3fE">crpropa::UF26Field::setTurbulentGrid (C++ function)</a>
+</li>
+      <li><a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field9UF26FieldEK9ModelType">crpropa::UF26Field::UF26Field (C++ function)</a>, <a href="api/classcrpropa_1_1UF26Field.html#_CPPv4N7crpropa9UF26Field9UF26FieldEv">[1]</a>
+</li>
       <li><a href="api/classcrpropa_1_1UniformAdvectionField.html#_CPPv4N7crpropa21UniformAdvectionFieldE">crpropa::UniformAdvectionField (C++ class)</a>
 </li>
       <li><a href="api/classcrpropa_1_1UniformAdvectionField.html#_CPPv4NK7crpropa21UniformAdvectionField14getDescriptionEv">crpropa::UniformAdvectionField::getDescription (C++ function)</a>
@@ -7136,17 +7172,27 @@
 </li>
       <li><a href="api/variable_UF23Field_8cpp_1a617fa5738744da8788a057317ddcd78a.html#_CPPv4N4uf236kTwoPiE">uf23::kTwoPi (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/variable_UF23Field_8cpp_1a7abcecc07ff8c872e2ea8523aab8973e.html#_CPPv4N4uf238megayearE">uf23::megayear (C++ member)</a>
 </li>
       <li><a href="api/variable_UF23Field_8cpp_1ab70342abf0832b9dd265964c21681319.html#_CPPv4N4uf2310microgaussE">uf23::microgauss (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/variable_UF23Field_8cpp_1a2884cd030c4c825754349a525a1d06ce.html#_CPPv4N4uf232pcE">uf23::pc (C++ member)</a>
 </li>
       <li><a href="api/variable_UF23Field_8cpp_1a4e6001382c137dd906faab8f49a0a219.html#_CPPv4N4uf236secondE">uf23::second (C++ member)</a>
 </li>
       <li><a href="api/function_UF23Field_8cpp_1ae4e1de806484fd0412f1d01b24a25540.html#_CPPv4N4uf237SigmoidEKdKdKd">uf23::Sigmoid (C++ function)</a>
+</li>
+      <li><a href="api/function_UF26Field_8cpp_1ac239f7b8c5603442688509d56c001b5f.html#_CPPv4N4uf265gaussEKdKd">uf26::gauss (C++ function)</a>
+</li>
+      <li><a href="api/variable_UF26Field_8cpp_1a17419d6e5d4e0cf2a24c16124b4b2f9b.html#_CPPv4N4uf268kArcoshEE">uf26::kArcoshE (C++ member)</a>
+</li>
+      <li><a href="api/variable_UF26Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184.html#_CPPv4N4uf263kpcE">uf26::kpc (C++ member)</a>
+</li>
+      <li><a href="api/variable_UF26Field_8cpp_1a7be7dc1cf90a039a8b9620868f076fbf.html#_CPPv4N4uf2610kSunRadiusE">uf26::kSunRadius (C++ member)</a>
+</li>
+      <li><a href="api/variable_UF26Field_8cpp_1ab70342abf0832b9dd265964c21681319.html#_CPPv4N4uf2610microgaussE">uf26::microgauss (C++ member)</a>
 </li>
       <li><a href="api/classURB.html#_CPPv43URB">URB (C++ class)</a>, <a href="buildingblocks/PhotonFields.html#_CPPv43URB">[1]</a>, <a href="doc/buildingblocks/PhotonFields.html#_CPPv43URB">[2]</a>
 </li>

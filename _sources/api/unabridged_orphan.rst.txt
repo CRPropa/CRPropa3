@@ -795,6 +795,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_magneticField_UF26Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_UF26Field.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_include_crpropa_Units.h.rst
 
 .. toctree::

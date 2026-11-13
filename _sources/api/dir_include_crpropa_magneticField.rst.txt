@@ -34,5 +34,6 @@ Files
 - :ref:`file_include_crpropa_magneticField_QuimbyMagneticField.h`
 - :ref:`file_include_crpropa_magneticField_TF17Field.h`
 - :ref:`file_include_crpropa_magneticField_UF23Field.h`
+- :ref:`file_include_crpropa_magneticField_UF26Field.h`
 
 

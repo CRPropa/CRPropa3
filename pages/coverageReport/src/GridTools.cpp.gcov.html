@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-09-23 06:02:00</td>
+            <td class="headerValue">2026-11-13 09:48:01</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryLo">52.4&nbsp;%</td>
@@ -75,12 +75,12 @@
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :                                 grid-&gt;get(ix, iy, iz) *= a;</span></span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 : }</span></span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC tlaBgGNC">          11 : void scaleGrid(ref_ptr&lt;Grid3f&gt; grid, double a) {</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">         654 :         for (int ix = 0; ix &lt; grid-&gt;getNx(); ix++)</span></span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">       41612 :                 for (int iy = 0; iy &lt; grid-&gt;getNy(); iy++)</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">     2662436 :                         for (int iz = 0; iz &lt; grid-&gt;getNz(); iz++)</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">     2621467 :                                 grid-&gt;get(ix, iy, iz) *= a;</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          11 : }</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC tlaBgGNC">          12 : void scaleGrid(ref_ptr&lt;Grid3f&gt; grid, double a) {</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">         671 :         for (int ix = 0; ix &lt; grid-&gt;getNx(); ix++)</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">       41884 :                 for (int iy = 0; iy &lt; grid-&gt;getNy(); iy++)</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">     2666788 :                         for (int iz = 0; iz &lt; grid-&gt;getNz(); iz++)</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">     2625563 :                                 grid-&gt;get(ix, iy, iz) *= a;</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">          12 : }</span></span>
 <span id="L22"><span class="lineNum">      22</span>              : </span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 : Vector3f meanFieldVector(ref_ptr&lt;Grid3f&gt; grid) {</span></span>
 <span id="L24"><span class="lineNum">      24</span>              :         size_t Nx = grid-&gt;getNx();</span>
@@ -118,16 +118,16 @@
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :         return mean / Nx / Ny / Nz;</span></span>
 <span id="L57"><span class="lineNum">      57</span>              : }</span>
 <span id="L58"><span class="lineNum">      58</span>              : </span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC tlaBgGNC">          11 : double rmsFieldStrength(ref_ptr&lt;Grid3f&gt; grid) {</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC tlaBgGNC">          15 : double rmsFieldStrength(ref_ptr&lt;Grid3f&gt; grid) {</span></span>
 <span id="L60"><span class="lineNum">      60</span>              :         size_t Nx = grid-&gt;getNx();</span>
 <span id="L61"><span class="lineNum">      61</span>              :         size_t Ny = grid-&gt;getNy();</span>
 <span id="L62"><span class="lineNum">      62</span>              :         size_t Nz = grid-&gt;getNz();</span>
 <span id="L63"><span class="lineNum">      63</span>              :         double sumV2 = 0;</span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">         715 :         for (int ix = 0; ix &lt; Nx; ix++)</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">       45760 :                 for (int iy = 0; iy &lt; Ny; iy++)</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">     2928640 :                         for (int iz = 0; iz &lt; Nz; iz++)</span></span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">     2883584 :                                 sumV2 += grid-&gt;get(ix, iy, iz).getR2();</span></span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">          11 :         return std::sqrt(sumV2 / Nx / Ny / Nz);</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">         759 :         for (int ix = 0; ix &lt; Nx; ix++)</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">       46344 :                 for (int iy = 0; iy &lt; Ny; iy++)</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">     2937504 :                         for (int iz = 0; iz &lt; Nz; iz++)</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">     2891904 :                                 sumV2 += grid-&gt;get(ix, iy, iz).getR2();</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">          15 :         return std::sqrt(sumV2 / Nx / Ny / Nz);</span></span>
 <span id="L69"><span class="lineNum">      69</span>              : }</span>
 <span id="L70"><span class="lineNum">      70</span>              : </span>
 <span id="L71"><span class="lineNum">      71</span> <span class="tlaUNC tlaBgUNC">           0 : double rmsFieldStrength(ref_ptr&lt;Grid1f&gt; grid) {</span></span>

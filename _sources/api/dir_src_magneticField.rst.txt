@@ -32,5 +32,6 @@ Files
 - :ref:`file_src_magneticField_PT11Field.cpp`
 - :ref:`file_src_magneticField_TF17Field.cpp`
 - :ref:`file_src_magneticField_UF23Field.cpp`
+- :ref:`file_src_magneticField_UF26Field.cpp`
 
 

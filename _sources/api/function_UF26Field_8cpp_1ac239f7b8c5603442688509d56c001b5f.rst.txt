@@ -1,0 +1,14 @@
+.. _exhale_function_UF26Field_8cpp_1ac239f7b8c5603442688509d56c001b5f:
+
+Function uf26::gauss
+====================
+
+- Defined in :ref:`file_src_magneticField_UF26Field.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: uf26::gauss(const double, const double)
+   :project: CRPropa3

@@ -1,0 +1,61 @@
+
+.. _file_src_magneticField_UF26Field.cpp:
+
+File UF26Field.cpp
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticField>` (``src/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/magneticField/UF26Field.cpp``)
+------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_magneticField_UF26Field.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+- :ref:`namespace_uf26`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_UF26Field_8cpp_1ac239f7b8c5603442688509d56c001b5f`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_UF26Field_8cpp_1a17419d6e5d4e0cf2a24c16124b4b2f9b`
+
+- :ref:`exhale_variable_UF26Field_8cpp_1a1ec6fd9219412d45c0565c29304d5184`
+
+- :ref:`exhale_variable_UF26Field_8cpp_1a7be7dc1cf90a039a8b9620868f076fbf`
+
+- :ref:`exhale_variable_UF26Field_8cpp_1ab70342abf0832b9dd265964c21681319`
+

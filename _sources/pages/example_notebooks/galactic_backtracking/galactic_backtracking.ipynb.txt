@@ -7,7 +7,8 @@
     "# Galactic backtracking\n",
     "The following setup shows how to use CRPropa for backtracking simulations.  \n",
     "In the JF12 model the Galaxy is a sphere of 20 kpc radius.\n",
-    "For the magnetic field we are going to consider the regular component of the JF2012 model. The large-scale (striated) and small-scale (turbulent) random components can optionally be activated with the outcommented sections and a random seed can be set for reproducability."
+    "For the magnetic field we are going to consider the regular component of the JF2012 model. The large-scale (striated) and small-scale (turbulent) random components can optionally be activated with the outcommented sections and a random seed can be set for reproducability.\n",
+    "Alternatively, the coherent UF23 and random UF26 fields of Unger & Farrar can be combined in a `MagneticFieldList` (see the outcommented lines)."
    ]
   },
   {
@@ -42,6 +43,13 @@
     "#seed = 691342\n",
     "#B.randomStriated(seed)\n",
     "#B.randomTurbulent(seed)\n",
+    "\n",
+    "# coherent UF23 and random UF26 field, using seed from above\n",
+    "#B = MagneticFieldList()\n",
+    "#B.addField(UF23Field(UF23Field.base))\n",
+    "#B26 = UF26Field(UF26Field.expDisk)  # options: expDisk, ringDisk\n",
+    "#B26.randomTurbulent(seed)  # coherence length: optional 2nd argument, default 30 * parsec\n",
+    "#B.addField(B26)\n",
     "\n",
     "# simulation setup\n",
     "sim = ModuleList()\n",
@@ -240,6 +248,13 @@
     "    seed = 1703202123\n",
     "    B.randomStriated(seed)\n",
     "    B.randomTurbulent(seed)\n",
+    "    # alternatively: coherent UF23 and random UF26 field\n",
+    "    # (then use the Sun at -8.178 kpc and a 30 kpc sphere)\n",
+    "    #B = MagneticFieldList()\n",
+    "    #B.addField(UF23Field(UF23Field.base))\n",
+    "    #B26 = UF26Field(UF26Field.expDisk)  # options: expDisk, ringDisk\n",
+    "    #B26.randomTurbulent(seed)  # coherence length: optional 2nd argument, default 30 * parsec\n",
+    "    #B.addField(B26)\n",
     "    \n",
     "    \n",
     "    # simulation setup\n",

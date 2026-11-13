@@ -37,12 +37,12 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-09-23 06:02:00</td>
+            <td class="headerValue">2026-11-13 09:48:01</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryLo">42.6&nbsp;%</td>
+            <td class="headerCovTableEntryLo">44.3&nbsp;%</td>
             <td class="headerCovTableEntry">61</td>
-            <td class="headerCovTableEntry">26</td>
+            <td class="headerCovTableEntry">27</td>
           </tr>
                   <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -91,8 +91,8 @@
 <span id="L29"><span class="lineNum">      29</span>              : </span>
 <span id="L30"><span class="lineNum">      30</span>              : /** Lower and upper neighbour in a periodically continued unit grid */</span>
 <span id="L31"><span class="lineNum">      31</span>              : inline void periodicClamp(double x, int n, int &amp;lo, int &amp;hi) {</span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC tlaBgGNC">      100051 :         lo = ((int(floor(x)) % (n)) + (n)) % (n);</span></span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">          10 :         hi = (lo + 1) % (n);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC tlaBgGNC">      104177 :         lo = ((int(floor(x)) % (n)) + (n)) % (n);</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">        4136 :         hi = (lo + 1) % (n);</span></span>
 <span id="L34"><span class="lineNum">      34</span>              : }</span>
 <span id="L35"><span class="lineNum">      35</span>              : </span>
 <span id="L36"><span class="lineNum">      36</span>              : /** grid index in a reflective continued unit grid */</span>
@@ -234,9 +234,9 @@
 <span id="L172"><span class="lineNum">     172</span>              :          @param N               Number of grid points in one direction</span>
 <span id="L173"><span class="lineNum">     173</span>              :          @param spacing Spacing between grid points</span>
 <span id="L174"><span class="lineNum">     174</span>              :          */</span>
-<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">          11 :         Grid(Vector3d origin, size_t N, double spacing) {</span></span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">          13 :         Grid(Vector3d origin, size_t N, double spacing) {</span></span>
 <span id="L176"><span class="lineNum">     176</span>              :                 setOrigin(origin);</span>
-<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">          11 :                 setGridSize(N, N, N);</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">          13 :                 setGridSize(N, N, N);</span></span>
 <span id="L178"><span class="lineNum">     178</span>              :                 setSpacing(Vector3d(spacing));</span>
 <span id="L179"><span class="lineNum">     179</span>              :                 setReflective(false);</span>
 <span id="L180"><span class="lineNum">     180</span>              :                 setClipVolume(false);</span>
@@ -290,13 +290,13 @@
 <span id="L228"><span class="lineNum">     228</span>              :         }</span>
 <span id="L229"><span class="lineNum">     229</span>              : </span>
 <span id="L230"><span class="lineNum">     230</span>              :         /** Resize grid, also enlarges the volume as the spacing stays constant */</span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC tlaBgGNC">          32 :         void setGridSize(size_t Nx, size_t Ny, size_t Nz) {</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          32 :                 this-&gt;Nx = Nx;</span></span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">          32 :                 this-&gt;Ny = Ny;</span></span>
-<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          32 :                 this-&gt;Nz = Nz;</span></span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">          32 :                 grid.resize(Nx * Ny * Nz);</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC tlaBgGNC">          34 :         void setGridSize(size_t Nx, size_t Ny, size_t Nz) {</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">          34 :                 this-&gt;Nx = Nx;</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">          34 :                 this-&gt;Ny = Ny;</span></span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">          34 :                 this-&gt;Nz = Nz;</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">          34 :                 grid.resize(Nx * Ny * Nz);</span></span>
 <span id="L236"><span class="lineNum">     236</span>              :                 setOrigin(origin);</span>
-<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">          32 :         }</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">          34 :         }</span></span>
 <span id="L238"><span class="lineNum">     238</span>              : </span>
 <span id="L239"><span class="lineNum">     239</span>              :         void setSpacing(Vector3d spacing) {</span>
 <span id="L240"><span class="lineNum">     240</span>              :                 this-&gt;spacing = spacing;</span>
@@ -304,19 +304,19 @@
 <span id="L242"><span class="lineNum">     242</span>              :         }</span>
 <span id="L243"><span class="lineNum">     243</span>              : </span>
 <span id="L244"><span class="lineNum">     244</span>              :         void setReflective(bool b) {</span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">           8 :                 reflective = b;</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">          10 :                 reflective = b;</span></span>
 <span id="L246"><span class="lineNum">     246</span>              :         }</span>
 <span id="L247"><span class="lineNum">     247</span>              : </span>
 <span id="L248"><span class="lineNum">     248</span>              :         // If set to true, all values outside of the grid will be 0.</span>
 <span id="L249"><span class="lineNum">     249</span>              :         void setClipVolume(bool b) {</span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">          23 :                 clipVolume = b;</span></span>
+<span id="L250"><span class="lineNum">     250</span> <span class="tlaGNC">          25 :                 clipVolume = b;</span></span>
 <span id="L251"><span class="lineNum">     251</span>              :         }</span>
 <span id="L252"><span class="lineNum">     252</span>              : </span>
 <span id="L253"><span class="lineNum">     253</span>              :         /** Change the interpolation type to the routine specified by the user. Check if this routine is</span>
 <span id="L254"><span class="lineNum">     254</span>              :                 contained in the enum interpolationType and thus supported by CRPropa.*/</span>
 <span id="L255"><span class="lineNum">     255</span> <span class="tlaUNC tlaBgUNC">           0 :         void setInterpolationType(interpolationType ipolType) {</span></span>
 <span id="L256"><span class="lineNum">     256</span> <span class="tlaUNC">           0 :                 if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {</span></span>
-<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC tlaBgGNC">          34 :                         this-&gt;ipolType = ipolType;</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC tlaBgGNC">          36 :                         this-&gt;ipolType = ipolType;</span></span>
 <span id="L258"><span class="lineNum">     258</span> <span class="tlaUNC tlaBgUNC">           0 :                         if ((ipolType == TRICUBIC) &amp;&amp; (std::is_same&lt;T, Vector3d&gt;::value)) {</span></span>
 <span id="L259"><span class="lineNum">     259</span> <span class="tlaUNC">           0 :                                 KISS_LOG_WARNING &lt;&lt; &quot;Tricubic interpolation on Grid3d works only with float-precision, doubles will be downcasted&quot;;</span></span>
 <span id="L260"><span class="lineNum">     260</span>              :                 }</span>
@@ -350,15 +350,15 @@
 <span id="L288"><span class="lineNum">     288</span>              :         }</span>
 <span id="L289"><span class="lineNum">     289</span>              : </span>
 <span id="L290"><span class="lineNum">     290</span>              :         size_t getNx() const {</span>
-<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">         764 :                 return Nx;</span></span>
+<span id="L291"><span class="lineNum">     291</span> <span class="tlaGNC">         781 :                 return Nx;</span></span>
 <span id="L292"><span class="lineNum">     292</span>              :         }</span>
 <span id="L293"><span class="lineNum">     293</span>              : </span>
 <span id="L294"><span class="lineNum">     294</span>              :         size_t getNy() const {</span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">       41868 :                 return Ny;</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">       42140 :                 return Ny;</span></span>
 <span id="L296"><span class="lineNum">     296</span>              :         }</span>
 <span id="L297"><span class="lineNum">     297</span>              : </span>
 <span id="L298"><span class="lineNum">     298</span>              :         size_t getNz() const {</span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">     2663965 :                 return Nz;</span></span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">     2668321 :                 return Nz;</span></span>
 <span id="L300"><span class="lineNum">     300</span>              :         }</span>
 <span id="L301"><span class="lineNum">     301</span>              : </span>
 <span id="L302"><span class="lineNum">     302</span>              :         /** Calculates the total size of the grid in bytes */</span>
@@ -377,9 +377,9 @@
 <span id="L315"><span class="lineNum">     315</span>              :         /** Choose the interpolation algorithm based on the set interpolation type.</span>
 <span id="L316"><span class="lineNum">     316</span>              :           By default this it the trilinear interpolation. The user can change the</span>
 <span id="L317"><span class="lineNum">     317</span>              :           routine with the setInterpolationType function.*/</span>
-<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">      100091 :         T interpolate(const Vector3d &amp;position) {</span></span>
+<span id="L318"><span class="lineNum">     318</span> <span class="tlaGNC">      104217 :         T interpolate(const Vector3d &amp;position) {</span></span>
 <span id="L319"><span class="lineNum">     319</span>              :                 // check for volume</span>
-<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">      100091 :                 if (clipVolume) {</span></span>
+<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">      104217 :                 if (clipVolume) {</span></span>
 <span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">           5 :                         Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;</span></span>
 <span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">           5 :                         bool isInVolume = (position.x &gt;= origin.x) &amp;&amp; (position.x &lt;= edge.x);</span></span>
 <span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">           5 :                         isInVolume &amp;= (position.y &gt;= origin.y) &amp;&amp; (position.y &lt;= edge.y);</span></span>
@@ -388,22 +388,22 @@
 <span id="L326"><span class="lineNum">     326</span>              :                                 return T(0.);</span>
 <span id="L327"><span class="lineNum">     327</span>              :                 } </span>
 <span id="L328"><span class="lineNum">     328</span>              : </span>
-<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">      100086 :                 if (ipolType == TRICUBIC)</span></span>
+<span id="L329"><span class="lineNum">     329</span> <span class="tlaGNC">      104212 :                 if (ipolType == TRICUBIC)</span></span>
 <span id="L330"><span class="lineNum">     330</span> <span class="tlaGNC">          18 :                         return tricubicInterpolate(T(), position);</span></span>
-<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">      100068 :                 else if (ipolType == NEAREST_NEIGHBOUR)</span></span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">      104194 :                 else if (ipolType == NEAREST_NEIGHBOUR)</span></span>
 <span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">          13 :                         return closestValue(position);</span></span>
 <span id="L333"><span class="lineNum">     333</span>              :                 else</span>
-<span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">      100055 :                         return trilinearInterpolate(position);</span></span>
+<span id="L334"><span class="lineNum">     334</span> <span class="tlaGNC">      104181 :                         return trilinearInterpolate(position);</span></span>
 <span id="L335"><span class="lineNum">     335</span>              :         }</span>
 <span id="L336"><span class="lineNum">     336</span>              : </span>
 <span id="L337"><span class="lineNum">     337</span>              :         /** Inspector &amp; Mutator */</span>
 <span id="L338"><span class="lineNum">     338</span>              :         T &amp;get(size_t ix, size_t iy, size_t iz) {</span>
-<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">     8391214 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></span>
+<span id="L339"><span class="lineNum">     339</span> <span class="tlaGNC">     8403630 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></span>
 <span id="L340"><span class="lineNum">     340</span>              :         }</span>
 <span id="L341"><span class="lineNum">     341</span>              : </span>
 <span id="L342"><span class="lineNum">     342</span>              :         /** Inspector */</span>
 <span id="L343"><span class="lineNum">     343</span>              :         const T &amp;get(size_t ix, size_t iy, size_t iz) const {</span>
-<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">      100072 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></span>
+<span id="L344"><span class="lineNum">     344</span> <span class="tlaGNC">      104198 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></span>
 <span id="L345"><span class="lineNum">     345</span>              :         }</span>
 <span id="L346"><span class="lineNum">     346</span>              : </span>
 <span id="L347"><span class="lineNum">     347</span>              :         const T &amp;periodicGet(size_t ix, size_t iy, size_t iz) const {</span>
@@ -434,11 +434,11 @@
 <span id="L372"><span class="lineNum">     372</span>              :         }</span>
 <span id="L373"><span class="lineNum">     373</span>              : </span>
 <span id="L374"><span class="lineNum">     374</span>              :         /** Position of the grid point of a given index */</span>
-<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">       10103 :         Vector3d positionFromIndex(int index) const {</span></span>
-<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">       10103 :                 int ix = index / (Ny * Nz);</span></span>
-<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">       10103 :                 int iy = (index / Nz) % Ny;</span></span>
-<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">       10103 :                 int iz = index % Nz;</span></span>
-<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">       10103 :                 return Vector3d(ix, iy, iz) * spacing + gridOrigin;</span></span>
+<span id="L375"><span class="lineNum">     375</span> <span class="tlaGNC">       14199 :         Vector3d positionFromIndex(int index) const {</span></span>
+<span id="L376"><span class="lineNum">     376</span> <span class="tlaGNC">       14199 :                 int ix = index / (Ny * Nz);</span></span>
+<span id="L377"><span class="lineNum">     377</span> <span class="tlaGNC">       14199 :                 int iy = (index / Nz) % Ny;</span></span>
+<span id="L378"><span class="lineNum">     378</span> <span class="tlaGNC">       14199 :                 int iz = index % Nz;</span></span>
+<span id="L379"><span class="lineNum">     379</span> <span class="tlaGNC">       14199 :                 return Vector3d(ix, iy, iz) * spacing + gridOrigin;</span></span>
 <span id="L380"><span class="lineNum">     380</span>              :         }</span>
 <span id="L381"><span class="lineNum">     381</span>              : </span>
 <span id="L382"><span class="lineNum">     382</span>              :         /** Value of a grid point that is closest to a given position / nearest neighbour interpolation */</span>
@@ -599,7 +599,7 @@
 <span id="L537"><span class="lineNum">     537</span> <span class="tlaGNC">           3 :         }</span></span>
 <span id="L538"><span class="lineNum">     538</span>              : </span>
 <span id="L539"><span class="lineNum">     539</span>              :         /** Interpolate the grid trilinear at a given position */</span>
-<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC">      100055 :         T trilinearInterpolate(const Vector3d &amp;position) const {</span></span>
+<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC">      104181 :         T trilinearInterpolate(const Vector3d &amp;position) const {</span></span>
 <span id="L541"><span class="lineNum">     541</span>              :                 /** position on a unit grid */</span>
 <span id="L542"><span class="lineNum">     542</span>              :                 Vector3d r = (position - gridOrigin) / spacing;</span>
 <span id="L543"><span class="lineNum">     543</span>              : </span>
@@ -608,7 +608,7 @@
 <span id="L546"><span class="lineNum">     546</span>              :                 int iX0, iX1, iY0, iY1, iZ0, iZ1;</span>
 <span id="L547"><span class="lineNum">     547</span>              :                 double resX, resY, resZ, fX0, fY0, fZ0;</span>
 <span id="L548"><span class="lineNum">     548</span>              : </span>
-<span id="L549"><span class="lineNum">     549</span> <span class="tlaGNC">      100055 :                 if (reflective) {</span></span>
+<span id="L549"><span class="lineNum">     549</span> <span class="tlaGNC">      104181 :                 if (reflective) {</span></span>
 <span id="L550"><span class="lineNum">     550</span> <span class="tlaGNC">           6 :                         reflectiveClamp(r.x, Nx, iX0, iX1, resX);</span></span>
 <span id="L551"><span class="lineNum">     551</span> <span class="tlaGNC">           6 :                         reflectiveClamp(r.y, Ny, iY0, iY1, resY);</span></span>
 <span id="L552"><span class="lineNum">     552</span> <span class="tlaGNC">           6 :                         reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);</span></span>
@@ -616,31 +616,31 @@
 <span id="L554"><span class="lineNum">     554</span> <span class="tlaGNC">           6 :                         fY0 = resY - floor(resY);</span></span>
 <span id="L555"><span class="lineNum">     555</span> <span class="tlaGNC">           6 :                         fZ0 = resZ - floor(resZ);</span></span>
 <span id="L556"><span class="lineNum">     556</span>              :                 } else {</span>
-<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">      100049 :                         periodicClamp(r.x, Nx, iX0, iX1);</span></span>
-<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">      100049 :                         periodicClamp(r.y, Ny, iY0, iY1);</span></span>
-<span id="L559"><span class="lineNum">     559</span> <span class="tlaGNC">      100049 :                         periodicClamp(r.z, Nz, iZ0, iZ1);</span></span>
-<span id="L560"><span class="lineNum">     560</span> <span class="tlaGNC">      100049 :                         fX0 = r.x - floor(r.x);</span></span>
-<span id="L561"><span class="lineNum">     561</span> <span class="tlaGNC">      100049 :                         fY0 = r.y - floor(r.y);</span></span>
-<span id="L562"><span class="lineNum">     562</span> <span class="tlaGNC">      100049 :                         fZ0 = r.z - floor(r.z);</span></span>
+<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">      104175 :                         periodicClamp(r.x, Nx, iX0, iX1);</span></span>
+<span id="L558"><span class="lineNum">     558</span> <span class="tlaGNC">      104175 :                         periodicClamp(r.y, Ny, iY0, iY1);</span></span>
+<span id="L559"><span class="lineNum">     559</span> <span class="tlaGNC">      104175 :                         periodicClamp(r.z, Nz, iZ0, iZ1);</span></span>
+<span id="L560"><span class="lineNum">     560</span> <span class="tlaGNC">      104175 :                         fX0 = r.x - floor(r.x);</span></span>
+<span id="L561"><span class="lineNum">     561</span> <span class="tlaGNC">      104175 :                         fY0 = r.y - floor(r.y);</span></span>
+<span id="L562"><span class="lineNum">     562</span> <span class="tlaGNC">      104175 :                         fZ0 = r.z - floor(r.z);</span></span>
 <span id="L563"><span class="lineNum">     563</span>              :                 }</span>
 <span id="L564"><span class="lineNum">     564</span>              : </span>
 <span id="L565"><span class="lineNum">     565</span>              :                 /** linear fraction to upper neighbours based on lower neighbours calculated above */</span>
-<span id="L566"><span class="lineNum">     566</span> <span class="tlaGNC">      100055 :                 double fX1 = 1 - fX0;</span></span>
-<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">      100055 :                 double fY1 = 1 - fY0;</span></span>
-<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">      100055 :                 double fZ1 = 1 - fZ0;</span></span>
+<span id="L566"><span class="lineNum">     566</span> <span class="tlaGNC">      104181 :                 double fX1 = 1 - fX0;</span></span>
+<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">      104181 :                 double fY1 = 1 - fY0;</span></span>
+<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">      104181 :                 double fZ1 = 1 - fZ0;</span></span>
 <span id="L569"><span class="lineNum">     569</span>              : </span>
 <span id="L570"><span class="lineNum">     570</span>              :                 /** trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation) */</span>
 <span id="L571"><span class="lineNum">     571</span>              :                 T b(0.);</span>
-<span id="L572"><span class="lineNum">     572</span> <span class="tlaGNC">      100055 :                 b += get(iX0, iY0, iZ0) * fX1 * fY1 * fZ1;</span></span>
-<span id="L573"><span class="lineNum">     573</span> <span class="tlaGNC">      100055 :                 b += get(iX1, iY0, iZ0) * fX0 * fY1 * fZ1;</span></span>
-<span id="L574"><span class="lineNum">     574</span> <span class="tlaGNC">      100055 :                 b += get(iX0, iY1, iZ0) * fX1 * fY0 * fZ1;</span></span>
-<span id="L575"><span class="lineNum">     575</span> <span class="tlaGNC">      100055 :                 b += get(iX0, iY0, iZ1) * fX1 * fY1 * fZ0;</span></span>
+<span id="L572"><span class="lineNum">     572</span> <span class="tlaGNC">      104181 :                 b += get(iX0, iY0, iZ0) * fX1 * fY1 * fZ1;</span></span>
+<span id="L573"><span class="lineNum">     573</span> <span class="tlaGNC">      104181 :                 b += get(iX1, iY0, iZ0) * fX0 * fY1 * fZ1;</span></span>
+<span id="L574"><span class="lineNum">     574</span> <span class="tlaGNC">      104181 :                 b += get(iX0, iY1, iZ0) * fX1 * fY0 * fZ1;</span></span>
+<span id="L575"><span class="lineNum">     575</span> <span class="tlaGNC">      104181 :                 b += get(iX0, iY0, iZ1) * fX1 * fY1 * fZ0;</span></span>
 <span id="L576"><span class="lineNum">     576</span> <span class="tlaGNC">           9 :                 b += get(iX1, iY0, iZ1) * fX0 * fY1 * fZ0;</span></span>
 <span id="L577"><span class="lineNum">     577</span> <span class="tlaGNC">           9 :                 b += get(iX0, iY1, iZ1) * fX1 * fY0 * fZ0;</span></span>
 <span id="L578"><span class="lineNum">     578</span> <span class="tlaGNC">           9 :                 b += get(iX1, iY1, iZ0) * fX0 * fY0 * fZ1;</span></span>
 <span id="L579"><span class="lineNum">     579</span> <span class="tlaGNC">           9 :                 b += get(iX1, iY1, iZ1) * fX0 * fY0 * fZ0;</span></span>
 <span id="L580"><span class="lineNum">     580</span>              : </span>
-<span id="L581"><span class="lineNum">     581</span> <span class="tlaGNC">      100055 :                 return b;</span></span>
+<span id="L581"><span class="lineNum">     581</span> <span class="tlaGNC">      104181 :                 return b;</span></span>
 <span id="L582"><span class="lineNum">     582</span>              :         }</span>
 <span id="L583"><span class="lineNum">     583</span>              : </span>
 <span id="L584"><span class="lineNum">     584</span>              : }; // class Grid</span>

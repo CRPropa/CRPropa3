@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - include/crpropa/magneticField/UF26Field.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">include/crpropa/magneticField</a> - UF26Field.h<span style="font-size: 80%;"> (source / <a href="UF26Field.h.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-11-13 09:48:01</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #ifndef CRPROPA_UF26FIELD_H</span>
+<span id="L2"><span class="lineNum">       2</span>              : #define CRPROPA_UF26FIELD_H</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &lt;string&gt;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &quot;crpropa/magneticField/MagneticField.h&quot;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &quot;crpropa/Grid.h&quot;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &quot;crpropa/Units.h&quot;</span>
+<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L9"><span class="lineNum">       9</span>              : namespace crpropa {</span>
+<span id="L10"><span class="lineNum">      10</span>              : /**</span>
+<span id="L11"><span class="lineNum">      11</span>              :  * \addtogroup MagneticFields</span>
+<span id="L12"><span class="lineNum">      12</span>              :  * @{</span>
+<span id="L13"><span class="lineNum">      13</span>              :  */</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : /**</span>
+<span id="L16"><span class="lineNum">      16</span>              :  @class UF26Field</span>
+<span id="L17"><span class="lineNum">      17</span>              :  @brief UF26 model of the random Galactic magnetic field</span>
+<span id="L18"><span class="lineNum">      18</span>              : </span>
+<span id="L19"><span class="lineNum">      19</span>              :  Implements the two random-field models of UF26, expDisk and ringDisk</span>
+<span id="L20"><span class="lineNum">      20</span>              :  (Table 2 of M. Unger and G.R. Farrar, arXiv:2608.21293). The coherent</span>
+<span id="L21"><span class="lineNum">      21</span>              :  field of the same authors is available as UF23Field.</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span>              :  The models describe the rms strength b(x) of the isotropic random field,</span>
+<span id="L24"><span class="lineNum">      24</span>              :  i.e. &lt;|B|^2&gt; = b^2, where the average is over a volume large compared to</span>
+<span id="L25"><span class="lineNum">      25</span>              :  the coherence length of the field. Each Cartesian component therefore has</span>
+<span id="L26"><span class="lineNum">      26</span>              :  an rms of b/sqrt(3). The rms strength is given by getTurbulentStrength().</span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span>              :  As for the turbulent component of JF12Field, a realization of the field is</span>
+<span id="L29"><span class="lineNum">      29</span>              :  obtained by scaling a turbulent grid with B_rms = 1 to the local rms</span>
+<span id="L30"><span class="lineNum">      30</span>              :  strength, B(x) = b(x) * B_grid(x). The grid is created with</span>
+<span id="L31"><span class="lineNum">      31</span>              :  randomTurbulent() or set with setTurbulentGrid(). The paper does not</span>
+<span id="L32"><span class="lineNum">      32</span>              :  determine the coherence length; randomTurbulent() uses Lc = 30 pc by</span>
+<span id="L33"><span class="lineNum">      33</span>              :  default, the value used for the deflection estimates in the paper. The</span>
+<span id="L34"><span class="lineNum">      34</span>              :  scaling breaks</span>
+<span id="L35"><span class="lineNum">      35</span>              :  div B = 0 at the level of Lc divided by the scale of variation of b</span>
+<span id="L36"><span class="lineNum">      36</span>              :  (&gt;~ 1 kpc).</span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span>              :  Usage together with the coherent UF23 field, e.g. for backtracking or</span>
+<span id="L39"><span class="lineNum">      39</span>              :  lens production (Python):</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span>              :  \code{.py}</span>
+<span id="L42"><span class="lineNum">      42</span>              :  B = MagneticFieldList()</span>
+<span id="L43"><span class="lineNum">      43</span>              :  B.addField(UF23Field(UF23Field.base))</span>
+<span id="L44"><span class="lineNum">      44</span>              :  B26 = UF26Field(UF26Field.expDisk)</span>
+<span id="L45"><span class="lineNum">      45</span>              :  B26.randomTurbulent(seed)  # or randomTurbulent(seed, Lc), default Lc = 30 pc</span>
+<span id="L46"><span class="lineNum">      46</span>              :  B.addField(B26)</span>
+<span id="L47"><span class="lineNum">      47</span>              :  \endcode</span>
+<span id="L48"><span class="lineNum">      48</span>              : </span>
+<span id="L49"><span class="lineNum">      49</span>              :  For a different spectrum, create the grid e.g. with SimpleGridTurbulence</span>
+<span id="L50"><span class="lineNum">      50</span>              :  (Brms = 1) and pass it with setTurbulentGrid().</span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span>              :  Assumes a galactocentric coordinate system with the Galactic center</span>
+<span id="L53"><span class="lineNum">      53</span>              :  at the origin, the x-axis pointing in the opposite direction of the</span>
+<span id="L54"><span class="lineNum">      54</span>              :  Sun, and the z-axis pointing towards Galactic North. The Sun is at</span>
+<span id="L55"><span class="lineNum">      55</span>              :  a distance of 8.178 kpc from the Galactic center.</span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              :  */</span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC tlaBgGNC">          12 : class UF26Field : public MagneticField {</span></span>
+<span id="L59"><span class="lineNum">      59</span>              : public:</span>
+<span id="L60"><span class="lineNum">      60</span>              :         /// models of Table 2 of the UF26 paper</span>
+<span id="L61"><span class="lineNum">      61</span>              :         enum ModelType {</span>
+<span id="L62"><span class="lineNum">      62</span>              :                 expDisk,</span>
+<span id="L63"><span class="lineNum">      63</span>              :                 ringDisk</span>
+<span id="L64"><span class="lineNum">      64</span>              :         };</span>
+<span id="L65"><span class="lineNum">      65</span>              : </span>
+<span id="L66"><span class="lineNum">      66</span>              :         /**</span>
+<span id="L67"><span class="lineNum">      67</span>              :          @brief constructor</span>
+<span id="L68"><span class="lineNum">      68</span>              :          @param mt model type (expDisk or ringDisk)</span>
+<span id="L69"><span class="lineNum">      69</span>              :          */</span>
+<span id="L70"><span class="lineNum">      70</span>              :         UF26Field(const ModelType mt);</span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span>              :         /// no default constructor</span>
+<span id="L73"><span class="lineNum">      73</span>              :         UF26Field() = delete;</span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span>              : #ifdef CRPROPA_HAVE_FFTW3F</span>
+<span id="L76"><span class="lineNum">      76</span>              :         /**</span>
+<span id="L77"><span class="lineNum">      77</span>              :          @brief create and set a random realization of the turbulent grid</span>
+<span id="L78"><span class="lineNum">      78</span>              : </span>
+<span id="L79"><span class="lineNum">      79</span>              :          Kolmogorov spectrum with B_rms = 1 and lMax/lMin = 34 on a periodic grid</span>
+<span id="L80"><span class="lineNum">      80</span>              :          of 256^3 points (200 MB) with a spacing of lMin/2. The length scales</span>
+<span id="L81"><span class="lineNum">      81</span>              :          follow from the coherence length: for Lc = 30 pc, lMin = 4.0 pc,</span>
+<span id="L82"><span class="lineNum">      82</span>              :          lMax = 136 pc and the box size is 512 pc. Lc = 60 pc corresponds to</span>
+<span id="L83"><span class="lineNum">      83</span>              :          the grid of JF12Field::randomTurbulent().</span>
+<span id="L84"><span class="lineNum">      84</span>              :          @param seed random seed, 0: random realization</span>
+<span id="L85"><span class="lineNum">      85</span>              :          @param lc   coherence length of the turbulence</span>
+<span id="L86"><span class="lineNum">      86</span>              :          */</span>
+<span id="L87"><span class="lineNum">      87</span>              :         void randomTurbulent(int seed = 0, double lc = 30 * parsec);</span>
+<span id="L88"><span class="lineNum">      88</span>              : #endif</span>
+<span id="L89"><span class="lineNum">      89</span>              : </span>
+<span id="L90"><span class="lineNum">      90</span>              :         /**</span>
+<span id="L91"><span class="lineNum">      91</span>              :          Set a turbulent grid</span>
+<span id="L92"><span class="lineNum">      92</span>              :          @param grid    vector grid containing a random field of Brms = 1</span>
+<span id="L93"><span class="lineNum">      93</span>              :          */</span>
+<span id="L94"><span class="lineNum">      94</span>              :         void setTurbulentGrid(ref_ptr&lt;Grid3f&gt; grid);</span>
+<span id="L95"><span class="lineNum">      95</span>              :         ref_ptr&lt;Grid3f&gt; getTurbulentGrid();</span>
+<span id="L96"><span class="lineNum">      96</span>              :         /// true if a turbulent grid is set</span>
+<span id="L97"><span class="lineNum">      97</span>              :         bool isUsingTurbulentField() const;</span>
+<span id="L98"><span class="lineNum">      98</span>              : </span>
+<span id="L99"><span class="lineNum">      99</span>              :         /// rms strength b of the random field (Eqs. 12 and 15 in quadrature)</span>
+<span id="L100"><span class="lineNum">     100</span>              :         double getTurbulentStrength(const Vector3d &amp;pos) const;</span>
+<span id="L101"><span class="lineNum">     101</span>              : </span>
+<span id="L102"><span class="lineNum">     102</span>              :         /**</span>
+<span id="L103"><span class="lineNum">     103</span>              :          @brief realization of the random field, b(pos) * B_grid(pos)</span>
+<span id="L104"><span class="lineNum">     104</span>              :          @throws std::runtime_error if no turbulent grid is set</span>
+<span id="L105"><span class="lineNum">     105</span>              :          */</span>
+<span id="L106"><span class="lineNum">     106</span>              :         Vector3d getTurbulentField(const Vector3d &amp;pos) const;</span>
+<span id="L107"><span class="lineNum">     107</span>              : </span>
+<span id="L108"><span class="lineNum">     108</span>              :         /// same as getTurbulentField()</span>
+<span id="L109"><span class="lineNum">     109</span>              :         Vector3d getField(const Vector3d &amp;pos) const;</span>
+<span id="L110"><span class="lineNum">     110</span>              : </span>
+<span id="L111"><span class="lineNum">     111</span>              :         ModelType getModelType() const;</span>
+<span id="L112"><span class="lineNum">     112</span>              :         std::string getModelName() const;</span>
+<span id="L113"><span class="lineNum">     113</span>              : </span>
+<span id="L114"><span class="lineNum">     114</span>              : private:</span>
+<span id="L115"><span class="lineNum">     115</span>              :         // rms strengths in microgauss for positions in kpc</span>
+<span id="L116"><span class="lineNum">     116</span>              :         double rmsDisk(const Vector3d &amp;posInKpc) const;</span>
+<span id="L117"><span class="lineNum">     117</span>              :         double rmsAnnulus(const Vector3d &amp;posInKpc) const;</span>
+<span id="L118"><span class="lineNum">     118</span>              : </span>
+<span id="L119"><span class="lineNum">     119</span>              :         /// model type given in constructor</span>
+<span id="L120"><span class="lineNum">     120</span>              :         const ModelType fModelType;</span>
+<span id="L121"><span class="lineNum">     121</span>              : </span>
+<span id="L122"><span class="lineNum">     122</span>              :         // disk, Eqs. (12)-(14) [kpc, microgauss]</span>
+<span id="L123"><span class="lineNum">     123</span>              :         double fDiskB = 0;     ///&lt; b_d at the solar circle</span>
+<span id="L124"><span class="lineNum">     124</span>              :         double fDiskZ = 0;     ///&lt; 1/e height z_d</span>
+<span id="L125"><span class="lineNum">     125</span>              :         double fDiskL = 0;     ///&lt; radial scale length l_r</span>
+<span id="L126"><span class="lineNum">     126</span>              :         double fDiskRc = 0;    ///&lt; cusp smoothing radius r_c</span>
+<span id="L127"><span class="lineNum">     127</span>              :         double fDiskRmax = 0;  ///&lt; outer cutoff radius R_max</span>
+<span id="L128"><span class="lineNum">     128</span>              :         double fDiskWmax = 0;  ///&lt; width of outer cutoff w_max</span>
+<span id="L129"><span class="lineNum">     129</span>              :         // annulus, Eq. (15) [kpc, microgauss]</span>
+<span id="L130"><span class="lineNum">     130</span>              :         double fAnnulusB = 0;  ///&lt; peak amplitude b_a,0</span>
+<span id="L131"><span class="lineNum">     131</span>              :         double fAnnulusR = 0;  ///&lt; peak radius r_a</span>
+<span id="L132"><span class="lineNum">     132</span>              :         double fAnnulusW = 0;  ///&lt; radial Gaussian width w_a</span>
+<span id="L133"><span class="lineNum">     133</span>              :         double fAnnulusZ = 0;  ///&lt; 1/e height z_a</span>
+<span id="L134"><span class="lineNum">     134</span>              :         bool fHasAnnulus = false;</span>
+<span id="L135"><span class="lineNum">     135</span>              : </span>
+<span id="L136"><span class="lineNum">     136</span>              :         // pre-calculated: sqrt(R_sun^2 + r_c^2)</span>
+<span id="L137"><span class="lineNum">     137</span>              :         double fSunRadiusSmoothed = 0;</span>
+<span id="L138"><span class="lineNum">     138</span>              : </span>
+<span id="L139"><span class="lineNum">     139</span>              :         // turbulent grid with B_rms = 1</span>
+<span id="L140"><span class="lineNum">     140</span>              :         ref_ptr&lt;Grid3f&gt; turbulentGrid;</span>
+<span id="L141"><span class="lineNum">     141</span>              : };</span>
+<span id="L142"><span class="lineNum">     142</span>              : </span>
+<span id="L143"><span class="lineNum">     143</span>              : /** @}*/</span>
+<span id="L144"><span class="lineNum">     144</span>              : } // namespace crpropa</span>
+<span id="L145"><span class="lineNum">     145</span>              : </span>
+<span id="L146"><span class="lineNum">     146</span>              : #endif // CRPROPA_UF26FIELD_H</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-09-23 06:02:00</td>
+            <td class="headerValue">2026-11-13 09:48:01</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -156,7 +156,7 @@
 <span id="L94"><span class="lineNum">      94</span>              :  Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus</span>
 <span id="L95"><span class="lineNum">      95</span>              :  Richard J. Wagner  v1.0  15 May 2003  rjwagner\@writeme.com</span>
 <span id="L96"><span class="lineNum">      96</span>              :  */</span>
-<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC tlaBgGNC">          15 : class Random {</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC tlaBgGNC">          16 : class Random {</span></span>
 <span id="L98"><span class="lineNum">      98</span>              : public:</span>
 <span id="L99"><span class="lineNum">      99</span>              :         enum {N = 624}; // length of state vector</span>
 <span id="L100"><span class="lineNum">     100</span>              :         enum {SAVE = N + 1}; // length of array for save()</span>
@@ -201,7 +201,7 @@
 <span id="L139"><span class="lineNum">     139</span>              :         ///Exponential distribution in (0,inf)</span>
 <span id="L140"><span class="lineNum">     140</span>              :         double randExponential();</span>
 <span id="L141"><span class="lineNum">     141</span>              :         /// Normal distributed random number</span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC tlaBgGNC">     1715954 :         double randNorm( const double&amp; mean = 0.0, const double&amp; variance = 1.0 );</span></span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC tlaBgGNC">     1720050 :         double randNorm( const double&amp; mean = 0.0, const double&amp; variance = 1.0 );</span></span>
 <span id="L143"><span class="lineNum">     143</span>              :         /// Uniform distribution in [min, max]</span>
 <span id="L144"><span class="lineNum">     144</span>              :         double randUniform(double min, double max);</span>
 <span id="L145"><span class="lineNum">     145</span>              :         /// Rayleigh distributed random number</span>
@@ -273,18 +273,18 @@
 <span id="L211"><span class="lineNum">     211</span>              :         /// Generate N new values in state</span>
 <span id="L212"><span class="lineNum">     212</span>              :         /// Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)</span>
 <span id="L213"><span class="lineNum">     213</span>              :         void reload();</span>
-<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">    28722096 :         uint32_t hiBit( const uint32_t&amp; u ) const {return u &amp; 0x80000000UL;}</span></span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">    28722096 :         uint32_t loBit( const uint32_t&amp; u ) const {return u &amp; 0x00000001UL;}</span></span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">    28722096 :         uint32_t loBits( const uint32_t&amp; u ) const {return u &amp; 0x7fffffffUL;}</span></span>
+<span id="L214"><span class="lineNum">     214</span> <span class="tlaGNC">    28748928 :         uint32_t hiBit( const uint32_t&amp; u ) const {return u &amp; 0x80000000UL;}</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">    28748928 :         uint32_t loBit( const uint32_t&amp; u ) const {return u &amp; 0x00000001UL;}</span></span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaGNC">    28748928 :         uint32_t loBits( const uint32_t&amp; u ) const {return u &amp; 0x7fffffffUL;}</span></span>
 <span id="L217"><span class="lineNum">     217</span>              :         uint32_t mixBits( const uint32_t&amp; u, const uint32_t&amp; v ) const</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">    28722096 :         {       return hiBit(u) | loBits(v);}</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">    28748928 :         {       return hiBit(u) | loBits(v);}</span></span>
 <span id="L219"><span class="lineNum">     219</span>              : </span>
 <span id="L220"><span class="lineNum">     220</span>              : #ifdef _MSC_VER</span>
 <span id="L221"><span class="lineNum">     221</span>              : #pragma warning( push )</span>
 <span id="L222"><span class="lineNum">     222</span>              : #pragma warning( disable : 4146 )</span>
 <span id="L223"><span class="lineNum">     223</span>              : #endif</span>
 <span id="L224"><span class="lineNum">     224</span>              :         uint32_t twist( const uint32_t&amp; m, const uint32_t&amp; s0, const uint32_t&amp; s1 ) const</span>
-<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">    28676067 :         {       return m ^ (mixBits(s0,s1)&gt;&gt;1) ^ (-loBit(s1) &amp; 0x9908b0dfUL);}</span></span>
+<span id="L225"><span class="lineNum">     225</span> <span class="tlaGNC">    28702856 :         {       return m ^ (mixBits(s0,s1)&gt;&gt;1) ^ (-loBit(s1) &amp; 0x9908b0dfUL);}</span></span>
 <span id="L226"><span class="lineNum">     226</span>              : </span>
 <span id="L227"><span class="lineNum">     227</span>              : #ifdef _MSC_VER</span>
 <span id="L228"><span class="lineNum">     228</span>              : #pragma warning( pop )</span>

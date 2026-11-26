@@ -337,6 +337,7 @@
 %include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
+%include "crpropa/magneticField/UF26Field.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 

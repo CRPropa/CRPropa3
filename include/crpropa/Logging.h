@@ -24,11 +24,11 @@ void inline logDebug(const std::string &log) {
 	KISS_LOG_DEBUG << log;
 }
 
-void setLogStream(std::ostream &stream) {
+void inline setLogStream(std::ostream &stream) {
 	kiss::Logger::setLogStream(stream);
 }
 
-void setLogLevel(int level) {
+void inline setLogLevel(int level) {
 	kiss::Logger::setLogLevel(static_cast<kiss::eLogLevel>(level));
 }
 

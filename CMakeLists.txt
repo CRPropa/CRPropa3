@@ -379,6 +379,7 @@ add_library(crpropa SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/TF17Field.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/UF23Field.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/UF26Field.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/KST24Field.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/magneticField/CMZField.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/advectionField/AdvectionField.cpp

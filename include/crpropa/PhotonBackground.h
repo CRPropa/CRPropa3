@@ -88,6 +88,13 @@ public:
 	void setFieldName(std::string fieldName) {
 		this->fieldName = fieldName;
 	}
+	#ifndef SWIG
+	/// Insertion operator for all PhotonFields
+	friend std::ostream& operator<<(std::ostream& os, const PhotonField& obj) {
+		os << obj.getFieldName();
+		return os;
+	}
+	#endif
 	
 protected:
 	std::string fieldName;  /**< Name of the currently used field */

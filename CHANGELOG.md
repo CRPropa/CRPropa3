@@ -11,6 +11,7 @@
 * Added `RelativisticLimit` and `setRelativisticLimit` so the limit at which particles should be handled non-relativistically can be set by the user
 * Added `ObserverSpacialEvolution` that observes the Candidate at different lengths instead of times
 * Added `MaximumTime` break condition that rejects the Candidate when a given time is reached
+* Added `UF26Field`, the random Galactic magnetic field models expDisk and ringDisk of Unger & Farrar (arXiv:2608.21293), scaling a user-supplied turbulent field to the model's rms strength
 
 ### Interface changes:
 * CRPropa now uses explicit time as steps instead of length steps
@@ -28,6 +29,7 @@
 * Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 
 ### New plugins and resources linked on the webpages
+* Pybind11 python bindings as an alternative to the default swig bindings
 
 
 ## CRPropa 3.3

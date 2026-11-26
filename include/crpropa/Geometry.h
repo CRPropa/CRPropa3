@@ -32,6 +32,14 @@ public:
 	 */
 	virtual Vector3d normal(const Vector3d& point) const = 0;
 	virtual std::string getDescription() const {return "Surface without description.";};
+	
+	#ifndef SWIG
+	/// Insertion operator for all Surfaces
+	friend std::ostream& operator<<(std::ostream& os, const Surface& obj) {
+		os << obj.getDescription();
+		return os;
+	}
+	#endif
 };
 
 

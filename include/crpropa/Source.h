@@ -26,6 +26,13 @@ public:
 	virtual void prepareParticle(ParticleState& particle) const {};
 	virtual void prepareCandidate(Candidate& candidate) const;
 	std::string getDescription() const;
+	#ifndef SWIG
+	/// Insertion operator for all SourceFeatures
+	friend std::ostream& operator<<(std::ostream& os, const SourceFeature& obj) {
+		os << obj.getDescription();
+		return os;
+	}
+	#endif
 };
 
 
@@ -37,6 +44,13 @@ class SourceInterface : public Referenced {
 public:
 	virtual ref_ptr<Candidate> getCandidate() const = 0;
 	virtual std::string getDescription() const = 0;
+	#ifndef SWIG
+	/// Insertion operator for all SourceInterfaces
+	friend std::ostream& operator<<(std::ostream& os, const SourceInterface& obj) {
+		os << obj.getDescription();
+		return os;
+	}
+	#endif
 };
 
 

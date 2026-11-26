@@ -48,6 +48,7 @@ void AbstractAccelerationModule::process(crpropa::Candidate *candidate) const {
 		currentStepLength = m->modify(currentStepLength, candidate);
 	}
 
+	// step is in meter
 	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	while (step > 0) {
 		double randDistance = -1. * log(crpropa::Random::instance().rand()) * currentStepLength;

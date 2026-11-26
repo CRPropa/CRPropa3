@@ -74,6 +74,14 @@ public:
 	virtual void initRate(std::string path) = 0;
 	virtual void initCumulativeRate(std::string path) = 0;
 
+	#ifndef SWIG
+	/// Insertion operator for all InteractionRates
+	friend std::ostream& operator<<(std::ostream& os, const InteractionRates& obj) {
+		os << obj.getRatesName();
+		return os;
+	}
+	#endif
+
 	protected: 
 
 	std::string ratesName = "AbstractInteractionRates";

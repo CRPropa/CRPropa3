@@ -243,6 +243,14 @@ public:
 	 and activate it if inactive, e.g. restart it
 	*/
 	void restart();
+	
+	#ifndef SWIG
+	/// Insertion operator for Candidate
+	friend std::ostream& operator<<(std::ostream& os, const Candidate& obj) {
+		os << obj.getDescription();
+		return os;
+	}
+	#endif
 };
 
 /** @}*/

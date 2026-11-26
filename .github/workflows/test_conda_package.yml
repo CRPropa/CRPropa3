@@ -97,7 +97,7 @@ jobs:
           path: /usr/share/miniconda/conda-bld/linux-64/crpropa*
 
   macos:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

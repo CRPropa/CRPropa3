@@ -29,8 +29,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: "macos-14"
-            os: macos-14 
+          - name: "macos-15"
+            os: macos-15 
             fc: "gfortran-14"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python3" # python 3.14

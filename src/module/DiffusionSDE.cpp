@@ -1,5 +1,6 @@
 #include "crpropa/module/DiffusionSDE.h"
 
+#include "crpropa/Logging.h"
 
 using namespace crpropa;
 
@@ -22,6 +23,10 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, double toleranc
 				 double minStep, double maxStep, double epsilon) :
 	minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
   	setMagneticField(magneticField);
   	setMaximumStep(maxStep);
   	setMinimumStep(minStep);
@@ -35,6 +40,10 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<Advecti
 	double tolerance, double minStep, double maxStep, double epsilon) :
   	minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
 	setMagneticField(magneticField);
 	setAdvectionField(advectionField);
 	setMaximumStep(maxStep);
@@ -48,6 +57,10 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<Advecti
 DiffusionSDE::DiffusionSDE(double tolerance, double minStep, double maxStep, double epsilon,
 	ref_ptr<MagneticField> magneticField) : minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " second and maxStep = " 
+		+ std::to_string(maxStep) + " second.\n"
+	);
   	setMagneticField(magneticField);
   	setMaximumTimeStep(maxStep);
   	setMinimumTimeStep(minStep);
@@ -61,6 +74,10 @@ DiffusionSDE::DiffusionSDE(double tolerance, double minStep, double maxStep, dou
 	ref_ptr<MagneticField> magneticField, ref_ptr<AdvectionField> advectionField) :
   	minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " second and maxStep = " 
+		+ std::to_string(maxStep) + " second.\n"
+	);
 	setMagneticField(magneticField);
 	setAdvectionField(advectionField);
 	setMaximumTimeStep(maxStep);

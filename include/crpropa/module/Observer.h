@@ -370,19 +370,19 @@ public:
 
 
 /**
- @class ObserverSpacialSnapshot
+ @class ObserverSpatialSnapshot
  @brief Observes the spacial evolution of the candidates (phase-space elements)
 
  This observer is very useful if the spacial evolution of the particle density is needed. 
  It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and 
  limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
-class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
+class ObserverSpatialSnapshot: public ObserverTimeSnapshot{
 	public:
 	// Redefine Constructor instead of using `using ObserverTimeSnapshot::ObserverTimeSnapshot` for SWIG<4.5.0
 	/** Default constructor
 	 */
-	ObserverSpacialSnapshot() : ObserverTimeSnapshot() {}
+	ObserverSpatialSnapshot() : ObserverTimeSnapshot() {}
 	/** Constructor
 	 @param min		minimum length
 	 @param dist	length interval for detection
@@ -390,7 +390,7 @@ class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
 
 	 This constructor calculates the maximum from max = min + (numb - 1) * dist
 	 */
-	ObserverSpacialSnapshot(double min, double dist, double numb)
+	ObserverSpatialSnapshot(double min, double dist, double numb)
 		: ObserverTimeSnapshot(min, dist, numb) {}
 	/** Constructor
 	 @param min		minimum length
@@ -401,7 +401,7 @@ class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
 	 This constructor sets the maximum directly and gets numb automatically.
 	 You need to set the log parameter, since an overload for the first three doubles exist.
 	 */
-	ObserverSpacialSnapshot(double min, double max, double numb, bool log)
+	ObserverSpatialSnapshot(double min, double max, double numb, bool log)
 		: ObserverTimeSnapshot(min, max, numb, log) {}
 	/** Constructor
 	 @param detList	user defined vector<double> with lengths to check
@@ -409,7 +409,7 @@ class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
 	 This constructor uses a predefined vector containing the lengths that should be observed.
 	 The so created detList can then be modified via addTime, addTimeRange and setTimes.
 	 */
-	ObserverSpacialSnapshot(const std::vector<double> &detList)
+	ObserverSpatialSnapshot(const std::vector<double> &detList)
 		: ObserverTimeSnapshot(detList) {}
 
 	/** Function
@@ -433,7 +433,7 @@ class ObserverSpacialSnapshot: public ObserverTimeSnapshot{
  @brief (Deprecated!) Observes the time evolution of the candidates (phase-space elements)
  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
-class ObserverTimeEvolution : public ObserverSpacialSnapshot {
+class ObserverTimeEvolution : public ObserverSpatialSnapshot {
 	private:
 	void throwWarning();
 	public:

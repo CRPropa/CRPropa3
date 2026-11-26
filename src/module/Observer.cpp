@@ -415,7 +415,7 @@ std::string ObserverTimeSnapshot::getDescription() const {
 
 // ObserverSpacialEvolution --------------------------------------------------------
 
-DetectionState ObserverSpacialSnapshot::checkDetection(Candidate *c) const {
+DetectionState ObserverSpatialSnapshot::checkDetection(Candidate *c) const {
 
 	if (nIntervals) {
 		double length = c->getTrajectoryLength();
@@ -457,7 +457,7 @@ DetectionState ObserverSpacialSnapshot::checkDetection(Candidate *c) const {
 	return NOTHING;
 }
 
-std::string ObserverSpacialSnapshot::getDescription() const {
+std::string ObserverSpatialSnapshot::getDescription() const {
 	std::stringstream s;
 	s << "List of Detection lengths in kpc";
 	for (size_t i = 0; i < nIntervals; i++)
@@ -468,25 +468,25 @@ std::string ObserverSpacialSnapshot::getDescription() const {
 // ObserverTimeEvolution (deprecated) --------------------------------------------------------
 
 void ObserverTimeEvolution::throwWarning(){
-	KISS_LOG_WARNING << "WARNING: ObserverTimeEvolution is deprecated, use ObserverSpacialSnapshot or ObserverTimeSnapshot instead\n";
+	KISS_LOG_WARNING << "WARNING: ObserverTimeEvolution is deprecated, use ObserverSpatialSnapshot or ObserverTimeSnapshot instead\n";
 }
 
-ObserverTimeEvolution::ObserverTimeEvolution() : ObserverSpacialSnapshot() {
+ObserverTimeEvolution::ObserverTimeEvolution() : ObserverSpatialSnapshot() {
 	throwWarning();
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb)
-	: ObserverSpacialSnapshot(min, dist, numb) {
+	: ObserverSpatialSnapshot(min, dist, numb) {
 	throwWarning();
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log)
-	: ObserverSpacialSnapshot(min, max, numb, log) {
+	: ObserverSpatialSnapshot(min, max, numb, log) {
 	throwWarning();
 }
 
 ObserverTimeEvolution::ObserverTimeEvolution(const std::vector<double> &detList)
-	: ObserverSpacialSnapshot(detList) {
+	: ObserverSpatialSnapshot(detList) {
 	throwWarning();
 }
 

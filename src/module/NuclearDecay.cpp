@@ -38,7 +38,7 @@ NuclearDecay::NuclearDecay(bool electrons, bool photons, bool neutrinos, double 
 		int Z, N;
 		double lifetime;
 		stream >> Z >> N >> decay.channel >> lifetime;
-		decay.rate = 1. / lifetime / c_light; // decay rate in [1/m]
+		decay.rate = 1. / lifetime; // decay rate in [1/s]
 		std::vector<double> gamma;
 		double val;
 		while (stream >> val)
@@ -70,8 +70,8 @@ void NuclearDecay::setLimit(double l) {
 }
 
 void NuclearDecay::process(Candidate *candidate) const {
-	// the loop should be processed at least once for limiting the next step
-	double step = candidate->getCurrentStep()*candidate->getVelocity();
+	// the loop should be processed at least once for limiting the next timeStep
+	double timeStep = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
 	do {
 		// check if nucleus
@@ -97,11 +97,11 @@ void NuclearDecay::process(Candidate *candidate) const {
 		double totalRate = 0;
 
 		for (size_t i = 0; i < decays.size(); i++) {
-			double rate = decays[i].rate;
+			double rate = decays[i].rate;  // in 1/s
 			rate /= candidate->current.getLorentzFactor();  // relativistic time dilation
 			rate /= (1 + z);  // rate per light travel distance -> rate per comoving distance
 			totalRate += rate;
-			double d = -log(random.rand()) / rate;
+			double d = -log(random.rand()) / rate;  // in s
 			if (d > randDistance)
 				continue;
 			randDistance = d;
@@ -109,7 +109,7 @@ void NuclearDecay::process(Candidate *candidate) const {
 		}
 
 		// check if interaction doesn't happen
-		if (step < randDistance) {
+		if (timeStep < randDistance) {
 			// limit next step to a fraction of the mean free path
 			candidate->limitNextStep(limit / totalRate / candidate->getVelocity());
 			return;
@@ -117,8 +117,8 @@ void NuclearDecay::process(Candidate *candidate) const {
 
 		// interact and repeat with remaining step
 		performInteraction(candidate, channel);
-		step -= randDistance;
-	} while (step > 0);
+		timeStep -= randDistance;
+	} while (timeStep > 0);
 }
 
 void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
@@ -307,12 +307,12 @@ double NuclearDecay::meanFreePath(int id, double gamma) {
 	double totalRate = 0;
 
 	for (size_t i = 0; i < decays.size(); i++) {
-		double rate = decays[i].rate;
+		double rate = decays[i].rate;  // in 1/s
 		rate /= gamma;
 		totalRate += rate;
 	}
 
-	return 1. / totalRate;
+	return 1. / totalRate / c_light;  // in m
 }
 
 void NuclearDecay::setInteractionTag(std::string tag) {

@@ -1,5 +1,7 @@
 #include "crpropa/module/PropagationBP.h"
 
+#include "crpropa/Logging.h"
+
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -48,6 +50,9 @@ namespace crpropa {
 
 	PropagationBP::PropagationBP(ref_ptr<MagneticField> BField, double fixedStep) :
 		minStep(0) {
+		logInfo("PropagationBP: You used a fixed intergation step length of " 
+			+ std::to_string(fixedStep) + " meter.\n"
+		);
 		setField(BField);
 		setTolerance(0.42);
 		setMaximumTimeStep(fixedStep/c_light);
@@ -56,6 +61,10 @@ namespace crpropa {
 
 	PropagationBP::PropagationBP(ref_ptr<MagneticField> BField, double tolerance, double minStep, double maxStep) :
 		minStep(0) {
+		logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+			+ std::to_string(minStep) + " meter and maxStep = " 
+			+ std::to_string(maxStep) + " meter.\n"
+		);
 		setField(BField);
 		setTolerance(tolerance);
 		setMaximumTimeStep(maxStep/c_light);
@@ -64,6 +73,9 @@ namespace crpropa {
 
 	PropagationBP::PropagationBP(double fixedTimeStep, ref_ptr<MagneticField> BField) :
 		minStep(0) {
+		logInfo("PropagationBP: You used a fixed intergation step length of " 
+			+ std::to_string(fixedTimeStep) + " second.\n"
+		);
 		setField(BField);
 		setTolerance(0.42);
 		setMaximumTimeStep(fixedTimeStep);
@@ -72,6 +84,10 @@ namespace crpropa {
 
 	PropagationBP::PropagationBP(double tolerance, double minTimeStep, double maxTimeStep, ref_ptr<MagneticField> BField) :
 		minStep(0) {
+		logInfo("PropagationBP: You used a dynamic integration step length with minTimeStep = " 
+			+ std::to_string(minTimeStep) + " second and maxTimeStep = " 
+			+ std::to_string(maxTimeStep) + " second.\n"
+		);
 		setField(BField);
 		setTolerance(tolerance);
 		setMaximumTimeStep(maxTimeStep);

@@ -1,5 +1,7 @@
 #include "crpropa/module/PropagationCK.h"
 
+#include "crpropa/Logging.h"
+
 #include <limits>
 #include <sstream>
 #include <stdexcept>
@@ -63,6 +65,11 @@ PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) con
 PropagationCK::PropagationCK(ref_ptr<MagneticField> field, double tolerance,
 		double minStep, double maxStep) :
 		minStep(0) {
+	logInfo("PropagationCK: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
+
 	setField(field);
 	setTolerance(tolerance);
 	setMaximumStep(maxStep);
@@ -77,6 +84,11 @@ PropagationCK::PropagationCK(ref_ptr<MagneticField> field, double tolerance,
 PropagationCK::PropagationCK(double tolerance, double minStep, double maxStep, 
 	ref_ptr<MagneticField> field) :
 		minStep(0) {
+	logInfo("PropagationCK: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " s and maxStep = " 
+		+ std::to_string(maxStep) + " s.\n"
+	);
+
 	setField(field);
 	setTolerance(tolerance);
 	setMaximumTimeStep(maxStep);

@@ -109,13 +109,9 @@ void PropagationCK::process(Candidate *candidate) const {
 	Y yIn(current.getPosition(), current.getDirection());
 	double step = maxStep;
 
-	// if particle has no velocity it is not effected by the magnetic field:
-	if (candidate->getVelocity() == 0) {
-		return;
-	}
-
 	// rectilinear propagation for neutral particles
-	if (current.getCharge() == 0) {
+	// if particle has no velocity it is not effected by the magnetic field:
+	if (current.getCharge() == 0 || candidate->getVelocity() == 0) {
 		step = clip(candidate->getNextStep(), minStep, maxStep);
 		current.setPosition(yIn.x + yIn.u * step * candidate->getVelocity());
 		candidate->setCurrentStep(step);

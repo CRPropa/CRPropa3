@@ -45,7 +45,6 @@
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/module/PhotoDisintegration.h"
 #include "crpropa/module/PhotoPionProduction.h"
-#include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/PropagationBP.h"
 #include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Redshift.h"

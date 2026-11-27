@@ -57,7 +57,7 @@ unsigned short digit( location loc, const int & pid )
     //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj
     //  the location enum provides a convenient index into the PID
 		//
-		//  Modified for CRPropa: use precalculated values isntead of pow for
+		//  Modified for CRPropa: use precalculated values instead of pow for
 		//  performance
 		static unsigned int p10[] = { 1, 10, 100, 1000,  10000, 100000, 1000000,
 			10000000, 100000000, 1000000000};

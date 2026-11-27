@@ -28,7 +28,7 @@
 
 #include "HepPID/ParticleName.hh"
 #include "HepPID/ParticleIDMethods.hh"
-#include "HepPID/Version.hh"
+
 
 namespace HepPID {
 
@@ -1824,7 +1824,6 @@ int  particleName( const std::string & s )
 //
 void  listParticleNames( std::ostream & os  )
 {
-    writeVersion( os );
     os << "     HepPID Particle List" << std::endl;
     os << std::endl;
 

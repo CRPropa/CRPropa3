@@ -127,26 +127,80 @@ TEST(ParticleState, lorentzFactor) {
 	ParticleState particle;
 	particle.setId(nucleusId(1, 1));
 	particle.setEnergy(1e12 * eV);
-	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(),
-			1e12 * eV / mass_proton / c_squared);
+	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), 1e12 * eV / mass_proton / c_squared);
 }
 
 TEST(ParticleID, nucleusId) {
-	EXPECT_EQ(nucleusId(3,2), 1000020030);
+	EXPECT_EQ(nucleusId(3, 2), 1000020030);
+	EXPECT_EQ(nucleusId(1, 1), 1000010010); // proton
+	EXPECT_EQ(nucleusId(1, 0), 1000000010); // neutron
+	EXPECT_EQ(nucleusId(56, 26), 1000260560); // iron
+
+	// unphysical nuclei
+	EXPECT_THROW(nucleusId(1, -1), std::runtime_error); // Z < 0
+	EXPECT_THROW(nucleusId(0, 0), std::runtime_error); // A < 1
+	EXPECT_THROW(nucleusId(2, 3), std::runtime_error); // A < Z
 }
 
 TEST(ParticleID, chargeNumber) {
 	EXPECT_EQ(chargeNumber(1000020030), 2);
+	EXPECT_EQ(chargeNumber(1000260560), 26);
+	EXPECT_EQ(chargeNumber(1000000010), 0); // neutron
+	EXPECT_EQ(chargeNumber(2212), 1); // proton (PDG code)
+	EXPECT_EQ(chargeNumber(11), 0); // not a nucleus
+	EXPECT_EQ(chargeNumber(22), 0);
 }
 
 TEST(ParticleID, massNumber) {
 	EXPECT_EQ(massNumber(2112), 1);
 	EXPECT_EQ(massNumber(1000020030), 3);
+	EXPECT_EQ(massNumber(1000260560), 56);
+	EXPECT_EQ(massNumber(2212), 1); // proton (PDG code)
+	EXPECT_EQ(massNumber(11), 0); // not a nucleus
+	EXPECT_EQ(massNumber(22), 0);
 }
 
 TEST(ParticleID, isNucleus) {
 	EXPECT_TRUE(isNucleus(1000020030));
+	EXPECT_TRUE(isNucleus(1000260560));
+	EXPECT_TRUE(isNucleus(-1000260560)); // anti-nucleus
+	EXPECT_TRUE(isNucleus(2112)); // neutron (PDG code)
+	EXPECT_TRUE(isNucleus(2212)); // proton (PDG code)
 	EXPECT_FALSE(isNucleus(11));
+	EXPECT_FALSE(isNucleus(22));
+	EXPECT_FALSE(isNucleus(12));
+}
+
+TEST(ParticleID, convertIdToName) {
+	EXPECT_EQ(convertIdToName(22), "gamma");
+	EXPECT_EQ(convertIdToName(11), "e^-");
+	EXPECT_EQ(convertIdToName(-11), "e^+");
+	EXPECT_EQ(convertIdToName(2212), "p^+");
+
+	// nuclear-code IDs remapped to PDG codes
+	EXPECT_EQ(convertIdToName(1000000010), "n^0");
+	EXPECT_EQ(convertIdToName(-1000000010), "n~^0");
+	EXPECT_EQ(convertIdToName(-1000010010), "p~^-");
+}
+
+TEST(ParticleID, dyon) {
+	// Dyon PIDs 411xyz0 / 412xyz0 carry electric charge +/- xyz
+	EXPECT_TRUE(HepPID::isDyon(4110090));
+	EXPECT_EQ(HepPID::charge(4110090), 9);
+
+	// electric charges that are multiples of 10
+	EXPECT_TRUE(HepPID::isDyon(4110100));
+	EXPECT_EQ(HepPID::charge(4110100), 10);
+	EXPECT_EQ(HepPID::charge(4110200), 20);
+	EXPECT_EQ(HepPID::charge(4111000), 100);
+	EXPECT_EQ(HepPID::charge(4120100), -10);
+	EXPECT_EQ(HepPID::charge(-4110100), -10);
+
+	// pure magnetic monopole: only the 411 form is valid
+	EXPECT_TRUE(HepPID::isDyon(4110000));
+	EXPECT_TRUE(HepPID::isValid(4110000));
+	EXPECT_EQ(HepPID::charge(4110000), 0);
+	EXPECT_FALSE(HepPID::isDyon(4120000));
 }
 
 TEST(ParticleMass, particleMass) {

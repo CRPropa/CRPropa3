@@ -1,4 +1,8 @@
-License: Custom license similar to BSD
-Reference:  http://cepa.fnal.gov/psm/HepPID/.
-	http://cepa.fnal.gov/psm/heppdt/v3/HepPID.pdf
- 
+# HepPID
+
+The HepPID library contains translation methods for particle ID's and the PDG standard  numbering scheme.
+Only the files relevant for CRPropa are kept here. 
+It is extracted from the [HepPDT library](https://hepmc.web.cern.ch/hepmc/).
+
+
+Minor adjustments for CRPropa were made.

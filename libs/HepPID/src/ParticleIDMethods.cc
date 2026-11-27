@@ -57,7 +57,7 @@ unsigned short digit( location loc, const int & pid )
     //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj
     //  the location enum provides a convenient index into the PID
 		//
-		//  Modified for CRPropa: use precalculated values isntead of pow for
+		//  Modified for CRPropa: use precalculated values instead of pow for
 		//  performance
 		static unsigned int p10[] = { 1, 10, 100, 1000,  10000, 100000, 1000000,
 			10000000, 100000000, 1000000000};
@@ -318,8 +318,10 @@ bool isDyon( const int & pid )
     if( digit(n,pid) != 4 )  { return false; }
     if( digit(nr,pid) != 1 )  { return false; }
     if( (digit(nl,pid) != 1) && (digit(nl,pid) != 2) )  { return false; }
-    // All Dyons have at least 1 core digit
-    if( digit(nq3,pid) == 0 )  { return false; }
+    // CRPropa modification: fixes issue [#597](https://github.com/CRPropa/CRPropa3/issues/597) 
+    //  The electric charge is the full field xyz, so checking only nq3 wrongly rejected charges that are multiples of 10.
+    //  Now xyz = 0 is a pure magnetic monopole; only the 411 form is accepted, since the electric/magnetic sign relation is meaningless for q = 0.
+    if( ((abspid(pid) / 10) % 1000 == 0) && (digit(nl, pid) != 1) )  { return false; }
     // Dyons have spin zero for now
     if( digit(nj,pid) != 0 )  { return false; }
     return true;

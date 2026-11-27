@@ -4,6 +4,7 @@
 * Double free error can now be prevented by handing over stack objects as reference to `ref_ptr<Obj>` instead as pointer
 * Fixed solving issues when attempting to install `matplotlib==3.11.0`, `python==3.14.6`, and `crpropa==3.3` together 
 * Fixed taskedSecondary parameter growing larger than number of scheduled secondaries
+* Fixed HepPID rejecting dyon IDs whose electric charge is a multiple of 10 (which got charge 0); pure magnetic monopoles (4110000) are now accepted. (fixes issue [#597])
 
 ### New features:
 * Added `UF26Field`, the random Galactic magnetic field models expDisk and ringDisk of Unger & Farrar (arXiv:2608.21293), scaling a user-supplied turbulent field to the model's rms strength
@@ -13,6 +14,7 @@
 ### Features that are deprecated and will be removed after this release
 
 ### Removed features
+* Removed unused particle ID translators from `libs/HepPID`.
 * Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)
 * Removed `AssocVector.h` (can be replaced with `std::unordered_map` from `unordered_map.h`)
 * Removed `initHelicalTurbulence`, `turbulentCorrelationLength` and `initTurbulence` since they are deprecated since 3.1.7

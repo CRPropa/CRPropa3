@@ -121,9 +121,9 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 	// check for interaction
 	Random &random = Random::instance();
 	double randDistance = -log(random.rand()) / rate;
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	if (step < randDistance) {
-		candidate->limitNextStep(limit / rate);
+		candidate->limitNextStep(limit / rate / candidate->getVelocity());
 		return;
 	} else { // after performing interaction photon ceases to exist (hence return)
 		performInteraction(candidate);

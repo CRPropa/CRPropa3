@@ -114,7 +114,7 @@ void ElectronPairProduction::process(Candidate *c) const {
 	if (losslen >= std::numeric_limits<double>::max())
 		return;
 
-	double step = c->getCurrentStep() / (1 + z); // step size in local frame
+	double step = c->getCurrentStep()*c->getVelocity() / (1 + z); // step size in local frame
 	double loss = step / losslen;  // relative energy loss
 
 	if (haveElectrons) {
@@ -142,7 +142,7 @@ void ElectronPairProduction::process(Candidate *c) const {
 	}
 
 	c->current.setLorentzFactor(lf * (1 - loss));
-	c->limitNextStep(limit * losslen);
+	c->limitNextStep(limit * losslen / c->getVelocity());
 }
 
 void ElectronPairProduction::setInteractionTag(std::string tag) {

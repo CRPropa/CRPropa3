@@ -7,11 +7,16 @@
 #include "HepPID/ParticleIDMethods.hh"
 
 #include <cstdlib>
+#include <cmath>
 #include <sstream>
 
 namespace crpropa {
 
-ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir): id(0), energy(0.), position(0.), direction(0.), pmass(0.), charge(0.)
+void setRelativisticLimit(double limit){
+	RelativisticLimit = limit;
+}
+
+ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir): id(0), energy(0.), speed(c_light), position(0.), direction(0.), pmass(0.), charge(0.)
 {
 	setId(id);
 	setEnergy(E);
@@ -23,28 +28,19 @@ void ParticleState::setPosition(const Vector3d &pos) {
 	position = pos;
 }
 
-const Vector3d &ParticleState::getPosition() const {
-	return position;
-}
-
 void ParticleState::setDirection(const Vector3d &dir) {
-	direction = dir / dir.getR();
-}
-
-const Vector3d &ParticleState::getDirection() const {
-	return direction;
+	direction = dir.getUnitVector();
 }
 
 void ParticleState::setEnergy(double newEnergy) {
-	energy = std::max(0., newEnergy); // prevent negative energies
-}
+	energy = std::max(0., newEnergy);
 
-double ParticleState::getEnergy() const {
-	return energy;
-}
-
-double ParticleState::getRigidity() const {
-	return fabs(energy / charge);
+	if (pmass==0) 
+		speed = c_light;
+	else if (getLorentzFactor()<RelativisticLimit)  // can happen if if gamma-1 < numericalPrecission
+		speed = sqrt(energy*2./pmass);  // non relativistic case
+	else
+		speed = c_light*sqrt(1.-1./pow_integer<2>(getLorentzFactor()));
 }
 
 void ParticleState::setId(int newId) {
@@ -59,33 +55,28 @@ void ParticleState::setId(int newId) {
 	}
 }
 
-int ParticleState::getId() const {
-	return id;
-}
-
-double ParticleState::getMass() const {
-	return pmass;
-}
-
-double ParticleState::getCharge() const {
-	return charge;
-}
-
 double ParticleState::getLorentzFactor() const {
-	return energy / (pmass * c_squared);
+	if (pmass==0)
+		return INFINITY;
+	return energy/pmass/c_squared + 1;  // should never be inf as long as the energy is representable
 }
 
 void ParticleState::setLorentzFactor(double lf) {
 	lf = std::max(0., lf); // prevent negative Lorentz factors
-	energy = lf * pmass * c_squared;
+	setEnergy((lf-1) * pmass * c_squared);
 }
 
 Vector3d ParticleState::getVelocity() const {
-	return direction * c_light;
+	return direction*getSpeed();
 }
 
 Vector3d ParticleState::getMomentum() const {
-	return direction * (energy / c_light);
+	if (pmass==0)
+		return direction*energy/c_light;
+	else if (getLorentzFactor()<RelativisticLimit)
+		return pmass*getVelocity();
+	else
+		return getLorentzFactor()*pmass*getVelocity();
 }
 
 std::string ParticleState::getDescription() const {
@@ -93,7 +84,9 @@ std::string ParticleState::getDescription() const {
 	ss << "Particle " << id << ", ";
 	ss << "E = " << energy / EeV << " EeV, ";
 	ss << "x = " << position / Mpc << " Mpc, ";
-	ss << "p = " << direction;
+	ss << "dir = " << direction << ", ";
+	ss << "p = " << getMomentum() << " kg*m/s, ";
+	ss << "v = " << getVelocity() << " m/s, " ;
 	return ss.str();
 }
 

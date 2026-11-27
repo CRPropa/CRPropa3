@@ -1,4 +1,5 @@
 #include "crpropa/magneticField/UF23Field.h"
+#include "crpropa/Common.h"
 
 #include <exception>
 #include <limits>
@@ -59,7 +60,7 @@ namespace uf23 {
 namespace crpropa {
 UF23Field::UF23Field(const ModelType mt) :
   fModelType(mt),
-  fMaxRadiusSquared(pow(30*uf23::kpc, 2))
+  fMaxRadiusSquared(pow_integer<2>(30*uf23::kpc))
 {
 
   // all but expX model have a-->\infty, Eq.(38)
@@ -346,7 +347,7 @@ UF23Field::getTwistedHaloField(const double x, const double y, const double z)
 
     // Eq. (46)
     const double signZ = z < 0 ? -1 : 1;
-    const double deltaZ =  -signZ * v0 * fr / z0  * t0 * pow(gz, 2);
+    const double deltaZ =  -signZ * v0 * fr / z0  * t0 * pow_integer<2>(gz);
     // Eq. (47)
     const double deltaR = v0 * ((1-fr)/r0 - fr/r) * gz;
 
@@ -481,7 +482,7 @@ UF23Field::getSpurField(const double x, const double y, const double z)
     // Eq. (16)
     const double deltaPhi0 = uf23::DeltaPhi(phiRef, phi0);
     const double delta = deltaPhi0 / fSpurWidth;
-    const double B = fDiskB1 * exp(-0.5*pow(delta, 2));
+    const double B = fDiskB1 * exp(-0.5*pow_integer<2>(delta));
 
     // Eq. (18)
     const double wS = 5*uf23::degree;

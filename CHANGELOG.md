@@ -6,11 +6,24 @@
 * Fixed taskedSecondary parameter growing larger than number of scheduled secondaries
 
 ### New features:
+* Velocities can now be smaller then light speed
+* Added `getSpeed` function to `ParticleState` to get the scalar value of `getVelocity` directly
+* Added `RelativisticLimit` and `setRelativisticLimit` so the limit at which particles should be handled non-relativistically can be set by the user
+* Added `ObserverSpacialEvolution` that observes the Candidate at different lengths instead of times
+* Added `MaximumTime` break condition that rejects the Candidate when a given time is reached
 * Added `UF26Field`, the random Galactic magnetic field models expDisk and ringDisk of Unger & Farrar (arXiv:2608.21293), scaling a user-supplied turbulent field to the model's rms strength
 
 ### Interface changes:
+* CRPropa now uses explicit time as steps instead of length steps
+* Added `ObserverTimeSnapshot` which takes explicit times instead of lengths like the now deprecated `ObserverTimeEvolution`
+* Added `ObserverSpacialEvolution` which behaves the same as old now deprecated `ObserverTimeEvolution`
+* Added overloads to propagators that take time steps instead of length steps
+* Length steps in propagator constructors are now directly converted to times by dividing by `c_light` to preserve old behaviour
+* The energy stored in `ParticleState` is now explicitly only the kinetic energy
 
 ### Features that are deprecated and will be removed after this release
+* Propagation constructors will only accept minimum and maximum times instead of length and will take them in the the same order it takes length steps now
+* `ObserverTimeEvolution` will be removed, use `ObserverSpacialEvolution` for the same behaviour
 
 ### Removed features
 * Removed `Clock.h` (can be replaced with `std::chrono::high_resolution_clock` from `chrono.h`)

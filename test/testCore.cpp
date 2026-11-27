@@ -46,18 +46,56 @@ TEST(ParticleState, direction) {
 }
 
 TEST(ParticleState, velocity) {
-	ParticleState particle;
-	Vector3d v(1, 1, 0);
-	particle.setDirection(v);
-	EXPECT_TRUE(particle.getVelocity() == v.getUnitVector() * c_light);
+	{
+		// massless particle
+		ParticleState particle;
+		Vector3d v(1, 1, 0);
+		particle.setDirection(v);
+		EXPECT_TRUE(particle.getVelocity() == v.getUnitVector() * c_light);
+	}
+
+	{
+		// proton
+		ParticleState particle;
+		particle.setId(nucleusId(1, 1));
+		Vector3d v(1, 1, 0);
+		particle.setDirection(v);
+		particle.setEnergy(100*EeV);
+		EXPECT_TRUE(particle.getVelocity() == v.getUnitVector() * c_light*sqrt(1-1/pow_integer<2>(particle.getLorentzFactor())));
+	}
 }
 
 TEST(ParticleState, momentum) {
-	ParticleState particle;
-	Vector3d v(0, 1, 0);
-	particle.setDirection(v);
-	particle.setEnergy(100 * EeV);
-	EXPECT_TRUE(particle.getMomentum() == v * (particle.getEnergy() / c_light));
+	{
+		// massless particle
+		ParticleState particle;
+		Vector3d v(0, 1, 0);
+		particle.setDirection(v);
+		particle.setEnergy(100 * EeV);
+		EXPECT_TRUE(particle.getMomentum() == v * (particle.getEnergy() / c_light));
+	}
+
+	{
+		// proton
+		ParticleState particle;
+		particle.setId(nucleusId(1, 1));
+		Vector3d v(0, 1, 0);
+		particle.setDirection(v);
+		double energy = 100*EeV;
+		particle.setEnergy(100 * EeV);
+		EXPECT_NEAR(particle.getMomentum().y, v.y * (particle.getEnergy() / c_light), 1.e-3);
+	}
+
+	{
+		// non relativistic proton
+		ParticleState particle;
+		particle.setId(nucleusId(1, 1));
+		Vector3d v(0, 1, 0);
+		particle.setDirection(v);
+		double energy = 10*eV;
+		particle.setEnergy(10 * eV);
+		EXPECT_TRUE(particle.getMomentum() == particle.getMass()*particle.getVelocity());
+	}
 }
 
 TEST(ParticleState, id) {
@@ -128,7 +166,7 @@ TEST(ParticleState, lorentzFactor) {
 	particle.setId(nucleusId(1, 1));
 	particle.setEnergy(1e12 * eV);
 	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(),
-			1e12 * eV / mass_proton / c_squared);
+			1e12 * eV / mass_proton / c_squared + 1);
 }
 
 TEST(ParticleID, nucleusId) {
@@ -180,21 +218,21 @@ TEST(Candidate, currentStep) {
 	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 0);
 	EXPECT_DOUBLE_EQ(candidate.getTime(), 0);
 
-	candidate.setCurrentStep(1 * Mpc);
+	candidate.setCurrentStep(1 * Mpc/candidate.getVelocity());
 
-	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getCurrentStep()*candidate.getVelocity(), 1 * Mpc);
 	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 1 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / c_light);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / candidate.getVelocity());
 }
 
 TEST(Candidate, limitNextStep) {
 	Candidate candidate;
-	candidate.setNextStep(5 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 5 * Mpc);
-	candidate.limitNextStep(2 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 2 * Mpc);
-	candidate.limitNextStep(3 * Mpc);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 2 * Mpc);
+	candidate.setNextStep(5 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 5 * Mpc);
+	candidate.limitNextStep(2 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 2 * Mpc);
+	candidate.limitNextStep(3 * Mpc/candidate.getVelocity());
+	EXPECT_DOUBLE_EQ(candidate.getNextStep()*candidate.getVelocity(), 2 * Mpc);
 }
 
 TEST(Candidate, isActive) {
@@ -326,7 +364,7 @@ TEST(common, interpolate) {
 TEST(common, interpolateEquidistant) {
 	std::vector<double> yD(100);
 	for (int i = 0; i < 100; i++) {
-		yD[i] = pow(1 + i * 2. / 99., 2);
+		yD[i] = pow_integer<2>(1 + i * 2. / 99.);
 	}
 
 	// interpolated value should be close to computed
@@ -343,8 +381,8 @@ TEST(common, interpolateEquidistant) {
 TEST(common, pow_integer) {
 	EXPECT_EQ(pow_integer<0>(1.23), 1);
 	EXPECT_FLOAT_EQ(pow_integer<1>(1.234), 1.234);
-	EXPECT_FLOAT_EQ(pow_integer<2>(1.234), pow(1.234, 2));
-	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
+	EXPECT_FLOAT_EQ(pow_integer<2>(1.234), pow_integer<2>(1.234));
+	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow_integer<3>(1.234));
 }
 
 TEST(common, gaussInt) {

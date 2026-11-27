@@ -1,5 +1,5 @@
 #include "crpropa/advectionField/AdvectionField.h"
-
+#include "crpropa/Common.h"
 
 namespace crpropa {
 
@@ -445,7 +445,7 @@ Vector3d SphericalAdvectionShock::getField(const Vector3d &pos, const double &ti
 	Vector3d e_phi = R.getUnitVectorPhi();
 	double r = R.getR();
 
-	double v_r = v_0 * ( 1 + (pow(r_0/(2*r), 2.) -1 ) * g(r));
+	double v_r = v_0 * ( 1 + (pow_integer<2>(r_0/(2*r)) -1 ) * g(r));
 	double v_p = v_phi * (r_rot/r); 
 
 	return v_r * e_r + v_p * e_phi;
@@ -456,7 +456,7 @@ double SphericalAdvectionShock::getDivergence(const Vector3d &pos, const double 
 	double r = (pos-origin).getR();
 
 	double d1 = 2./r*(1-g(r));
-	double d2 = (pow(r_0/(2*r), 2.)-1)*g_prime(r);
+	double d2 = (pow_integer<2>(r_0/(2*r))-1)*g_prime(r);
 
 	return v_0 * (d1+d2);
 }

@@ -141,13 +141,13 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	
 	
 	// run this loop at least once to limit the step size
-	double step = candidate->getCurrentStep();
+	double step = candidate->getCurrentStep()*candidate->getVelocity();
 	Random &random = Random::instance();
 	do {
 		double randDistance = -log(random.rand()) / rate;
 		// check for interaction; if it doesn't occur, limit next step
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
+		if (step < randDistance) { 
+			candidate->limitNextStep(limit / rate / candidate->getVelocity());
 			return;
 		}
 		performInteraction(candidate);

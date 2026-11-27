@@ -72,7 +72,7 @@ void ReflectiveShell::process(Candidate *c) const {
 		Vector3d newDirection = currentDirection - 2 * currentDirection.dot(surfaceNormal) * surfaceNormal;
 		c->current.setDirection(newDirection.getUnitVector());
 		// also update position
-		c->current.setPosition(intersectPoint + newDirection * (c->getCurrentStep() - (k1 * currentDirection).getR()) / newDirection.getR());
+		c->current.setPosition(intersectPoint + newDirection * (c->getCurrentStep()*c->getVelocity() - (k1 * currentDirection).getR()) / newDirection.getR());
 	}
 }
 
@@ -176,8 +176,8 @@ void CubicBoundary::process(Candidate *c) const {
 		reject(c);
 	}
 	if (limitStep) {
-		c->limitNextStep(lo + margin);
-		c->limitNextStep(size - hi + margin);
+		c->limitNextStep((lo + margin)/c->getVelocity());
+		c->limitNextStep((size - hi + margin)/c->getVelocity());
 	}
 }
 
@@ -219,7 +219,7 @@ void SphericalBoundary::process(Candidate *c) const {
 		reject(c);
 	}
 	if (limitStep)
-		c->limitNextStep(radius - d + margin);
+		c->limitNextStep((radius - d + margin)/c->getVelocity());
 }
 
 void SphericalBoundary::setCenter(Vector3d c) {
@@ -263,7 +263,7 @@ void EllipsoidalBoundary::process(Candidate *c) const {
 		reject(c);
 	}
 	if (limitStep)
-		c->limitNextStep(majorAxis - d + margin);
+		c->limitNextStep((majorAxis - d + margin)/c->getVelocity());
 }
 
 void EllipsoidalBoundary::setFocalPoints(Vector3d f1, Vector3d f2) {
@@ -302,11 +302,11 @@ CylindricalBoundary::CylindricalBoundary(Vector3d o, double h, double r) :
 
 void CylindricalBoundary::process(Candidate *c) const {
 	Vector3d d = c->current.getPosition() - origin;
-	double R2 = pow(d.x, 2.)+pow(d.y, 2.);
+	double R2 = pow_integer<2>(d.x)+pow_integer<2>(d.y);
 	double Z = fabs(d.z);
-	if ( R2 < pow(radius, 2.) and Z < height/2.) {
+	if ( R2 < pow_integer<2>(radius) and Z < height/2.) {
 		if(limitStep) {
-			c->limitNextStep(std::min(radius - pow(R2, 0.5), height/2. - Z) + margin);	
+			c->limitNextStep((std::min(radius - pow(R2, 0.5), height/2. - Z) + margin)/c->getVelocity());	
 		}
 	  return;
 	}

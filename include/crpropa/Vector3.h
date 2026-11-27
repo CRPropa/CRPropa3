@@ -195,10 +195,10 @@ public:
 	/// return the component parallel to a second vector
 	/// 0 if the second vector has 0 magnitude
 	Vector3<T> getParallelTo(const Vector3<T> &v) const {
-		T vmag = v.getR();
-		if (vmag == std::numeric_limits < T > ::min())
+		T vmag2 = v.getR2();
+		if (vmag2 == std::numeric_limits < T > ::min())
 			return Vector3<T>(0.);
-		return v * dot(v) / vmag;
+		return v * dot(v) / vmag2;
 	}
 
 	/// return the component perpendicular to a second vector

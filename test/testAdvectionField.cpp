@@ -229,7 +229,7 @@ TEST(testSedovTaylorBlastWave, SimpleTest) {
     Vector3d Pos(2, 0, 0);
     Vector3d a = A.getField(Pos);
 
-    EXPECT_DOUBLE_EQ(a.getR(), 0.5 * 2. * pow(2., 8) * 2. / 5. * pow(E0 / rho0, 1. / 5.) * (1 - tanh( (2 - 1) * pow(E0 / rho0, 1. / 5.) / L_sh) ));
+    EXPECT_DOUBLE_EQ(a.getR(), 0.5 * 2. * pow_integer<8>(2.) * 2. / 5. * pow(E0 / rho0, 1. / 5.) * (1 - tanh( (2 - 1) * pow(E0 / rho0, 1. / 5.) / L_sh) ));
 
     // Check asymptotic of the Field
     EXPECT_NEAR(A.getField(Vector3d(11, 0, 0)).getR(), 0, 1e-4);

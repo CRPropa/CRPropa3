@@ -59,8 +59,37 @@ void MaximumTrajectoryLength::process(Candidate *c) const {
 	if (length >= maxLength) {
 		reject(c);
 	} else {
-		c->limitNextStep(maxLength - length);
+		c->limitNextStep((maxLength - length)/c->getVelocity());
 	}
+}
+
+/******************************************************************************/
+
+MaximumTime::MaximumTime(double maxTime) : maxTime(maxTime){
+}
+
+void MaximumTime::setMaximumTime(double time){
+	this->maxTime = time;
+}
+
+void MaximumTime::process(Candidate *c) const {
+	double time = c->getTime();
+
+	if (time >= maxTime) {
+		reject(c);
+	} else {
+		c->limitNextStep(maxTime - time);
+	}
+}
+
+std::string MaximumTime::getDescription() const {
+	std::stringstream s;
+	s << "Maximum time: " << maxTime / kiloyear << " kiloyear, ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
 }
 
 //*****************************************************************************
@@ -254,12 +283,12 @@ std::string DetectionLength::getDescription() const {
 
 void DetectionLength::process(Candidate *c) const {
 	double length = c->getTrajectoryLength();
-	double step = c->getCurrentStep();
+	double step = c->getCurrentStep()*c->getVelocity();
 
 	if (length >= detLength && length - step < detLength) {
 		reject(c);
 	} else {
-		c->limitNextStep(detLength - length);
+		c->limitNextStep((detLength - length)/c->getVelocity());
 	}
 }
 

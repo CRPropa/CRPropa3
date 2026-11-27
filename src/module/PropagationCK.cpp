@@ -1,5 +1,7 @@
 #include "crpropa/module/PropagationCK.h"
 
+#include "crpropa/Logging.h"
+
 #include <limits>
 #include <sstream>
 #include <stdexcept>
@@ -50,7 +52,7 @@ void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
 
 PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) const {
 	// normalize direction vector to prevent numerical losses
-	Vector3d velocity = y.u.getUnitVector() * c_light;
+	Vector3d velocity = y.u.getUnitVector() * p.getSpeed();
 	
 	// get B field at particle position
 	Vector3d B = getFieldAtPosition(y.x, z);
@@ -63,10 +65,34 @@ PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) con
 PropagationCK::PropagationCK(ref_ptr<MagneticField> field, double tolerance,
 		double minStep, double maxStep) :
 		minStep(0) {
+	logInfo("PropagationCK: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
+
 	setField(field);
 	setTolerance(tolerance);
 	setMaximumStep(maxStep);
 	setMinimumStep(minStep);
+
+	// load Cash-Karp coefficients
+	a.assign(cash_karp_a, cash_karp_a + 36);
+	b.assign(cash_karp_b, cash_karp_b + 6);
+	bs.assign(cash_karp_bs, cash_karp_bs + 6);
+}
+
+PropagationCK::PropagationCK(double tolerance, double minStep, double maxStep, 
+	ref_ptr<MagneticField> field) :
+		minStep(0) {
+	logInfo("PropagationCK: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " s and maxStep = " 
+		+ std::to_string(maxStep) + " s.\n"
+	);
+
+	setField(field);
+	setTolerance(tolerance);
+	setMaximumTimeStep(maxStep);
+	setMinimumTimeStep(minStep);
 
 	// load Cash-Karp coefficients
 	a.assign(cash_karp_a, cash_karp_a + 36);
@@ -79,13 +105,15 @@ void PropagationCK::process(Candidate *candidate) const {
 	ParticleState &current = candidate->current;
 	candidate->previous = current;
 
+	// we solve for the direction with CK but will respect the velocity over the lorentz force
 	Y yIn(current.getPosition(), current.getDirection());
 	double step = maxStep;
 
 	// rectilinear propagation for neutral particles
-	if (current.getCharge() == 0) {
+	// if particle has no velocity it is not effected by the magnetic field:
+	if (current.getCharge() == 0 || candidate->getVelocity() == 0) {
 		step = clip(candidate->getNextStep(), minStep, maxStep);
-		current.setPosition(yIn.x + yIn.u * step);
+		current.setPosition(yIn.x + yIn.u * step * candidate->getVelocity());
 		candidate->setCurrentStep(step);
 		candidate->setNextStep(maxStep);
 		return;
@@ -99,7 +127,7 @@ void PropagationCK::process(Candidate *candidate) const {
 	// if minStep is the same as maxStep the adaptive algorithm with its error
 	// estimation is not needed and the computation time can be saved:
 	if (minStep == maxStep){
-		tryStep(yIn, yOut, yErr, step / c_light, current, z);
+		tryStep(yIn, yOut, yErr, step, current, z);
 	} else {
 		step = clip(candidate->getNextStep(), minStep, maxStep);
 		newStep = step;
@@ -107,7 +135,7 @@ void PropagationCK::process(Candidate *candidate) const {
 
 		// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
 		while (true) {
-			tryStep(yIn, yOut, yErr, step / c_light, current, z);
+			tryStep(yIn, yOut, yErr, step, current, z);
 			r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
 			if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
 				if (step == minStep)  // already minimum step size
@@ -130,7 +158,7 @@ void PropagationCK::process(Candidate *candidate) const {
 	}
 
 	current.setPosition(yOut.x);
-	current.setDirection(yOut.u.getUnitVector());
+	current.setDirection(yOut.u);
 	candidate->setCurrentStep(step);
 	candidate->setNextStep(newStep);
 }
@@ -165,6 +193,20 @@ void PropagationCK::setTolerance(double tol) {
 }
 
 void PropagationCK::setMinimumStep(double min) {
+	if (min/c_light < 0)
+		throw std::runtime_error("PropagationCK: minStep < 0 ");
+	if (min/c_light > maxStep)
+		throw std::runtime_error("PropagationCK: minStep > maxStep");
+	minStep = min/c_light;
+}
+
+void PropagationCK::setMaximumStep(double max) {
+	if (max/c_light < minStep)
+		throw std::runtime_error("PropagationCK: maxStep < minStep");
+	maxStep = max/c_light;
+}
+
+void PropagationCK::setMinimumTimeStep(double min) {
 	if (min < 0)
 		throw std::runtime_error("PropagationCK: minStep < 0 ");
 	if (min > maxStep)
@@ -172,30 +214,18 @@ void PropagationCK::setMinimumStep(double min) {
 	minStep = min;
 }
 
-void PropagationCK::setMaximumStep(double max) {
+void PropagationCK::setMaximumTimeStep(double max) {
 	if (max < minStep)
 		throw std::runtime_error("PropagationCK: maxStep < minStep");
 	maxStep = max;
-}
-
-double PropagationCK::getTolerance() const {
-	return tolerance;
-}
-
-double PropagationCK::getMinimumStep() const {
-	return minStep;
-}
-
-double PropagationCK::getMaximumStep() const {
-	return maxStep;
 }
 
 std::string PropagationCK::getDescription() const {
 	std::stringstream s;
 	s << "Propagation in magnetic fields using the Cash-Karp method.";
 	s << " Target error: " << tolerance;
-	s << ", Minimum Step: " << minStep / kpc << " kpc";
-	s << ", Maximum Step: " << maxStep / kpc << " kpc";
+	s << ", Minimum Step: " << minStep / kiloyear << " kiloyear";
+	s << ", Maximum Step: " << maxStep / kiloyear << " kiloyear";
 	return s.str();
 }
 

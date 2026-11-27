@@ -1,5 +1,6 @@
 #include "crpropa/module/DiffusionSDE.h"
 
+#include "crpropa/Logging.h"
 
 using namespace crpropa;
 
@@ -22,6 +23,10 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, double toleranc
 				 double minStep, double maxStep, double epsilon) :
 	minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
   	setMagneticField(magneticField);
   	setMaximumStep(maxStep);
   	setMinimumStep(minStep);
@@ -29,11 +34,16 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, double toleranc
   	setEpsilon(epsilon);
   	setScale(1.);
   	setAlpha(1./3.);
-	}
+}
 
-DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<AdvectionField> advectionField, double tolerance, double minStep, double maxStep, double epsilon) :
+DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<AdvectionField> advectionField,
+	double tolerance, double minStep, double maxStep, double epsilon) :
   	minStep(0)
 {
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " meter and maxStep = " 
+		+ std::to_string(maxStep) + " meter.\n"
+	);
 	setMagneticField(magneticField);
 	setAdvectionField(advectionField);
 	setMaximumStep(maxStep);
@@ -42,7 +52,41 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<Advecti
 	setEpsilon(epsilon);
 	setScale(1.);
 	setAlpha(1./3.);
-  	}
+}
+
+DiffusionSDE::DiffusionSDE(double tolerance, double minStep, double maxStep, double epsilon,
+	ref_ptr<MagneticField> magneticField) : minStep(0)
+{
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " second and maxStep = " 
+		+ std::to_string(maxStep) + " second.\n"
+	);
+  	setMagneticField(magneticField);
+  	setMaximumTimeStep(maxStep);
+  	setMinimumTimeStep(minStep);
+  	setTolerance(tolerance);
+  	setEpsilon(epsilon);
+  	setScale(1.);
+  	setAlpha(1./3.);
+}
+
+DiffusionSDE::DiffusionSDE(double tolerance, double minStep, double maxStep, double epsilon,
+	ref_ptr<MagneticField> magneticField, ref_ptr<AdvectionField> advectionField) :
+  	minStep(0)
+{
+	logInfo("PropagationBP: You used a dynamic integration step length with minStep = " 
+		+ std::to_string(minStep) + " second and maxStep = " 
+		+ std::to_string(maxStep) + " second.\n"
+	);
+	setMagneticField(magneticField);
+	setAdvectionField(advectionField);
+	setMaximumTimeStep(maxStep);
+	setMinimumTimeStep(minStep);
+	setTolerance(tolerance);
+	setEpsilon(epsilon);
+	setScale(1.);
+	setAlpha(1./3.);
+}
 
 void DiffusionSDE::process(Candidate *candidate) const {
 
@@ -51,7 +95,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	ParticleState &current = candidate->current;
 	candidate->previous = current;
 
-	double h = clip(candidate->getNextStep(), minStep, maxStep) / c_light;
+	double h = clip(candidate->getNextStep(), minStep, maxStep);
 	Vector3d PosIn = current.getPosition();
 	Vector3d DirIn = current.getDirection();
 
@@ -68,8 +112,8 @@ void DiffusionSDE::process(Candidate *candidate) const {
 			driftStep(Pos, LinProp, h, time);
 		}
 
-		current.setPosition(Pos + LinProp + dir*h*c_light);
-		candidate->setCurrentStep(h * c_light);
+		current.setPosition(Pos + LinProp + dir*h*candidate->getVelocity());
+		candidate->setCurrentStep(h);
 		candidate->setNextStep(maxStep);
 		return;
 	}
@@ -99,25 +143,25 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	Vector3d DirOut = Vector3d(0.);
 
 
-	double propTime = TStep * sqrt(h) / c_light;
+	double propStep = TStep * sqrt(h) / c_light;
 	size_t counter = 0;
 	double r=42.; //arbitrary number larger than one
 
 	do {
 		Vector3d PosOut = Vector3d(0.);
 		Vector3d PosErr = Vector3d(0.);
-	  	tryStep(PosIn, PosOut, PosErr, z, propTime);
+	  	tryStep(PosIn, PosOut, PosErr, z, propStep);
 	    // calculate the relative position error r and the next time step h
 	  	r = PosErr.getR() / tolerance;
-	  	propTime *= 0.5;
+	  	propStep *= 0.5;
 		counter += 1;
 
     // Check for better break condition
-	} while (r > 1 && fabs(propTime) >= minStep/c_light);
+	} while (r > 1 && fabs(propStep) >= minStep);
 
 
 	size_t stepNumber = pow(2, counter-1);
-	double allowedTime = TStep * sqrt(h) / c_light / stepNumber;
+	double allowedTime = TStep * sqrt(h) / stepNumber / c_light;
 	Vector3d Start = PosIn;
 	Vector3d PosOut = Vector3d(0.);
 	Vector3d PosErr = Vector3d(0.);
@@ -138,15 +182,15 @@ void DiffusionSDE::process(Candidate *candidate) const {
 		if (advectionField){
 			driftStep(Pos, LinProp, h, time);
 			current.setPosition(Pos + LinProp);
-	 		candidate->setCurrentStep(h*c_light);
-	  		double newStep = 5*h*c_light;
+	 		candidate->setCurrentStep(h);
+	  		double newStep = 5*h;
 			newStep = clip(newStep, minStep, maxStep);
 	  		candidate->setNextStep(newStep);
 	  		return;
 		}
-		current.setPosition(Pos + dir*h*c_light);
-	 	candidate->setCurrentStep(h*c_light);
-		double newStep = 5*h*c_light;
+		current.setPosition(Pos + dir*h*candidate->getVelocity());
+	 	candidate->setCurrentStep(h);
+		double newStep = 5*h;
 		newStep = clip(newStep, minStep, maxStep);
 	  	candidate->setNextStep(newStep);
 	  	return;
@@ -196,14 +240,14 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	DirOut = Random::instance().randConeVector(TVec, M_PI/2.);
 	current.setPosition(PO);
 	current.setDirection(DirOut);
-	candidate->setCurrentStep(h * c_light);
+	candidate->setCurrentStep(h);
 
 	double nextStep;
 	if (stepNumber>1){
-		nextStep = h*pow(stepNumber, -2.)*c_light;
+		nextStep = h*pow(stepNumber, -2.);
 	}
 	else {
-		nextStep = 4 * h*c_light;
+		nextStep = 4 * h;
 	}
 
 	candidate->setNextStep(nextStep);
@@ -230,7 +274,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 }
 
 
-void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosErr,double z, double propStep) const {
+void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosErr, double z, double propStep) const {
 
 	Vector3d k[] = {Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.)};
 	POut = PosIn;
@@ -268,8 +312,21 @@ void DiffusionSDE::calculateBTensor(double r, double BTen[], Vector3d pos, Vecto
 
 }
 
-
 void DiffusionSDE::setMinimumStep(double min) {
+	if (min < 0)
+		throw std::runtime_error("DiffusionSDE: minStep < 0 ");
+	if (min/c_light > maxStep)
+		throw std::runtime_error("DiffusionSDE: minStep > maxStep");
+	minStep = min/c_light;
+}
+
+void DiffusionSDE::setMaximumStep(double max) {
+	if (max/c_light < minStep)
+		throw std::runtime_error("DiffusionSDE: maxStep < minStep");
+	maxStep = max/c_light;
+}
+
+void DiffusionSDE::setMinimumTimeStep(double min) {
 	if (min < 0)
 		throw std::runtime_error("DiffusionSDE: minStep < 0 ");
 	if (min > maxStep)
@@ -277,12 +334,11 @@ void DiffusionSDE::setMinimumStep(double min) {
 	minStep = min;
 }
 
-void DiffusionSDE::setMaximumStep(double max) {
+void DiffusionSDE::setMaximumTimeStep(double max) {
 	if (max < minStep)
 		throw std::runtime_error("DiffusionSDE: maxStep < minStep");
 	maxStep = max;
 }
-
 
 void DiffusionSDE::setTolerance(double tol) {
 	if ((tol > 1) or (tol < 0))
@@ -321,34 +377,6 @@ void DiffusionSDE::setAdvectionField(ref_ptr<AdvectionField> f) {
 	advectionField = f;
 }
 
-double DiffusionSDE::getMinimumStep() const {
-	return minStep;
-}
-
-double DiffusionSDE::getMaximumStep() const {
-	return maxStep;
-}
-
-double DiffusionSDE::getTolerance() const {
-	return tolerance;
-}
-
-double DiffusionSDE::getEpsilon() const {
-	return epsilon;
-}
-
-double DiffusionSDE::getAlpha() const {
-	return alpha;
-}
-
-double DiffusionSDE::getScale() const {
-	return scale;
-}
-
-ref_ptr<MagneticField> DiffusionSDE::getMagneticField() const {
-	return magneticField;
-}
-
 Vector3d DiffusionSDE::getMagneticFieldAtPosition(Vector3d pos, double z) const {
 	Vector3d B(0, 0, 0);
 	try {
@@ -362,10 +390,6 @@ Vector3d DiffusionSDE::getMagneticFieldAtPosition(Vector3d pos, double z) const 
 				<< e.what();
 	}	
 	return B;
-}
-
-ref_ptr<AdvectionField> DiffusionSDE::getAdvectionField() const {
-	return advectionField;
 }
 
 Vector3d DiffusionSDE::getAdvectionFieldAtPosition(Vector3d pos, double t) const {
@@ -385,8 +409,8 @@ Vector3d DiffusionSDE::getAdvectionFieldAtPosition(Vector3d pos, double t) const
 
 std::string DiffusionSDE::getDescription() const {
 	std::stringstream s;
-	s << "minStep: " << minStep / kpc  << " kpc, ";
-	s << "maxStep: " << maxStep / kpc  << " kpc, ";
+	s << "minStep: " << minStep / kiloyear  << " kiloyear, ";
+	s << "maxStep: " << maxStep / kiloyear  << " kiloyear, ";
 	s << "tolerance: " << tolerance << "\n";
 
 	if (epsilon != 0.1) {

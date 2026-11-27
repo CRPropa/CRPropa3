@@ -207,7 +207,7 @@ Vector3d CMZField::getICField(const Vector3d& pos) const {//Field in intercloud 
     double eta = 0.85;
     double B1 = 1e-5*gauss;
     double B2 = B1/eta;
-    double a = 4*log(2)/pow(70*pc, 2); 
+    double a = 4*log(2)/pow_integer<2>(70*pc); 
     double L = 158*pc/log(2);
 
     return BPol(pos, mid, B2, a, L);

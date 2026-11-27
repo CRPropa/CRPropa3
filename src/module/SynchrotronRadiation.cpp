@@ -124,26 +124,26 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	} else {
 		B = sqrt(2. / 3) * Brms; // average perpendicular field component
 	}
-	B *= pow(1 + z, 2); // cosmological scaling
+	B *= pow_integer<2>(1 + z); // cosmological scaling
 	double Rg = candidate->current.getMomentum().getR() / charge / B;
 
 	// calculate energy loss
 	double lf = candidate->current.getLorentzFactor();
-	double dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
-	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
+	double dEdx = 1. / 6 / M_PI / epsilon0 * pow_integer<2>(lf * lf - 1) * pow_integer<2>(charge / Rg); // Jackson p. 770 (14.31)
+	double step = candidate->getCurrentStep()*candidate->getVelocity() / (1 + z); // step size in local frame
 	double dE = step * dEdx;
 
 	// apply energy loss and limit next step
 	double E = candidate->current.getEnergy();
 	candidate->current.setEnergy(E - dE);
-	candidate->limitNextStep(limit * E / dEdx);
+	candidate->limitNextStep(limit * E / dEdx / candidate->getVelocity());
 
 	// optionally add secondary photons
 	if (not(havePhotons))
 		return;
 
 	// check if photons with energies > 14 * Ecrit are possible
-	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
+	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow_integer<3>(lf) / Rg;
 	if (14 * Ecrit < secondaryThreshold)
 		return;
 
